@@ -22,23 +22,6 @@ namespace DataNetClient.Core
 
         #region EVENTS
 
-        public delegate void RaiseSymbolCollectStart(string symbolName);
-        public event RaiseSymbolCollectStart SymbolCollectStart;
-
-        private void OnSymbolCollectStart(string symbolName)
-        {
-            RaiseSymbolCollectStart handler = SymbolCollectStart;
-            if (handler != null) handler(symbolName);
-        }
-
-        public delegate void RaiseSymbolCollectEnd(string symbolName, bool isSuccess, string timeFrame);
-        public event RaiseSymbolCollectEnd SymbolCollectEnd;
-
-        private void OnSymbolCollectEnd(string symbolName, bool isSuccess, string timeFrame)
-        {
-            RaiseSymbolCollectEnd handler = SymbolCollectEnd;
-            if (handler != null) handler(symbolName, isSuccess, timeFrame);
-        }
 
         public delegate void RaiseMissingBarStart(string symbolName);
         public event RaiseMissingBarStart MissingBarStart;
@@ -65,6 +48,15 @@ namespace DataNetClient.Core
         {
             RaiseFinished handler = Finished;
             if (handler != null) handler();
+        }
+
+        public delegate void ProgressHandler(int progress);
+        public event ProgressHandler Progress;
+
+        private void OnProgress(int progress)
+        {
+            ProgressHandler handler = Progress;
+            if (handler != null) handler(progress);
         }
 
         #endregion
@@ -98,7 +90,7 @@ namespace DataNetClient.Core
         #endregion
 
 
-        #region STARTs (Colecting, MissingBar)
+        #region STARTs (MissingBar)
 
         
         public void StartMissingBar(List<string> symbols, CQGCEL cel, bool isAuto, int maxCount)
@@ -110,6 +102,7 @@ namespace DataNetClient.Core
             }
 
             MissingBarRequest(cel, symbols, maxCount, isAuto);
+            OnProgress(0);
         }
 
         #endregion
@@ -425,21 +418,6 @@ namespace DataNetClient.Core
             return SymbolsCollected < _aSymbolStates.Count;
         }
 
-        public void StopCollecting()
-        {
-            _shouldStop = true;
-            var ll = _aSymbolStates.Where(a => !a.Value.IsCollected).Select(a => a.Key).ToList();
-
-            foreach (var smb in ll)
-            {
-                var ss = _aSymbolStates[smb];
-                ss.IsCollected = true;
-                _aSymbolStates[smb] = ss;
-
-                OnSymbolCollectEnd(smb, false, _aHistoricalPeriod.ToString());//TODO B__QOZ13Updafined 
-            }
-            OnFinished();
-        }
 
         public void AllowCollectingAndMissingBar()
         {
@@ -484,14 +462,10 @@ namespace DataNetClient.Core
 
 
             foreach (string smb in symbols)
-            {
-                var ss = new SymbolState { IsCollected = false, IsSuccess = false };
+            {               
 
-                if (!_aSymbolStates.ContainsKey(smb))
-                {
-                    _aSymbolStates.Add(smb, ss);
                     OnMissingBarStart(smb);
-                }
+                
             }
 
 

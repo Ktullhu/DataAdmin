@@ -142,8 +142,7 @@ namespace DataNetClient.Forms
                 _logger = Logger.GetInstance(listViewLogger);
                 _logger.LogAdd("Application Start", Category.Information);
                 _missingBarManager = new MissingBarManager(_logger);
-                _missingBarManager.SymbolCollectStart += DataCollector_SymbolCollectStart;
-                _missingBarManager.SymbolCollectEnd += DataCollector_SymbolCollectEnd;
+  
 
                 _missingBarManager.MissingBarStart += DataCollector_MissingBarStart;
                 _missingBarManager.MissingBarEnd += DataCollector_MissingBarEnd;
@@ -1690,33 +1689,7 @@ namespace DataNetClient.Forms
             
         }
         */
-        private void DataCollector_SymbolCollectStart(string symbolName)
-        {
-            _logger.LogAdd("    Start collecting symbol: "+symbolName, Category.Information);
-        }
-
-        private void DataCollector_SymbolCollectEnd(string symbolName, bool isSuccess, string timeFrame)//symbol collecting finished
-        {
-            if(isSuccess)
-                _logger.LogAdd("    Finished collecting symbol: " + symbolName + " [successful]", Category.Information);
-            else
-                _logger.LogAdd("    Finished collecting symbol: " + symbolName + " [unsuccessful]", Category.Warning);
-
-            var smbL = new List<string> { symbolName };
-            SendLog(smbL, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", timeFrame, false, true);
-
-            Invoke((Action) delegate
-                                {
-                                    progressBarItemCollecting.Value = _missingBarManager.GetProgress();
-                                });
-            if(timeFrame !="tick")
-            {
-                var tablename = "B_" + symbolName.Substring(5, symbolName.Length - 5) + "_" + timeFrame;
-                var userName = _client.UserName;
-                DatabaseManager.DeleteLastBar(tablename,userName);
-            }
-        }
-
+     
         private void DataCollector_MissingBarStart(string symbolName)
         {
             _logger.LogAdd("   Start missing bar for symbol: " + symbolName, Category.Information);
