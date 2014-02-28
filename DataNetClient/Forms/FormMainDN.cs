@@ -30,12 +30,10 @@ namespace DataNetClient.Forms
     {
         #region VARIABES
         private readonly MetroBillCommands _commands; // All application commands
-        private StartControl _startControl;
-        //internal DbSelector dbSel;
+        private StartControl _startControl;        
         private MissingBarManager _missingBarManager;
         private CQGCEL _cel;
-        private bool _isStartedCqg;
-        //private Dictionary<String, TimeRange> customeListsDict;        
+        private bool _isStartedCqg;        
         private List<Brush> _lbxColors;
         private Logger _logger;
         private SymbolsEditControl _symbolsEditControl;
@@ -147,7 +145,8 @@ namespace DataNetClient.Forms
                 _missingBarManager.MissingBarStart += DataCollector_MissingBarStart;
                 _missingBarManager.MissingBarEnd += DataCollector_MissingBarEnd;
 
-                _missingBarManager.Finished += DataCollector_Finished;                
+                _missingBarManager.Finished += DataCollector_Finished;
+                _missingBarManager.Progress += _missingBarManager_Progress;
                 
 
 
@@ -196,8 +195,7 @@ namespace DataNetClient.Forms
 
                 //currStatus = DEFAULT_STATUS;
                 dateTimeInputStart.Value = DateTime.Now.AddDays(-1);
-                dateTimeInputEnd.Value = DateTime.Now;
-                ui_listBox_symbols.DrawItem += listBox1_DrawItem;
+                dateTimeInputEnd.Value = DateTime.Now;                
                 
                 _pingTimer = new Timer();
                 _pingTimer.Tick += TimerTick;
@@ -225,6 +223,13 @@ namespace DataNetClient.Forms
                 _logger.LogAdd("Error in loading. " + ex.Message, Category.Error);
                 Close();
             }
+        }
+
+        void _missingBarManager_Progress(int progress)
+        {
+            Invoke((Action) (()=> { 
+                progressBarItemCollecting.Value = progress;
+            }));
         }
 
         void CQGDataCollectorManager_UnsuccessfulSymbol(List<string> symbols )
@@ -1427,17 +1432,6 @@ namespace DataNetClient.Forms
             form2.ShowDialog();
         }
 
-        private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            if (e.Index == -1) return;
-            ui_listBox_symbols.DrawMode = DrawMode.OwnerDrawFixed;
-            e.DrawBackground();
-            {
-                e.Graphics.DrawString(ui_listBox_symbols.Items[e.Index].ToString(),
-                                        e.Font, _missingBarManager.GetColor(ui_listBox_symbols.Items[e.Index].ToString()), e.Bounds, StringFormat.GenericDefault);
-            }
-            e.DrawFocusRectangle();
-        }
 
         private void ResetColorMarks()
         {
@@ -1706,8 +1700,7 @@ namespace DataNetClient.Forms
                 ui_metroTileItem_missingBar.Enabled = true;
 
                 listViewResult.Groups.AddRange(groups.ToArray());
-                listViewResult.Items.AddRange(items.ToArray());
-                progressBarItemCollecting.Value = _missingBarManager.GetProgress();
+                listViewResult.Items.AddRange(items.ToArray());                
             });
             
         }
@@ -1848,11 +1841,6 @@ namespace DataNetClient.Forms
                 return;
             }
 
-            if (_missingBarManager.IsBusy())
-            {
-                return;
-            }
-
             if (ui_listBox_symbols.SelectedItems.Count == 0)
             {
                 ui__status_labelItem_status.Text = "Please, select the instruments.";
@@ -1899,11 +1887,6 @@ namespace DataNetClient.Forms
             if (!_client.Privileges.MissingBarFAllowed)
             {
                 ui__status_labelItem_status.Text = "You don't have permissions to do this.";
-                return;
-            }
-            if (_missingBarManager.IsBusy())
-            {
-                ui__status_labelItem_status.Text = "Process is busy.";
                 return;
             }
             if (!_isStartedCqg)

@@ -11,12 +11,6 @@ using DADataManager;
 
 namespace DataNetClient.Core
 {
-    struct SymbolState
-    {
-        public bool IsCollected;
-        public bool IsSuccess;
-    }
-
     class  MissingBarManager
     {
 
@@ -74,9 +68,10 @@ namespace DataNetClient.Core
         string _aContinuationType;
 
         Semaphore _semaphoreGettingSessionData;
-        private volatile bool _shouldStop;
-        readonly Dictionary<string, SymbolState> _aSymbolStates = new Dictionary<string, SymbolState>();
+        private volatile bool _shouldStop;        
         private string _historicalPeriod;
+
+        Dictionary<string, bool> _symbolState = new Dictionary<string,bool>();
         #endregion
 
 
@@ -107,329 +102,12 @@ namespace DataNetClient.Core
 
         #endregion
 
-        /*
-        public void StartCollectingSymbols(List<string> symbols, CQGCEL cel, bool isBars, DateTime rangeDateStart, DateTime rangeDateEnd, int sessionFilter, string historicalPeriod, string continuationType, int rangeStart, int rangeEnd)
-        {
-            if (!symbols.Any() || _shouldStop || !cel.IsStarted)
-            {
-                OnFinished();
-                return;
-            }
-
-            if (isBars)
-            {
-
-                BarRequest(cel, symbols, rangeStart, rangeEnd, sessionFilter, historicalPeriod, continuationType);
-            }
-            else
-            {
-                TickRequest(cel, symbols, rangeDateStart, rangeDateEnd, continuationType);
-            }
-        }
-
-        #region Bars Request, Add
-
-        private void BarRequest(CQGCEL cel, IEnumerable<string> symbols, int rangeStart, int rangeEnd, int sessionFilter, string historicalPeriod, string continuationType)
-        {
-            if (_shouldStop) return;
-
-
-            _aSymbolStates.Clear();
-            _aContinuationType = continuationType;
-            _aHistoricalPeriod = eHistoricalPeriod.hpUndefined;
-            TableType(historicalPeriod);
-            _historicalPeriod = historicalPeriod;
-
-            foreach (string smb in symbols)
-            {
-                _logger.LogAdd("Creating request for symbol:" + smb, Category.Information, true);
-                DatabaseManager.CreateBarsTable(smb, _aTableType);
-
-                CQGTimedBarsRequest request = cel.CreateTimedBarsRequest();
-                //LineTime = CEL.Environment.LineTime;
-
-                request.RangeStart = rangeStart;
-                request.RangeEnd = rangeEnd;
-                request.SessionsFilter = sessionFilter;
-                request.Symbol = smb;
-                request.IntradayPeriod = _aIntradayPeriod;
-                if (_aHistoricalPeriod != eHistoricalPeriod.hpUndefined)
-                    request.HistoricalPeriod = _aHistoricalPeriod;
-
-                var bars = cel.RequestTimedBars(request);
-                var curTimedBars = cel.AllTimedBars.ItemById[bars.Id];
-
-                if (curTimedBars.Status == eRequestStatus.rsInProgress)
-                {
-                    _logger.LogAdd("Request is 'In progress' for symbol:" + smb, Category.Information, true);
-                    var ss = new SymbolState { IsCollected = false, IsSuccess = false };
-                    if (!_aSymbolStates.ContainsKey(smb))
-                        _aSymbolStates.Add(smb, ss);
-                }
-                OnSymbolCollectStart(smb);
-            }
-        }
-
-        public void BarsAdd(CQGTimedBars mCurTimedBars, CQGError cqgError, string userName)
-        {
-            if (_shouldStop) return;
-            try
-            {
-                _logger.LogAdd("Bars data resolved for symbol:" + mCurTimedBars.Request.Symbol, Category.Information, true);
-
-                var ss = _aSymbolStates[mCurTimedBars.Request.Symbol];
-                ss.IsCollected = true;
-
-                if (cqgError != null && cqgError.Code != 0)
-                {
-                    ss.IsSuccess = false;
-                }
-                else
-                {
-                    if (mCurTimedBars.Status == eRequestStatus.rsSuccess)
-                    {
-                        DateTime runDateTime = DateTime.Now;
-                        if (mCurTimedBars.Count != 0)
-                        {
-                            for (int i = mCurTimedBars.Count - 1; i >= 0; i--)
-                            {
-                                if (_shouldStop) break;
-                                AddBar(mCurTimedBars[i], mCurTimedBars.Request.Symbol, runDateTime, _aTableType, userName);
-                            }
-                        }
-                        DatabaseManager.CommitQueueBar();
-                    }
-                    ss.IsSuccess = true;
-                }
-
-                _aSymbolStates[mCurTimedBars.Request.Symbol] = ss;
-                OnSymbolCollectEnd(mCurTimedBars.Request.Symbol, ss.IsSuccess, _aTableType);//TODO CHnaged this _aTableType
-
-                if (SymbolsCollected == _aSymbolStates.Count)
-                {
-                    OnFinished();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                _logger.LogAdd("BarsAdd. " + ex, Category.Error);
-            }
-        }
-
-        private void AddBar(CQGTimedBar timedBar, string symbol, DateTime runDateTime, string tType, string userName)
-        {
-            if (_shouldStop) return;
-            try
-            {
-                var str5 = symbol.Trim();
-                var str = str5.Split('.');
-                str5 = str[str.Length - 1];
-
-                if (GetValueAsString(timedBar.Open) == "N/A")
-                {
-                }
-                else
-                {
-                    GetValueAsString(timedBar.Open);
-                }
-                GetValueAsString(timedBar.Timestamp);
-                var str3 = "'" + symbol + "'," +
-                           GetValueAsString(Math.Max(timedBar.Open, 0)) + "," +
-                           GetValueAsString(Math.Max(timedBar.High, 0)) + "," +
-                           GetValueAsString(Math.Max(timedBar.Low, 0)) + "," +
-                           GetValueAsString(Math.Max(timedBar.Close, 0)) + "," +
-
-                           GetValueAsString(Math.Max(timedBar.TickVolume, 0)) + "," +
-                           GetValueAsString(Math.Max(timedBar.ActualVolume, 0)) + "," +
-                           GetValueAsString(Math.Max(timedBar.AskVolume, 0)) + "," +                           
-                           GetValueAsString(Math.Max(timedBar.BidVolume, 0)) + "," +                                                      
-                           GetValueAsString(Math.Max(timedBar.OpenInterest, 0)) + "," +
-                           
-                           GetValueAsString(timedBar.Timestamp) + "," +                           
-                           GetValueAsString(runDateTime) + ",'" +
-                           _aContinuationType + "','" +
-                           userName + "'";
-
-                var sql = "INSERT IGNORE INTO B_" + str5 + "_" + tType + " (Symbol, OpenValue, HighValue, LowValue, CloseValue,"+
-                    " TickVol, ActualVol, AskVol, BidVol, OpenInterest," +
-                             "BarTime, SystemTime, ContinuationType, UserName) VALUES (" + str3 + ");";
-
-                DatabaseManager.AddToQueue(sql,1);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                _logger.LogAdd("AddBar. " + ex, Category.Error);
-            }
-        }
-
-        private string GetValueAsString(object val)
-        {
-            try
-            {
-                if ((val is Double) || (val is float))
-                {
-                    var v = (Double)val;
-                    if (v == 0.0)
-                        return "0.0";
-                    return v.ToString("G", CultureInfo.InvariantCulture);
-                }
-                if (val is int)
-                {
-                    return Convert.ToString(val);
-                }
-                if (val is DateTime)
-                    return "'" + Convert.ToDateTime(val).ToString("yyyy/MM/dd HH:mm:ss") + "'";
-                return "NULL";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                _logger.LogAdd("GetValueAsString", Category.Error);
-                return "0";
-            }
-        }
-
-        #endregion
-
-
-        #region Ticks Request, Add
-
-        private void TickRequest(CQGCEL cel, IEnumerable<string> symbols, DateTime rangeStart, DateTime rangeEnd, string continuationType)
-        {
-            if (_shouldStop) return;
-
-            if (rangeStart < DateTime.Now.AddDays(-Settings.Default.MaxTickDays))
-                rangeStart = DateTime.Now.AddDays(-Settings.Default.MaxTickDays);
-
-            _aSymbolStates.Clear();
-            _aContinuationType = continuationType;
-            _historicalPeriod = "tick";
-
-            foreach (string smb in symbols)
-            {
-                var tickRequest = cel.CreateTicksRequest();
-                //LineTime = CEL.Environment.LineTime;
-                tickRequest.RangeStart = rangeStart;
-                tickRequest.RangeEnd = rangeEnd;
-                tickRequest.Type = eTicksRequestType.trtSinceTimeNotify;
-                tickRequest.Symbol = smb;
-
-                CQGTicks ticks = cel.RequestTicks(tickRequest);
-
-                if (ticks.Status == eRequestStatus.rsInProgress)
-                {
-                    var ss = new SymbolState { IsCollected = false, IsSuccess = false };
-
-                    _aSymbolStates.Add(smb, ss);
-                }
-                OnSymbolCollectStart(smb);
-            }
-        }
-
-        public void TicksAdd(CQGTicks cqg_ticks, CQGError cqgError, string userName)
-        {
-            if (_shouldStop) return;
-            try
-            {
-                _logger.LogAdd("Tick data resolved for symbol:" + cqg_ticks.Request.Symbol, Category.Information, true);
-
-                var ss = _aSymbolStates[cqg_ticks.Request.Symbol];
-                ss.IsCollected = true;
-
-                if (cqgError != null && cqgError.Code != 0)
-                {
-                    ss.IsSuccess = false;
-                }
-                else
-                {
-                    DatabaseManager.CreateTickTable(cqg_ticks.Request.Symbol);
-
-
-                    DateTime runDateTime = DateTime.Now;
-                    int groupId = 0;
-
-                    if (cqg_ticks.Count != 0)
-                    {
-                        DatabaseManager.DeleteTicks(cqg_ticks.Request.Symbol, cqg_ticks[0].Timestamp, cqg_ticks[cqg_ticks.Count - 1].Timestamp);
-                        for (int i = cqg_ticks.Count - 1; i >= 0; i--)
-                        {
-                            if (_shouldStop) break;
-                            AddTick(cqg_ticks[i], cqg_ticks.Request.Symbol, runDateTime, ++groupId, userName);
-                        }
-
-                    }
-                    DatabaseManager.CommitQueueTick();
-
-                    ss.IsSuccess = true;
-                }
-                _aSymbolStates[cqg_ticks.Request.Symbol] = ss;
-                OnSymbolCollectEnd(cqg_ticks.Request.Symbol, ss.IsSuccess, _historicalPeriod);
-
-                if (SymbolsCollected == _aSymbolStates.Count)
-                {
-                    OnFinished();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                _logger.LogAdd("TicksAdd. " + ex, Category.Error);
-            }
-        }
-
-        private void AddTick(CQGTick tick, string symbol, DateTime runDateTime, int groupId, string userName)
-        {
-            try
-            {
-
-                var str = symbol.Trim().Split('.');
-                var query = "INSERT IGNORE INTO T_" + str[str.Length - 1];
-                query += "(Symbol, Price, Volume, TickTime, SystemTime, ContinuationType, PriceType, GroupId, UserName) VALUES";
-                query += "('";
-                query += symbol + "',";
-                query += GetValueAsString(tick.Price) + ",";
-                query += GetValueAsString(tick.Volume) + ",";
-                query += GetValueAsString(tick.Timestamp) + ",";
-                query += GetValueAsString(runDateTime) + ",";
-                query += "'" + _aContinuationType + "',";
-                query += "'" + tick.PriceType.ToString() + "',";
-                query += GetValueAsString(groupId) + ",";
-                query += "'" + userName + "');";
-
-                DatabaseManager.AddToQueue(query,2);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                _logger.LogAdd("AddTick. " + ex, Category.Error);
-            }
-        }
-
-        #endregion
-        */
 
         #region SubFunction,
-
-        internal bool IsBusy()
-        {
-            return SymbolsCollected < _aSymbolStates.Count;
-        }
-
 
         public void AllowCollectingAndMissingBar()
         {
             _shouldStop = false;
-        }
-
-        private int SymbolsCollected
-        {
-            get
-            {
-                return _aSymbolStates.Count(item => item.Value.IsCollected);
-            }
         }
 
 
@@ -453,7 +131,8 @@ namespace DataNetClient.Core
         {
             if (_shouldStop) return;
             _maxBarsLookBack = Math.Abs(maxCount);
-            _aSymbolStates.Clear();
+            _symbolState.Clear();
+
             DatabaseManager.CreateMissingBarExceptionTable();
             DatabaseManager.CreateSessionHolidayTimesTable();
             DatabaseManager.CreateFullReportTable();
@@ -463,9 +142,7 @@ namespace DataNetClient.Core
 
             foreach (string smb in symbols)
             {               
-
-                    OnMissingBarStart(smb);
-                
+                   OnMissingBarStart(smb);                
             }
 
 
@@ -491,10 +168,15 @@ namespace DataNetClient.Core
             }).Start();
         }
 
-        private void StartAsyncGetingSessionsData(CQGCEL cel, IEnumerable<string> symbols)
+        private void StartAsyncGetingSessionsData(CQGCEL cel, List<string> symbols)
         {
-            foreach (string symbol in symbols)
+            for (int i = 0; i < symbols.Count(); i++)
             {
+                var symbol = symbols[i];
+
+                var progress = (i * (50 / symbols.Count()));
+                OnProgress(progress);
+
                 _aSemaphoreHolidays = new Semaphore(0, 1);
                 _aSemaphoreSessions = new Semaphore(0, 1);
 
@@ -522,13 +204,17 @@ namespace DataNetClient.Core
             }
         }
 
-        private void StartAsyncCheckingMissedBars(IEnumerable<string> symbols)
+        private void StartAsyncCheckingMissedBars(List<string> symbols)
         {
+            for (int i = 0; i < symbols.Count(); i++)
+			{
+			    var currentSymbol = symbols[i];
 
-            foreach (string currentSymbol in symbols)
-            {
                 var aItems = new List<ListViewItem>();
                 var aGroups = new List<ListViewGroup>();
+
+                var progress = (i*(50/symbols.Count()));
+                OnProgress(50+progress);
 
                 DatabaseManager.DelFromReport(currentSymbol);
 
@@ -539,10 +225,7 @@ namespace DataNetClient.Core
 
                 if (aResultDates == null || aResultDates.Count == 0)
                 {
-                    SymbolState ss = _aSymbolStates[currentSymbol];
-                    ss.IsCollected = true;
-                    ss.IsSuccess = true;
-                    _aSymbolStates[currentSymbol] = ss;
+                    _symbolState[currentSymbol] = true;
 
                     OnMissingBarEnd(currentSymbol, new List<ListViewGroup>(), new List<ListViewItem>());
 
@@ -673,8 +356,7 @@ namespace DataNetClient.Core
                 var aSmallMissedBarsForSymbol = aMissedBarsForSymbol.Where(a => a > first).ToList();
 
                 foreach (DateTime missedItem in aSmallMissedBarsForSymbol)
-                {
-                    //if (dbSel.rowExists(dbSel.getTableFromSymbol(currentSymbol), missedItem))
+                {                    
                     if (aResultDateTimes.Contains(missedItem))
                     {
                         DatabaseManager.ChangeBarStatusInMissingTableWithOutCommit(currentSymbol, refresh, missedItem);
@@ -683,21 +365,17 @@ namespace DataNetClient.Core
 
                 DatabaseManager.CommitQueue();
 
-                SymbolState ss1 = _aSymbolStates[currentSymbol];
-                ss1.IsCollected = true;
-                ss1.IsSuccess = true;
-                _aSymbolStates[currentSymbol] = ss1;
+                _symbolState[currentSymbol] = true;
 
+                
                 OnMissingBarEnd(currentSymbol, aGroups, aItems);
-
-                //_logger.LogAdd("Repost finished for symbol: " + currentSymbol, Category.Information);                
+                              
             }
-            ResetSymbols();
+            OnProgress(100);
         }
 
         private void StartAsyncCheckingMissedBarsAuto(IEnumerable<string> symbols, int maxCount)
         {
-            //dbSel.COMMIT();
 
             foreach (string currentSymbol in symbols)
             {
@@ -713,10 +391,7 @@ namespace DataNetClient.Core
 
                 if (aResultDates == null || aResultDates.Count == 0)
                 {
-                    SymbolState ss = _aSymbolStates[currentSymbol];
-                    ss.IsCollected = true;
-                    ss.IsSuccess = true;
-                    _aSymbolStates[currentSymbol] = ss;
+                    _symbolState[currentSymbol] = true;
 
                     OnMissingBarEnd(currentSymbol, new List<ListViewGroup>(), new List<ListViewItem>());
 
@@ -910,16 +585,11 @@ namespace DataNetClient.Core
 
                 DatabaseManager.CommitQueue();
 
-                SymbolState ss1 = _aSymbolStates[currentSymbol];
-                ss1.IsCollected = true;
-                ss1.IsSuccess = true;
-                _aSymbolStates[currentSymbol] = ss1;
-                //_logger.LogAdd("Repost finished for symbol: " + currentSymbol, Category.Information);
+                _symbolState[currentSymbol] = true;                
 
                 OnMissingBarEnd(currentSymbol, aGroups, aItems);
             }
-            OnFinished();
-            ResetSymbols();
+            OnFinished();            
         }
 
         private IEnumerable<MissedStr> MissedInTable(string smb, List<DateTime> aResultDateTimes, DateTime missDateTimeStart, DateTime missDateTimeEnd, bool dayStartsYesterday, bool skipAddingToDb = false)
@@ -1208,41 +878,7 @@ namespace DataNetClient.Core
             }
         }
 
-
-        internal void WaitEndOfOperation()
-        {
-            if (SymbolsCollected < _aSymbolStates.Count)
-            {
-                if (_aSemaphoreWait == null)
-                    _aSemaphoreWait = new Semaphore(0, 1);
-                _aSemaphoreWait.WaitOne();
-            }
-        }
-
-        internal Brush GetColor(string symbol)
-        {
-            if (_aSymbolStates.ContainsKey(symbol) && _aSymbolStates[symbol].IsCollected)
-            {
-                return _aSymbolStates[symbol].IsSuccess ? Brushes.LightGreen : Brushes.Red;
-            }
-            return Brushes.Black;
-        }
-
-        private void ResetSymbols()
-        {
-            _aSymbolStates.Clear();
-        }
-
         #endregion
-
-        internal int GetProgress()
-        {
-            if (_aSymbolStates.Count == 0) return 100;
-
-            var one = 100 / _aSymbolStates.Count;
-
-            return SymbolsCollected * one;
-        }
 
         private struct SessionData
         {
