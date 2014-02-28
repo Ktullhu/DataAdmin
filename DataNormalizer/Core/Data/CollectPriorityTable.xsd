@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CollectPriorityTable" targetNamespace="http://tempuri.org/CollectPriorityTable.xsd" xmlns:mstns="http://tempuri.org/CollectPriorityTable.xsd" xmlns="http://tempuri.org/CollectPriorityTable.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CollectPriorityTable" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="CollectPriorityTable" msprop:Generator_UserDSName="CollectPriorityTable">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Symbols" msprop:Generator_TableClassName="SymbolsDataTable" msprop:Generator_TableVarName="tableSymbols" msprop:Generator_RowChangedName="SymbolsRowChanged" msprop:Generator_TablePropName="Symbols" msprop:Generator_RowDeletingName="SymbolsRowDeleting" msprop:Generator_RowChangingName="SymbolsRowChanging" msprop:Generator_RowEvHandlerName="SymbolsRowChangeEventHandler" msprop:Generator_RowDeletedName="SymbolsRowDeleted" msprop:Generator_RowClassName="SymbolsRow" msprop:Generator_UserTableName="Symbols" msprop:Generator_RowEvArgName="SymbolsRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CollectPriority" msprop:Generator_TableClassName="CollectPriorityDataTable" msprop:Generator_TableVarName="tableCollectPriority" msprop:Generator_RowChangedName="CollectPriorityRowChanged" msprop:Generator_TablePropName="CollectPriority" msprop:Generator_RowDeletingName="CollectPriorityRowDeleting" msprop:Generator_RowChangingName="CollectPriorityRowChanging" msprop:Generator_RowEvHandlerName="CollectPriorityRowChangeEventHandler" msprop:Generator_RowDeletedName="CollectPriorityRowDeleted" msprop:Generator_RowClassName="CollectPriorityRow" msprop:Generator_UserTableName="CollectPriority" msprop:Generator_RowEvArgName="CollectPriorityRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Client" msdata:Caption="Name" msprop:Generator_ColumnVarNameInTable="columnClient" msprop:Generator_ColumnPropNameInRow="Client" msprop:Generator_ColumnPropNameInTable="ClientColumn" msprop:Generator_UserColumnName="Client" type="xs:string" minOccurs="0" />
+              <xs:element name="Depth" msprop:Generator_ColumnVarNameInTable="columnDepth" msprop:Generator_ColumnPropNameInRow="Depth" msprop:Generator_ColumnPropNameInTable="DepthColumn" msprop:Generator_UserColumnName="Depth" type="xs:string" minOccurs="0" />
+              <xs:element name="client_id" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnclient_id" msprop:Generator_ColumnPropNameInRow="client_id" msprop:Generator_ColumnPropNameInTable="client_idColumn" msprop:Generator_UserColumnName="client_id" type="xs:int" minOccurs="0" />
+              <xs:element name="symbol_id" msprop:Generator_ColumnVarNameInTable="columnsymbol_id" msprop:Generator_ColumnPropNameInRow="symbol_id" msprop:Generator_ColumnPropNameInTable="symbol_idColumn" msprop:Generator_UserColumnName="symbol_id" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:Symbols" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+    <xs:unique name="CollectPriority_Constraint1" msdata:ConstraintName="Constraint1">
+      <xs:selector xpath=".//mstns:CollectPriority" />
+      <xs:field xpath="mstns:client_id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

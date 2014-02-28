@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="UserDetails" targetNamespace="http://tempuri.org/UserDetails.xsd" xmlns:mstns="http://tempuri.org/UserDetails.xsd" xmlns="http://tempuri.org/UserDetails.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="UserDetails" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="UserDetails" msprop:Generator_UserDSName="UserDetails">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tableUsers" msprop:Generator_TableClassName="tableUsersDataTable" msprop:Generator_TableVarName="tabletableUsers" msprop:Generator_RowChangedName="tableUsersRowChanged" msprop:Generator_TablePropName="tableUsers" msprop:Generator_RowDeletingName="tableUsersRowDeleting" msprop:Generator_RowChangingName="tableUsersRowChanging" msprop:Generator_RowEvHandlerName="tableUsersRowChangeEventHandler" msprop:Generator_RowDeletedName="tableUsersRowDeleted" msprop:Generator_RowClassName="tableUsersRow" msprop:Generator_UserTableName="tableUsers" msprop:Generator_RowEvArgName="tableUsersRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
+              <xs:element name="Login" msprop:Generator_ColumnVarNameInTable="columnLogin" msprop:Generator_ColumnPropNameInRow="Login" msprop:Generator_ColumnPropNameInTable="LoginColumn" msprop:Generator_UserColumnName="Login" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Email" msprop:Generator_ColumnVarNameInTable="columnEmail" msprop:Generator_ColumnPropNameInRow="Email" msprop:Generator_ColumnPropNameInTable="EmailColumn" msprop:Generator_UserColumnName="Email" type="xs:string" minOccurs="0" />
+              <xs:element name="IpAdress" msprop:Generator_ColumnVarNameInTable="columnIpAdress" msprop:Generator_ColumnPropNameInRow="IpAdress" msprop:Generator_ColumnPropNameInTable="IpAdressColumn" msprop:Generator_UserColumnName="IpAdress" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tableGroups" msprop:Generator_TableClassName="tableGroupsDataTable" msprop:Generator_TableVarName="tabletableGroups" msprop:Generator_RowChangedName="tableGroupsRowChanged" msprop:Generator_TablePropName="tableGroups" msprop:Generator_RowDeletingName="tableGroupsRowDeleting" msprop:Generator_RowChangingName="tableGroupsRowChanging" msprop:Generator_RowEvHandlerName="tableGroupsRowChangeEventHandler" msprop:Generator_RowDeletedName="tableGroupsRowDeleted" msprop:Generator_RowClassName="tableGroupsRow" msprop:Generator_UserTableName="tableGroups" msprop:Generator_RowEvArgName="tableGroupsRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
+              <xs:element name="id_User" msprop:Generator_ColumnVarNameInTable="columnid_User" msprop:Generator_ColumnPropNameInRow="id_User" msprop:Generator_ColumnPropNameInTable="id_UserColumn" msprop:Generator_UserColumnName="id_User" type="xs:int" minOccurs="0" />
+              <xs:element name="GroupName" msprop:Generator_ColumnVarNameInTable="columnGroupName" msprop:Generator_ColumnPropNameInRow="GroupName" msprop:Generator_ColumnPropNameInTable="GroupNameColumn" msprop:Generator_UserColumnName="GroupName" type="xs:string" minOccurs="0" />
+              <xs:element name="TimeFrame" msprop:Generator_ColumnVarNameInTable="columnTimeFrame" msprop:Generator_ColumnPropNameInRow="TimeFrame" msprop:Generator_ColumnPropNameInTable="TimeFrameColumn" msprop:Generator_UserColumnName="TimeFrame" type="xs:string" minOccurs="0" />
+              <xs:element name="CntType" msprop:Generator_ColumnVarNameInTable="columnCntType" msprop:Generator_ColumnPropNameInRow="CntType" msprop:Generator_ColumnPropNameInTable="CntTypeColumn" msprop:Generator_UserColumnName="CntType" type="xs:string" minOccurs="0" />
+              <xs:element name="Application" msprop:Generator_ColumnVarNameInTable="columnApplication" msprop:Generator_ColumnPropNameInRow="Application" msprop:Generator_ColumnPropNameInTable="ApplicationColumn" msprop:Generator_UserColumnName="Application" type="xs:string" minOccurs="0" />
+              <xs:element name="Privilege" msprop:Generator_ColumnVarNameInTable="columnPrivilege" msprop:Generator_ColumnPropNameInRow="Privilege" msprop:Generator_ColumnPropNameInTable="PrivilegeColumn" msprop:Generator_UserColumnName="Privilege" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tableSymbols" msprop:Generator_TableClassName="tableSymbolsDataTable" msprop:Generator_TableVarName="tabletableSymbols" msprop:Generator_RowChangedName="tableSymbolsRowChanged" msprop:Generator_TablePropName="tableSymbols" msprop:Generator_RowDeletingName="tableSymbolsRowDeleting" msprop:Generator_RowChangingName="tableSymbolsRowChanging" msprop:Generator_RowEvHandlerName="tableSymbolsRowChangeEventHandler" msprop:Generator_RowDeletedName="tableSymbolsRowDeleted" msprop:Generator_RowClassName="tableSymbolsRow" msprop:Generator_UserTableName="tableSymbols" msprop:Generator_RowEvArgName="tableSymbolsRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" minOccurs="0" />
+              <xs:element name="id_Group" msprop:Generator_ColumnVarNameInTable="columnid_Group" msprop:Generator_ColumnPropNameInRow="id_Group" msprop:Generator_ColumnPropNameInTable="id_GroupColumn" msprop:Generator_UserColumnName="id_Group" type="xs:int" minOccurs="0" />
+              <xs:element name="SymbolName" msprop:Generator_ColumnVarNameInTable="columnSymbolName" msprop:Generator_ColumnPropNameInRow="SymbolName" msprop:Generator_ColumnPropNameInTable="SymbolNameColumn" msprop:Generator_UserColumnName="SymbolName" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:tableUsers" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
+    <xs:unique name="tableGroups_Constraint1" msdata:ConstraintName="Constraint1">
+      <xs:selector xpath=".//mstns:tableGroups" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
+    <xs:unique name="tableSymbols_Constraint1" msdata:ConstraintName="Constraint1">
+      <xs:selector xpath=".//mstns:tableSymbols" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

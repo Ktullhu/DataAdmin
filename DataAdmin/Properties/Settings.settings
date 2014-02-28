@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DataAdmin.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ShowInTaskBar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="connectionHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="connectionDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SYSTEM</Value>
+    </Setting>
+    <Setting Name="connectionUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
+    </Setting>
+    <Setting Name="connectionPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="L" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">10, 10</Value>
+    </Setting>
+    <Setting Name="S" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">1000, 500</Value>
+    </Setting>
+    <Setting Name="AutoLogin" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MaxHistoryLooksBackDays" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="dbHist" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HISTORICAL</Value>
+    </Setting>
+    <Setting Name="dbLive" Type="System.String" Scope="User">
+      <Value Profile="(Default)">LIVE</Value>
+    </Setting>
+    <Setting Name="dbBar" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BAR</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

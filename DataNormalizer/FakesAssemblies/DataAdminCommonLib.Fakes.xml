@@ -1,0 +1,1574 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DataAdminCommonLib.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.#ctor(DataAdminCommonLib.DataAdminMessageFactory)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.Constructor">
+            <summary>Задает оболочка совместимости DataAdminMessageFactory.DataAdminMessageFactory()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+BlockClient</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.#ctor(DataAdminCommonLib.DataAdminMessageFactory.BlockClient)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.BlockedClientIDGet">
+            <summary>Задает оболочка совместимости BlockClient.get_BlockedClientID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.BlockedHostGet">
+            <summary>Задает оболочка совместимости BlockClient.get_BlockedHost()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.ConstructorInt32">
+            <summary>Задает оболочка совместимости BlockClient.BlockClient(Int32 clID)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.ConstructorString">
+            <summary>Задает оболочка совместимости BlockClient.BlockClient(String host)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.MsgTypeGet">
+            <summary>Задает оболочка совместимости BlockClient.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.ServerMessageGet">
+            <summary>Задает оболочка совместимости BlockClient.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.ServerMessageSetString">
+            <summary>Задает оболочка совместимости BlockClient.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.AllInstances.BlockedClientIDGet">
+            <summary>Задает оболочка совместимости BlockClient.get_BlockedClientID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.AllInstances.BlockedHostGet">
+            <summary>Задает оболочка совместимости BlockClient.get_BlockedHost()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости BlockClient.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости BlockClient.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimBlockClient.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости BlockClient.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+ChangePrivilage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.ChangePrivilage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AnyIPAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_AnyIPAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AnyIPAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_AnyIPAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.ClientIDGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_ClientID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.ClientIDSetInt32">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_ClientID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.CollectSQGAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_CollectSQGAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.CollectSQGAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_CollectSQGAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.Constructor">
+            <summary>Задает оболочка совместимости ChangePrivilage.ChangePrivilage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.ConstructorBooleanBooleanBooleanBooleanBooleanBooleanBooleanBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.ChangePrivilage(Boolean dnet, Boolean ticknet, Boolean shareddb, Boolean localdb, Boolean anyip, Boolean missbarf, Boolean collectsqg, Boolean dexport)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.DatanetEnabledGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_DatanetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.DatanetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_DatanetEnabled(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.DexportEnabledGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_DexportEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.DexportEnabledSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_DexportEnabled(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.IsDexportGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_IsDexport()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.IsDexportSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_IsDexport(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.LocalDBAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_LocalDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.LocalDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_LocalDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.MissingBarFAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_MissingBarFAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.MissingBarFAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_MissingBarFAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.MsgTypeGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.ServerMessageGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.SharedDBAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_SharedDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.SharedDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_SharedDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.TicknetEnabledGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_TicknetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.TicknetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_TicknetEnabled(Boolean value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.AnyIPAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_AnyIPAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.AnyIPAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_AnyIPAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.ClientIDGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_ClientID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.ClientIDSetInt32">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_ClientID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.CollectSQGAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_CollectSQGAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.CollectSQGAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_CollectSQGAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.DatanetEnabledGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_DatanetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.DatanetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_DatanetEnabled(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.DexportEnabledGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_DexportEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.DexportEnabledSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_DexportEnabled(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.IsDexportGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_IsDexport()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.IsDexportSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_IsDexport(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.LocalDBAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_LocalDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.LocalDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_LocalDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.MissingBarFAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_MissingBarFAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.MissingBarFAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_MissingBarFAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.SharedDBAllowedGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_SharedDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.SharedDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_SharedDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.TicknetEnabledGet">
+            <summary>Задает оболочка совместимости ChangePrivilage.get_TicknetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimChangePrivilage.AllInstances.TicknetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости ChangePrivilage.set_TicknetEnabled(Boolean value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+ClassSceleton</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.#ctor(DataAdminCommonLib.DataAdminMessageFactory.ClassSceleton)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.Constructor">
+            <summary>Задает оболочка совместимости ClassSceleton.ClassSceleton()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.MsgTypeGet">
+            <summary>Задает оболочка совместимости ClassSceleton.get_MsgType()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimClassSceleton.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости ClassSceleton.get_MsgType()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+DataExportLogin</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.#ctor(DataAdminCommonLib.DataAdminMessageFactory.DataExportLogin)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.ConstructorString">
+            <summary>Задает оболочка совместимости DataExportLogin.DataExportLogin(String ms)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.MSGGet">
+            <summary>Задает оболочка совместимости DataExportLogin.get_MSG()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.MSGSetString">
+            <summary>Задает оболочка совместимости DataExportLogin.set_MSG(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.MsgTypeGet">
+            <summary>Задает оболочка совместимости DataExportLogin.get_MsgType()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.AllInstances.MSGGet">
+            <summary>Задает оболочка совместимости DataExportLogin.get_MSG()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.AllInstances.MSGSetString">
+            <summary>Задает оболочка совместимости DataExportLogin.set_MSG(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDataExportLogin.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости DataExportLogin.get_MsgType()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+DexportChangePrivilage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.DexportChangePrivilage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AnyIPAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_AnyIPAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AnyIPAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_AnyIPAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.CollectSQGAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_CollectSQGAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.CollectSQGAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_CollectSQGAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.ConstructorBooleanBooleanBooleanBooleanBooleanBooleanBooleanBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.DexportChangePrivilage(Boolean dnet, Boolean ticknet, Boolean shareddb, Boolean localdb, Boolean anyip, Boolean missbarf, Boolean collectsqg, Boolean dexp)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.DatanetEnabledGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_DatanetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.DatanetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_DatanetEnabled(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.LocalDBAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_LocalDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.LocalDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_LocalDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.MissingBarFAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_MissingBarFAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.MissingBarFAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_MissingBarFAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.MsgTypeGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.ServerMessageGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.SharedDBAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_SharedDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.SharedDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_SharedDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.TicknetEnabledGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_TicknetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.TicknetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_TicknetEnabled(Boolean value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.AnyIPAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_AnyIPAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.AnyIPAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_AnyIPAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.CollectSQGAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_CollectSQGAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.CollectSQGAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_CollectSQGAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.DatanetEnabledGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_DatanetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.DatanetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_DatanetEnabled(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.LocalDBAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_LocalDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.LocalDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_LocalDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.MissingBarFAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_MissingBarFAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.MissingBarFAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_MissingBarFAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.SharedDBAllowedGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_SharedDBAllowed()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.SharedDBAllowedSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_SharedDBAllowed(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.TicknetEnabledGet">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.get_TicknetEnabled()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportChangePrivilage.AllInstances.TicknetEnabledSetBoolean">
+            <summary>Задает оболочка совместимости DexportChangePrivilage.set_TicknetEnabled(Boolean value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+DexportLogMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.DexportLogMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.Constructor">
+            <summary>Задает оболочка совместимости DexportLogMessage.DexportLogMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.ConstructorInt32DateTimeStringDexportLogMessageDataAdminMessageFactoryLogStringDexportLogMessageDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости DexportLogMessage.DexportLogMessage(Int32 userId, DateTime time, String symbol, Log type, String group, Status status)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.DepthValueGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_DepthValue()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.DepthValueSetInt32">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_DepthValue(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.GroupGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_Group()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.GroupSetString">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_Group(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.LogTypeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_LogType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.LogTypeSetDexportLogMessageDataAdminMessageFactoryLog">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_LogType(Log value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.MsgTypeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.OperationStatusGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.OperationStatusSetDexportLogMessageDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.SymbolGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.SymbolSetString">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.TimeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.TimeSetDateTime">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.UserIDGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.UserIDSetInt32">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage._msgTypeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get__msgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage._msgTypeSetInt32">
+            <summary>Задает оболочка совместимости DexportLogMessage.set__msgType(Int32 value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.DepthValueGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_DepthValue()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.DepthValueSetInt32">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_DepthValue(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.GroupGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_Group()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.GroupSetString">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_Group(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.LogTypeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_LogType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.LogTypeSetDexportLogMessageDataAdminMessageFactoryLog">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_LogType(Log value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.OperationStatusGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.OperationStatusSetDexportLogMessageDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.SymbolGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.SymbolSetString">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.TimeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.TimeSetDateTime">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.UserIDGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances.UserIDSetInt32">
+            <summary>Задает оболочка совместимости DexportLogMessage.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances._msgTypeGet">
+            <summary>Задает оболочка совместимости DexportLogMessage.get__msgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogMessage.AllInstances._msgTypeSetInt32">
+            <summary>Задает оболочка совместимости DexportLogMessage.set__msgType(Int32 value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+DexportLogoutMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.DexportLogoutMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.Constructor">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.DexportLogoutMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.MsgTypeGet">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.ServerMessageGet">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimDexportLogoutMessage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости DexportLogoutMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+LogMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.LogMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.Constructor">
+            <summary>Задает оболочка совместимости LogMessage.LogMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.ConstructorInt32DateTimeStringLogMessageDataAdminMessageFactoryLogStringLogMessageDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости LogMessage.LogMessage(Int32 userId, DateTime time, String symbol, Log type, String group, Status status)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.DepthValueGet">
+            <summary>Задает оболочка совместимости LogMessage.get_DepthValue()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.DepthValueSetInt32">
+            <summary>Задает оболочка совместимости LogMessage.set_DepthValue(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.GroupGet">
+            <summary>Задает оболочка совместимости LogMessage.get_Group()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.GroupSetString">
+            <summary>Задает оболочка совместимости LogMessage.set_Group(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.LogTypeGet">
+            <summary>Задает оболочка совместимости LogMessage.get_LogType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.LogTypeSetLogMessageDataAdminMessageFactoryLog">
+            <summary>Задает оболочка совместимости LogMessage.set_LogType(Log value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.MsgTypeGet">
+            <summary>Задает оболочка совместимости LogMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.OperationStatusGet">
+            <summary>Задает оболочка совместимости LogMessage.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.OperationStatusSetLogMessageDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости LogMessage.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.SymbolGet">
+            <summary>Задает оболочка совместимости LogMessage.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.SymbolSetString">
+            <summary>Задает оболочка совместимости LogMessage.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.TimeGet">
+            <summary>Задает оболочка совместимости LogMessage.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.TimeSetDateTime">
+            <summary>Задает оболочка совместимости LogMessage.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.UserIDGet">
+            <summary>Задает оболочка совместимости LogMessage.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.UserIDSetInt32">
+            <summary>Задает оболочка совместимости LogMessage.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage._msgTypeGet">
+            <summary>Задает оболочка совместимости LogMessage.get__msgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage._msgTypeSetInt32">
+            <summary>Задает оболочка совместимости LogMessage.set__msgType(Int32 value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.DepthValueGet">
+            <summary>Задает оболочка совместимости LogMessage.get_DepthValue()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.DepthValueSetInt32">
+            <summary>Задает оболочка совместимости LogMessage.set_DepthValue(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.GroupGet">
+            <summary>Задает оболочка совместимости LogMessage.get_Group()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.GroupSetString">
+            <summary>Задает оболочка совместимости LogMessage.set_Group(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.LogTypeGet">
+            <summary>Задает оболочка совместимости LogMessage.get_LogType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.LogTypeSetLogMessageDataAdminMessageFactoryLog">
+            <summary>Задает оболочка совместимости LogMessage.set_LogType(Log value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости LogMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.OperationStatusGet">
+            <summary>Задает оболочка совместимости LogMessage.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.OperationStatusSetLogMessageDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости LogMessage.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.SymbolGet">
+            <summary>Задает оболочка совместимости LogMessage.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.SymbolSetString">
+            <summary>Задает оболочка совместимости LogMessage.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.TimeGet">
+            <summary>Задает оболочка совместимости LogMessage.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.TimeSetDateTime">
+            <summary>Задает оболочка совместимости LogMessage.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.UserIDGet">
+            <summary>Задает оболочка совместимости LogMessage.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances.UserIDSetInt32">
+            <summary>Задает оболочка совместимости LogMessage.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances._msgTypeGet">
+            <summary>Задает оболочка совместимости LogMessage.get__msgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogMessage.AllInstances._msgTypeSetInt32">
+            <summary>Задает оболочка совместимости LogMessage.set__msgType(Int32 value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+LoginMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.LoginMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.ConstructorStringStringChar">
+            <summary>Задает оболочка совместимости LoginMessage.LoginMessage(String usname, String passw, Char netName)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.MsgTypeGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.NetTypeGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_NetType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.PasswordMD5Get">
+            <summary>Задает оболочка совместимости LoginMessage.get_PasswordMD5()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.ServerMessageGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LoginMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.UsernameMD5Get">
+            <summary>Задает оболочка совместимости LoginMessage.get_UsernameMD5()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances.NetTypeGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_NetType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances.PasswordMD5Get">
+            <summary>Задает оболочка совместимости LoginMessage.get_PasswordMD5()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LoginMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginMessage.AllInstances.UsernameMD5Get">
+            <summary>Задает оболочка совместимости LoginMessage.get_UsernameMD5()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+LoginRespond</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.#ctor(DataAdminCommonLib.DataAdminMessageFactory.LoginRespond)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.ConstructorBooleanBooleanBoolean">
+            <summary>Задает оболочка совместимости LoginRespond.LoginRespond(Boolean isLoggedOn, Boolean blocked, Boolean userNotExist)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.IsBlockedGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_IsBlocked()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.IsLoggedOnGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_IsLoggedOn()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.IsUserNotExistGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_IsUserNotExist()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.MsgTypeGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.ServerMessageGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LoginRespond.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances.IsBlockedGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_IsBlocked()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances.IsLoggedOnGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_IsLoggedOn()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances.IsUserNotExistGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_IsUserNotExist()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости LoginRespond.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLoginRespond.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LoginRespond.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+LogoutMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.#ctor(DataAdminCommonLib.DataAdminMessageFactory.LogoutMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.Constructor">
+            <summary>Задает оболочка совместимости LogoutMessage.LogoutMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.MsgTypeGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.ServerMessageGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LogoutMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimLogoutMessage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LogoutMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataAdminMessageFactory+TickNetCollectMsg</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.#ctor(DataAdminCommonLib.DataAdminMessageFactory.TickNetCollectMsg)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.Constructor">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.TickNetCollectMsg()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.ConstructorInt32DateTimeStringStringTickNetCollectMsgDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.TickNetCollectMsg(Int32 userId, DateTime time, String symbol, String group, Status status)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.DepthGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Depth()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.DepthSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Depth(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.GroupGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Group()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.GroupSetString">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Group(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.MsgTypeGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.OperationStatusGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.OperationStatusSetTickNetCollectMsgDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.ServerMessageGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.ServerMessageSetString">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.SymbolGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.SymbolSetString">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.TimeGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.TimeSetDateTime">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.UserIDGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.UserIDSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg._msgTypeGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get__msgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg._msgTypeSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set__msgType(Int32 value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.DepthGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Depth()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.DepthSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Depth(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.GroupGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Group()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.GroupSetString">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Group(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.MsgTypeGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_MsgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.OperationStatusGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.OperationStatusSetTickNetCollectMsgDataAdminMessageFactoryStatus">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.SymbolGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.SymbolSetString">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.TimeGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.TimeSetDateTime">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.UserIDGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances.UserIDSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances._msgTypeGet">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.get__msgType()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataAdminMessageFactory.ShimTickNetCollectMsg.AllInstances._msgTypeSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectMsg.set__msgType(Int32 value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataNormalizatorMessageFactory</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.#ctor(DataAdminCommonLib.DataNormalizatorMessageFactory)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.Constructor">
+            <summary>Задает оболочка совместимости DataNormalizatorMessageFactory.DataNormalizatorMessageFactory()</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataNormalizatorMessageFactory+LoginMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.#ctor(DataAdminCommonLib.DataNormalizatorMessageFactory.LoginMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.Constructor">
+            <summary>Задает оболочка совместимости LoginMessage.LoginMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.ServerMessageGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LoginMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.UsernameGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_Username()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.UsernameSetString">
+            <summary>Задает оболочка совместимости LoginMessage.set_Username(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LoginMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.AllInstances.UsernameGet">
+            <summary>Задает оболочка совместимости LoginMessage.get_Username()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLoginMessage.AllInstances.UsernameSetString">
+            <summary>Задает оболочка совместимости LoginMessage.set_Username(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataNormalizatorMessageFactory+LogoutMessage</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.#ctor(DataAdminCommonLib.DataNormalizatorMessageFactory.LogoutMessage)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.Constructor">
+            <summary>Задает оболочка совместимости LogoutMessage.LogoutMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.ServerMessageGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LogoutMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.UsernameGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_Username()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.UsernameSetString">
+            <summary>Задает оболочка совместимости LogoutMessage.set_Username(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.AllInstances.ServerMessageGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_ServerMessage()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.AllInstances.ServerMessageSetString">
+            <summary>Задает оболочка совместимости LogoutMessage.set_ServerMessage(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.AllInstances.UsernameGet">
+            <summary>Задает оболочка совместимости LogoutMessage.get_Username()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimLogoutMessage.AllInstances.UsernameSetString">
+            <summary>Задает оболочка совместимости LogoutMessage.set_Username(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest">
+            <summary>Тип оболочки совместимости для DataAdminCommonLib.DataNormalizatorMessageFactory+TickNetCollectRequest</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.#ctor">
+            <summary>Инициализация нового экземпляра оболочки совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.#ctor(DataAdminCommonLib.DataNormalizatorMessageFactory.TickNetCollectRequest)">
+            <summary>Инициализация новой оболочки совместимости для заданного экземпляра</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.BehaveAsCurrent">
+            <summary>Назначение поведения &quot;Current&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.BehaveAsNotImplemented">
+            <summary>Назначение поведения &quot;NotImplemented&quot; всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.Behavior">
+            <summary>Назначение поведения всем методам типа с оболочкой совместимости</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.Constructor">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.TickNetCollectRequest()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.ConstructorInt32DateTimeStringTickNetCollectRequestDataNormalizatorMessageFactoryStatus">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.TickNetCollectRequest(Int32 userId, DateTime time, String symbol, Status status)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.DepthValueGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_DepthValue()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.DepthValueSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_DepthValue(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.GroupIdGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_GroupId()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.GroupIdSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_GroupId(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.IsGroupGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_IsGroup()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.IsGroupSetBoolean">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_IsGroup(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.OperationStatusGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.OperationStatusSetTickNetCollectRequestDataNormalizatorMessageFactoryStatus">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.SymbolGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.SymbolSetString">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.TimeGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.TimeSetDateTime">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.UserIDGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.UserIDSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.UserNameGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_UserName()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.UserNameSetString">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_UserName(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances">
+            <summary>Определение оболочек совместимости для всех членов экземпляров</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.DepthValueGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_DepthValue()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.DepthValueSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_DepthValue(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.GroupIdGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_GroupId()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.GroupIdSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_GroupId(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.IsGroupGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_IsGroup()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.IsGroupSetBoolean">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_IsGroup(Boolean value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.OperationStatusGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_OperationStatus()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.OperationStatusSetTickNetCollectRequestDataNormalizatorMessageFactoryStatus">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_OperationStatus(Status value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.SymbolGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_Symbol()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.SymbolSetString">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_Symbol(String value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.TimeGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_Time()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.TimeSetDateTime">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_Time(DateTime value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.UserIDGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_UserID()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.UserIDSetInt32">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.UserNameGet">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.get_UserName()</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.ShimDataNormalizatorMessageFactory.ShimTickNetCollectRequest.AllInstances.UserNameSetString">
+            <summary>Задает оболочка совместимости TickNetCollectRequest.set_UserName(String value)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.StubDataAdminMessageFactory">
+            <summary>Тип заглушки DataAdminCommonLib.DataAdminMessageFactory</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubDataAdminMessageFactory.#ctor">
+            <summary>Инициализирует новый экземпляр</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubDataAdminMessageFactory.InitializeStub">
+            <summary>Инициализирует новый экземпляр type StubDataAdminMessageFactory</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.StubDataAdminMessageFactory.CallBase">
+            <summary>Получает или задает значение, указывающее, следует ли вызывать базовый метод вместо резервного поведения</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.StubDataAdminMessageFactory.InstanceBehavior">
+            <summary>Получает или задает поведение экземпляра.</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.StubDataAdminMessageFactory.InstanceObserver">
+            <summary>Получает или задает наблюдатель экземпляра.</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.StubDataNormalizatorMessageFactory">
+            <summary>Тип заглушки DataAdminCommonLib.DataNormalizatorMessageFactory</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubDataNormalizatorMessageFactory.#ctor">
+            <summary>Инициализирует новый экземпляр</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubDataNormalizatorMessageFactory.InitializeStub">
+            <summary>Инициализирует новый экземпляр type StubDataNormalizatorMessageFactory</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.StubDataNormalizatorMessageFactory.CallBase">
+            <summary>Получает или задает значение, указывающее, следует ли вызывать базовый метод вместо резервного поведения</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.StubDataNormalizatorMessageFactory.InstanceBehavior">
+            <summary>Получает или задает поведение экземпляра.</summary>
+        </member>
+        <member name="P:DataAdminCommonLib.Fakes.StubDataNormalizatorMessageFactory.InstanceObserver">
+            <summary>Получает или задает наблюдатель экземпляра.</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.StubIDataAdminService">
+            <summary>Тип заглушки DataAdminCommonLib.IDataAdminService</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.#ctor">
+            <summary>Инициализирует новый экземпляр type StubIDataAdminService</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.BlockClientString">
+            <summary>Задает stub IDataAdminService.BlockClient(String username)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.ChangePrivilegeStringDataAdminMessageFactoryChangePrivilage">
+            <summary>Задает stub IDataAdminService.ChangePrivilege(String username, ChangePrivilage newprivilege)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#BlockClient(System.String)">
+            <summary>Задает заглушка IDataAdminService.BlockClient(String username)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#ChangePrivilege(System.String,DataAdminCommonLib.DataAdminMessageFactory.ChangePrivilage)">
+            <summary>Задает заглушка IDataAdminService.ChangePrivilege(String username, ChangePrivilage newprivilege)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#DeletedByAdmin">
+            <summary>Задает заглушка IDataAdminService.DeletedByAdmin()</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#Login(DataAdminCommonLib.DataAdminMessageFactory.LoginMessage)">
+            <summary>Задает заглушка IDataAdminService.Login(LoginMessage loginParams)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#Logout(System.String,System.String)">
+            <summary>Задает заглушка IDataAdminService.Logout(String msg, String username)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#Ping">
+            <summary>Задает заглушка IDataAdminService.Ping()</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#ResponseFromTNStopping">
+            <summary>Задает заглушка IDataAdminService.ResponseFromTNStopping()</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendActivateMsgToClient(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendActivateMsgToClient(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendAllowedSymbolGroups(System.Object)">
+            <summary>Задает заглушка IDataAdminService.SendAllowedSymbolGroups(Object symbGroupList)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendAllowedSymbolList(System.Object)">
+            <summary>Задает заглушка IDataAdminService.SendAllowedSymbolList(Object symbolList)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendConnectionString(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendConnectionString(String connectionString)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendDexportLogin(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendDexportLogin(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendDexportLogout(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendDexportLogout(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendDexportPermission(DataAdminCommonLib.DataAdminMessageFactory.ChangePrivilage)">
+            <summary>Задает заглушка IDataAdminService.SendDexportPermission(ChangePrivilage msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendGroupCollectRequest(DataAdminCommonLib.DataAdminMessageFactory.TickNetCollectMsg)">
+            <summary>Задает заглушка IDataAdminService.SendGroupCollectRequest(TickNetCollectMsg msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendMessagageToClient(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendMessagageToClient(String message)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendMessageToServer(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendMessageToServer(String message)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendMessageToTicknetClient(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendMessageToTicknetClient(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendSymbolCollectRequest(DataAdminCommonLib.DataAdminMessageFactory.TickNetCollectMsg)">
+            <summary>Задает заглушка IDataAdminService.SendSymbolCollectRequest(TickNetCollectMsg msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SendWaitToClients(System.String)">
+            <summary>Задает заглушка IDataAdminService.SendWaitToClients(String message)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#SymbolPermissionChangedByAdmin(System.String)">
+            <summary>Задает заглушка IDataAdminService.SymbolPermissionChangedByAdmin(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#onLogon(System.Boolean,DataAdminCommonLib.DataAdminMessageFactory.ChangePrivilage)">
+            <summary>Задает заглушка IDataAdminService.onLogon(Boolean logged, ChangePrivilage getprivilages)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#onSymbolGroupListRecieved(System.String)">
+            <summary>Задает заглушка IDataAdminService.onSymbolGroupListRecieved(String symbolGroupList)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataAdminService.dacl::DataAdminCommonLib#IDataAdminService#onSymbolListRecieved(System.String)">
+            <summary>Задает заглушка IDataAdminService.onSymbolListRecieved(String symbolList)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.DeletedByAdmin">
+            <summary>Задает stub IDataAdminService.DeletedByAdmin()</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.LoginDataAdminMessageFactoryLoginMessage">
+            <summary>Задает stub IDataAdminService.Login(LoginMessage loginParams)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.LogoutStringString">
+            <summary>Задает stub IDataAdminService.Logout(String msg, String username)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.OnLogonBooleanDataAdminMessageFactoryChangePrivilage">
+            <summary>Задает stub IDataAdminService.onLogon(Boolean logged, ChangePrivilage getprivilages)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.OnSymbolGroupListRecievedString">
+            <summary>Задает stub IDataAdminService.onSymbolGroupListRecieved(String symbolGroupList)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.OnSymbolListRecievedString">
+            <summary>Задает stub IDataAdminService.onSymbolListRecieved(String symbolList)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.Ping">
+            <summary>Задает stub IDataAdminService.Ping()</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.ResponseFromTNStopping">
+            <summary>Задает stub IDataAdminService.ResponseFromTNStopping()</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendActivateMsgToClientString">
+            <summary>Задает stub IDataAdminService.SendActivateMsgToClient(String msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendAllowedSymbolGroupsObject">
+            <summary>Задает stub IDataAdminService.SendAllowedSymbolGroups(Object symbGroupList)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendAllowedSymbolListObject">
+            <summary>Задает stub IDataAdminService.SendAllowedSymbolList(Object symbolList)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendConnectionStringString">
+            <summary>Задает stub IDataAdminService.SendConnectionString(String connectionString)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendDexportLoginString">
+            <summary>Задает stub IDataAdminService.SendDexportLogin(String msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendDexportLogoutString">
+            <summary>Задает stub IDataAdminService.SendDexportLogout(String msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendDexportPermissionDataAdminMessageFactoryChangePrivilage">
+            <summary>Задает stub IDataAdminService.SendDexportPermission(ChangePrivilage msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendGroupCollectRequestDataAdminMessageFactoryTickNetCollectMsg">
+            <summary>Задает stub IDataAdminService.SendGroupCollectRequest(TickNetCollectMsg msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendMessagageToClientString">
+            <summary>Задает stub IDataAdminService.SendMessagageToClient(String message)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendMessageToServerString">
+            <summary>Задает stub IDataAdminService.SendMessageToServer(String message)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendMessageToTicknetClientString">
+            <summary>Задает stub IDataAdminService.SendMessageToTicknetClient(String msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendSymbolCollectRequestDataAdminMessageFactoryTickNetCollectMsg">
+            <summary>Задает stub IDataAdminService.SendSymbolCollectRequest(TickNetCollectMsg msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SendWaitToClientsString">
+            <summary>Задает stub IDataAdminService.SendWaitToClients(String message)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataAdminService.SymbolPermissionChangedByAdminString">
+            <summary>Задает stub IDataAdminService.SymbolPermissionChangedByAdmin(String msg)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.StubIDataNetLogService">
+            <summary>Тип заглушки DataAdminCommonLib.IDataNetLogService</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNetLogService.#ctor">
+            <summary>Инициализирует новый экземпляр type StubIDataNetLogService</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNetLogService.dacl::DataAdminCommonLib#IDataNetLogService#SendDexportLog(DataAdminCommonLib.DataAdminMessageFactory.LogMessage)">
+            <summary>Задает заглушка IDataNetLogService.SendDexportLog(LogMessage msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNetLogService.dacl::DataAdminCommonLib#IDataNetLogService#SendDexportSimpleLog(System.String)">
+            <summary>Задает заглушка IDataNetLogService.SendDexportSimpleLog(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNetLogService.dacl::DataAdminCommonLib#IDataNetLogService#SendFinishedOperationLog(DataAdminCommonLib.DataAdminMessageFactory.LogMessage)">
+            <summary>Задает заглушка IDataNetLogService.SendFinishedOperationLog(LogMessage msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNetLogService.dacl::DataAdminCommonLib#IDataNetLogService#SendSimpleLog(DataAdminCommonLib.DataAdminMessageFactory.LogMessage)">
+            <summary>Задает заглушка IDataNetLogService.SendSimpleLog(LogMessage msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNetLogService.dacl::DataAdminCommonLib#IDataNetLogService#SendStartedOperationLog(DataAdminCommonLib.DataAdminMessageFactory.LogMessage)">
+            <summary>Задает заглушка IDataNetLogService.SendStartedOperationLog(LogMessage msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNetLogService.SendDexportLogDataAdminMessageFactoryLogMessage">
+            <summary>Задает stub IDataNetLogService.SendDexportLog(LogMessage msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNetLogService.SendDexportSimpleLogString">
+            <summary>Задает stub IDataNetLogService.SendDexportSimpleLog(String msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNetLogService.SendFinishedOperationLogDataAdminMessageFactoryLogMessage">
+            <summary>Задает stub IDataNetLogService.SendFinishedOperationLog(LogMessage msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNetLogService.SendSimpleLogDataAdminMessageFactoryLogMessage">
+            <summary>Задает stub IDataNetLogService.SendSimpleLog(LogMessage msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNetLogService.SendStartedOperationLogDataAdminMessageFactoryLogMessage">
+            <summary>Задает stub IDataNetLogService.SendStartedOperationLog(LogMessage msg)</summary>
+        </member>
+        <member name="T:DataAdminCommonLib.Fakes.StubIDataNormalizatorService">
+            <summary>Тип заглушки DataAdminCommonLib.IDataNormalizatorService</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.#ctor">
+            <summary>Инициализирует новый экземпляр type StubIDataNormalizatorService</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.ActivateClientString">
+            <summary>Задает stub IDataNormalizatorService.ActivateClient(String symbol)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.AllCollectFinished">
+            <summary>Задает stub IDataNormalizatorService.AllCollectFinished()</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.ClientActivatedString">
+            <summary>Задает stub IDataNormalizatorService.ClientActivated(String userName)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.ClientDeactivatedString">
+            <summary>Задает stub IDataNormalizatorService.ClientDeactivated(String symbol)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.CollectFinishedString">
+            <summary>Задает stub IDataNormalizatorService.CollectFinished(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#ActivateClient(System.String)">
+            <summary>Задает заглушка IDataNormalizatorService.ActivateClient(String symbol)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#AllCollectFinished">
+            <summary>Задает заглушка IDataNormalizatorService.AllCollectFinished()</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#ClientActivated(System.String)">
+            <summary>Задает заглушка IDataNormalizatorService.ClientActivated(String userName)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#ClientDeactivated(System.String)">
+            <summary>Задает заглушка IDataNormalizatorService.ClientDeactivated(String symbol)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#CollectFinished(System.String)">
+            <summary>Задает заглушка IDataNormalizatorService.CollectFinished(String msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#DeactivateClient(System.String,System.String)">
+            <summary>Задает заглушка IDataNormalizatorService.DeactivateClient(String usrName, String symbolList)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#Login(DataAdminCommonLib.DataNormalizatorMessageFactory.LoginMessage)">
+            <summary>Задает заглушка IDataNormalizatorService.Login(LoginMessage msg)</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#Logout">
+            <summary>Задает заглушка IDataNormalizatorService.Logout()</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#RefreshSymbols">
+            <summary>Задает заглушка IDataNormalizatorService.RefreshSymbols()</summary>
+        </member>
+        <member name="M:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.dacl::DataAdminCommonLib#IDataNormalizatorService#TickNetCollectRequest(DataAdminCommonLib.DataNormalizatorMessageFactory.TickNetCollectRequest)">
+            <summary>Задает заглушка IDataNormalizatorService.TickNetCollectRequest(TickNetCollectRequest request)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.DeactivateClientStringString">
+            <summary>Задает stub IDataNormalizatorService.DeactivateClient(String usrName, String symbolList)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.LoginDataNormalizatorMessageFactoryLoginMessage">
+            <summary>Задает stub IDataNormalizatorService.Login(LoginMessage msg)</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.Logout">
+            <summary>Задает stub IDataNormalizatorService.Logout()</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.RefreshSymbols">
+            <summary>Задает stub IDataNormalizatorService.RefreshSymbols()</summary>
+        </member>
+        <member name="F:DataAdminCommonLib.Fakes.StubIDataNormalizatorService.TickNetCollectRequestDataNormalizatorMessageFactoryTickNetCollectRequest">
+            <summary>Задает stub IDataNormalizatorService.TickNetCollectRequest(TickNetCollectRequest request)</summary>
+        </member>
+    </members>
+</doc>
