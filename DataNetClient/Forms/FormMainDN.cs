@@ -22,7 +22,7 @@ using Hik.Communication.Scs.Communication.EndPoints.Tcp;
 using Hik.Communication.ScsServices.Client;
 using Timer = System.Windows.Forms.Timer;
 using DevComponents.DotNetBar.Metro.ColorTables;
-
+ 
 
 namespace DataNetClient.Forms
 {

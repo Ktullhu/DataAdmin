@@ -16,7 +16,7 @@ namespace DataNetClient.Core
 
         #region EVENTS
 
-
+         
         public delegate void RaiseMissingBarStart(string symbolName);
         public event RaiseMissingBarStart MissingBarStart;
 
