@@ -17,5 +17,8 @@
         public bool AllowAnyIp;
         public bool AllowMissBars;
         public bool AllowCollectFrCqg;
+        public bool AllowDexport;
+
+        public string AdditionalPrivilege;
     }
 }

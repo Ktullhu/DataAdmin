@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using DataAdmin.Core.DbConnector.Structs;
-using DataAdmin.Properties;
 using MySql.Data.MySqlClient;
+using DADataManager.Models;
 
-namespace DataAdmin.Core.DbConnector
+namespace DADataManager
 {
-    class PleaseDropTablesException : Exception
+    public class PleaseDropTablesException : Exception
     {
         public PleaseDropTablesException(string tableName)
             : base(String.Format("Thare are some troubles with table's structure.\n" +
@@ -17,7 +16,7 @@ namespace DataAdmin.Core.DbConnector
         public PleaseDropTablesException(string message, Exception inner) : base(message, inner) { }
     }
 
-    class TimeOutException : Exception
+    public class TimeOutException : Exception
     {
         public TimeOutException()
             : base("Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.\n"
@@ -27,7 +26,7 @@ namespace DataAdmin.Core.DbConnector
 
     }
 
-    static class DataManager
+    public static class DataManager
     {
         #region VARIABLES
 

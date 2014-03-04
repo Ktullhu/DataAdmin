@@ -2,7 +2,7 @@ using System;
 using System.Windows.Forms;
 using CQG;
 using DataAdmin.Core;
-using DataAdmin.Core.DbConnector;
+using DADataManager;
 
 namespace DataAdmin.Forms
 {

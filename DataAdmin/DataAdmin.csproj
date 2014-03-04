@@ -92,11 +92,6 @@
     <Compile Include="Core\ClientManager\DataAdminService.cs" />
     <Compile Include="Core\ClientManager\DataClient.cs" />
     <Compile Include="Core\DataNetLogService.cs" />
-    <Compile Include="Core\DbConnector\AdminDataManager.cs" />
-    <Compile Include="Core\DbConnector\Structs\GroupModel.cs" />
-    <Compile Include="Core\DbConnector\Structs\LogModel.cs" />
-    <Compile Include="Core\DbConnector\Structs\SymbolModel.cs" />
-    <Compile Include="Core\DbConnector\Structs\UserModel.cs" />
     <Compile Include="Core\ErrorMonitor.cs" />
     <Compile Include="Forms\AddUserControl.cs">
       <SubType>UserControl</SubType>
@@ -251,6 +246,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DADataManager\DADataManager.csproj">
+      <Project>{18a692c5-e628-459f-b896-b5218f63fb6f}</Project>
+      <Name>DADataManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAdminCommonLib\DataAdminCommonLib.csproj">
       <Project>{bce344e1-3526-456f-9533-dd9df090d9cc}</Project>
       <Name>DataAdminCommonLib</Name>

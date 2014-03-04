@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminDataManager.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataExportClientDataManager.cs" />
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\MonthCharYearModel.cs" />
     <Compile Include="Models\ReportItem.cs" />
     <Compile Include="Models\DailyValueModel.cs" />

@@ -8,11 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using DataAdmin.Core.DbConnector;
-using DataAdmin.Core.DbConnector.Structs;
 using Hik.Collections;
 using Hik.Communication.ScsServices.Service;
 using DataAdminCommonLib;
+using DADataManager.Models;
+using DADataManager;
 
 namespace DataAdmin.Core.ClientManager
 {

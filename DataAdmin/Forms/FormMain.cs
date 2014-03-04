@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DataAdmin.Core;
 using DataAdmin.Core.ClientManager;
-using DataAdmin.Core.DbConnector;
-using DataAdmin.Core.DbConnector.Structs;
 using DataAdmin.Core.InfoDisplayers.UserDetailManager;
 using DataAdmin.Properties;
 using DataAdminCommonLib;
@@ -18,6 +16,8 @@ using DevComponents.DotNetBar;
 using DevComponents.DotNetBar.Metro;
 using Hik.Communication.Scs.Communication.EndPoints.Tcp;
 using Hik.Communication.ScsServices.Service;
+using DADataManager;
+using DADataManager.Models;
 
 namespace DataAdmin.Forms
 {

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DataAdmin.Core.DbConnector;
-using DataAdmin.Core.DbConnector.Structs;
+
 using DataAdmin.UserDetailsDataTable;
+using DADataManager;
+using DADataManager.Models;
 
 namespace DataAdmin.Core.InfoDisplayers.UserDetailManager
 {
