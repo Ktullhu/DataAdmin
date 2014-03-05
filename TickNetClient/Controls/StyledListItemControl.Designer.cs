@@ -127,6 +127,8 @@
             this.labelX_time1.Text = "12:00";
             this.labelX_time1.TextAlignment = System.Drawing.StringAlignment.Center;
             this.toolTip1.SetToolTip(this.labelX_time1, "Scheduled date/time");
+            this.labelX_time1.MouseLeave += new System.EventHandler(this.panelEx_back_MouseLeave);
+            this.labelX_time1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEx_back_MouseMove);
             // 
             // labelX_isAutoCollectEnabled
             // 
@@ -147,6 +149,8 @@
             this.labelX_isAutoCollectEnabled.TabIndex = 12;
             this.toolTip1.SetToolTip(this.labelX_isAutoCollectEnabled, "Auto Collect enabled");
             this.labelX_isAutoCollectEnabled.Visible = false;
+            this.labelX_isAutoCollectEnabled.MouseLeave += new System.EventHandler(this.panelEx_back_MouseLeave);
+            this.labelX_isAutoCollectEnabled.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEx_back_MouseMove);
             // 
             // labelX_settings
             // 
@@ -185,6 +189,8 @@
             this.labelX_depth.Text = "5";
             this.labelX_depth.TextAlignment = System.Drawing.StringAlignment.Center;
             this.toolTip1.SetToolTip(this.labelX_depth, "Depth");
+            this.labelX_depth.MouseLeave += new System.EventHandler(this.panelEx_back_MouseLeave);
+            this.labelX_depth.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEx_back_MouseMove);
             // 
             // labelX_title
             // 

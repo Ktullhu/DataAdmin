@@ -202,7 +202,8 @@ namespace TickNetClient.Controls
         
         private void panelEx_back_MouseMove(object sender, MouseEventArgs e)
         {
-            
+            panelEx_back.Style.BackColor1.Color = Color.FromArgb(150,220,240,220);
+
             if (ItemState != GroupState.NotInQueue)
             {
                 panelEx_left.BackColor =
@@ -219,7 +220,9 @@ namespace TickNetClient.Controls
         }
 
         private void panelEx_back_MouseLeave(object sender, System.EventArgs e)
-        {            
+        {
+            panelEx_back.Style.BackColor1.Color = Color.White;
+
             labelX_count.ForeColor = Color.Black;
             panelEx_left.BackColor = ItemState!= GroupState.NotInQueue ? _mainColor :
             Color.White;
@@ -232,12 +235,14 @@ namespace TickNetClient.Controls
 
         private void labelX_settings_MouseMove(object sender, MouseEventArgs e)
         {
+            panelEx_back.Style.BackColor1.Color = Color.FromArgb(150,220, 240, 220);
             labelX_settings.SymbolColor = Color.Green;
         }
 
         private void labelX_settings_MouseLeave(object sender, EventArgs e)
         {
             labelX_settings.SymbolColor = Color.LightGreen;
+            panelEx_back.Style.BackColor1.Color = Color.White;
         }
 
 

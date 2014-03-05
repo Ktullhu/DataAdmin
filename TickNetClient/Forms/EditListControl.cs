@@ -6,6 +6,7 @@ using CQG;
 using TickNetClient.Core;
 using DADataManager.Models;
 using DADataManager;
+using DevComponents.DotNetBar;
 
 
 namespace TickNetClient.Forms
@@ -99,7 +100,23 @@ namespace TickNetClient.Forms
             LoadSymbols();
 
             LoadSessions();
-            
+
+            LoadExistingSessions();
+        }
+
+        private void LoadExistingSessions()
+        {
+            comboBoxEx_existigsSessions.Items.Clear();
+            var sessionsList = DatabaseManager.GetSessions();
+            addedSessions = new List<SessionModel>();
+            foreach (var sessions in sessionsList)
+            {
+                if (!addedSessions.Exists(oo=>oo.Name == sessions.Name))
+                {
+                    comboBoxEx_existigsSessions.Items.Add( " [" + sessions.TimeStart.ToShortTimeString() + " - " + sessions.TimeEnd.ToShortTimeString() + "]" + (sessions.IsStartYesterday ? "SY" : "  ") + " (" + sessions.Days + ")   "+sessions.Name);
+                    addedSessions.Add(sessions);
+                }
+            }
         }
 
         private void LoadSessions()
@@ -136,13 +153,6 @@ namespace TickNetClient.Forms
 
         private void buttonX_add_Click(object sender, EventArgs e)
         {
-            var res = listViewEx_times.Items.Add(listViewEx_times.Items.Count.ToString());
-            res.SubItems.Add(textBoxX_sessionsName.Text); 
-            res.SubItems.Add(dateTimeInput1.Value.ToShortTimeString());
-            res.SubItems.Add(dateTimeInput2.Value.ToShortTimeString());
-            
-            res.SubItems.Add(checkBox_sy.Checked.ToString());
-            res.SubItems.Add(GetDaysStr());
 
             var sess = new SessionModel {
                 Id= -1,
@@ -153,6 +163,7 @@ namespace TickNetClient.Forms
                 TimeEnd = dateTimeInput2.Value,
             };
 
+            AddSessionToList(sess);
             DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
 
         }
@@ -173,14 +184,14 @@ namespace TickNetClient.Forms
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listViewEx_times.SelectedItems.Count <= 0) return;
+            if (listViewEx_times.SelectedItems.Count <= 0) return;            
             var index = listViewEx_times.SelectedIndices[0];
             var name = listViewEx_times.Items[index].SubItems[1].Text;
 
             listViewEx_times.Items.RemoveAt(index);
             
-
-            var id =DatabaseManager.GetSessionsInGroup(GroupId).Find(oo=>oo.Name.ToUpper() == name.ToUpper()).Id;
+            var sess= DatabaseManager.GetSessionsInGroup(GroupId);
+            var id =sess.Find(oo=>oo.Name.ToUpper() == name.ToUpper()).Id;
 
             DatabaseManager.RemoveSession(GroupId, id);
         } 
@@ -192,12 +203,48 @@ namespace TickNetClient.Forms
 
         private void comboBox_AutoCollec_CheckedChanged(object sender, EventArgs e)
         {
-            panelEx1.Enabled = checkBox_AutoCollec.Checked;
+            panelEx1.Enabled = panelEx4.Enabled= panelEx3.Enabled = checkBox_AutoCollec.Checked;
         }
 
         public bool GetIsAutoModeEnabled()
         {
             return checkBox_AutoCollec.Checked;
+        }
+
+        public List<SessionModel> addedSessions { get; set; }
+
+        private void buttonX1_Click(object sender, EventArgs e)
+        {
+            var ind = comboBoxEx_existigsSessions.SelectedIndex; 
+            if (ind== -1)
+            {
+                ToastNotification.Show(panelEx4,"Please, choose any session.");
+                return;
+            }
+
+
+            var sess = new SessionModel
+            {
+                Id = -1,
+                Name = addedSessions[ind].Name,
+                IsStartYesterday = addedSessions[ind].IsStartYesterday,
+                Days = addedSessions[ind].Days,
+                TimeStart = addedSessions[ind].TimeStart,
+                TimeEnd = addedSessions[ind].TimeEnd,
+            };
+            AddSessionToList(sess);
+            DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
+        }
+
+        private void AddSessionToList(SessionModel sess)
+        {
+            var res = listViewEx_times.Items.Add(listViewEx_times.Items.Count.ToString());
+            res.SubItems.Add(sess.Name);
+            res.SubItems.Add(sess.TimeStart.ToShortTimeString());
+            res.SubItems.Add(sess.TimeEnd.ToShortTimeString());
+
+            res.SubItems.Add(sess.IsStartYesterday.ToString());
+            res.SubItems.Add(sess.Days);
         }
     }
 }

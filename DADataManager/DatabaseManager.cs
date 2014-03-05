@@ -2297,6 +2297,31 @@ namespace DADataManager
 
         #region SESSIONS
 
+        public static List<SessionModel> GetSessions()
+        {
+            var symbolsList = new List<SessionModel>();
+            var sql = DAQueryBuilder.GetSessionsSql();
+            var reader = GetReader(sql);
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    var session = new SessionModel
+                    {
+                        Id = reader.GetInt32("Id"),
+                        Name = reader.GetString("Name"),
+                        IsStartYesterday = reader.GetBoolean("IsStartYesterday"),
+                        TimeStart = reader.GetDateTime("StartTime"),
+                        TimeEnd = reader.GetDateTime("EndTime"),
+                        Days = reader.GetString("Days")
+                    };
+                    symbolsList.Add(session);
+                }
+                reader.Close();
+            }
+            return symbolsList;
+        }
+
         public static List<SessionModel> GetSessionsInGroup(int groupId)
         {
             var symbolsList = new List<SessionModel>();
@@ -2349,6 +2374,7 @@ namespace DADataManager
             var sql = DAQueryBuilder.GetRemoveSessionSql(groupId, sessionId);
             DoSql(sql);
         }
+
         
         #endregion
 

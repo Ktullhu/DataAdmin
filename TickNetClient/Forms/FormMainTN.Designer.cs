@@ -48,6 +48,7 @@ namespace TickNetClient.Forms
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panelEx9 = new DevComponents.DotNetBar.PanelEx();
+            this.styledListControl_groups = new TickNetClient.Controls.StyledListControl();
             this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.panelEx4 = new DevComponents.DotNetBar.PanelEx();
             this.panelEx12 = new DevComponents.DotNetBar.PanelEx();
@@ -146,7 +147,6 @@ namespace TickNetClient.Forms
             this.labelItem_server = new DevComponents.DotNetBar.LabelItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer_scheduler = new System.Windows.Forms.Timer(this.components);
-            this.styledListControl_groups = new TickNetClient.Controls.StyledListControl();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -297,7 +297,7 @@ namespace TickNetClient.Forms
             this.linkLabel_sort_time.AutoSize = true;
             this.linkLabel_sort_time.ForeColor = System.Drawing.Color.Black;
             this.linkLabel_sort_time.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel_sort_time.Location = new System.Drawing.Point(170, 10);
+            this.linkLabel_sort_time.Location = new System.Drawing.Point(170, 15);
             this.linkLabel_sort_time.Name = "linkLabel_sort_time";
             this.linkLabel_sort_time.Size = new System.Drawing.Size(30, 13);
             this.linkLabel_sort_time.TabIndex = 37;
@@ -313,7 +313,7 @@ namespace TickNetClient.Forms
             this.linkLabel_sort_tf.AutoSize = true;
             this.linkLabel_sort_tf.ForeColor = System.Drawing.Color.Black;
             this.linkLabel_sort_tf.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel_sort_tf.Location = new System.Drawing.Point(130, 10);
+            this.linkLabel_sort_tf.Location = new System.Drawing.Point(130, 15);
             this.linkLabel_sort_tf.Name = "linkLabel_sort_tf";
             this.linkLabel_sort_tf.Size = new System.Drawing.Size(39, 13);
             this.linkLabel_sort_tf.TabIndex = 36;
@@ -329,7 +329,7 @@ namespace TickNetClient.Forms
             this.linkLabel_sort_name.AutoSize = true;
             this.linkLabel_sort_name.ForeColor = System.Drawing.Color.Black;
             this.linkLabel_sort_name.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel_sort_name.Location = new System.Drawing.Point(92, 10);
+            this.linkLabel_sort_name.Location = new System.Drawing.Point(92, 15);
             this.linkLabel_sort_name.Name = "linkLabel_sort_name";
             this.linkLabel_sort_name.Size = new System.Drawing.Size(36, 13);
             this.linkLabel_sort_name.TabIndex = 35;
@@ -346,7 +346,7 @@ namespace TickNetClient.Forms
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.ForeColor = System.Drawing.Color.Black;
             this.linkLabel2.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel2.Location = new System.Drawing.Point(241, 10);
+            this.linkLabel2.Location = new System.Drawing.Point(241, 15);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(35, 13);
             this.linkLabel2.TabIndex = 27;
@@ -362,7 +362,7 @@ namespace TickNetClient.Forms
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.ForeColor = System.Drawing.Color.Black;
             this.linkLabel1.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel1.Location = new System.Drawing.Point(220, 10);
+            this.linkLabel1.Location = new System.Drawing.Point(222, 15);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(20, 13);
             this.linkLabel1.TabIndex = 26;
@@ -386,6 +386,18 @@ namespace TickNetClient.Forms
             this.panelEx9.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
             this.panelEx9.Style.GradientAngle = 90;
             this.panelEx9.TabIndex = 25;
+            // 
+            // styledListControl_groups
+            // 
+            this.styledListControl_groups.BackColor = System.Drawing.Color.White;
+            this.styledListControl_groups.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.styledListControl_groups.ForeColor = System.Drawing.Color.Black;
+            this.styledListControl_groups.Location = new System.Drawing.Point(1, 1);
+            this.styledListControl_groups.Name = "styledListControl_groups";
+            this.styledListControl_groups.SelectedItem = -1;
+            this.styledListControl_groups.Size = new System.Drawing.Size(274, 397);
+            this.styledListControl_groups.StateChangingEnabled = false;
+            this.styledListControl_groups.TabIndex = 24;
             // 
             // labelX7
             // 
@@ -701,7 +713,7 @@ namespace TickNetClient.Forms
             this.linkLabel3.AutoSize = true;
             this.linkLabel3.ForeColor = System.Drawing.Color.Black;
             this.linkLabel3.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel3.Location = new System.Drawing.Point(116, 9);
+            this.linkLabel3.Location = new System.Drawing.Point(116, 14);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(17, 13);
             this.linkLabel3.TabIndex = 31;
@@ -717,7 +729,7 @@ namespace TickNetClient.Forms
             this.linkLabel_edit.AutoSize = true;
             this.linkLabel_edit.ForeColor = System.Drawing.Color.Black;
             this.linkLabel_edit.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel_edit.Location = new System.Drawing.Point(139, 10);
+            this.linkLabel_edit.Location = new System.Drawing.Point(139, 15);
             this.linkLabel_edit.Name = "linkLabel_edit";
             this.linkLabel_edit.Size = new System.Drawing.Size(27, 13);
             this.linkLabel_edit.TabIndex = 28;
@@ -1248,7 +1260,7 @@ namespace TickNetClient.Forms
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ui_DomTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.ui_DomTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1422,7 +1434,7 @@ namespace TickNetClient.Forms
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ui_TickTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.ui_TickTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1680,18 +1692,6 @@ namespace TickNetClient.Forms
             // 
             this.timer_scheduler.Interval = 10000;
             this.timer_scheduler.Tick += new System.EventHandler(this.timer_scheduler_Tick);
-            // 
-            // styledListControl_groups
-            // 
-            this.styledListControl_groups.BackColor = System.Drawing.Color.White;
-            this.styledListControl_groups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.styledListControl_groups.ForeColor = System.Drawing.Color.Black;
-            this.styledListControl_groups.Location = new System.Drawing.Point(1, 1);
-            this.styledListControl_groups.Name = "styledListControl_groups";
-            this.styledListControl_groups.SelectedItem = -1;
-            this.styledListControl_groups.Size = new System.Drawing.Size(274, 397);
-            this.styledListControl_groups.StateChangingEnabled = false;
-            this.styledListControl_groups.TabIndex = 24;
             // 
             // FormMainTN
             // 

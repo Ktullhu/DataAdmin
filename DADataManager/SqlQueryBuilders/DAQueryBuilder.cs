@@ -188,8 +188,7 @@ namespace DADataManager.SqlQueryBuilders
 
         internal static string GetRemoveSessionSql(int groupId, int sessionId)
         {
-            string sql = "DELETE FROM "+TblSessions +" WHERE Id = "+sessionId
-                +"; DELETE FROM "+TblSessionsForGroups+" WHERE SessionId="+sessionId+" AND GroupId="+groupId+"; COMMIT;";
+            string sql = " DELETE FROM "+TblSessionsForGroups+" WHERE Id="+sessionId+" AND GroupId="+groupId+"; COMMIT;";
             return sql;
         }
 
@@ -200,5 +199,17 @@ namespace DADataManager.SqlQueryBuilders
 
 
 
+
+        internal static string GetSessionsSql()
+        {
+            string sql = "SELECT * FROM " + TblSessions;
+            return sql;
+        }
+
+        internal static string RemoveSessionSql(int sessionId)
+        {
+            string sql = "DELETE FROM " + TblSessions + " WHERE Id = " + sessionId;
+            return sql;
+        }
     }
 }
