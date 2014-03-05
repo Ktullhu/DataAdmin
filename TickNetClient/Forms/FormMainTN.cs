@@ -141,7 +141,7 @@ namespace TickNetClient.Forms
         private void Form1_Load(object sender, EventArgs e)
         {
             try
-            {
+            {                
                 DatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
 
                 if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0, 0);
@@ -560,7 +560,8 @@ namespace TickNetClient.Forms
 
         private void CollectDeactivated(string symbol)
         {
-            _sdr.DenySymbol(symbol);
+            LiveTickCollectorManager.DeactivateInserting(symbol);
+            //_sdr.DenySymbol(symbol);
             Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.ClientDeactivated(symbol));
         }
 
@@ -569,7 +570,8 @@ namespace TickNetClient.Forms
         {
             lock (_lockerActivated)
             {
-                _sdr.AllowSymbol(symbol);
+                //_sdr.AllowSymbol(symbol);
+                LiveTickCollectorManager.ActivateInserting(symbol);
             }
         }
 
@@ -654,6 +656,10 @@ namespace TickNetClient.Forms
             _connectionToSharedDb = "SERVER=" + host + "; Port=3306; DATABASE=" + dbName + "; UID=" + usName + "; PASSWORD=" + passw;
             _connectionToSharedDbLive = "SERVER=" + host + "; Port=3306; DATABASE=" + dbNameLive + "; UID=" + usName + "; PASSWORD=" + passw;
             SetPrivilages(msg);
+
+            LiveTickCollectorManager.Init(liveSymbolsList_symbols, _client.UserName);
+            LiveTickCollectorManager.SymbolSubscribed += LiveTickCollectorManager_SymbolSubscribed;
+
         }
 
         private void ChangedPrivileges(object sender, DataAdminMessageFactory.ChangePrivilage msg)
@@ -861,7 +867,8 @@ namespace TickNetClient.Forms
             //styledListControl_groups.ClearItems();
             var groups = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet);
             groups = OrderListOfGroups(DatabaseManager.SortingModeIsAsc, groups);
-
+            Invoke((Action)(() => { 
+            
 
             styledListControl_groups.SetItemsCount(groups.Count);
 
@@ -885,6 +892,7 @@ namespace TickNetClient.Forms
                 styledListControl_groups.SetItem(i, groupModel.GroupName, groupModel.Depth, GroupState.NotInQueue,
                     groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.IsAutoModeEnabled);
             }
+            }));
         }
 
         private List<GroupModel> OrderListOfGroups(bool asc, List<GroupModel> list)
@@ -1278,7 +1286,6 @@ namespace TickNetClient.Forms
                 _sdr.SymbolSubscribed -= CollectRequest;
                 _sdr = null;
             }
-            fg();
 
 
             if (DatabaseManager.CurrentDbIsShared && symbols.Count > 0 && canSendlog && _normalizerStatus)
@@ -1287,24 +1294,6 @@ namespace TickNetClient.Forms
             }
         }
 
-        void fg()
-        {
-            Invoke((Action)delegate
-                {
-                    ui_collect_buttonX_start.Enabled = ui_collect_buttonX_startGroup.Enabled = ui_listBox_symbols.Enabled =
-                                                        styledListControl_groups.Enabled = true;
-
-                    ui_collect_buttonX_stop.Enabled = false;
-
-                    ui_buttonX_localConnect.Enabled = true;
-                    ui_buttonX_shareConnect.Enabled = true;
-
-                    ui__status_labelItem_status.Text = @"READY";
-
-                    ui_componentList.Controls.Clear();
-                    //ui_componentList.RowCount = 0;
-                });
-        }
 
         private void ui_collect_buttonX_start_Click(object sender, EventArgs e)
         {
@@ -1313,10 +1302,19 @@ namespace TickNetClient.Forms
                 ui__status_labelItem_status.Text = @"Please, select the instruments.";
                 return;
             }
-            ui__status_labelItem_status.Text = @"Started...";
+            DatabaseManager.MaxQueueSize = (int)ui_SQL_PacketSize.Value;
+            DatabaseManager.MaxBufferSize = (int)ui_BufferSizeValue.Value;
+
             var symbols = ui_listBox_symbols.SelectedItems.Cast<object>().Cast<string>().ToList();
-            StartCollect(symbols, false, 0);
-            StartCollectingThisSymbols(symbols, (int)ui_nudDOMDepth.Value);
+
+
+            LiveTickCollectorManager.StartFromList( symbols, (int)ui_nudDOMDepth.Value);
+           
+        }
+
+        void LiveTickCollectorManager_SymbolSubscribed(string symbols, int depth)
+        {
+            CollectRequest(new List<string> { symbols }, depth);
         }
 
         private void ui_collect_buttonX_startGroup_Click(object sender, EventArgs e)
@@ -1326,8 +1324,8 @@ namespace TickNetClient.Forms
             {
                 if(gitem.GroupState == GroupState.InQueue)
                 {
-                    StartCollect(gitem.AllSymbols, true, gitem.GroupModel.GroupId);
-                    StartCollectingThisSymbols(gitem.AllSymbols, gitem.GroupModel.Depth);
+                    //StartCollect(gitem.AllSymbols, true, gitem.GroupModel.GroupId);
+                   // StartCollectingThisSymbols(gitem.AllSymbols, gitem.GroupModel.Depth);
                 }
             }
 
@@ -1336,7 +1334,6 @@ namespace TickNetClient.Forms
 
         private void StartCollect(List<string> symbols, bool isGroup, int groupID)
         {
-            ui_componentList.HorizontalScroll.Visible = true;
             if (symbols.Count == 0) return;
 
             ui_buttonX_localConnect.Enabled = false;
@@ -1348,9 +1345,7 @@ namespace TickNetClient.Forms
             //ui_componentList.ColumnCount = 1;
             //ui_componentList.AutoSize = true;
             //ui_componentList.AutoSizeMode = AutoSizeMode.GrowOnly;
-            ui_componentList.AutoScroll = true;
-            //
-            ui_componentList.MaximumSize = ui_componentList.Size;
+
 
             _connector = new CQGConnector();
 
@@ -1432,7 +1427,7 @@ namespace TickNetClient.Forms
                 
 
                 //ui_componentList.RowCount = i;
-                ui_componentList.Controls.Add(container);
+               // ui_componentList.Controls.Add(container);
 
                 _sdr.AddSymbol(symbols[i], message);
             }
@@ -1445,8 +1440,7 @@ namespace TickNetClient.Forms
             ui_collect_buttonX_start.Enabled =
                 ui_collect_buttonX_startGroup.Enabled =
                 ui_listBox_symbols.Enabled =
-                styledListControl_groups.Enabled = false;
-            ui_collect_buttonX_stop.Enabled = true;
+                styledListControl_groups.Enabled = false;            
         }
 
 
@@ -1514,8 +1508,7 @@ namespace TickNetClient.Forms
                 //ui_componentList.RowCount = ui_componentList.Controls.Count;
                 canSendLog = false;
             }
-            if (ui_componentList.Controls.Count == 0)
-                fg();
+         
             if (DatabaseManager.CurrentDbIsShared && canSendLog)
             {
                 Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.CollectFinished(symbol));
@@ -1566,12 +1559,8 @@ namespace TickNetClient.Forms
 
         private void switchButton_scheduler_ValueChanged(object sender, EventArgs e)
         {
-            if (switchButton_scheduler.Value)
-                StartScheduler();
-            else
-            {
-                StopScheduler();
-            }
+            ui_collect_buttonX_start.Enabled =
+                ui_collect_buttonX_startGroup.Enabled = !switchButton_scheduler.Value;
 
         }
         private void timer_scheduler_Tick(object sender, EventArgs e)
@@ -1775,6 +1764,10 @@ namespace TickNetClient.Forms
             _sortMode = newMode;
             RefreshGroups();
         }
+
+    
+
+     
     }
 
 }

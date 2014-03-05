@@ -48,7 +48,6 @@ namespace TickNetClient.Forms
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panelEx9 = new DevComponents.DotNetBar.PanelEx();
-            this.styledListControl_groups = new TickNetClient.Controls.StyledListControl();
             this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.panelEx4 = new DevComponents.DotNetBar.PanelEx();
             this.panelEx12 = new DevComponents.DotNetBar.PanelEx();
@@ -63,9 +62,7 @@ namespace TickNetClient.Forms
             this.grbDataCollectType = new DevComponents.DotNetBar.PanelEx();
             this.label1 = new System.Windows.Forms.Label();
             this.switchButton_scheduler = new DevComponents.DotNetBar.Controls.SwitchButton();
-            this.ui_componentList = new System.Windows.Forms.Panel();
             this.ui_collect_buttonX_startGroup = new DevComponents.DotNetBar.ButtonX();
-            this.ui_collect_buttonX_stop = new DevComponents.DotNetBar.ButtonX();
             this.ui_collect_buttonX_start = new DevComponents.DotNetBar.ButtonX();
             this.panelEx2 = new DevComponents.DotNetBar.PanelEx();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
@@ -147,6 +144,8 @@ namespace TickNetClient.Forms
             this.labelItem_server = new DevComponents.DotNetBar.LabelItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer_scheduler = new System.Windows.Forms.Timer(this.components);
+            this.styledListControl_groups = new TickNetClient.Controls.GroupList();
+            this.liveSymbolsList_symbols = new TickNetClient.Controls.SymbolList();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -387,18 +386,6 @@ namespace TickNetClient.Forms
             this.panelEx9.Style.GradientAngle = 90;
             this.panelEx9.TabIndex = 25;
             // 
-            // styledListControl_groups
-            // 
-            this.styledListControl_groups.BackColor = System.Drawing.Color.White;
-            this.styledListControl_groups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.styledListControl_groups.ForeColor = System.Drawing.Color.Black;
-            this.styledListControl_groups.Location = new System.Drawing.Point(1, 1);
-            this.styledListControl_groups.Name = "styledListControl_groups";
-            this.styledListControl_groups.SelectedItem = -1;
-            this.styledListControl_groups.Size = new System.Drawing.Size(274, 397);
-            this.styledListControl_groups.StateChangingEnabled = false;
-            this.styledListControl_groups.TabIndex = 24;
-            // 
             // labelX7
             // 
             // 
@@ -419,12 +406,11 @@ namespace TickNetClient.Forms
             // 
             this.panelEx4.CanvasColor = System.Drawing.SystemColors.Control;
             this.panelEx4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx4.Controls.Add(this.liveSymbolsList_symbols);
             this.panelEx4.Controls.Add(this.panelEx12);
             this.panelEx4.Controls.Add(this.labelX8);
             this.panelEx4.Controls.Add(this.grbDataCollectType);
-            this.panelEx4.Controls.Add(this.ui_componentList);
             this.panelEx4.Controls.Add(this.ui_collect_buttonX_startGroup);
-            this.panelEx4.Controls.Add(this.ui_collect_buttonX_stop);
             this.panelEx4.Controls.Add(this.ui_collect_buttonX_start);
             this.panelEx4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEx4.Location = new System.Drawing.Point(183, 3);
@@ -633,45 +619,18 @@ namespace TickNetClient.Forms
             this.switchButton_scheduler.TabIndex = 0;
             this.switchButton_scheduler.ValueChanged += new System.EventHandler(this.switchButton_scheduler_ValueChanged);
             // 
-            // ui_componentList
-            // 
-            this.ui_componentList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ui_componentList.AutoScroll = true;
-            this.ui_componentList.ForeColor = System.Drawing.Color.Black;
-            this.ui_componentList.Location = new System.Drawing.Point(4, 178);
-            this.ui_componentList.Name = "ui_componentList";
-            this.ui_componentList.Size = new System.Drawing.Size(348, 255);
-            this.ui_componentList.TabIndex = 63;
-            // 
             // ui_collect_buttonX_startGroup
             // 
             this.ui_collect_buttonX_startGroup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.ui_collect_buttonX_startGroup.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ui_collect_buttonX_startGroup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.ui_collect_buttonX_startGroup.Location = new System.Drawing.Point(124, 133);
+            this.ui_collect_buttonX_startGroup.Location = new System.Drawing.Point(189, 133);
             this.ui_collect_buttonX_startGroup.Name = "ui_collect_buttonX_startGroup";
-            this.ui_collect_buttonX_startGroup.Size = new System.Drawing.Size(106, 39);
+            this.ui_collect_buttonX_startGroup.Size = new System.Drawing.Size(161, 39);
             this.ui_collect_buttonX_startGroup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ui_collect_buttonX_startGroup.TabIndex = 59;
             this.ui_collect_buttonX_startGroup.Text = "Start group";
             this.ui_collect_buttonX_startGroup.Click += new System.EventHandler(this.ui_collect_buttonX_startGroup_Click);
-            // 
-            // ui_collect_buttonX_stop
-            // 
-            this.ui_collect_buttonX_stop.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.ui_collect_buttonX_stop.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.ui_collect_buttonX_stop.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.ui_collect_buttonX_stop.Enabled = false;
-            this.ui_collect_buttonX_stop.Location = new System.Drawing.Point(246, 133);
-            this.ui_collect_buttonX_stop.Name = "ui_collect_buttonX_stop";
-            this.ui_collect_buttonX_stop.Size = new System.Drawing.Size(106, 39);
-            this.ui_collect_buttonX_stop.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_collect_buttonX_stop.TabIndex = 57;
-            this.ui_collect_buttonX_stop.Text = "Stop";
-            this.ui_collect_buttonX_stop.Visible = false;
-            this.ui_collect_buttonX_stop.Click += new System.EventHandler(this.ui_collect_buttonX_stop_Click);
             // 
             // ui_collect_buttonX_start
             // 
@@ -680,7 +639,7 @@ namespace TickNetClient.Forms
             this.ui_collect_buttonX_start.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.ui_collect_buttonX_start.Location = new System.Drawing.Point(4, 133);
             this.ui_collect_buttonX_start.Name = "ui_collect_buttonX_start";
-            this.ui_collect_buttonX_start.Size = new System.Drawing.Size(106, 39);
+            this.ui_collect_buttonX_start.Size = new System.Drawing.Size(161, 39);
             this.ui_collect_buttonX_start.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ui_collect_buttonX_start.TabIndex = 56;
             this.ui_collect_buttonX_start.Text = "Start";
@@ -1260,7 +1219,7 @@ namespace TickNetClient.Forms
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ui_DomTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.ui_DomTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1434,7 +1393,7 @@ namespace TickNetClient.Forms
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ui_TickTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.ui_TickTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1693,6 +1652,32 @@ namespace TickNetClient.Forms
             this.timer_scheduler.Interval = 10000;
             this.timer_scheduler.Tick += new System.EventHandler(this.timer_scheduler_Tick);
             // 
+            // styledListControl_groups
+            // 
+            this.styledListControl_groups.BackColor = System.Drawing.Color.White;
+            this.styledListControl_groups.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.styledListControl_groups.ForeColor = System.Drawing.Color.Black;
+            this.styledListControl_groups.Location = new System.Drawing.Point(1, 1);
+            this.styledListControl_groups.Name = "styledListControl_groups";
+            this.styledListControl_groups.SelectedItem = -1;
+            this.styledListControl_groups.Size = new System.Drawing.Size(274, 397);
+            this.styledListControl_groups.StateChangingEnabled = false;
+            this.styledListControl_groups.TabIndex = 24;
+            // 
+            // liveSymbolsList_symbols
+            // 
+            this.liveSymbolsList_symbols.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.liveSymbolsList_symbols.BackColor = System.Drawing.Color.White;
+            this.liveSymbolsList_symbols.ForeColor = System.Drawing.Color.Black;
+            this.liveSymbolsList_symbols.Location = new System.Drawing.Point(4, 178);
+            this.liveSymbolsList_symbols.Name = "liveSymbolsList_symbols";
+            this.liveSymbolsList_symbols.SelectedItem = -1;
+            this.liveSymbolsList_symbols.Size = new System.Drawing.Size(344, 251);
+            this.liveSymbolsList_symbols.StateChangingEnabled = false;
+            this.liveSymbolsList_symbols.TabIndex = 66;            
+            // 
             // FormMainTN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1702,7 +1687,7 @@ namespace TickNetClient.Forms
             this.Controls.Add(this.metroShell1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(800, 520);
+            this.MinimumSize = new System.Drawing.Size(820, 520);
             this.Name = "FormMainTN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tick Net";
@@ -1805,7 +1790,6 @@ namespace TickNetClient.Forms
         private System.Windows.Forms.Label ui_label_SQLpacket;
         private System.Windows.Forms.NumericUpDown ui_SQL_PacketSize;
         private DevComponents.DotNetBar.ButtonX ui_collect_buttonX_startGroup;
-        private DevComponents.DotNetBar.ButtonX ui_collect_buttonX_stop;
         private DevComponents.DotNetBar.ButtonX ui_collect_buttonX_start;
         private DevComponents.DotNetBar.LabelX labelX8;
         private DevComponents.DotNetBar.PanelEx panelEx2;
@@ -1845,11 +1829,10 @@ namespace TickNetClient.Forms
         private System.Windows.Forms.Label label1;
         private DevComponents.DotNetBar.Controls.SwitchButton switchButton_scheduler;
         private System.Windows.Forms.Timer timer_scheduler;
-        private Controls.StyledListControl styledListControl_groups;
+        private Controls.GroupList styledListControl_groups;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel_edit;
-        private System.Windows.Forms.Panel ui_componentList;
         private DevComponents.DotNetBar.PanelEx grbDataCollectType;
         private DevComponents.DotNetBar.PanelEx panelEx12;
         private System.Windows.Forms.LinkLabel linkLabel3;
@@ -1857,6 +1840,7 @@ namespace TickNetClient.Forms
         private System.Windows.Forms.LinkLabel linkLabel_sort_tf;
         private System.Windows.Forms.LinkLabel linkLabel_sort_name;
         private DevComponents.DotNetBar.LabelItem labelItem_server;
+        private Controls.SymbolList liveSymbolsList_symbols;
     }
 }
 

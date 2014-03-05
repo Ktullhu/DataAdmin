@@ -7,7 +7,7 @@ using TickNetClient.Core;
 
 namespace TickNetClient.Controls
 {
-    public partial class StyledListItemControl : UserControl
+    public partial class GroupItem : UserControl
     {
 
         #region EVENTS
@@ -45,7 +45,7 @@ namespace TickNetClient.Controls
 
         #region Constractors
 
-		public StyledListItemControl()
+		public GroupItem()
         {
             InitializeComponent();
             Dock = DockStyle.Top;
@@ -55,7 +55,7 @@ namespace TickNetClient.Controls
 
         }
 
-        public StyledListItemControl(string text, int index,int depth, GroupState state, DateTime datetime, string count, bool isAutoCollect)
+        public GroupItem(string text, int index, int depth, GroupState state, DateTime datetime, string count, bool isAutoCollect)
         {
             InitializeComponent();
             Dock = DockStyle.Top;

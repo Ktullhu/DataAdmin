@@ -51,7 +51,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon_01.ico</ApplicationIcon>
+    <ApplicationIcon>normalizer.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevComponents.DotNetBar.SuperGrid, Version=11.3.0.4, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon_01.ico" />
+    <Content Include="normalizer.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAdminCommonLib\DataAdminCommonLib.csproj">

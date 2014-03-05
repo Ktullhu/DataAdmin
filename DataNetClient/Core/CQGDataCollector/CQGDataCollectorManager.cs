@@ -47,8 +47,6 @@ namespace DataNetClient.Core.CQGDataCollector
         
         #endregion
 
-
-        //
         #region EVENTS
 
         public delegate void ItemStateChangedHandler(int index, GroupState state);

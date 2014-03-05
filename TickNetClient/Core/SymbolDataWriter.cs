@@ -286,15 +286,7 @@ namespace TickNetClient.Core
                         }
                         else
                             tickData.Timestamp = instrument.ServerTimestamp;
-                        var query = QueryBuilder.InsertData(tickData.TableName, tickData.SymbolName,
-                                                            tickData.BidPrice,
-                                                            tickData.BidVolume,
-                                                            tickData.AskPrice, tickData.AskVolume,
-                                                            tickData.TradePrice,
-                                                            tickData.TradeVolume,
-                                                            tickData.IsNewTrade, tickData.Timestamp,
-                                                            ++tickData.GroupID,
-                                                            _userName, tickData.TickType);
+                        
                         if (tickData.Timestamp < DateTime.Now.AddDays(-1))
                             return;
                         if (_onSymbolsList.Contains(instrument.FullName))
@@ -305,7 +297,15 @@ namespace TickNetClient.Core
                             {
                                 if (DatabaseManager.CurrentDbIsShared && tickData.Timestamp < _allowedSymbols[tickData.SymbolName])
                                     return;
-                                DatabaseManager.RunSQLLive(query, "InsertData", instrument.FullName);
+                                DatabaseManager.InsertTickts(tickData.TableName, tickData.SymbolName,
+                                                            tickData.BidPrice,
+                                                            tickData.BidVolume,
+                                                            tickData.AskPrice, tickData.AskVolume,
+                                                            tickData.TradePrice,
+                                                            tickData.TradeVolume,
+                                                            tickData.IsNewTrade, tickData.Timestamp,
+                                                            ++tickData.GroupID,
+                                                            _userName, tickData.TickType);
                             }
                         }
 

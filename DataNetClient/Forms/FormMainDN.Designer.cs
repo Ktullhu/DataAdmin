@@ -31,16 +31,15 @@ namespace DataNetClient.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainDN));
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.ui__status_labelItem_status = new DevComponents.DotNetBar.LabelItem();
@@ -51,6 +50,24 @@ namespace DataNetClient.Forms
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
             this.labelItem_server = new DevComponents.DotNetBar.LabelItem();
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
+            this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.tableLayoutPanel_missingBar = new System.Windows.Forms.TableLayoutPanel();
+            this.listViewResult = new System.Windows.Forms.ListView();
+            this.columnHeaderDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderStartDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderEndDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.metroTilePanel1 = new DevComponents.DotNetBar.Metro.MetroTilePanel();
+            this.ui_metroTileItem_missingBar = new DevComponents.DotNetBar.Metro.MetroTileItem();
+            this.ui_missingbar_panelEx_symbolsBack = new DevComponents.DotNetBar.PanelEx();
+            this.ui_missingbars_panelEx_list_back = new DevComponents.DotNetBar.PanelEx();
+            this.ui_listBox_symbolsForMissing = new System.Windows.Forms.ListBox();
+            this.contextMenuStripTables = new System.Windows.Forms.ContextMenuStrip();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelX17 = new DevComponents.DotNetBar.LabelX();
             this.metroTabPanel5 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.listView2 = new System.Windows.Forms.ListView();
@@ -75,24 +92,6 @@ namespace DataNetClient.Forms
             this.panelEx10 = new DevComponents.DotNetBar.PanelEx();
             this.listBox_daily_symbols = new System.Windows.Forms.ListBox();
             this.labelX20 = new DevComponents.DotNetBar.LabelX();
-            this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.tableLayoutPanel_missingBar = new System.Windows.Forms.TableLayoutPanel();
-            this.listViewResult = new System.Windows.Forms.ListView();
-            this.columnHeaderDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderStartDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderEndDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.metroTilePanel1 = new DevComponents.DotNetBar.Metro.MetroTilePanel();
-            this.ui_metroTileItem_missingBar = new DevComponents.DotNetBar.Metro.MetroTileItem();
-            this.ui_missingbar_panelEx_symbolsBack = new DevComponents.DotNetBar.PanelEx();
-            this.ui_missingbars_panelEx_list_back = new DevComponents.DotNetBar.PanelEx();
-            this.ui_listBox_symbolsForMissing = new System.Windows.Forms.ListBox();
-            this.contextMenuStripTables = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelX17 = new DevComponents.DotNetBar.LabelX();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
@@ -138,7 +137,7 @@ namespace DataNetClient.Forms
             this.linkLabel_edit = new System.Windows.Forms.LinkLabel();
             this.panelEx8 = new DevComponents.DotNetBar.PanelEx();
             this.ui_listBox_symbols = new System.Windows.Forms.ListBox();
-            this.contextMenuStripSymbols = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripSymbols = new System.Windows.Forms.ContextMenuStrip();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unselectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
@@ -178,27 +177,27 @@ namespace DataNetClient.Forms
             this.metroTabItem3 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem5 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem4 = new DevComponents.DotNetBar.Metro.MetroTabItem();
-            this.contextMenuStripGroups = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripGroups = new System.Windows.Forms.ContextMenuStrip();
             this.toolStripMenuItem6_selectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_unselectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager();
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.metroShell1.SuspendLayout();
+            this.metroTabPanel3.SuspendLayout();
+            this.tableLayoutPanel_missingBar.SuspendLayout();
+            this.ui_missingbar_panelEx_symbolsBack.SuspendLayout();
+            this.ui_missingbars_panelEx_list_back.SuspendLayout();
+            this.contextMenuStripTables.SuspendLayout();
             this.metroTabPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panelEx11.SuspendLayout();
             this.panelEx12.SuspendLayout();
             this.panelEx9.SuspendLayout();
             this.panelEx10.SuspendLayout();
-            this.metroTabPanel3.SuspendLayout();
-            this.tableLayoutPanel_missingBar.SuspendLayout();
-            this.ui_missingbar_panelEx_symbolsBack.SuspendLayout();
-            this.ui_missingbars_panelEx_list_back.SuspendLayout();
-            this.contextMenuStripTables.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelEx3.SuspendLayout();
@@ -323,9 +322,9 @@ namespace DataNetClient.Forms
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CanCustomize = false;
             this.metroShell1.CaptionVisible = true;
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel5);
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -362,6 +361,247 @@ namespace DataNetClient.Forms
             this.metroShell1.Text = "Shell";
             this.metroShell1.SettingsButtonClick += new System.EventHandler(this.metroShell1_SettingsButtonClick);
             this.metroShell1.HelpButtonClick += new System.EventHandler(this.metroShell1_LogOutButtonClick);
+            // 
+            // metroTabPanel3
+            // 
+            this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.metroTabPanel3.Controls.Add(this.tableLayoutPanel_missingBar);
+            this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel3.Location = new System.Drawing.Point(0, 51);
+            this.metroTabPanel3.Name = "metroTabPanel3";
+            this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.metroTabPanel3.Size = new System.Drawing.Size(799, 447);
+            // 
+            // 
+            // 
+            this.metroTabPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel3.TabIndex = 3;
+            this.metroTabPanel3.Visible = false;
+            // 
+            // tableLayoutPanel_missingBar
+            // 
+            this.tableLayoutPanel_missingBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel_missingBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            this.tableLayoutPanel_missingBar.ColumnCount = 2;
+            this.tableLayoutPanel_missingBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.tableLayoutPanel_missingBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_missingBar.Controls.Add(this.listViewResult, 1, 0);
+            this.tableLayoutPanel_missingBar.Controls.Add(this.metroTilePanel1, 0, 1);
+            this.tableLayoutPanel_missingBar.Controls.Add(this.ui_missingbar_panelEx_symbolsBack, 0, 0);
+            this.tableLayoutPanel_missingBar.ForeColor = System.Drawing.Color.Black;
+            this.tableLayoutPanel_missingBar.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel_missingBar.Name = "tableLayoutPanel_missingBar";
+            this.tableLayoutPanel_missingBar.RowCount = 2;
+            this.tableLayoutPanel_missingBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_missingBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 155F));
+            this.tableLayoutPanel_missingBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_missingBar.Size = new System.Drawing.Size(793, 423);
+            this.tableLayoutPanel_missingBar.TabIndex = 0;
+            // 
+            // listViewResult
+            // 
+            this.listViewResult.BackColor = System.Drawing.Color.White;
+            this.listViewResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderDate,
+            this.columnHeaderState,
+            this.columnHeaderStartDay,
+            this.columnHeaderStart,
+            this.columnHeaderEndDay,
+            this.columnHeaderEnd});
+            this.listViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewResult.ForeColor = System.Drawing.Color.Black;
+            this.listViewResult.FullRowSelect = true;
+            listViewGroup1.Header = "10/12/2013";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "13/12/12";
+            listViewGroup2.Name = "listViewGroup2";
+            listViewGroup3.Header = "14/12/12";
+            listViewGroup3.Name = "listViewGroup3";
+            this.listViewResult.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+            this.listViewResult.Location = new System.Drawing.Point(253, 3);
+            this.listViewResult.Name = "listViewResult";
+            this.tableLayoutPanel_missingBar.SetRowSpan(this.listViewResult, 2);
+            this.listViewResult.Size = new System.Drawing.Size(537, 417);
+            this.listViewResult.TabIndex = 2;
+            this.listViewResult.UseCompatibleStateImageBehavior = false;
+            this.listViewResult.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderDate
+            // 
+            this.columnHeaderDate.Text = "Date";
+            this.columnHeaderDate.Width = 96;
+            // 
+            // columnHeaderState
+            // 
+            this.columnHeaderState.Text = "State";
+            this.columnHeaderState.Width = 95;
+            // 
+            // columnHeaderStartDay
+            // 
+            this.columnHeaderStartDay.Text = "Start Day";
+            this.columnHeaderStartDay.Width = 85;
+            // 
+            // columnHeaderStart
+            // 
+            this.columnHeaderStart.Text = "Start Time";
+            this.columnHeaderStart.Width = 88;
+            // 
+            // columnHeaderEndDay
+            // 
+            this.columnHeaderEndDay.Text = "End Day";
+            this.columnHeaderEndDay.Width = 85;
+            // 
+            // columnHeaderEnd
+            // 
+            this.columnHeaderEnd.Text = "End Time";
+            this.columnHeaderEnd.Width = 83;
+            // 
+            // metroTilePanel1
+            // 
+            this.metroTilePanel1.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.metroTilePanel1.BackgroundStyle.Class = "MetroTilePanel";
+            this.metroTilePanel1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTilePanel1.ContainerControlProcessDialogKey = true;
+            this.metroTilePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTilePanel1.ForeColor = System.Drawing.Color.Black;
+            this.metroTilePanel1.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.ui_metroTileItem_missingBar});
+            this.metroTilePanel1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
+            this.metroTilePanel1.Location = new System.Drawing.Point(4, 272);
+            this.metroTilePanel1.Margin = new System.Windows.Forms.Padding(4);
+            this.metroTilePanel1.Name = "metroTilePanel1";
+            this.metroTilePanel1.Size = new System.Drawing.Size(242, 147);
+            this.metroTilePanel1.TabIndex = 33;
+            this.metroTilePanel1.Text = "s";
+            // 
+            // ui_metroTileItem_missingBar
+            // 
+            this.ui_metroTileItem_missingBar.Image = global::DataNetClient.Properties.Resources.Charts;
+            this.ui_metroTileItem_missingBar.Name = "ui_metroTileItem_missingBar";
+            this.ui_metroTileItem_missingBar.SymbolColor = System.Drawing.Color.Empty;
+            this.ui_metroTileItem_missingBar.Text = "<font size=\"+4\">Start analyzing<br/>symbol data</font>";
+            this.ui_metroTileItem_missingBar.TileColor = DevComponents.DotNetBar.Metro.eMetroTileColor.Default;
+            // 
+            // 
+            // 
+            this.ui_metroTileItem_missingBar.TileStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(130)))), ((int)(((byte)(132)))));
+            this.ui_metroTileItem_missingBar.TileStyle.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(65)))), ((int)(((byte)(66)))));
+            this.ui_metroTileItem_missingBar.TileStyle.BackColorGradientAngle = 45;
+            this.ui_metroTileItem_missingBar.TileStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_metroTileItem_missingBar.TileStyle.PaddingBottom = 4;
+            this.ui_metroTileItem_missingBar.TileStyle.PaddingLeft = 4;
+            this.ui_metroTileItem_missingBar.TileStyle.PaddingRight = 4;
+            this.ui_metroTileItem_missingBar.TileStyle.PaddingTop = 4;
+            this.ui_metroTileItem_missingBar.TileStyle.TextColor = System.Drawing.Color.White;
+            this.ui_metroTileItem_missingBar.TitleText = "Analyzing";
+            this.ui_metroTileItem_missingBar.Click += new System.EventHandler(this.metroTileItemMissingBar_Click);
+            // 
+            // ui_missingbar_panelEx_symbolsBack
+            // 
+            this.ui_missingbar_panelEx_symbolsBack.CanvasColor = System.Drawing.SystemColors.Control;
+            this.ui_missingbar_panelEx_symbolsBack.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_missingbar_panelEx_symbolsBack.Controls.Add(this.ui_missingbars_panelEx_list_back);
+            this.ui_missingbar_panelEx_symbolsBack.Controls.Add(this.labelX17);
+            this.ui_missingbar_panelEx_symbolsBack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_missingbar_panelEx_symbolsBack.Location = new System.Drawing.Point(3, 3);
+            this.ui_missingbar_panelEx_symbolsBack.Name = "ui_missingbar_panelEx_symbolsBack";
+            this.ui_missingbar_panelEx_symbolsBack.Padding = new System.Windows.Forms.Padding(1);
+            this.ui_missingbar_panelEx_symbolsBack.Size = new System.Drawing.Size(244, 262);
+            this.ui_missingbar_panelEx_symbolsBack.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.ui_missingbar_panelEx_symbolsBack.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.ui_missingbar_panelEx_symbolsBack.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.ui_missingbar_panelEx_symbolsBack.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.ui_missingbar_panelEx_symbolsBack.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.ui_missingbar_panelEx_symbolsBack.Style.GradientAngle = 90;
+            this.ui_missingbar_panelEx_symbolsBack.TabIndex = 34;
+            // 
+            // ui_missingbars_panelEx_list_back
+            // 
+            this.ui_missingbars_panelEx_list_back.CanvasColor = System.Drawing.SystemColors.Control;
+            this.ui_missingbars_panelEx_list_back.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_missingbars_panelEx_list_back.Controls.Add(this.ui_listBox_symbolsForMissing);
+            this.ui_missingbars_panelEx_list_back.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_missingbars_panelEx_list_back.Location = new System.Drawing.Point(1, 33);
+            this.ui_missingbars_panelEx_list_back.Name = "ui_missingbars_panelEx_list_back";
+            this.ui_missingbars_panelEx_list_back.Padding = new System.Windows.Forms.Padding(1);
+            this.ui_missingbars_panelEx_list_back.Size = new System.Drawing.Size(242, 228);
+            this.ui_missingbars_panelEx_list_back.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.ui_missingbars_panelEx_list_back.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.ui_missingbars_panelEx_list_back.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.ui_missingbars_panelEx_list_back.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.ui_missingbars_panelEx_list_back.Style.BorderWidth = 0;
+            this.ui_missingbars_panelEx_list_back.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.ui_missingbars_panelEx_list_back.Style.GradientAngle = 90;
+            this.ui_missingbars_panelEx_list_back.TabIndex = 39;
+            this.ui_missingbars_panelEx_list_back.Text = "panelEx7";
+            // 
+            // ui_listBox_symbolsForMissing
+            // 
+            this.ui_listBox_symbolsForMissing.BackColor = System.Drawing.Color.White;
+            this.ui_listBox_symbolsForMissing.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ui_listBox_symbolsForMissing.ContextMenuStrip = this.contextMenuStripTables;
+            this.ui_listBox_symbolsForMissing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_listBox_symbolsForMissing.ForeColor = System.Drawing.Color.Black;
+            this.ui_listBox_symbolsForMissing.FormattingEnabled = true;
+            this.ui_listBox_symbolsForMissing.Location = new System.Drawing.Point(1, 1);
+            this.ui_listBox_symbolsForMissing.Name = "ui_listBox_symbolsForMissing";
+            this.ui_listBox_symbolsForMissing.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.ui_listBox_symbolsForMissing.Size = new System.Drawing.Size(240, 226);
+            this.ui_listBox_symbolsForMissing.TabIndex = 37;
+            // 
+            // contextMenuStripTables
+            // 
+            this.contextMenuStripTables.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.contextMenuStripTables.Name = "contextMenuStrip1";
+            this.contextMenuStripTables.Size = new System.Drawing.Size(135, 48);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem2.Text = "Select all";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(134, 22);
+            this.toolStripMenuItem3.Text = "Unselect all";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // labelX17
+            // 
+            // 
+            // 
+            // 
+            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX17.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelX17.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX17.ForeColor = System.Drawing.Color.Black;
+            this.labelX17.Location = new System.Drawing.Point(1, 1);
+            this.labelX17.Name = "labelX17";
+            this.labelX17.PaddingLeft = 6;
+            this.labelX17.Size = new System.Drawing.Size(242, 32);
+            this.labelX17.TabIndex = 38;
+            this.labelX17.Text = "SYMBOLS";
             // 
             // metroTabPanel5
             // 
@@ -662,246 +902,6 @@ namespace DataNetClient.Forms
             this.labelX20.TabIndex = 38;
             this.labelX20.Text = "SYMBOLS";
             // 
-            // metroTabPanel3
-            // 
-            this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.metroTabPanel3.Controls.Add(this.tableLayoutPanel_missingBar);
-            this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel3.Location = new System.Drawing.Point(0, 51);
-            this.metroTabPanel3.Name = "metroTabPanel3";
-            this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel3.Size = new System.Drawing.Size(799, 447);
-            // 
-            // 
-            // 
-            this.metroTabPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel3.TabIndex = 3;
-            // 
-            // tableLayoutPanel_missingBar
-            // 
-            this.tableLayoutPanel_missingBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel_missingBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
-            this.tableLayoutPanel_missingBar.ColumnCount = 2;
-            this.tableLayoutPanel_missingBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.tableLayoutPanel_missingBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_missingBar.Controls.Add(this.listViewResult, 1, 0);
-            this.tableLayoutPanel_missingBar.Controls.Add(this.metroTilePanel1, 0, 1);
-            this.tableLayoutPanel_missingBar.Controls.Add(this.ui_missingbar_panelEx_symbolsBack, 0, 0);
-            this.tableLayoutPanel_missingBar.ForeColor = System.Drawing.Color.Black;
-            this.tableLayoutPanel_missingBar.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel_missingBar.Name = "tableLayoutPanel_missingBar";
-            this.tableLayoutPanel_missingBar.RowCount = 2;
-            this.tableLayoutPanel_missingBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_missingBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel_missingBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_missingBar.Size = new System.Drawing.Size(793, 423);
-            this.tableLayoutPanel_missingBar.TabIndex = 0;
-            // 
-            // listViewResult
-            // 
-            this.listViewResult.BackColor = System.Drawing.Color.White;
-            this.listViewResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderDate,
-            this.columnHeaderState,
-            this.columnHeaderStartDay,
-            this.columnHeaderStart,
-            this.columnHeaderEndDay,
-            this.columnHeaderEnd});
-            this.listViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewResult.ForeColor = System.Drawing.Color.Black;
-            this.listViewResult.FullRowSelect = true;
-            listViewGroup1.Header = "10/12/2013";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "13/12/12";
-            listViewGroup2.Name = "listViewGroup2";
-            listViewGroup3.Header = "14/12/12";
-            listViewGroup3.Name = "listViewGroup3";
-            this.listViewResult.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
-            this.listViewResult.Location = new System.Drawing.Point(253, 3);
-            this.listViewResult.Name = "listViewResult";
-            this.tableLayoutPanel_missingBar.SetRowSpan(this.listViewResult, 2);
-            this.listViewResult.Size = new System.Drawing.Size(537, 417);
-            this.listViewResult.TabIndex = 2;
-            this.listViewResult.UseCompatibleStateImageBehavior = false;
-            this.listViewResult.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeaderDate
-            // 
-            this.columnHeaderDate.Text = "Date";
-            this.columnHeaderDate.Width = 96;
-            // 
-            // columnHeaderState
-            // 
-            this.columnHeaderState.Text = "State";
-            this.columnHeaderState.Width = 95;
-            // 
-            // columnHeaderStartDay
-            // 
-            this.columnHeaderStartDay.Text = "Start Day";
-            this.columnHeaderStartDay.Width = 85;
-            // 
-            // columnHeaderStart
-            // 
-            this.columnHeaderStart.Text = "Start Time";
-            this.columnHeaderStart.Width = 88;
-            // 
-            // columnHeaderEndDay
-            // 
-            this.columnHeaderEndDay.Text = "End Day";
-            this.columnHeaderEndDay.Width = 85;
-            // 
-            // columnHeaderEnd
-            // 
-            this.columnHeaderEnd.Text = "End Time";
-            this.columnHeaderEnd.Width = 83;
-            // 
-            // metroTilePanel1
-            // 
-            this.metroTilePanel1.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.metroTilePanel1.BackgroundStyle.Class = "MetroTilePanel";
-            this.metroTilePanel1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTilePanel1.ContainerControlProcessDialogKey = true;
-            this.metroTilePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTilePanel1.ForeColor = System.Drawing.Color.Black;
-            this.metroTilePanel1.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.ui_metroTileItem_missingBar});
-            this.metroTilePanel1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.metroTilePanel1.Location = new System.Drawing.Point(4, 272);
-            this.metroTilePanel1.Margin = new System.Windows.Forms.Padding(4);
-            this.metroTilePanel1.Name = "metroTilePanel1";
-            this.metroTilePanel1.Size = new System.Drawing.Size(242, 147);
-            this.metroTilePanel1.TabIndex = 33;
-            this.metroTilePanel1.Text = "s";
-            // 
-            // ui_metroTileItem_missingBar
-            // 
-            this.ui_metroTileItem_missingBar.Image = global::DataNetClient.Properties.Resources.Charts;
-            this.ui_metroTileItem_missingBar.Name = "ui_metroTileItem_missingBar";
-            this.ui_metroTileItem_missingBar.SymbolColor = System.Drawing.Color.Empty;
-            this.ui_metroTileItem_missingBar.Text = "<font size=\"+4\">Start analyzing<br/>symbol data</font>";
-            this.ui_metroTileItem_missingBar.TileColor = DevComponents.DotNetBar.Metro.eMetroTileColor.Default;
-            // 
-            // 
-            // 
-            this.ui_metroTileItem_missingBar.TileStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(130)))), ((int)(((byte)(132)))));
-            this.ui_metroTileItem_missingBar.TileStyle.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(65)))), ((int)(((byte)(66)))));
-            this.ui_metroTileItem_missingBar.TileStyle.BackColorGradientAngle = 45;
-            this.ui_metroTileItem_missingBar.TileStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_metroTileItem_missingBar.TileStyle.PaddingBottom = 4;
-            this.ui_metroTileItem_missingBar.TileStyle.PaddingLeft = 4;
-            this.ui_metroTileItem_missingBar.TileStyle.PaddingRight = 4;
-            this.ui_metroTileItem_missingBar.TileStyle.PaddingTop = 4;
-            this.ui_metroTileItem_missingBar.TileStyle.TextColor = System.Drawing.Color.White;
-            this.ui_metroTileItem_missingBar.TitleText = "Analyzing";
-            this.ui_metroTileItem_missingBar.Click += new System.EventHandler(this.metroTileItemMissingBar_Click);
-            // 
-            // ui_missingbar_panelEx_symbolsBack
-            // 
-            this.ui_missingbar_panelEx_symbolsBack.CanvasColor = System.Drawing.SystemColors.Control;
-            this.ui_missingbar_panelEx_symbolsBack.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_missingbar_panelEx_symbolsBack.Controls.Add(this.ui_missingbars_panelEx_list_back);
-            this.ui_missingbar_panelEx_symbolsBack.Controls.Add(this.labelX17);
-            this.ui_missingbar_panelEx_symbolsBack.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_missingbar_panelEx_symbolsBack.Location = new System.Drawing.Point(3, 3);
-            this.ui_missingbar_panelEx_symbolsBack.Name = "ui_missingbar_panelEx_symbolsBack";
-            this.ui_missingbar_panelEx_symbolsBack.Padding = new System.Windows.Forms.Padding(1);
-            this.ui_missingbar_panelEx_symbolsBack.Size = new System.Drawing.Size(244, 262);
-            this.ui_missingbar_panelEx_symbolsBack.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.ui_missingbar_panelEx_symbolsBack.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.ui_missingbar_panelEx_symbolsBack.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.ui_missingbar_panelEx_symbolsBack.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.ui_missingbar_panelEx_symbolsBack.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.ui_missingbar_panelEx_symbolsBack.Style.GradientAngle = 90;
-            this.ui_missingbar_panelEx_symbolsBack.TabIndex = 34;
-            // 
-            // ui_missingbars_panelEx_list_back
-            // 
-            this.ui_missingbars_panelEx_list_back.CanvasColor = System.Drawing.SystemColors.Control;
-            this.ui_missingbars_panelEx_list_back.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_missingbars_panelEx_list_back.Controls.Add(this.ui_listBox_symbolsForMissing);
-            this.ui_missingbars_panelEx_list_back.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_missingbars_panelEx_list_back.Location = new System.Drawing.Point(1, 33);
-            this.ui_missingbars_panelEx_list_back.Name = "ui_missingbars_panelEx_list_back";
-            this.ui_missingbars_panelEx_list_back.Padding = new System.Windows.Forms.Padding(1);
-            this.ui_missingbars_panelEx_list_back.Size = new System.Drawing.Size(242, 228);
-            this.ui_missingbars_panelEx_list_back.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.ui_missingbars_panelEx_list_back.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.ui_missingbars_panelEx_list_back.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.ui_missingbars_panelEx_list_back.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.ui_missingbars_panelEx_list_back.Style.BorderWidth = 0;
-            this.ui_missingbars_panelEx_list_back.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.ui_missingbars_panelEx_list_back.Style.GradientAngle = 90;
-            this.ui_missingbars_panelEx_list_back.TabIndex = 39;
-            this.ui_missingbars_panelEx_list_back.Text = "panelEx7";
-            // 
-            // ui_listBox_symbolsForMissing
-            // 
-            this.ui_listBox_symbolsForMissing.BackColor = System.Drawing.Color.White;
-            this.ui_listBox_symbolsForMissing.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ui_listBox_symbolsForMissing.ContextMenuStrip = this.contextMenuStripTables;
-            this.ui_listBox_symbolsForMissing.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_listBox_symbolsForMissing.ForeColor = System.Drawing.Color.Black;
-            this.ui_listBox_symbolsForMissing.FormattingEnabled = true;
-            this.ui_listBox_symbolsForMissing.Location = new System.Drawing.Point(1, 1);
-            this.ui_listBox_symbolsForMissing.Name = "ui_listBox_symbolsForMissing";
-            this.ui_listBox_symbolsForMissing.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.ui_listBox_symbolsForMissing.Size = new System.Drawing.Size(240, 226);
-            this.ui_listBox_symbolsForMissing.TabIndex = 37;
-            // 
-            // contextMenuStripTables
-            // 
-            this.contextMenuStripTables.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3});
-            this.contextMenuStripTables.Name = "contextMenuStrip1";
-            this.contextMenuStripTables.Size = new System.Drawing.Size(135, 48);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(134, 22);
-            this.toolStripMenuItem2.Text = "Select all";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(134, 22);
-            this.toolStripMenuItem3.Text = "Unselect all";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // labelX17
-            // 
-            // 
-            // 
-            // 
-            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX17.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelX17.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX17.ForeColor = System.Drawing.Color.Black;
-            this.labelX17.Location = new System.Drawing.Point(1, 1);
-            this.labelX17.Name = "labelX17";
-            this.labelX17.PaddingLeft = 6;
-            this.labelX17.Size = new System.Drawing.Size(242, 32);
-            this.labelX17.TabIndex = 38;
-            this.labelX17.Text = "SYMBOLS";
-            // 
             // metroTabPanel2
             // 
             this.metroTabPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -926,7 +926,6 @@ namespace DataNetClient.Forms
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 2;
-            this.metroTabPanel2.Visible = false;
             // 
             // tableLayoutPanel1
             // 
@@ -2226,6 +2225,7 @@ namespace DataNetClient.Forms
             // 
             // metroTabItem2
             // 
+            this.metroTabItem2.Checked = true;
             this.metroTabItem2.Name = "metroTabItem2";
             this.metroTabItem2.Panel = this.metroTabPanel2;
             this.metroTabItem2.Text = "&COLLECT DATA";
@@ -2233,7 +2233,6 @@ namespace DataNetClient.Forms
             // 
             // metroTabItem3
             // 
-            this.metroTabItem3.Checked = true;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
             this.metroTabItem3.Text = "&MISSING BARS";
@@ -2317,17 +2316,17 @@ namespace DataNetClient.Forms
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.metroShell1.ResumeLayout(false);
             this.metroShell1.PerformLayout();
+            this.metroTabPanel3.ResumeLayout(false);
+            this.tableLayoutPanel_missingBar.ResumeLayout(false);
+            this.ui_missingbar_panelEx_symbolsBack.ResumeLayout(false);
+            this.ui_missingbars_panelEx_list_back.ResumeLayout(false);
+            this.contextMenuStripTables.ResumeLayout(false);
             this.metroTabPanel5.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panelEx11.ResumeLayout(false);
             this.panelEx12.ResumeLayout(false);
             this.panelEx9.ResumeLayout(false);
             this.panelEx10.ResumeLayout(false);
-            this.metroTabPanel3.ResumeLayout(false);
-            this.tableLayoutPanel_missingBar.ResumeLayout(false);
-            this.ui_missingbar_panelEx_symbolsBack.ResumeLayout(false);
-            this.ui_missingbars_panelEx_list_back.ResumeLayout(false);
-            this.contextMenuStripTables.ResumeLayout(false);
             this.metroTabPanel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panelEx3.ResumeLayout(false);

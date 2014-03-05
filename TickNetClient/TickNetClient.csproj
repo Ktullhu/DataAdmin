@@ -98,22 +98,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\StyledListControl.cs">
+    <Compile Include="Controls\SymbolList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StyledListControl.Designer.cs">
-      <DependentUpon>StyledListControl.cs</DependentUpon>
+    <Compile Include="Controls\SymbolList.Designer.cs">
+      <DependentUpon>SymbolList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\StyledListItemControl.cs">
+    <Compile Include="Controls\GroupList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StyledListItemControl.Designer.cs">
-      <DependentUpon>StyledListItemControl.cs</DependentUpon>
+    <Compile Include="Controls\GroupList.Designer.cs">
+      <DependentUpon>GroupList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GroupItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GroupItem.Designer.cs">
+      <DependentUpon>GroupItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SymbolItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SymbolItem.Designer.cs">
+      <DependentUpon>SymbolItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\ClientManager\DataNormalizatorClient.cs" />
     <Compile Include="Core\ClientManager\DataClientClass.cs" />
     <Compile Include="Core\CQGConnector.cs" />
     <Compile Include="Core\ErrorMonitor.cs" />
+    <Compile Include="Core\LiveTickCollectingManager.cs" />
     <Compile Include="Core\MetroBillCommands.cs" />
     <Compile Include="Core\QueryBuilder.cs" />
     <Compile Include="Core\SymbolDataWriter.cs" />
@@ -156,11 +169,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\StyledListControl.resx">
-      <DependentUpon>StyledListControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\SymbolList.resx">
+      <DependentUpon>SymbolList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StyledListItemControl.resx">
-      <DependentUpon>StyledListItemControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\GroupList.resx">
+      <DependentUpon>GroupList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GroupItem.resx">
+      <DependentUpon>GroupItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SymbolItem.resx">
+      <DependentUpon>SymbolItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddListControl.resx">
       <DependentUpon>AddListControl.cs</DependentUpon>

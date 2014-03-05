@@ -2383,5 +2383,42 @@ namespace DADataManager
             var todayDailyValues = GetAllDailyValues();
             return todayDailyValues.Any(dailyValueModel => symbol == dailyValueModel.symbol && dailyValueModel.Date == DateTime.Today);
         }
+
+        public static string GetTableTsName(string symbol)
+        {
+            return "TS_" + symbol.Substring(5, symbol.Length - 5).ToUpper();
+        }
+
+        public static void CreateLiveTableTs(string symbol)
+        {
+            var sql = DAQueryBuilder.CreateLiveTableTs(symbol);
+
+            DoSqlLive(sql);
+        }
+
+        public static void CreateLiveTableDm(string symbol)
+        {
+            var sql = DAQueryBuilder.CreateLiveTableDm(symbol);
+
+            DoSqlLive(sql);
+        }
+
+
+        static int _count = 0;
+        static string _fullSql="";
+        static int _maxCount =500;
+
+        public static void InsertTickts(string tableName, string symbolName, double bidPrice, int bidVolume, double askPrice, int askVolume, double tradePrice, int tradeVolume, bool isNew, DateTime timestamp, uint groupID, string userName, string tickType)
+        {
+            var sql = DAQueryBuilder.InsertData(tableName, symbolName, bidPrice, bidVolume,askPrice, askVolume, tradePrice, tradeVolume, isNew, timestamp,groupID,userName,tickType );
+            
+            _fullSql += sql;
+            _count++;
+            if (_count > _maxCount)
+            {
+                DoSqlLive(_fullSql);
+            }
+            
+        }
     }
 }

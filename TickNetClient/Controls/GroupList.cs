@@ -7,7 +7,7 @@ using DADataManager.Models;
 
 namespace TickNetClient.Controls
 {
-    public partial class StyledListControl : UserControl
+    public partial class GroupList : UserControl
     {
 
         #region EVENTS
@@ -53,7 +53,7 @@ namespace TickNetClient.Controls
  
 
 
-        public StyledListControl()
+        public GroupList()
         {
             InitializeComponent();
             SelectedItem = -1;
@@ -69,7 +69,7 @@ namespace TickNetClient.Controls
         public void AddItem(string text, int depth, GroupState state, DateTime datetime, string count, List<string> symbols, List<SessionModel> sessions, bool isAutoCollect)
         {
             var ind = panelEx_container.Controls.Count;
-            var cntrl = new StyledListItemControl(text, ind, depth, state, datetime, count,isAutoCollect );
+            var cntrl = new GroupItem(text, ind, depth, state, datetime, count,isAutoCollect );
             cntrl.ItemSelectedChanged += cntrl_ItemSelectedChanged;
             cntrl.ItemEditGroupClick += cntrl_ItemEditGroupClick;
             panelEx_container.Controls.Add(cntrl);
@@ -90,7 +90,7 @@ namespace TickNetClient.Controls
             for (int i = 0; i < panelEx_container.Controls.Count; i++)
             {
                 var item = panelEx_container.Controls[i];
-                var styledListItemControl = item as StyledListItemControl;
+                var styledListItemControl = item as GroupItem;
                 if (styledListItemControl != null)
                 {
                     if (removed)
@@ -109,7 +109,7 @@ namespace TickNetClient.Controls
 
         public void RenameSelectedItem(string p)
         {
-            var styledListItemControl = panelEx_container.Controls[SelectedItem] as StyledListItemControl;
+            var styledListItemControl = panelEx_container.Controls[SelectedItem] as GroupItem;
             if (styledListItemControl != null)
                 styledListItemControl.ItemText = p;
         }
@@ -121,28 +121,28 @@ namespace TickNetClient.Controls
 
         internal void ChangeState(int index, GroupState state)
         {
-            var styledListItemControl = panelEx_container.Controls[index] as StyledListItemControl;
+            var styledListItemControl = panelEx_container.Controls[index] as GroupItem;
             if (styledListItemControl != null)
                 styledListItemControl.ItemState = state;
         }
 
         public void ChangeCollectedCount(int index, int count, int totalCount)
         {
-            var styledListItemControl = panelEx_container.Controls[index] as StyledListItemControl;
+            var styledListItemControl = panelEx_container.Controls[index] as GroupItem;
             if (styledListItemControl != null)
                 styledListItemControl.ItemCount = "["+count+"/"+totalCount+"]";
         }
 
         public void ChangeDateTime(int index, DateTime end)
         {
-            var styledListItemControl = panelEx_container.Controls[index] as StyledListItemControl;
+            var styledListItemControl = panelEx_container.Controls[index] as GroupItem;
             if (styledListItemControl != null)
                 styledListItemControl.ItemDateTime = end;
         }
 
         public void SetSymbols(int index, List<string> list)
         {
-            var styledListItemControl = panelEx_container.Controls[index] as StyledListItemControl;
+            var styledListItemControl = panelEx_container.Controls[index] as GroupItem;
             if (styledListItemControl != null)
                 styledListItemControl.Symbols = list;
         }
@@ -158,7 +158,7 @@ namespace TickNetClient.Controls
                 for (int i = 0; i < panelEx_container.Controls.Count; i++)
                 {
                     var item = panelEx_container.Controls[i];
-                    var styledListItemControl = item as StyledListItemControl;
+                    var styledListItemControl = item as GroupItem;
                     if (styledListItemControl != null)
                     {
                         styledListItemControl.ItemStateChangingEnabled = value;
@@ -169,7 +169,7 @@ namespace TickNetClient.Controls
 
         public void ChangeStartDateTime(int index, DateTime dateTime)
         {
-            var styledListItemControl = panelEx_container.Controls[index] as StyledListItemControl;
+            var styledListItemControl = panelEx_container.Controls[index] as GroupItem;
             if (styledListItemControl != null)
                 styledListItemControl.ItemStartDateTime = dateTime;
         }
@@ -179,7 +179,7 @@ namespace TickNetClient.Controls
             for (int i = 0; i < panelEx_container.Controls.Count; i++)
             {
                
-                var styledListItemControl = panelEx_container.Controls[i] as StyledListItemControl;
+                var styledListItemControl = panelEx_container.Controls[i] as GroupItem;
                 if (styledListItemControl != null)
                 {
                     if (styledListItemControl.ItemState != GroupState.InProgress)
@@ -197,7 +197,7 @@ namespace TickNetClient.Controls
             for (int i = 0; i < panelEx_container.Controls.Count; i++)
             {
 
-                var styledListItemControl = panelEx_container.Controls[i] as StyledListItemControl;
+                var styledListItemControl = panelEx_container.Controls[i] as GroupItem;
                 if (styledListItemControl != null)
                 {
                     if (styledListItemControl.ItemState != GroupState.InProgress)
@@ -214,7 +214,7 @@ namespace TickNetClient.Controls
         {
             var res = new List<string>();
 
-            foreach (var item in panelEx_container.Controls.OfType<StyledListItemControl>())
+            foreach (var item in panelEx_container.Controls.OfType<GroupItem>())
             {
                 res.Add(item.ItemText);
             }
@@ -227,7 +227,7 @@ namespace TickNetClient.Controls
         {
             if (ind < panelEx_container.Controls.Count)
             {
-                var cntrl = panelEx_container.Controls[ind] as StyledListItemControl;
+                var cntrl = panelEx_container.Controls[ind] as GroupItem;
 
                 cntrl.ItemText = text;
                 cntrl.ItemState = groupState;

@@ -31,51 +31,6 @@ namespace TickNetClient.Core
             return q;
         }
 
-        public static String InsertData_dom(String tableName, CQGInstrument instrument, int depth, uint groupID, bool isNew, string userName, out double askPrice, out int askVol, out double bidPrice, out int bidVol, DateTime serverTime)
-        {
-            var newTable = "DM_" + tableName.Substring(3, tableName.Length - 3).ToUpper();
-
-            String symbol = instrument.FullName;
-            String query = "INSERT IGNORE INTO `" + newTable + "`";
-            query += "(`Symbol`,`Depth`,`DOMBid`,`DOMAsk`,`DOMBidVol`,`DOMAskVol`,`Trade`,`TradeVol`,`Time`, `TimeLocal`,GroupID, UserName)";
-            String runQuery = "";
-            int balancedDepth = (instrument.DOMAsks.Count < instrument.DOMBids.Count)
-                                    ? instrument.DOMAsks.Count
-                                    : instrument.DOMBids.Count;
-            askPrice = 0;
-            askVol = 0;
-            bidPrice = 0;
-            bidVol = 0;
-            for (int index = 0; ((index < balancedDepth) && (index < depth)); index++)
-            {
-                //query += "(`symbol`,`depth`,`DOMBid`,`DOMAsk`,`DOMBidVol`,`DOMAskVol`,`Trade`,`TradeVol`,`ts`)";
-                CQGQuote domAsk = instrument.DOMAsks[index];
-                CQGQuote domBid = instrument.DOMBids[index];
-                
-                runQuery += query + " VALUES('" + symbol + "'," + Convert.ToString(index + 1) + ",";
-                runQuery += domBid.Price.ToString("G", CultureInfo.InvariantCulture) + ",";
-                runQuery += domAsk.Price.ToString("G", CultureInfo.InvariantCulture) + ",";                
-                runQuery += domBid.Volume.ToString("G", CultureInfo.InvariantCulture) + ",";
-                runQuery += domAsk.Volume.ToString("G", CultureInfo.InvariantCulture) + ",";
-                runQuery += instrument.Trade.Price.ToString("G", CultureInfo.InvariantCulture) + ",";
-                runQuery += instrument.Trade.Volume.ToString("G", CultureInfo.InvariantCulture) + ",";                
-                runQuery += "'" + serverTime.ToString("yyyy/MM/dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "',";
-                runQuery += "'" + DateTime.Now.ToString("yyyy/MM/dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "',";
-                runQuery += Convert.ToString(groupID) + ",";
-                runQuery += "'"+userName + "');"; 
-               
-                if (index == 0)
-                {
-                    askPrice = domAsk.Price;
-                    askVol = domAsk.Volume;
-                    bidPrice = domBid.Price;
-                    bidVol = domBid.Volume;
-                }
-            }
-            //instrument.
-            return runQuery;
-        }
-
         #endregion
 
         #region Tick
@@ -100,29 +55,6 @@ namespace TickNetClient.Core
             return q;
         }
 
-        public static String InsertData(String tableName, string symbolName,
-                                       double bidPrice, int bidVolume,
-                                       double askPrice, int askVolume,
-                                       double tradePrice, int tradeVolume,
-                                       bool isNew, DateTime timestamp, uint groupID, string userName, string tickType)
-        {
-            String query = "INSERT IGNORE INTO `" + tableName + "`";
-            query += "(`Symbol`,`Bid`,`Ask`,`BidVol`,`AskVol`,`Trade`,`TradeVol`,`Time`, `TickType`, `TimeLocal`, `GroupID`,`UserName`)";
-            String runQuery = "";
-            runQuery += query + " VALUES('" + symbolName + "',";
-            runQuery += bidPrice.ToString("G", CultureInfo.InvariantCulture) + ",";
-            runQuery += askPrice.ToString("G", CultureInfo.InvariantCulture) + ",";
-            runQuery += bidVolume.ToString("G", CultureInfo.InvariantCulture) + ",";
-            runQuery += askVolume.ToString("G", CultureInfo.InvariantCulture) + ",";
-            runQuery += tradePrice.ToString("G", CultureInfo.InvariantCulture) + ",";
-            runQuery += tradeVolume.ToString("G", CultureInfo.InvariantCulture) + ",";            
-            runQuery += "'" + timestamp.ToString("yyyy-MM-dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "', ";
-            runQuery += "'" + tickType + "', ";
-            runQuery += "'" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "', ";
-            runQuery += "'" + groupID.ToString("G", CultureInfo.InvariantCulture) + "',";
-            runQuery += "'"+userName+"');";
-            return runQuery;
-        }
         
         #endregion
 
@@ -159,6 +91,75 @@ namespace TickNetClient.Core
         }
 
         #endregion
+
+        public static string InsertData(String tableName, string symbolName,
+                                       double bidPrice, int bidVolume,
+                                       double askPrice, int askVolume,
+                                       double tradePrice, int tradeVolume,
+                                       bool isNew, DateTime timestamp, uint groupID, string userName, string tickType)
+        {
+            String query = "INSERT IGNORE INTO `" + tableName + "`";
+            query += "(`Symbol`,`Bid`,`Ask`,`BidVol`,`AskVol`,`Trade`,`TradeVol`,`Time`, `TickType`, `TimeLocal`, `GroupID`,`UserName`)";
+            String runQuery = "";
+            runQuery += query + " VALUES('" + symbolName + "',";
+            runQuery += bidPrice.ToString("G", CultureInfo.InvariantCulture) + ",";
+            runQuery += askPrice.ToString("G", CultureInfo.InvariantCulture) + ",";
+            runQuery += bidVolume.ToString("G", CultureInfo.InvariantCulture) + ",";
+            runQuery += askVolume.ToString("G", CultureInfo.InvariantCulture) + ",";
+            runQuery += tradePrice.ToString("G", CultureInfo.InvariantCulture) + ",";
+            runQuery += tradeVolume.ToString("G", CultureInfo.InvariantCulture) + ",";
+            runQuery += "'" + timestamp.ToString("yyyy-MM-dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "', ";
+            runQuery += "'" + tickType + "', ";
+            runQuery += "'" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "', ";
+            runQuery += "'" + groupID.ToString("G", CultureInfo.InvariantCulture) + "',";
+            runQuery += "'" + userName + "');";
+            return runQuery;
+        }
+
+        public static String InsertData_dom(String tableName, CQGInstrument instrument, int depth, uint groupID, bool isNew, string userName, out double askPrice, out int askVol, out double bidPrice, out int bidVol, DateTime serverTime)
+        {
+            var newTable = "DM_" + tableName.Substring(3, tableName.Length - 3).ToUpper();
+
+            String symbol = instrument.FullName;
+            String query = "INSERT IGNORE INTO `" + newTable + "`";
+            query += "(`Symbol`,`Depth`,`DOMBid`,`DOMAsk`,`DOMBidVol`,`DOMAskVol`,`Trade`,`TradeVol`,`Time`, `TimeLocal`,GroupID, UserName)";
+            String runQuery = "";
+            int balancedDepth = (instrument.DOMAsks.Count < instrument.DOMBids.Count)
+                                    ? instrument.DOMAsks.Count
+                                    : instrument.DOMBids.Count;
+            askPrice = 0;
+            askVol = 0;
+            bidPrice = 0;
+            bidVol = 0;
+            for (int index = 0; ((index < balancedDepth) && (index < depth)); index++)
+            {
+                //query += "(`symbol`,`depth`,`DOMBid`,`DOMAsk`,`DOMBidVol`,`DOMAskVol`,`Trade`,`TradeVol`,`ts`)";
+                CQGQuote domAsk = instrument.DOMAsks[index];
+                CQGQuote domBid = instrument.DOMBids[index];
+
+                runQuery += query + " VALUES('" + symbol + "'," + Convert.ToString(index + 1) + ",";
+                runQuery += domBid.Price.ToString("G", CultureInfo.InvariantCulture) + ",";
+                runQuery += domAsk.Price.ToString("G", CultureInfo.InvariantCulture) + ",";
+                runQuery += domBid.Volume.ToString("G", CultureInfo.InvariantCulture) + ",";
+                runQuery += domAsk.Volume.ToString("G", CultureInfo.InvariantCulture) + ",";
+                runQuery += instrument.Trade.Price.ToString("G", CultureInfo.InvariantCulture) + ",";
+                runQuery += instrument.Trade.Volume.ToString("G", CultureInfo.InvariantCulture) + ",";
+                runQuery += "'" + serverTime.ToString("yyyy/MM/dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "',";
+                runQuery += "'" + DateTime.Now.ToString("yyyy/MM/dd H:mm:ss.fff", CultureInfo.InvariantCulture) + "',";
+                runQuery += Convert.ToString(groupID) + ",";
+                runQuery += "'" + userName + "');";
+
+                if (index == 0)
+                {
+                    askPrice = domAsk.Price;
+                    askVol = domAsk.Volume;
+                    bidPrice = domBid.Price;
+                    bidVol = domBid.Volume;
+                }
+            }
+            //instrument.
+            return runQuery;
+        }
     }
      
 }

@@ -1,6 +1,6 @@
 ﻿namespace TickNetClient.Controls
 {
-    partial class StyledListControl
+    partial class SymbolList
     {
         /// <summary> 
         /// Требуется переменная конструктора.
