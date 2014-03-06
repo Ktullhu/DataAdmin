@@ -54,7 +54,7 @@ namespace DataAdmin.Forms
             ui_textBoxX_login.Text = Settings.Default.connectionUser;
             ui_textBoxX_password.Text = Settings.Default.connectionPassword;
             ui_textBoxX_host.Text = Settings.Default.connectionHost;
-            ui_textBoxX_db.Text = Settings.Default.connectionDB;
+            ui_textBoxX_db.Text = Settings.Default.dbSystem;
 
             textBoxX_db_bar.Text = Settings.Default.dbBar;
             textBoxX_db_live.Text = Settings.Default.dbLive;
@@ -69,7 +69,7 @@ namespace DataAdmin.Forms
             Settings.Default.connectionUser= ui_textBoxX_login.Text;
             Settings.Default.connectionPassword = ui_textBoxX_password.Text;
             Settings.Default.connectionHost= ui_textBoxX_host.Text;
-            Settings.Default.connectionDB = ui_textBoxX_db.Text;
+            Settings.Default.dbSystem = ui_textBoxX_db.Text;
 
             Settings.Default.dbBar = textBoxX_db_bar.Text;
             Settings.Default.dbLive = textBoxX_db_live.Text;

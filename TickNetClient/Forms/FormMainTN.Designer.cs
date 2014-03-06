@@ -76,26 +76,6 @@ namespace TickNetClient.Forms
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ui_ToolStripMenuItem_EditSymbols = new System.Windows.Forms.ToolStripMenuItem();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.panelEx5 = new DevComponents.DotNetBar.PanelEx();
-            this.ui_LabelX_sharedAvaliable = new DevComponents.DotNetBar.LabelX();
-            this.ui_buttonX_shareConnect = new DevComponents.DotNetBar.ButtonX();
-            this.labelX16 = new DevComponents.DotNetBar.LabelX();
-            this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
-            this.labelX9 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_db_live = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.ui_LabelX_localAvaliable = new DevComponents.DotNetBar.LabelX();
-            this.checkBoxX1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.ui_buttonX_localConnect = new DevComponents.DotNetBar.ButtonX();
-            this.labelX5 = new DevComponents.DotNetBar.LabelX();
-            this.labelX4 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_pwd = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_uid = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_db = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_host = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.uiBuffer_panelEx = new DevComponents.DotNetBar.PanelEx();
             this.ui_BufferTab_layout = new System.Windows.Forms.TableLayoutPanel();
@@ -120,6 +100,26 @@ namespace TickNetClient.Forms
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GroupIdTs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.panelEx5 = new DevComponents.DotNetBar.PanelEx();
+            this.ui_LabelX_sharedAvaliable = new DevComponents.DotNetBar.LabelX();
+            this.ui_buttonX_shareConnect = new DevComponents.DotNetBar.ButtonX();
+            this.labelX16 = new DevComponents.DotNetBar.LabelX();
+            this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
+            this.labelX9 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_db_live = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.ui_LabelX_localAvaliable = new DevComponents.DotNetBar.LabelX();
+            this.checkBoxX1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.ui_buttonX_localConnect = new DevComponents.DotNetBar.ButtonX();
+            this.labelX5 = new DevComponents.DotNetBar.LabelX();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_pwd = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_uid = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_db = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_host = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.metroAppButton1 = new DevComponents.DotNetBar.Metro.MetroAppButton();
             this.metroTabItem1 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem2 = new DevComponents.DotNetBar.Metro.MetroTabItem();
@@ -161,9 +161,6 @@ namespace TickNetClient.Forms
             this.panelEx2.SuspendLayout();
             this.panelEx8.SuspendLayout();
             this.contextMenuStripSymbols.SuspendLayout();
-            this.metroTabPanel1.SuspendLayout();
-            this.panelEx5.SuspendLayout();
-            this.panelEx1.SuspendLayout();
             this.metroTabPanel3.SuspendLayout();
             this.uiBuffer_panelEx.SuspendLayout();
             this.ui_BufferTab_layout.SuspendLayout();
@@ -172,6 +169,9 @@ namespace TickNetClient.Forms
             this.panelEx10.SuspendLayout();
             this.panelEx7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ui_TickTable_dataGridView)).BeginInit();
+            this.metroTabPanel1.SuspendLayout();
+            this.panelEx5.SuspendLayout();
+            this.panelEx1.SuspendLayout();
             this.contextMenuStripLists.SuspendLayout();
             this.contextMenuStripTables.SuspendLayout();
             this.SuspendLayout();
@@ -185,9 +185,9 @@ namespace TickNetClient.Forms
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CanCustomize = false;
             this.metroShell1.CaptionVisible = true;
-            this.metroShell1.Controls.Add(this.metroTabPanel3);
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
+            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
             this.metroShell1.HelpButtonText = "LOGOUT";
@@ -797,6 +797,358 @@ namespace TickNetClient.Forms
             this.labelX6.TabIndex = 20;
             this.labelX6.Text = "SYMBOLS";
             // 
+            // metroTabPanel3
+            // 
+            this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.metroTabPanel3.Controls.Add(this.uiBuffer_panelEx);
+            this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel3.Location = new System.Drawing.Point(0, 0);
+            this.metroTabPanel3.Name = "metroTabPanel3";
+            this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.metroTabPanel3.Size = new System.Drawing.Size(832, 518);
+            // 
+            // 
+            // 
+            this.metroTabPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel3.TabIndex = 3;
+            this.metroTabPanel3.Visible = false;
+            // 
+            // uiBuffer_panelEx
+            // 
+            this.uiBuffer_panelEx.CanvasColor = System.Drawing.SystemColors.Control;
+            this.uiBuffer_panelEx.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.uiBuffer_panelEx.Controls.Add(this.ui_BufferTab_layout);
+            this.uiBuffer_panelEx.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiBuffer_panelEx.Location = new System.Drawing.Point(3, 0);
+            this.uiBuffer_panelEx.Name = "uiBuffer_panelEx";
+            this.uiBuffer_panelEx.Size = new System.Drawing.Size(826, 515);
+            this.uiBuffer_panelEx.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.uiBuffer_panelEx.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.uiBuffer_panelEx.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.uiBuffer_panelEx.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.uiBuffer_panelEx.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.uiBuffer_panelEx.Style.GradientAngle = 90;
+            this.uiBuffer_panelEx.TabIndex = 0;
+            // 
+            // ui_BufferTab_layout
+            // 
+            this.ui_BufferTab_layout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ui_BufferTab_layout.ColumnCount = 3;
+            this.ui_BufferTab_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.99076F));
+            this.ui_BufferTab_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.4388F));
+            this.ui_BufferTab_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.68591F));
+            this.ui_BufferTab_layout.Controls.Add(this.panelEx11, 2, 0);
+            this.ui_BufferTab_layout.Controls.Add(this.panelEx10, 1, 0);
+            this.ui_BufferTab_layout.Controls.Add(this.panelEx7, 0, 0);
+            this.ui_BufferTab_layout.ForeColor = System.Drawing.Color.Black;
+            this.ui_BufferTab_layout.Location = new System.Drawing.Point(3, 6);
+            this.ui_BufferTab_layout.Name = "ui_BufferTab_layout";
+            this.ui_BufferTab_layout.RowCount = 1;
+            this.ui_BufferTab_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ui_BufferTab_layout.Size = new System.Drawing.Size(819, 487);
+            this.ui_BufferTab_layout.TabIndex = 24;
+            // 
+            // panelEx11
+            // 
+            this.panelEx11.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx11.Controls.Add(this.ui_DomTable_dataGridView);
+            this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx11.Location = new System.Drawing.Point(480, 3);
+            this.panelEx11.Name = "panelEx11";
+            this.panelEx11.Size = new System.Drawing.Size(336, 481);
+            this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx11.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx11.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx11.Style.GradientAngle = 90;
+            this.panelEx11.TabIndex = 2;
+            // 
+            // ui_DomTable_dataGridView
+            // 
+            this.ui_DomTable_dataGridView.AllowUserToAddRows = false;
+            this.ui_DomTable_dataGridView.AllowUserToDeleteRows = false;
+            this.ui_DomTable_dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ui_DomTable_dataGridView.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ui_DomTable_dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.ui_DomTable_dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ui_DomTable_dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10,
+            this.GroupIdDom});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ui_DomTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ui_DomTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_DomTable_dataGridView.EnableHeadersVisualStyles = false;
+            this.ui_DomTable_dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ui_DomTable_dataGridView.Location = new System.Drawing.Point(0, 0);
+            this.ui_DomTable_dataGridView.Name = "ui_DomTable_dataGridView";
+            this.ui_DomTable_dataGridView.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ui_DomTable_dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.ui_DomTable_dataGridView.RowHeadersVisible = false;
+            this.ui_DomTable_dataGridView.RowTemplate.Height = 24;
+            this.ui_DomTable_dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ui_DomTable_dataGridView.Size = new System.Drawing.Size(336, 481);
+            this.ui_DomTable_dataGridView.TabIndex = 2;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Date DOM";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.FillWeight = 45F;
+            this.Column7.HeaderText = "AskPr";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.FillWeight = 45F;
+            this.Column8.HeaderText = "BidPr";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.FillWeight = 45F;
+            this.Column9.HeaderText = "AskVol";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.FillWeight = 45F;
+            this.Column10.HeaderText = "BidVol";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            // 
+            // GroupIdDom
+            // 
+            this.GroupIdDom.FillWeight = 34F;
+            this.GroupIdDom.HeaderText = "GroupId";
+            this.GroupIdDom.Name = "GroupIdDom";
+            this.GroupIdDom.ReadOnly = true;
+            // 
+            // panelEx10
+            // 
+            this.panelEx10.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx10.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx10.Controls.Add(this.labelX10);
+            this.panelEx10.Controls.Add(this.buttonX1);
+            this.panelEx10.Controls.Add(this.ui_BufferSymbols_comboBox);
+            this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx10.Location = new System.Drawing.Point(313, 3);
+            this.panelEx10.Name = "panelEx10";
+            this.panelEx10.Size = new System.Drawing.Size(161, 481);
+            this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx10.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx10.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx10.Style.GradientAngle = 90;
+            this.panelEx10.TabIndex = 1;
+            // 
+            // labelX10
+            // 
+            this.labelX10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
+            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX10.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX10.ForeColor = System.Drawing.Color.Black;
+            this.labelX10.Location = new System.Drawing.Point(46, 10);
+            this.labelX10.Name = "labelX10";
+            this.labelX10.Size = new System.Drawing.Size(69, 23);
+            this.labelX10.TabIndex = 23;
+            this.labelX10.Text = "Symbols";
+            // 
+            // buttonX1
+            // 
+            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX1.Location = new System.Drawing.Point(12, 69);
+            this.buttonX1.Name = "buttonX1";
+            this.buttonX1.Size = new System.Drawing.Size(137, 54);
+            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX1.TabIndex = 1;
+            this.buttonX1.Text = "REFRESH";
+            this.buttonX1.Click += new System.EventHandler(this.buttonX1_Click);
+            // 
+            // ui_BufferSymbols_comboBox
+            // 
+            this.ui_BufferSymbols_comboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ui_BufferSymbols_comboBox.DisplayMember = "Text";
+            this.ui_BufferSymbols_comboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.ui_BufferSymbols_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ui_BufferSymbols_comboBox.ForeColor = System.Drawing.Color.Black;
+            this.ui_BufferSymbols_comboBox.FormattingEnabled = true;
+            this.ui_BufferSymbols_comboBox.ItemHeight = 16;
+            this.ui_BufferSymbols_comboBox.Location = new System.Drawing.Point(12, 38);
+            this.ui_BufferSymbols_comboBox.Name = "ui_BufferSymbols_comboBox";
+            this.ui_BufferSymbols_comboBox.Size = new System.Drawing.Size(137, 22);
+            this.ui_BufferSymbols_comboBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_BufferSymbols_comboBox.TabIndex = 22;
+            // 
+            // panelEx7
+            // 
+            this.panelEx7.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx7.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx7.Controls.Add(this.ui_TickTable_dataGridView);
+            this.panelEx7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx7.Location = new System.Drawing.Point(3, 3);
+            this.panelEx7.Name = "panelEx7";
+            this.panelEx7.Size = new System.Drawing.Size(304, 481);
+            this.panelEx7.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx7.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx7.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx7.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx7.Style.GradientAngle = 90;
+            this.panelEx7.TabIndex = 0;
+            // 
+            // ui_TickTable_dataGridView
+            // 
+            this.ui_TickTable_dataGridView.AllowUserToAddRows = false;
+            this.ui_TickTable_dataGridView.AllowUserToDeleteRows = false;
+            this.ui_TickTable_dataGridView.AllowUserToOrderColumns = true;
+            this.ui_TickTable_dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ui_TickTable_dataGridView.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ui_TickTable_dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.ui_TickTable_dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ui_TickTable_dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column6,
+            this.GroupIdTs});
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ui_TickTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
+            this.ui_TickTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_TickTable_dataGridView.EnableHeadersVisualStyles = false;
+            this.ui_TickTable_dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ui_TickTable_dataGridView.Location = new System.Drawing.Point(0, 0);
+            this.ui_TickTable_dataGridView.Name = "ui_TickTable_dataGridView";
+            this.ui_TickTable_dataGridView.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ui_TickTable_dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.ui_TickTable_dataGridView.RowHeadersVisible = false;
+            this.ui_TickTable_dataGridView.RowTemplate.Height = 24;
+            this.ui_TickTable_dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ui_TickTable_dataGridView.Size = new System.Drawing.Size(304, 481);
+            this.ui_TickTable_dataGridView.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.FillWeight = 150F;
+            this.Column1.HeaderText = "Date Tick";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.FillWeight = 34F;
+            this.Column2.HeaderText = "Type";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.FillWeight = 34F;
+            this.Column3.HeaderText = "AskPr";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.FillWeight = 34F;
+            this.Column4.HeaderText = "BidPr";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.FillWeight = 34F;
+            this.Column5.HeaderText = "AskVol";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.FillWeight = 34F;
+            this.Column6.HeaderText = "BidVol";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // GroupIdTs
+            // 
+            this.GroupIdTs.FillWeight = 54F;
+            this.GroupIdTs.HeaderText = "GroupId";
+            this.GroupIdTs.Name = "GroupIdTs";
+            this.GroupIdTs.ReadOnly = true;
+            // 
             // metroTabPanel1
             // 
             this.metroTabPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -806,7 +1158,7 @@ namespace TickNetClient.Forms
             this.metroTabPanel1.Location = new System.Drawing.Point(0, 51);
             this.metroTabPanel1.Name = "metroTabPanel1";
             this.metroTabPanel1.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel1.Size = new System.Drawing.Size(978, 448);
+            this.metroTabPanel1.Size = new System.Drawing.Size(832, 467);
             // 
             // 
             // 
@@ -821,7 +1173,6 @@ namespace TickNetClient.Forms
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.StyleMouseOver.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.metroTabPanel1.TabIndex = 0;
-            this.metroTabPanel1.Visible = false;
             // 
             // panelEx5
             // 
@@ -831,7 +1182,7 @@ namespace TickNetClient.Forms
             this.panelEx5.Controls.Add(this.ui_LabelX_sharedAvaliable);
             this.panelEx5.Controls.Add(this.ui_buttonX_shareConnect);
             this.panelEx5.Controls.Add(this.labelX16);
-            this.panelEx5.Location = new System.Drawing.Point(203, 73);
+            this.panelEx5.Location = new System.Drawing.Point(130, 83);
             this.panelEx5.Name = "panelEx5";
             this.panelEx5.Size = new System.Drawing.Size(272, 279);
             this.panelEx5.Style.Alignment = System.Drawing.StringAlignment.Center;
@@ -906,7 +1257,7 @@ namespace TickNetClient.Forms
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_db);
             this.panelEx1.Controls.Add(this.labelX1);
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_host);
-            this.panelEx1.Location = new System.Drawing.Point(481, 73);
+            this.panelEx1.Location = new System.Drawing.Point(408, 83);
             this.panelEx1.Name = "panelEx1";
             this.panelEx1.Size = new System.Drawing.Size(272, 279);
             this.panelEx1.Style.Alignment = System.Drawing.StringAlignment.Center;
@@ -924,7 +1275,7 @@ namespace TickNetClient.Forms
             // 
             this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX9.ForeColor = System.Drawing.Color.Black;
-            this.labelX9.Location = new System.Drawing.Point(35, 127);
+            this.labelX9.Location = new System.Drawing.Point(35, 178);
             this.labelX9.Name = "labelX9";
             this.labelX9.Size = new System.Drawing.Size(75, 20);
             this.labelX9.TabIndex = 26;
@@ -942,10 +1293,10 @@ namespace TickNetClient.Forms
             this.ui_home_textBoxX_db_live.Border.Class = "TextBoxBorder";
             this.ui_home_textBoxX_db_live.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.ui_home_textBoxX_db_live.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_db_live.Location = new System.Drawing.Point(116, 127);
+            this.ui_home_textBoxX_db_live.Location = new System.Drawing.Point(116, 178);
             this.ui_home_textBoxX_db_live.Name = "ui_home_textBoxX_db_live";
             this.ui_home_textBoxX_db_live.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_db_live.TabIndex = 2;
+            this.ui_home_textBoxX_db_live.TabIndex = 4;
             // 
             // ui_LabelX_localAvaliable
             // 
@@ -1016,7 +1367,7 @@ namespace TickNetClient.Forms
             // 
             this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX4.ForeColor = System.Drawing.Color.Black;
-            this.labelX4.Location = new System.Drawing.Point(35, 180);
+            this.labelX4.Location = new System.Drawing.Point(35, 99);
             this.labelX4.Name = "labelX4";
             this.labelX4.Size = new System.Drawing.Size(75, 20);
             this.labelX4.TabIndex = 18;
@@ -1034,11 +1385,11 @@ namespace TickNetClient.Forms
             this.ui_home_textBoxX_pwd.Border.Class = "TextBoxBorder";
             this.ui_home_textBoxX_pwd.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.ui_home_textBoxX_pwd.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_pwd.Location = new System.Drawing.Point(116, 180);
+            this.ui_home_textBoxX_pwd.Location = new System.Drawing.Point(116, 99);
             this.ui_home_textBoxX_pwd.Name = "ui_home_textBoxX_pwd";
             this.ui_home_textBoxX_pwd.PasswordChar = '*';
             this.ui_home_textBoxX_pwd.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_pwd.TabIndex = 4;
+            this.ui_home_textBoxX_pwd.TabIndex = 1;
             // 
             // labelX3
             // 
@@ -1047,7 +1398,7 @@ namespace TickNetClient.Forms
             // 
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX3.ForeColor = System.Drawing.Color.Black;
-            this.labelX3.Location = new System.Drawing.Point(35, 154);
+            this.labelX3.Location = new System.Drawing.Point(35, 73);
             this.labelX3.Name = "labelX3";
             this.labelX3.Size = new System.Drawing.Size(75, 20);
             this.labelX3.TabIndex = 16;
@@ -1065,10 +1416,10 @@ namespace TickNetClient.Forms
             this.ui_home_textBoxX_uid.Border.Class = "TextBoxBorder";
             this.ui_home_textBoxX_uid.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.ui_home_textBoxX_uid.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_uid.Location = new System.Drawing.Point(116, 154);
+            this.ui_home_textBoxX_uid.Location = new System.Drawing.Point(116, 73);
             this.ui_home_textBoxX_uid.Name = "ui_home_textBoxX_uid";
             this.ui_home_textBoxX_uid.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_uid.TabIndex = 3;
+            this.ui_home_textBoxX_uid.TabIndex = 0;
             // 
             // labelX2
             // 
@@ -1077,7 +1428,7 @@ namespace TickNetClient.Forms
             // 
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX2.ForeColor = System.Drawing.Color.Black;
-            this.labelX2.Location = new System.Drawing.Point(35, 100);
+            this.labelX2.Location = new System.Drawing.Point(35, 151);
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(75, 20);
             this.labelX2.TabIndex = 14;
@@ -1095,10 +1446,10 @@ namespace TickNetClient.Forms
             this.ui_home_textBoxX_db.Border.Class = "TextBoxBorder";
             this.ui_home_textBoxX_db.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.ui_home_textBoxX_db.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_db.Location = new System.Drawing.Point(116, 100);
+            this.ui_home_textBoxX_db.Location = new System.Drawing.Point(116, 151);
             this.ui_home_textBoxX_db.Name = "ui_home_textBoxX_db";
             this.ui_home_textBoxX_db.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_db.TabIndex = 1;
+            this.ui_home_textBoxX_db.TabIndex = 3;
             // 
             // labelX1
             // 
@@ -1107,7 +1458,7 @@ namespace TickNetClient.Forms
             // 
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX1.ForeColor = System.Drawing.Color.Black;
-            this.labelX1.Location = new System.Drawing.Point(35, 74);
+            this.labelX1.Location = new System.Drawing.Point(35, 125);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(75, 20);
             this.labelX1.TabIndex = 12;
@@ -1125,361 +1476,10 @@ namespace TickNetClient.Forms
             this.ui_home_textBoxX_host.Border.Class = "TextBoxBorder";
             this.ui_home_textBoxX_host.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.ui_home_textBoxX_host.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_host.Location = new System.Drawing.Point(116, 74);
+            this.ui_home_textBoxX_host.Location = new System.Drawing.Point(116, 125);
             this.ui_home_textBoxX_host.Name = "ui_home_textBoxX_host";
             this.ui_home_textBoxX_host.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_host.TabIndex = 0;
-            // 
-            // metroTabPanel3
-            // 
-            this.metroTabPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.metroTabPanel3.Controls.Add(this.uiBuffer_panelEx);
-            this.metroTabPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel3.Location = new System.Drawing.Point(0, 51);
-            this.metroTabPanel3.Name = "metroTabPanel3";
-            this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel3.Size = new System.Drawing.Size(832, 467);
-            // 
-            // 
-            // 
-            this.metroTabPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel3.TabIndex = 3;
-            // 
-            // uiBuffer_panelEx
-            // 
-            this.uiBuffer_panelEx.CanvasColor = System.Drawing.SystemColors.Control;
-            this.uiBuffer_panelEx.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.uiBuffer_panelEx.Controls.Add(this.ui_BufferTab_layout);
-            this.uiBuffer_panelEx.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiBuffer_panelEx.Location = new System.Drawing.Point(3, 0);
-            this.uiBuffer_panelEx.Name = "uiBuffer_panelEx";
-            this.uiBuffer_panelEx.Size = new System.Drawing.Size(826, 464);
-            this.uiBuffer_panelEx.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.uiBuffer_panelEx.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.uiBuffer_panelEx.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.uiBuffer_panelEx.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.uiBuffer_panelEx.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.uiBuffer_panelEx.Style.GradientAngle = 90;
-            this.uiBuffer_panelEx.TabIndex = 0;
-            // 
-            // ui_BufferTab_layout
-            // 
-            this.ui_BufferTab_layout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ui_BufferTab_layout.ColumnCount = 3;
-            this.ui_BufferTab_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.99076F));
-            this.ui_BufferTab_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.4388F));
-            this.ui_BufferTab_layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.68591F));
-            this.ui_BufferTab_layout.Controls.Add(this.panelEx11, 2, 0);
-            this.ui_BufferTab_layout.Controls.Add(this.panelEx10, 1, 0);
-            this.ui_BufferTab_layout.Controls.Add(this.panelEx7, 0, 0);
-            this.ui_BufferTab_layout.ForeColor = System.Drawing.Color.Black;
-            this.ui_BufferTab_layout.Location = new System.Drawing.Point(3, 6);
-            this.ui_BufferTab_layout.Name = "ui_BufferTab_layout";
-            this.ui_BufferTab_layout.RowCount = 1;
-            this.ui_BufferTab_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ui_BufferTab_layout.Size = new System.Drawing.Size(819, 436);
-            this.ui_BufferTab_layout.TabIndex = 24;
-            // 
-            // panelEx11
-            // 
-            this.panelEx11.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx11.Controls.Add(this.ui_DomTable_dataGridView);
-            this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx11.Location = new System.Drawing.Point(480, 3);
-            this.panelEx11.Name = "panelEx11";
-            this.panelEx11.Size = new System.Drawing.Size(336, 430);
-            this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx11.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx11.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx11.Style.GradientAngle = 90;
-            this.panelEx11.TabIndex = 2;
-            // 
-            // ui_DomTable_dataGridView
-            // 
-            this.ui_DomTable_dataGridView.AllowUserToAddRows = false;
-            this.ui_DomTable_dataGridView.AllowUserToDeleteRows = false;
-            this.ui_DomTable_dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.ui_DomTable_dataGridView.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ui_DomTable_dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.ui_DomTable_dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ui_DomTable_dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.Column7,
-            this.Column8,
-            this.Column9,
-            this.Column10,
-            this.GroupIdDom});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ui_DomTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ui_DomTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_DomTable_dataGridView.EnableHeadersVisualStyles = false;
-            this.ui_DomTable_dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.ui_DomTable_dataGridView.Location = new System.Drawing.Point(0, 0);
-            this.ui_DomTable_dataGridView.Name = "ui_DomTable_dataGridView";
-            this.ui_DomTable_dataGridView.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ui_DomTable_dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.ui_DomTable_dataGridView.RowHeadersVisible = false;
-            this.ui_DomTable_dataGridView.RowTemplate.Height = 24;
-            this.ui_DomTable_dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ui_DomTable_dataGridView.Size = new System.Drawing.Size(336, 430);
-            this.ui_DomTable_dataGridView.TabIndex = 2;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Date DOM";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.FillWeight = 45F;
-            this.Column7.HeaderText = "AskPr";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.FillWeight = 45F;
-            this.Column8.HeaderText = "BidPr";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.FillWeight = 45F;
-            this.Column9.HeaderText = "AskVol";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            // 
-            // Column10
-            // 
-            this.Column10.FillWeight = 45F;
-            this.Column10.HeaderText = "BidVol";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            // 
-            // GroupIdDom
-            // 
-            this.GroupIdDom.FillWeight = 34F;
-            this.GroupIdDom.HeaderText = "GroupId";
-            this.GroupIdDom.Name = "GroupIdDom";
-            this.GroupIdDom.ReadOnly = true;
-            // 
-            // panelEx10
-            // 
-            this.panelEx10.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx10.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx10.Controls.Add(this.labelX10);
-            this.panelEx10.Controls.Add(this.buttonX1);
-            this.panelEx10.Controls.Add(this.ui_BufferSymbols_comboBox);
-            this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx10.Location = new System.Drawing.Point(313, 3);
-            this.panelEx10.Name = "panelEx10";
-            this.panelEx10.Size = new System.Drawing.Size(161, 430);
-            this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx10.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx10.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx10.Style.GradientAngle = 90;
-            this.panelEx10.TabIndex = 1;
-            // 
-            // labelX10
-            // 
-            this.labelX10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            // 
-            // 
-            // 
-            this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX10.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX10.ForeColor = System.Drawing.Color.Black;
-            this.labelX10.Location = new System.Drawing.Point(46, 10);
-            this.labelX10.Name = "labelX10";
-            this.labelX10.Size = new System.Drawing.Size(69, 23);
-            this.labelX10.TabIndex = 23;
-            this.labelX10.Text = "Symbols";
-            // 
-            // buttonX1
-            // 
-            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX1.Location = new System.Drawing.Point(12, 69);
-            this.buttonX1.Name = "buttonX1";
-            this.buttonX1.Size = new System.Drawing.Size(137, 54);
-            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX1.TabIndex = 1;
-            this.buttonX1.Text = "REFRESH";
-            this.buttonX1.Click += new System.EventHandler(this.buttonX1_Click);
-            // 
-            // ui_BufferSymbols_comboBox
-            // 
-            this.ui_BufferSymbols_comboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ui_BufferSymbols_comboBox.DisplayMember = "Text";
-            this.ui_BufferSymbols_comboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.ui_BufferSymbols_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ui_BufferSymbols_comboBox.ForeColor = System.Drawing.Color.Black;
-            this.ui_BufferSymbols_comboBox.FormattingEnabled = true;
-            this.ui_BufferSymbols_comboBox.ItemHeight = 16;
-            this.ui_BufferSymbols_comboBox.Location = new System.Drawing.Point(12, 38);
-            this.ui_BufferSymbols_comboBox.Name = "ui_BufferSymbols_comboBox";
-            this.ui_BufferSymbols_comboBox.Size = new System.Drawing.Size(137, 22);
-            this.ui_BufferSymbols_comboBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_BufferSymbols_comboBox.TabIndex = 22;
-            // 
-            // panelEx7
-            // 
-            this.panelEx7.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx7.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx7.Controls.Add(this.ui_TickTable_dataGridView);
-            this.panelEx7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx7.Location = new System.Drawing.Point(3, 3);
-            this.panelEx7.Name = "panelEx7";
-            this.panelEx7.Size = new System.Drawing.Size(304, 430);
-            this.panelEx7.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx7.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx7.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx7.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx7.Style.GradientAngle = 90;
-            this.panelEx7.TabIndex = 0;
-            // 
-            // ui_TickTable_dataGridView
-            // 
-            this.ui_TickTable_dataGridView.AllowUserToAddRows = false;
-            this.ui_TickTable_dataGridView.AllowUserToDeleteRows = false;
-            this.ui_TickTable_dataGridView.AllowUserToOrderColumns = true;
-            this.ui_TickTable_dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.ui_TickTable_dataGridView.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ui_TickTable_dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.ui_TickTable_dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ui_TickTable_dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.GroupIdTs});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ui_TickTable_dataGridView.DefaultCellStyle = dataGridViewCellStyle5;
-            this.ui_TickTable_dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_TickTable_dataGridView.EnableHeadersVisualStyles = false;
-            this.ui_TickTable_dataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.ui_TickTable_dataGridView.Location = new System.Drawing.Point(0, 0);
-            this.ui_TickTable_dataGridView.Name = "ui_TickTable_dataGridView";
-            this.ui_TickTable_dataGridView.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ui_TickTable_dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.ui_TickTable_dataGridView.RowHeadersVisible = false;
-            this.ui_TickTable_dataGridView.RowTemplate.Height = 24;
-            this.ui_TickTable_dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ui_TickTable_dataGridView.Size = new System.Drawing.Size(304, 430);
-            this.ui_TickTable_dataGridView.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.FillWeight = 150F;
-            this.Column1.HeaderText = "Date Tick";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.FillWeight = 34F;
-            this.Column2.HeaderText = "Type";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.FillWeight = 34F;
-            this.Column3.HeaderText = "AskPr";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.FillWeight = 34F;
-            this.Column4.HeaderText = "BidPr";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            this.Column5.FillWeight = 34F;
-            this.Column5.HeaderText = "AskVol";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.FillWeight = 34F;
-            this.Column6.HeaderText = "BidVol";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            // 
-            // GroupIdTs
-            // 
-            this.GroupIdTs.FillWeight = 54F;
-            this.GroupIdTs.HeaderText = "GroupId";
-            this.GroupIdTs.Name = "GroupIdTs";
-            this.GroupIdTs.ReadOnly = true;
+            this.ui_home_textBoxX_host.TabIndex = 2;
             // 
             // metroAppButton1
             // 
@@ -1495,6 +1495,7 @@ namespace TickNetClient.Forms
             // 
             // metroTabItem1
             // 
+            this.metroTabItem1.Checked = true;
             this.metroTabItem1.Name = "metroTabItem1";
             this.metroTabItem1.Panel = this.metroTabPanel1;
             this.metroTabItem1.Text = "&HOME";
@@ -1508,7 +1509,6 @@ namespace TickNetClient.Forms
             // 
             // metroTabItem3
             // 
-            this.metroTabItem3.Checked = true;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
             this.metroTabItem3.Text = "&BUFFER";
@@ -1729,9 +1729,6 @@ namespace TickNetClient.Forms
             this.panelEx2.PerformLayout();
             this.panelEx8.ResumeLayout(false);
             this.contextMenuStripSymbols.ResumeLayout(false);
-            this.metroTabPanel1.ResumeLayout(false);
-            this.panelEx5.ResumeLayout(false);
-            this.panelEx1.ResumeLayout(false);
             this.metroTabPanel3.ResumeLayout(false);
             this.uiBuffer_panelEx.ResumeLayout(false);
             this.ui_BufferTab_layout.ResumeLayout(false);
@@ -1740,6 +1737,9 @@ namespace TickNetClient.Forms
             this.panelEx10.ResumeLayout(false);
             this.panelEx7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ui_TickTable_dataGridView)).EndInit();
+            this.metroTabPanel1.ResumeLayout(false);
+            this.panelEx5.ResumeLayout(false);
+            this.panelEx1.ResumeLayout(false);
             this.contextMenuStripLists.ResumeLayout(false);
             this.contextMenuStripTables.ResumeLayout(false);
             this.ResumeLayout(false);

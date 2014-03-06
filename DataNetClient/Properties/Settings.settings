@@ -11,7 +11,7 @@
     <Setting Name="User" Type="System.String" Scope="User">
       <Value Profile="(Default)">root</Value>
     </Setting>
-    <Setting Name="DB" Type="System.String" Scope="User">
+    <Setting Name="MainDB" Type="System.String" Scope="User">
       <Value Profile="(Default)">SYSTEM</Value>
     </Setting>
     <Setting Name="Host" Type="System.String" Scope="User">

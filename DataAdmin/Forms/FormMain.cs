@@ -1126,7 +1126,7 @@ namespace DataAdmin.Forms
             Settings.Default.connectionUser = _startControl.ui_textBoxX_login.Text;
             Settings.Default.connectionPassword = _startControl.ui_textBoxX_password.Text;
             Settings.Default.connectionHost = _startControl.ui_textBoxX_host.Text;
-            Settings.Default.connectionDB = _startControl.ui_textBoxX_db.Text;
+            Settings.Default.dbSystem = _startControl.ui_textBoxX_db.Text;
             Settings.Default.dbBar = _startControl.textBoxX_db_bar.Text;
             Settings.Default.dbLive = _startControl.textBoxX_db_live.Text;
             Settings.Default.dbHist = _startControl.textBoxX_db_hbar.Text;
@@ -1135,7 +1135,7 @@ namespace DataAdmin.Forms
             try
             {
                 if (DataManager.Initialize(Settings.Default.connectionHost, Settings.Default.connectionUser, Settings.Default.connectionPassword,
-                                           Settings.Default.connectionDB, 
+                                           Settings.Default.dbSystem, 
                                            Settings.Default.dbBar,
                                            Settings.Default.dbLive,
                                            Settings.Default.dbHist))

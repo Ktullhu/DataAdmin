@@ -46,11 +46,6 @@
             this.textBoxXListName = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
-            this.textBoxX_sessionsName = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.checkBox_sy = new System.Windows.Forms.CheckBox();
-            this.buttonX_add = new DevComponents.DotNetBar.ButtonX();
-            this.dateTimeInput2 = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
-            this.dateTimeInput1 = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
             this.listViewEx_times = new DevComponents.DotNetBar.Controls.ListViewEx();
             this.columnHeader_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Name1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -60,6 +55,11 @@
             this.columnHeader_Days = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBoxX_sessionsName = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.checkBox_sy = new System.Windows.Forms.CheckBox();
+            this.buttonX_add = new DevComponents.DotNetBar.ButtonX();
+            this.dateTimeInput2 = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
+            this.dateTimeInput1 = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
             this.ui_nudDOMDepth = new System.Windows.Forms.NumericUpDown();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
             this.checkBox_AutoCollec = new System.Windows.Forms.CheckBox();
@@ -67,12 +67,12 @@
             this.panelEx2 = new DevComponents.DotNetBar.PanelEx();
             this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
             this.panelEx4 = new DevComponents.DotNetBar.PanelEx();
-            this.comboBoxEx_existigsSessions = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
+            this.comboBoxEx_existigsSessions = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.panelEx1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ui_nudDOMDepth)).BeginInit();
             this.panelEx2.SuspendLayout();
             this.panelEx3.SuspendLayout();
@@ -288,6 +288,76 @@
             this.panelEx1.Style.GradientAngle = 90;
             this.panelEx1.TabIndex = 90;
             // 
+            // listViewEx_times
+            // 
+            this.listViewEx_times.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.listViewEx_times.Border.Class = "ListViewBorder";
+            this.listViewEx_times.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.listViewEx_times.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_No,
+            this.columnHeader_Name1,
+            this.columnHeader_TS,
+            this.columnHeader_TE,
+            this.columnHeader_SY,
+            this.columnHeader_Days});
+            this.listViewEx_times.ContextMenuStrip = this.contextMenuStrip1;
+            this.listViewEx_times.ForeColor = System.Drawing.Color.Black;
+            this.listViewEx_times.FullRowSelect = true;
+            this.listViewEx_times.Location = new System.Drawing.Point(7, 5);
+            this.listViewEx_times.MultiSelect = false;
+            this.listViewEx_times.Name = "listViewEx_times";
+            this.listViewEx_times.Size = new System.Drawing.Size(560, 149);
+            this.listViewEx_times.TabIndex = 94;
+            this.listViewEx_times.UseCompatibleStateImageBehavior = false;
+            this.listViewEx_times.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader_No
+            // 
+            this.columnHeader_No.Text = "No";
+            this.columnHeader_No.Width = 35;
+            // 
+            // columnHeader_Name1
+            // 
+            this.columnHeader_Name1.Text = "Name";
+            this.columnHeader_Name1.Width = 120;
+            // 
+            // columnHeader_TS
+            // 
+            this.columnHeader_TS.Text = "Time Start";
+            this.columnHeader_TS.Width = 75;
+            // 
+            // columnHeader_TE
+            // 
+            this.columnHeader_TE.Text = "Time End";
+            this.columnHeader_TE.Width = 75;
+            // 
+            // columnHeader_SY
+            // 
+            this.columnHeader_SY.Text = "Start Yesterday";
+            this.columnHeader_SY.Width = 105;
+            // 
+            // columnHeader_Days
+            // 
+            this.columnHeader_Days.Text = "Days";
+            this.columnHeader_Days.Width = 80;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 26);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // textBoxX_sessionsName
             // 
             this.textBoxX_sessionsName.BackColor = System.Drawing.Color.White;
@@ -433,76 +503,6 @@
             this.dateTimeInput1.TabIndex = 98;
             this.dateTimeInput1.Value = new System.DateTime(2013, 12, 17, 0, 0, 0, 0);
             // 
-            // listViewEx_times
-            // 
-            this.listViewEx_times.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.listViewEx_times.Border.Class = "ListViewBorder";
-            this.listViewEx_times.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.listViewEx_times.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_No,
-            this.columnHeader_Name1,
-            this.columnHeader_TS,
-            this.columnHeader_TE,
-            this.columnHeader_SY,
-            this.columnHeader_Days});
-            this.listViewEx_times.ContextMenuStrip = this.contextMenuStrip1;
-            this.listViewEx_times.ForeColor = System.Drawing.Color.Black;
-            this.listViewEx_times.FullRowSelect = true;
-            this.listViewEx_times.Location = new System.Drawing.Point(7, 5);
-            this.listViewEx_times.MultiSelect = false;
-            this.listViewEx_times.Name = "listViewEx_times";
-            this.listViewEx_times.Size = new System.Drawing.Size(560, 149);
-            this.listViewEx_times.TabIndex = 94;
-            this.listViewEx_times.UseCompatibleStateImageBehavior = false;
-            this.listViewEx_times.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader_No
-            // 
-            this.columnHeader_No.Text = "No";
-            this.columnHeader_No.Width = 35;
-            // 
-            // columnHeader_Name1
-            // 
-            this.columnHeader_Name1.Text = "Name";
-            this.columnHeader_Name1.Width = 120;
-            // 
-            // columnHeader_TS
-            // 
-            this.columnHeader_TS.Text = "Time Start";
-            this.columnHeader_TS.Width = 75;
-            // 
-            // columnHeader_TE
-            // 
-            this.columnHeader_TE.Text = "Time End";
-            this.columnHeader_TE.Width = 75;
-            // 
-            // columnHeader_SY
-            // 
-            this.columnHeader_SY.Text = "Start Yesterday";
-            this.columnHeader_SY.Width = 105;
-            // 
-            // columnHeader_Days
-            // 
-            this.columnHeader_Days.Text = "Days";
-            this.columnHeader_Days.Width = 80;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 26);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
             // ui_nudDOMDepth
             // 
             this.ui_nudDOMDepth.BackColor = System.Drawing.Color.White;
@@ -638,6 +638,18 @@
             this.panelEx4.Style.GradientAngle = 90;
             this.panelEx4.TabIndex = 112;
             // 
+            // buttonX1
+            // 
+            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX1.Location = new System.Drawing.Point(496, 3);
+            this.buttonX1.Name = "buttonX1";
+            this.buttonX1.Size = new System.Drawing.Size(71, 54);
+            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX1.TabIndex = 101;
+            this.buttonX1.Text = "Add";
+            this.buttonX1.Click += new System.EventHandler(this.buttonX1_Click);
+            // 
             // comboBoxEx_existigsSessions
             // 
             this.comboBoxEx_existigsSessions.DisplayMember = "Text";
@@ -650,18 +662,6 @@
             this.comboBoxEx_existigsSessions.Size = new System.Drawing.Size(363, 23);
             this.comboBoxEx_existigsSessions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.comboBoxEx_existigsSessions.TabIndex = 82;
-            // 
-            // buttonX1
-            // 
-            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX1.Location = new System.Drawing.Point(496, 3);
-            this.buttonX1.Name = "buttonX1";
-            this.buttonX1.Size = new System.Drawing.Size(71, 54);
-            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX1.TabIndex = 101;
-            this.buttonX1.Text = "Add";
-            this.buttonX1.Click += new System.EventHandler(this.buttonX1_Click);
             // 
             // EditListControl
             // 
@@ -684,9 +684,9 @@
             this.Size = new System.Drawing.Size(800, 482);
             this.Load += new System.EventHandler(this.EditListControl_Load);
             this.panelEx1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ui_nudDOMDepth)).EndInit();
             this.panelEx2.ResumeLayout(false);
             this.panelEx3.ResumeLayout(false);

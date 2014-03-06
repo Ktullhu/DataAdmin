@@ -104,17 +104,26 @@ namespace DataNetClient.Core.CQGDataCollector
         public delegate void UnsuccessfulSymbolHandler(List<string> symbols);
 
         public static event UnsuccessfulSymbolHandler UnsuccessfulSymbol;
-
+     
         private static void OnUnsuccessfulSymbol(List<string> symbols)
         {
             UnsuccessfulSymbolHandler handler = UnsuccessfulSymbol;
             if (handler != null) handler(symbols);
         }
 
+        public delegate void TickInsertingStartedHandler(string symbols, int count);
 
+        public static event TickInsertingStartedHandler TickInsertingStarted;        
+
+        private static void OnTickInsertingStarted(string symbols, int count)
+        {
+            TickInsertingStartedHandler handler = TickInsertingStarted;
+            if (handler != null) handler(symbols,count);
+        }
 
         #endregion
-        
+           private static object _lockHistInsert = new object();
+
         #region INIT
 
         static CQGDataCollectorManager()
@@ -198,7 +207,7 @@ namespace DataNetClient.Core.CQGDataCollector
             var symbol = cqgTicks.Request.Symbol;
 
             TicksAdd(cqgTicks, cqgError, _userName);
-            FinishCollectingSymbol(symbol, true);
+            
                 
         }
 
@@ -208,7 +217,7 @@ namespace DataNetClient.Core.CQGDataCollector
             var symbol = cqgTimedBars.Request.Symbol;
 
             BarsAdd(cqgTimedBars, cqgError, _userName);
-            FinishCollectingSymbol(symbol,true);            
+            FinishCollectingSymbol(symbol, true);           
         }
 
         static void _cel_DataError(object cqgError, string errorDescription)
@@ -464,14 +473,28 @@ namespace DataNetClient.Core.CQGDataCollector
 
                     if (cqgTicks.Count != 0)
                     {
-                        DatabaseManager.DeleteTicks(cqgTicks.Request.Symbol, cqgTicks[0].Timestamp, cqgTicks[cqgTicks.Count - 1].Timestamp);
-                        for (int i = cqgTicks.Count - 1; i >= 0; i--)
-                        {                            
-                            AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                        }
+                        new Thread(() =>
+                        {
 
+                            lock (_lockHistInsert)
+                            {
+                                OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
+
+                                DatabaseManager.DeleteTicks(cqgTicks.Request.Symbol, cqgTicks[0].Timestamp, cqgTicks[cqgTicks.Count - 1].Timestamp);
+                                for (int i = cqgTicks.Count - 1; i >= 0; i--)
+                                {
+                                    if (_isStoped) break;
+                                    AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                }
+                                DatabaseManager.CommitQueueTick();
+
+                                FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
+                            }
+
+                        }) { Name ="InsertingHistoricalThread"}.Start();
+                        
                     }
-                    DatabaseManager.CommitQueueTick();
+                   
 
                 }
                

@@ -62,12 +62,12 @@ namespace DataNetClient.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("SYSTEM")]
-        public string DB {
+        public string MainDB {
             get {
-                return ((string)(this["DB"]));
+                return ((string)(this["MainDB"]));
             }
             set {
-                this["DB"] = value;
+                this["MainDB"] = value;
             }
         }
         

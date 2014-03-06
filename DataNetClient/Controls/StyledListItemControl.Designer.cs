@@ -150,6 +150,8 @@
             this.labelX_isAutoCollectEnabled.TabIndex = 13;
             this.toolTip1.SetToolTip(this.labelX_isAutoCollectEnabled, "Auto Collect enabled");
             this.labelX_isAutoCollectEnabled.Visible = false;
+            this.labelX_isAutoCollectEnabled.MouseLeave += new System.EventHandler(this.panelEx_back_MouseLeave);
+            this.labelX_isAutoCollectEnabled.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEx_back_MouseMove);
             // 
             // labelX_tf
             // 
@@ -160,7 +162,7 @@
             this.labelX_tf.ContextMenuStrip = this.contextMenuStrip1;
             this.labelX_tf.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.labelX_tf.ForeColor = System.Drawing.Color.Black;
-            this.labelX_tf.Location = new System.Drawing.Point(121, 22);
+            this.labelX_tf.Location = new System.Drawing.Point(122, 22);
             this.labelX_tf.Name = "labelX_tf";
             this.labelX_tf.PaddingRight = 5;
             this.labelX_tf.Size = new System.Drawing.Size(76, 17);
@@ -170,6 +172,9 @@
             this.labelX_tf.Text = "1M";
             this.labelX_tf.TextAlignment = System.Drawing.StringAlignment.Center;
             this.toolTip1.SetToolTip(this.labelX_tf, "Time frame");
+            this.labelX_tf.Click += new System.EventHandler(this.panelEx_back_Click);
+            this.labelX_tf.MouseLeave += new System.EventHandler(this.panelEx_back_MouseLeave);
+            this.labelX_tf.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEx_back_MouseMove);
             // 
             // labelX_title
             // 

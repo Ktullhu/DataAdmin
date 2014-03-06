@@ -1,10 +1,10 @@
+using CQG;
+using DADataManager;
+using DADataManager.Models;
+using DataNetClient.Core;
+using DevComponents.DotNetBar;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using CQG;
-using DataNetClient.Core;
-using DADataManager.Models;
-using DADataManager;
 
 namespace DataNetClient.Forms
 {
@@ -77,6 +77,7 @@ namespace DataNetClient.Forms
         public string OldGroupName { get; private set; }
 
         public GroupModel AGroupModel { get; set; }
+        public List<SessionModel> addedSessions { get; set; }
 
         #endregion
 
@@ -90,6 +91,7 @@ namespace DataNetClient.Forms
 
             LoadSessions();
 
+            LoadExistingSessions();
         }
 
         private void LoadSessions()
@@ -119,8 +121,22 @@ namespace DataNetClient.Forms
                 if (!exist) lbSelList.Items.Add(symbol.SymbolName);
             }
 
-        }      
+        }
 
+        private void LoadExistingSessions()
+        {
+            comboBoxEx_existigsSessions.Items.Clear();
+            var sessionsList = DatabaseManager.GetSessions();
+            addedSessions = new List<SessionModel>();
+            foreach (var sessions in sessionsList)
+            {
+                if (!addedSessions.Exists(oo => oo.Name == sessions.Name))
+                {
+                    comboBoxEx_existigsSessions.Items.Add(" [" + sessions.TimeStart.ToShortTimeString() + " - " + sessions.TimeEnd.ToShortTimeString() + "]" + (sessions.IsStartYesterday ? "SY" : "  ") + " (" + sessions.Days + ")   " + sessions.Name);
+                    addedSessions.Add(sessions);
+                }
+            }
+        }
         private void btnRemov_Click(object sender, EventArgs e)
         {
             var asd = lbSelList.SelectedItems;
@@ -168,16 +184,11 @@ namespace DataNetClient.Forms
 
         private void checkBox_AutoCollec_CheckedChanged(object sender, EventArgs e)
         {
-            panelEx1.Enabled = checkBox_AutoCollec.Checked;
+            panelEx1.Enabled = panelEx4.Enabled = panelEx3.Enabled = checkBox_AutoCollec.Checked;
         }
 
         private void buttonX_add_Click_1(object sender, EventArgs e)
         {
-            var res = listViewEx_times.Items.Add(listViewEx_times.Items.Count.ToString());
-            res.SubItems.Add(textBoxX_sessionsName.Text);
-            res.SubItems.Add(dateTimeInput1.Value.ToShortTimeString());                        
-            res.SubItems.Add(GetDaysStr());
-
             var sess = new SessionModel
             {
                 Id = -1,
@@ -188,7 +199,8 @@ namespace DataNetClient.Forms
                 TimeEnd = dateTimeInput2.Value,
             };
 
-            DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
+            AddSessionToList(sess);
+            DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);      
         }
 
         private string GetDaysStr()
@@ -202,6 +214,37 @@ namespace DataNetClient.Forms
             str += checkBox_fri.Checked ? "F" : "_";
             str += checkBox_sat.Checked ? "S" : "_";
             return str;
+        }
+
+        private void AddSessionToList(SessionModel sess)
+        {
+            var res = listViewEx_times.Items.Add(listViewEx_times.Items.Count.ToString());
+            res.SubItems.Add(sess.Name);
+            res.SubItems.Add(sess.TimeStart.ToShortTimeString());                        
+            res.SubItems.Add(sess.Days);
+        }
+
+        private void buttonX1_Click(object sender, EventArgs e)
+        {
+            var ind = comboBoxEx_existigsSessions.SelectedIndex;
+            if (ind == -1)
+            {
+                ToastNotification.Show(panelEx4, "Please, choose any session.");
+                return;
+            }
+
+
+            var sess = new SessionModel
+            {
+                Id = -1,
+                Name = addedSessions[ind].Name,
+                IsStartYesterday = addedSessions[ind].IsStartYesterday,
+                Days = addedSessions[ind].Days,
+                TimeStart = addedSessions[ind].TimeStart,
+                TimeEnd = addedSessions[ind].TimeEnd,
+            };
+            AddSessionToList(sess);
+            DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
         }
 
 

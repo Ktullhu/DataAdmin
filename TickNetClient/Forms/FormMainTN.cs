@@ -151,11 +151,11 @@ namespace TickNetClient.Forms
 
                 UpdateControlsSizeAndLocation();
 
-                ui_home_textBoxX_db.Text = Settings.Default.DB;
-                ui_home_textBoxX_db_live.Text = Settings.Default.DbLive;
-                ui_home_textBoxX_uid.Text = Settings.Default.User;
-                ui_home_textBoxX_pwd.Text = Settings.Default.Password;
-                ui_home_textBoxX_host.Text = Settings.Default.Host;
+                ui_home_textBoxX_db.Text = Settings.Default.LocalDbSystem;
+                ui_home_textBoxX_db_live.Text = Settings.Default.LocalDbLive;
+                ui_home_textBoxX_uid.Text = Settings.Default.LocalUser;
+                ui_home_textBoxX_pwd.Text = Settings.Default.LocalPassword;
+                ui_home_textBoxX_host.Text = Settings.Default.LoaclHost;
                 ui_nudDOMDepth.Value = Settings.Default.Depth;
                 ui_SQL_PacketSize.Value = Settings.Default.SqlPacketSize;
                 checkBoxX1.Checked = Settings.Default.SavePass;
@@ -201,19 +201,19 @@ namespace TickNetClient.Forms
 
                 if (checkBoxX1.Checked)
                 {
-                    Settings.Default.DbLive = ui_home_textBoxX_db_live.Text;
-                    Settings.Default.DB = ui_home_textBoxX_db.Text;
-                    Settings.Default.User = ui_home_textBoxX_uid.Text;
-                    Settings.Default.Password = ui_home_textBoxX_pwd.Text;
-                    Settings.Default.Host = ui_home_textBoxX_host.Text;
+                    Settings.Default.LocalDbLive = ui_home_textBoxX_db_live.Text;
+                    Settings.Default.LocalDbSystem = ui_home_textBoxX_db.Text;
+                    Settings.Default.LocalUser = ui_home_textBoxX_uid.Text;
+                    Settings.Default.LocalPassword = ui_home_textBoxX_pwd.Text;
+                    Settings.Default.LoaclHost = ui_home_textBoxX_host.Text;
                 }
                 else
                 {
-                    Settings.Default.DbLive = "";
-                    Settings.Default.DB = "";
-                    Settings.Default.Host = "";
-                    Settings.Default.User = "";
-                    Settings.Default.Password = "";
+                    Settings.Default.LocalDbLive = "";
+                    Settings.Default.LocalDbSystem = "";
+                    Settings.Default.LoaclHost = "";
+                    Settings.Default.LocalUser = "";
+                    Settings.Default.LocalPassword = "";
                 }
                 Settings.Default.SavePass = checkBoxX1.Checked;
                 Settings.Default.SqlPacketSize = (int)ui_SQL_PacketSize.Value;

@@ -150,7 +150,7 @@ namespace DataNetClient.Forms
                 
 
 
-                ui_home_textBoxX_db.Text = Settings.Default.DB;
+                ui_home_textBoxX_db.Text = Settings.Default.MainDB;
                 ui_home_textBoxX_db_bar.Text = Settings.Default.dbBar;
                 ui_home_textBoxX_db_historical.Text = Settings.Default.dbHistorical;
                 ui_home_textBoxX_uid.Text = Settings.Default.User;
@@ -213,6 +213,7 @@ namespace DataNetClient.Forms
                 CQGDataCollectorManager.CQGStatusChanged += CQGDataCollectorManager_CQGStatusChanged;
 
                 CQGDataCollectorManager.UnsuccessfulSymbol += CQGDataCollectorManager_UnsuccessfulSymbol;
+                CQGDataCollectorManager.TickInsertingStarted += CQGDataCollectorManager_TickInsertingStarted;
                 //todo
                 Thread.Sleep(100);// Fixed bug with closeing while starting//do not remove this
                 _cel.Startup();
@@ -223,6 +224,11 @@ namespace DataNetClient.Forms
                 _logger.LogAdd("Error in loading. " + ex.Message, Category.Error);
                 Close();
             }
+        }
+
+        void CQGDataCollectorManager_TickInsertingStarted(string symbols, int count)
+        {
+            _logger.LogAdd(@"     Symbol '" + symbols + "' inserting started. Total data count:"+count, Category.Information);
         }
 
         void _missingBarManager_Progress(int progress)
@@ -271,7 +277,7 @@ namespace DataNetClient.Forms
 
                 Settings.Default.dbHistorical = ui_home_textBoxX_db_historical.Text;
                 Settings.Default.dbBar = ui_home_textBoxX_db_bar.Text;
-                Settings.Default.DB = ui_home_textBoxX_db.Text;
+                Settings.Default.MainDB = ui_home_textBoxX_db.Text;
                 Settings.Default.User = ui_home_textBoxX_uid.Text;
                 Settings.Default.Password = ui_home_textBoxX_pwd.Text;
                 Settings.Default.Host = ui_home_textBoxX_host.Text;
@@ -280,7 +286,7 @@ namespace DataNetClient.Forms
             {
                 Settings.Default.dbBar = "";
                 Settings.Default.dbHistorical = "";
-                Settings.Default.DB = "";
+                Settings.Default.MainDB = "";
                 Settings.Default.Host = "";
                 Settings.Default.User = "";
                 Settings.Default.Password = "";

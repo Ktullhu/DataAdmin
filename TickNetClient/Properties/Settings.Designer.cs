@@ -25,49 +25,49 @@ namespace TickNetClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DB {
+        [global::System.Configuration.DefaultSettingValueAttribute("SYSTEM")]
+        public string LocalDbSystem {
             get {
-                return ((string)(this["DB"]));
+                return ((string)(this["LocalDbSystem"]));
             }
             set {
-                this["DB"] = value;
+                this["LocalDbSystem"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("root")]
+        public string LocalUser {
+            get {
+                return ((string)(this["LocalUser"]));
+            }
+            set {
+                this["LocalUser"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string User {
+        public string LocalPassword {
             get {
-                return ((string)(this["User"]));
+                return ((string)(this["LocalPassword"]));
             }
             set {
-                this["User"] = value;
+                this["LocalPassword"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Password {
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string LoaclHost {
             get {
-                return ((string)(this["Password"]));
+                return ((string)(this["LoaclHost"]));
             }
             set {
-                this["Password"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Host {
-            get {
-                return ((string)(this["Host"]));
-            }
-            set {
-                this["Host"] = value;
+                this["LoaclHost"] = value;
             }
         }
         
@@ -169,13 +169,13 @@ namespace TickNetClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DbLive {
+        [global::System.Configuration.DefaultSettingValueAttribute("LIVE")]
+        public string LocalDbLive {
             get {
-                return ((string)(this["DbLive"]));
+                return ((string)(this["LocalDbLive"]));
             }
             set {
-                this["DbLive"] = value;
+                this["LocalDbLive"] = value;
             }
         }
         

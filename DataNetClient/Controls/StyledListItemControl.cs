@@ -88,7 +88,8 @@ namespace DataNetClient.Controls
             {
                 panelEx_left.BackColor = Color.LightGreen;
                 labelX_title.ForeColor = Color.Black;
-            }               
+            }
+            panelEx_back.Style.BackColor1.Color = Color.FromArgb(150, 220, 240, 220);
         }
 
         void Redraw()
@@ -107,7 +108,8 @@ namespace DataNetClient.Controls
         }
 
         private void panelEx_back_MouseLeave(object sender, System.EventArgs e)
-        {            
+        {
+            panelEx_back.Style.BackColor1.Color = Color.White;
             labelX_count.ForeColor = Color.Black;
             panelEx_left.BackColor = ItemState!= GroupState.NotInQueue ? _mainColor :
             Color.White;
@@ -243,11 +245,13 @@ namespace DataNetClient.Controls
         private void labelX_settings_MouseMove(object sender, MouseEventArgs e)
         {
             labelX_settings.SymbolColor = Color.Green;
+            panelEx_back.Style.BackColor1.Color = Color.FromArgb(150, 220, 240, 220);
         }
 
         private void labelX_settings_MouseLeave(object sender, EventArgs e)
         {
             labelX_settings.SymbolColor = Color.LightGreen;
+            panelEx_back.Style.BackColor1.Color = Color.White;
         }
 
         private void timer_update_Tick(object sender, EventArgs e)

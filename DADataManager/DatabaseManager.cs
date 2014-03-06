@@ -21,7 +21,7 @@ namespace DADataManager
         public static int MaxBufferSize;
         public static int MaxQueueSize = 500;
         public static bool SortingModeIsAsc = true;
-        
+
         private static string _connectionStringToShareDb;
         private static string _connectionStringToShareDbLive;
         private static string _connectionStringToShareDbBar;
@@ -63,7 +63,7 @@ namespace DADataManager
         private static Dictionary<string, List<InsertQueryModel>> _tickBuffer;
         private static Dictionary<string, List<InsertQueryModel>> _domBuffer;
         private static readonly List<string> QueryQueue = new List<string>();
-        
+
         private static readonly List<String> QueryList = new List<string>();
         private static object _locker = new object();
 
@@ -208,15 +208,15 @@ namespace DADataManager
             var res = OpenConnectionSystem();
             if (res)
             {
-                CreateTables();                
-                OpenConnectionBar(_connectionStringToLocalDbBar);                
-                OpenConnectionHistorical(_connectionStringToLocalDbHistorical);                
+                CreateTables();
+                OpenConnectionBar(_connectionStringToLocalDbBar);
+                OpenConnectionHistorical(_connectionStringToLocalDbHistorical);
                 OpenConnectionLive(_connectionStringToLocalDbLive);
                 CurrentDbIsShared = false;
             }
             ConnectionStatusChanged(res, CurrentDbIsShared);
         }
-   
+
         public static bool IsConnected()
         {
             if (_connectionToDb == null)
@@ -376,9 +376,9 @@ namespace DADataManager
         {
             try
             {
-                if (_connectionToDbBar==null || _connectionToDbBar.State != ConnectionState.Open)
+                if (_connectionToDbBar == null || _connectionToDbBar.State != ConnectionState.Open)
                 {
-                    return false;                     
+                    return false;
                 }
                 _sqlCommandToDbBar.CommandText = sql;
                 _sqlCommandToDbBar.ExecuteNonQuery();
@@ -512,7 +512,7 @@ namespace DADataManager
             {
                 if (string.IsNullOrEmpty(connection)) return false;
 
-                _connectionToDbLive= new MySqlConnection(connection);
+                _connectionToDbLive = new MySqlConnection(connection);
                 _connectionToDbLive.Open();
 
                 if (_connectionToDbLive.State == ConnectionState.Open)
@@ -552,7 +552,7 @@ namespace DADataManager
         {
             try
             {
-                if (_connectionToDbLive ==null || _connectionToDbLive.State != ConnectionState.Open)
+                if (_connectionToDbLive == null || _connectionToDbLive.State != ConnectionState.Open)
                 {
                     return false;
                 }
@@ -993,7 +993,7 @@ namespace DADataManager
 
         #region EditSymbol
 
-        public static bool EditSymbol(string oldSymbolName, string newSymbolName, int userId,ApplicationType appType)
+        public static bool EditSymbol(string oldSymbolName, string newSymbolName, int userId, ApplicationType appType)
         {
             var othersHaveOldSymbol = OtherUsersHaveThisSymbol(oldSymbolName, userId, true);
 
@@ -1018,7 +1018,7 @@ namespace DADataManager
                 var oldSymbolId = GetSymbolIdFromName(oldSymbolName);
                 DeleteSymbolForUser(userId, oldSymbolId);
 
-                var myGroups = GetMyGroupsIds(userId,appType);
+                var myGroups = GetMyGroupsIds(userId, appType);
                 foreach (var gId in myGroups)
                 {
                     ReplaceSymbolInGroups(gId, oldSymbolId, newSymbolId, newSymbolName);
@@ -1043,7 +1043,7 @@ namespace DADataManager
         private static IEnumerable<int> GetMyGroupsIds(int userId, ApplicationType appType)
         {
             var res = new List<int>();
-            string sql = "SELECT * FROM " + TblGroupsForUsers + " WHERE UserID=" + userId + " AND AppType = '" + appType.ToString() + "' AND Privilege = 'Creator' ORDER BY GroupName "+(SortingModeIsAsc?"ASC":"DESC");
+            string sql = "SELECT * FROM " + TblGroupsForUsers + " WHERE UserID=" + userId + " AND AppType = '" + appType.ToString() + "' AND Privilege = 'Creator' ORDER BY GroupName " + (SortingModeIsAsc ? "ASC" : "DESC");
 
             var reader = GetReader(sql);
             if (reader != null)
@@ -1079,7 +1079,7 @@ namespace DADataManager
         private static bool IsGroupHaveSymbol(int groupId, int symbolId)
         {
             string sql = "SELECT * FROM " + TblSymbolsInGroups
-                        + " WHERE GroupId= " + groupId + " AND SymbolID = " + symbolId+" ORDER BY SymbolName "+(SortingModeIsAsc?"ASC":"DESC");;
+                        + " WHERE GroupId= " + groupId + " AND SymbolID = " + symbolId + " ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC"); ;
 
             MySqlDataReader reader = GetReader(sql);
             if (reader != null)
@@ -1119,7 +1119,7 @@ namespace DADataManager
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
                         + " ON " + TblSymbolsForUsers + ".SymbolID = "
-                        + TblSymbols + ".ID" + " WHERE " + TblSymbols + ".SymbolName= '" + oldName + "' AND NOT(" + TblSymbolsForUsers + ".UserID = " + userId + " AND " + TblSymbolsForUsers + ".TNorDN = " + tnOrDn + ") ORDER BY SymbolName "+(SortingModeIsAsc?"ASC":"DESC");
+                        + TblSymbols + ".ID" + " WHERE " + TblSymbols + ".SymbolName= '" + oldName + "' AND NOT(" + TblSymbolsForUsers + ".UserID = " + userId + " AND " + TblSymbolsForUsers + ".TNorDN = " + tnOrDn + ") ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC");
 
             MySqlDataReader reader = GetReader(sql);
             if (reader != null)
@@ -1304,7 +1304,7 @@ namespace DADataManager
         {
             var groupList = new List<GroupModel>();
 
-            string sql = "SELECT * FROM " + TblGroups + " ORDER BY GroupName " + (SortingModeIsAsc ? "ASC" : "DESC") ;
+            string sql = "SELECT * FROM " + TblGroups + " ORDER BY GroupName " + (SortingModeIsAsc ? "ASC" : "DESC");
 
             var reader = GetReader(sql);
             if (reader != null)
@@ -1564,7 +1564,7 @@ namespace DADataManager
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
                         + " ON " + TblSymbolsForUsers + ".SymbolID = "
-                        + TblSymbols + ".ID" + " WHERE " + TblSymbolsForUsers + ".UserID = '" + userId + "' AND " + TblSymbolsForUsers + ".TNorDN = "+(isTickNet?"true":"false") + " ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC"); 
+                        + TblSymbols + ".ID" + " WHERE " + TblSymbolsForUsers + ".UserID = '" + userId + "' AND " + TblSymbolsForUsers + ".TNorDN = " + (isTickNet ? "true" : "false") + " ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC");
 
             MySqlDataReader reader = GetReader(sql);
             if (reader != null)
@@ -1587,7 +1587,7 @@ namespace DADataManager
                     + " (`UserID`, `SymbolID`, `TNorDN`)"
                     + "VALUES('" + userId + "',"
                     + " '" + symbolId + "', "
-                    + (appType==ApplicationType.TickNet?1:0)+"  );COMMIT;";
+                    + (appType == ApplicationType.TickNet ? 1 : 0) + "  );COMMIT;";
 
             return DoSql(sql);
         }
@@ -2113,14 +2113,14 @@ namespace DADataManager
                 Console.WriteLine(e.Message);
             }
         }
-        #endregion   
+        #endregion
 
 
         #region DailyValueRegion
 
         public static void AddDailyValue(double indicativeOpen, double marker, double settlement, double todayMarker, string symbol, DateTime date)
         {
-            
+
             try
             {
                 var query = "INSERT IGNORE INTO " + TblDailyValue + "(`IndicativeOpen`,`Marker`,`Settlement`,`TodayMarker`,`Symbol`,`Date`) " +
@@ -2132,11 +2132,11 @@ namespace DADataManager
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            }          
+            }
         }
 
 
-  
+
 
 
 
@@ -2148,11 +2148,11 @@ namespace DADataManager
                 return GetAllDailyValues();
 
             var dailyValueModelList = new List<DailyValueModel>();
-            MySqlDataReader reader = GetReader("SELECT * FROM " + TblDailyValue + " WHERE  `Date` = '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' " 
+            MySqlDataReader reader = GetReader("SELECT * FROM " + TblDailyValue + " WHERE  `Date` = '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' "
                                                + "AND " + "`Symbol`= '" + symbol + "' ");
             if (reader != null)
             {
-                   
+
                 while (reader.Read())
                 {
                     var variable = new DailyValueModel();
@@ -2179,8 +2179,8 @@ namespace DADataManager
         {
             var allDailyValueModelList = GetAllDailyValues();
             var temp = from n in allDailyValueModelList
-                where n.symbol == symbol
-                select n;
+                       where n.symbol == symbol
+                       select n;
             return temp.ToList();
 
         }
@@ -2216,7 +2216,7 @@ namespace DADataManager
             return dailyValueModelList;
         }
 
-      
+
 
         public static void DeleteDailyValue(int id, string tableName)
         {
@@ -2243,13 +2243,13 @@ namespace DADataManager
         {
             try
             {
-                var query="Insert ignore into "+ TblNotChangedValues+ "(`Symbol`, `TickSize`, `Currency`, `Expiration`) "+
-                "VALUES('" + symbol + "', '" + TickSize + "', '" + Currency + "', '" +date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
+                var query = "Insert ignore into " + TblNotChangedValues + "(`Symbol`, `TickSize`, `Currency`, `Expiration`) " +
+                "VALUES('" + symbol + "', '" + TickSize + "', '" + Currency + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
                 DoSql(query);
             }
             catch (Exception ex)
             {
-                
+
                 Console.WriteLine(ex.Message);
             }
         }
@@ -2375,7 +2375,7 @@ namespace DADataManager
             DoSql(sql);
         }
 
-        
+
         #endregion
 
         public static bool IfTodayWeHadSettingDailyValue(string symbol)
@@ -2403,22 +2403,5 @@ namespace DADataManager
             DoSqlLive(sql);
         }
 
-
-        static int _count = 0;
-        static string _fullSql="";
-        static int _maxCount =500;
-
-        public static void InsertTickts(string tableName, string symbolName, double bidPrice, int bidVolume, double askPrice, int askVolume, double tradePrice, int tradeVolume, bool isNew, DateTime timestamp, uint groupID, string userName, string tickType)
-        {
-            var sql = DAQueryBuilder.InsertData(tableName, symbolName, bidPrice, bidVolume,askPrice, askVolume, tradePrice, tradeVolume, isNew, timestamp,groupID,userName,tickType );
-            
-            _fullSql += sql;
-            _count++;
-            if (_count > _maxCount)
-            {
-                DoSqlLive(_fullSql);
-            }
-            
-        }
     }
 }

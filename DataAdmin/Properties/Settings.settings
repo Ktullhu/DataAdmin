@@ -8,7 +8,7 @@
     <Setting Name="connectionHost" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="connectionDB" Type="System.String" Scope="User">
+    <Setting Name="dbSystem" Type="System.String" Scope="User">
       <Value Profile="(Default)">SYSTEM</Value>
     </Setting>
     <Setting Name="connectionUser" Type="System.String" Scope="User">

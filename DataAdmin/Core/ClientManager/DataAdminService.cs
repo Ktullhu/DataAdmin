@@ -433,7 +433,7 @@ namespace DataAdmin.Core.ClientManager
 
             var xEle = new XElement("ConnectionString",
                                     new XAttribute("Host", Properties.Settings.Default.connectionHost),
-                                    new XAttribute("dbName", Properties.Settings.Default.connectionDB),
+                                    new XAttribute("dbName", Properties.Settings.Default.dbSystem),
                                     new XAttribute("dbNameBar", Properties.Settings.Default.dbBar),
                                     new XAttribute("dbNameHist", Properties.Settings.Default.dbHist),
                                     new XAttribute("dbNameLive", Properties.Settings.Default.dbLive),
