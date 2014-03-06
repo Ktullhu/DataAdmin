@@ -50,7 +50,7 @@ namespace DataNetClient.Forms
         private string _connectionToLocalDbBar;
         private string _connectionToLocalDbHistorical;
 
-        private List<GroupItem> _groupItems;
+        private List<GroupItemModel> _groupItems;
 
         private bool _logined;
         readonly object _lockRefreshSymbols = new object();
@@ -1080,7 +1080,7 @@ namespace DataNetClient.Forms
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
 
             if (!DatabaseManager.IsConnected()) return;
-            _groupItems = new List<GroupItem>();
+            _groupItems = new List<GroupItemModel>();
             
 
             var groups = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet);
@@ -1096,7 +1096,7 @@ namespace DataNetClient.Forms
                 var sessions = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
 
                 _groupItems.Add(
-                    new GroupItem
+                    new GroupItemModel
                     {
                         GroupModel = groupModel,
                         GroupState = GroupState.NotInQueue,

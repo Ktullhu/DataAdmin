@@ -50,6 +50,7 @@ namespace TickNetClient.Forms
             this.panelEx9 = new DevComponents.DotNetBar.PanelEx();
             this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.panelEx4 = new DevComponents.DotNetBar.PanelEx();
+            this.ui_collect_buttonX_removeSymbols = new DevComponents.DotNetBar.ButtonX();
             this.panelEx12 = new DevComponents.DotNetBar.PanelEx();
             this.ui_label_BufferSize = new System.Windows.Forms.Label();
             this.ui_SQL_PacketSize = new System.Windows.Forms.NumericUpDown();
@@ -184,9 +185,9 @@ namespace TickNetClient.Forms
             this.metroShell1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroShell1.CanCustomize = false;
             this.metroShell1.CaptionVisible = true;
+            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
-            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
             this.metroShell1.HelpButtonText = "LOGOUT";
@@ -245,6 +246,7 @@ namespace TickNetClient.Forms
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 2;
+            this.metroTabPanel2.Visible = false;
             // 
             // tableLayoutPanel1
             // 
@@ -406,6 +408,7 @@ namespace TickNetClient.Forms
             // 
             this.panelEx4.CanvasColor = System.Drawing.SystemColors.Control;
             this.panelEx4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx4.Controls.Add(this.ui_collect_buttonX_removeSymbols);
             this.panelEx4.Controls.Add(this.liveSymbolsList_symbols);
             this.panelEx4.Controls.Add(this.panelEx12);
             this.panelEx4.Controls.Add(this.labelX8);
@@ -424,6 +427,19 @@ namespace TickNetClient.Forms
             this.panelEx4.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
             this.panelEx4.Style.GradientAngle = 90;
             this.panelEx4.TabIndex = 4;
+            // 
+            // ui_collect_buttonX_removeSymbols
+            // 
+            this.ui_collect_buttonX_removeSymbols.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.ui_collect_buttonX_removeSymbols.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.ui_collect_buttonX_removeSymbols.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.ui_collect_buttonX_removeSymbols.Location = new System.Drawing.Point(119, 133);
+            this.ui_collect_buttonX_removeSymbols.Name = "ui_collect_buttonX_removeSymbols";
+            this.ui_collect_buttonX_removeSymbols.Size = new System.Drawing.Size(116, 39);
+            this.ui_collect_buttonX_removeSymbols.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_collect_buttonX_removeSymbols.TabIndex = 67;
+            this.ui_collect_buttonX_removeSymbols.Text = "Remove stoped symbols";
+            this.ui_collect_buttonX_removeSymbols.Click += new System.EventHandler(this.ui_collect_buttonX_removeSymbols_Click);
             // 
             // panelEx12
             // 
@@ -624,9 +640,9 @@ namespace TickNetClient.Forms
             this.ui_collect_buttonX_startGroup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.ui_collect_buttonX_startGroup.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ui_collect_buttonX_startGroup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.ui_collect_buttonX_startGroup.Location = new System.Drawing.Point(189, 133);
+            this.ui_collect_buttonX_startGroup.Location = new System.Drawing.Point(241, 133);
             this.ui_collect_buttonX_startGroup.Name = "ui_collect_buttonX_startGroup";
-            this.ui_collect_buttonX_startGroup.Size = new System.Drawing.Size(161, 39);
+            this.ui_collect_buttonX_startGroup.Size = new System.Drawing.Size(109, 39);
             this.ui_collect_buttonX_startGroup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ui_collect_buttonX_startGroup.TabIndex = 59;
             this.ui_collect_buttonX_startGroup.Text = "Start group";
@@ -639,7 +655,7 @@ namespace TickNetClient.Forms
             this.ui_collect_buttonX_start.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.ui_collect_buttonX_start.Location = new System.Drawing.Point(4, 133);
             this.ui_collect_buttonX_start.Name = "ui_collect_buttonX_start";
-            this.ui_collect_buttonX_start.Size = new System.Drawing.Size(161, 39);
+            this.ui_collect_buttonX_start.Size = new System.Drawing.Size(109, 39);
             this.ui_collect_buttonX_start.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ui_collect_buttonX_start.TabIndex = 56;
             this.ui_collect_buttonX_start.Text = "Start";
@@ -1122,7 +1138,7 @@ namespace TickNetClient.Forms
             this.metroTabPanel3.Location = new System.Drawing.Point(0, 51);
             this.metroTabPanel3.Name = "metroTabPanel3";
             this.metroTabPanel3.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel3.Size = new System.Drawing.Size(978, 448);
+            this.metroTabPanel3.Size = new System.Drawing.Size(832, 467);
             // 
             // 
             // 
@@ -1136,7 +1152,6 @@ namespace TickNetClient.Forms
             // 
             this.metroTabPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel3.TabIndex = 3;
-            this.metroTabPanel3.Visible = false;
             // 
             // uiBuffer_panelEx
             // 
@@ -1146,7 +1161,7 @@ namespace TickNetClient.Forms
             this.uiBuffer_panelEx.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uiBuffer_panelEx.Location = new System.Drawing.Point(3, 0);
             this.uiBuffer_panelEx.Name = "uiBuffer_panelEx";
-            this.uiBuffer_panelEx.Size = new System.Drawing.Size(972, 445);
+            this.uiBuffer_panelEx.Size = new System.Drawing.Size(826, 464);
             this.uiBuffer_panelEx.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.uiBuffer_panelEx.Style.BackColor1.Color = System.Drawing.Color.White;
             this.uiBuffer_panelEx.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1172,7 +1187,7 @@ namespace TickNetClient.Forms
             this.ui_BufferTab_layout.Name = "ui_BufferTab_layout";
             this.ui_BufferTab_layout.RowCount = 1;
             this.ui_BufferTab_layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ui_BufferTab_layout.Size = new System.Drawing.Size(965, 417);
+            this.ui_BufferTab_layout.Size = new System.Drawing.Size(819, 436);
             this.ui_BufferTab_layout.TabIndex = 24;
             // 
             // panelEx11
@@ -1181,9 +1196,9 @@ namespace TickNetClient.Forms
             this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.panelEx11.Controls.Add(this.ui_DomTable_dataGridView);
             this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx11.Location = new System.Drawing.Point(566, 3);
+            this.panelEx11.Location = new System.Drawing.Point(480, 3);
             this.panelEx11.Name = "panelEx11";
-            this.panelEx11.Size = new System.Drawing.Size(396, 411);
+            this.panelEx11.Size = new System.Drawing.Size(336, 430);
             this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
             this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1239,7 +1254,7 @@ namespace TickNetClient.Forms
             this.ui_DomTable_dataGridView.RowHeadersVisible = false;
             this.ui_DomTable_dataGridView.RowTemplate.Height = 24;
             this.ui_DomTable_dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ui_DomTable_dataGridView.Size = new System.Drawing.Size(396, 411);
+            this.ui_DomTable_dataGridView.Size = new System.Drawing.Size(336, 430);
             this.ui_DomTable_dataGridView.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -1291,9 +1306,9 @@ namespace TickNetClient.Forms
             this.panelEx10.Controls.Add(this.buttonX1);
             this.panelEx10.Controls.Add(this.ui_BufferSymbols_comboBox);
             this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx10.Location = new System.Drawing.Point(369, 3);
+            this.panelEx10.Location = new System.Drawing.Point(313, 3);
             this.panelEx10.Name = "panelEx10";
-            this.panelEx10.Size = new System.Drawing.Size(191, 411);
+            this.panelEx10.Size = new System.Drawing.Size(161, 430);
             this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
             this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1314,7 +1329,7 @@ namespace TickNetClient.Forms
             this.labelX10.ForeColor = System.Drawing.Color.Black;
             this.labelX10.Location = new System.Drawing.Point(46, 10);
             this.labelX10.Name = "labelX10";
-            this.labelX10.Size = new System.Drawing.Size(99, 23);
+            this.labelX10.Size = new System.Drawing.Size(69, 23);
             this.labelX10.TabIndex = 23;
             this.labelX10.Text = "Symbols";
             // 
@@ -1326,7 +1341,7 @@ namespace TickNetClient.Forms
             this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.buttonX1.Location = new System.Drawing.Point(12, 69);
             this.buttonX1.Name = "buttonX1";
-            this.buttonX1.Size = new System.Drawing.Size(167, 54);
+            this.buttonX1.Size = new System.Drawing.Size(137, 54);
             this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.buttonX1.TabIndex = 1;
             this.buttonX1.Text = "REFRESH";
@@ -1338,12 +1353,13 @@ namespace TickNetClient.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ui_BufferSymbols_comboBox.DisplayMember = "Text";
             this.ui_BufferSymbols_comboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.ui_BufferSymbols_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ui_BufferSymbols_comboBox.ForeColor = System.Drawing.Color.Black;
             this.ui_BufferSymbols_comboBox.FormattingEnabled = true;
             this.ui_BufferSymbols_comboBox.ItemHeight = 16;
             this.ui_BufferSymbols_comboBox.Location = new System.Drawing.Point(12, 38);
             this.ui_BufferSymbols_comboBox.Name = "ui_BufferSymbols_comboBox";
-            this.ui_BufferSymbols_comboBox.Size = new System.Drawing.Size(167, 22);
+            this.ui_BufferSymbols_comboBox.Size = new System.Drawing.Size(137, 22);
             this.ui_BufferSymbols_comboBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ui_BufferSymbols_comboBox.TabIndex = 22;
             // 
@@ -1355,7 +1371,7 @@ namespace TickNetClient.Forms
             this.panelEx7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEx7.Location = new System.Drawing.Point(3, 3);
             this.panelEx7.Name = "panelEx7";
-            this.panelEx7.Size = new System.Drawing.Size(360, 411);
+            this.panelEx7.Size = new System.Drawing.Size(304, 430);
             this.panelEx7.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx7.Style.BackColor1.Color = System.Drawing.Color.White;
             this.panelEx7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1413,7 +1429,7 @@ namespace TickNetClient.Forms
             this.ui_TickTable_dataGridView.RowHeadersVisible = false;
             this.ui_TickTable_dataGridView.RowTemplate.Height = 24;
             this.ui_TickTable_dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ui_TickTable_dataGridView.Size = new System.Drawing.Size(360, 411);
+            this.ui_TickTable_dataGridView.Size = new System.Drawing.Size(304, 430);
             this.ui_TickTable_dataGridView.TabIndex = 0;
             // 
             // Column1
@@ -1485,7 +1501,6 @@ namespace TickNetClient.Forms
             // 
             // metroTabItem2
             // 
-            this.metroTabItem2.Checked = true;
             this.metroTabItem2.Name = "metroTabItem2";
             this.metroTabItem2.Panel = this.metroTabPanel2;
             this.metroTabItem2.Text = "&COLLECT TICK DATA";
@@ -1493,6 +1508,7 @@ namespace TickNetClient.Forms
             // 
             // metroTabItem3
             // 
+            this.metroTabItem3.Checked = true;
             this.metroTabItem3.Name = "metroTabItem3";
             this.metroTabItem3.Panel = this.metroTabPanel3;
             this.metroTabItem3.Text = "&BUFFER";
@@ -1676,7 +1692,7 @@ namespace TickNetClient.Forms
             this.liveSymbolsList_symbols.SelectedItem = -1;
             this.liveSymbolsList_symbols.Size = new System.Drawing.Size(344, 251);
             this.liveSymbolsList_symbols.StateChangingEnabled = false;
-            this.liveSymbolsList_symbols.TabIndex = 66;            
+            this.liveSymbolsList_symbols.TabIndex = 66;
             // 
             // FormMainTN
             // 
@@ -1841,6 +1857,7 @@ namespace TickNetClient.Forms
         private System.Windows.Forms.LinkLabel linkLabel_sort_name;
         private DevComponents.DotNetBar.LabelItem labelItem_server;
         private Controls.SymbolList liveSymbolsList_symbols;
+        private DevComponents.DotNetBar.ButtonX ui_collect_buttonX_removeSymbols;
     }
 }
 

@@ -4,9 +4,6 @@ using DADataManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
 using TickNetClient.Controls;
 
 namespace TickNetClient.Core
@@ -21,7 +18,7 @@ namespace TickNetClient.Core
         public CQGInstrument CqgInstrument;
 
         public TickData TickData;
-
+        public DomDataModel DomData;
         public bool CanInsert { get; set; }
     }
 
@@ -30,7 +27,7 @@ namespace TickNetClient.Core
         #region VARS
         private static object _waitingLocker= new object();
         private static readonly CQGCEL Cel;
-        private static List<DADataManager.Models.GroupItem> _groups;
+        private static List<DADataManager.Models.GroupItemModel> _groups;
         private static bool _modeIsAuto;
         private static int _groupCurrent;
         private static bool _startedManualCollecting;
@@ -143,7 +140,7 @@ namespace TickNetClient.Core
                 Cel.APIConfiguration.CollectionsThrowException = false;
                 Cel.APIConfiguration.ReadyStatusCheck = eReadyStatusCheck.rscOff;
                 Cel.APIConfiguration.TimeZoneCode = eTimeZone.tzGMT;
-                Cel.APIConfiguration.DefaultInstrumentSubscriptionLevel = eDataSubscriptionLevel.dsQuotesAndBBA;
+                Cel.APIConfiguration.DefaultInstrumentSubscriptionLevel = eDataSubscriptionLevel.dsQuotesAndDOM;
                 Cel.APIConfiguration.DOMUpdatesMode = eDOMUpdatesMode.domUMDynamic;
 
                 Cel.DataConnectionStatusChanged += _cel_DataConnectionStatusChanged;
@@ -210,9 +207,9 @@ namespace TickNetClient.Core
                 item.Description = "Subscribed.";
                 item.CqgInstrument = cqgInstrument;
                 item.TickData = new TickData(DatabaseManager.GetTableTsName(symbol), symbol);
+                item.DomData= new DomDataModel(DatabaseManager.GetTableTsName(symbol),symbol);
 
                 DatabaseManager.CreateLiveTableTs(symbol);
-
                 DatabaseManager.CreateLiveTableDm(symbol);
 
                 OnSymbolSubscribed(item.Name, item.Depth);
@@ -220,9 +217,92 @@ namespace TickNetClient.Core
             }            
         }
 
-        static void Cel_InstrumentDOMChanged(CQGInstrument cqg_instrument, CQGDOMQuotes prev_asks, CQGDOMQuotes prev_bids)
+        static void Cel_InstrumentDOMChanged(CQGInstrument instrument, CQGDOMQuotes prev_asks, CQGDOMQuotes prev_bids)
         {
-            RefreshSubscribedSymbolOnUi();
+            var symbolData = _symbolsInProgress.Find(oo => oo.Name == instrument.FullName);
+            if (symbolData == null) return;
+
+            lock (_waitingLocker)
+            {
+                var domData = symbolData.DomData;
+               
+
+                if (!(Cel.IsValid(instrument.DOMBids) && Cel.IsValid(instrument.DOMAsks))) return;
+                if (!domData.FirstTride)
+                {
+                    const double epsilon = 0.0000001;
+                    if ((Math.Abs(instrument.Trade.Price - domData.PrevTradePrice) > epsilon) ||
+                        (Math.Abs(instrument.Trade.Volume - domData.PrevTradeVol) > epsilon))
+                    {
+                        domData.IsNewTrade = true;
+                        //if (_isMoreInfo)
+                        //{
+                        //    if (symbolData.MsgObject.Parent.Parent != null)
+                        //        symbolData.MsgObject.Parent.Parent.BeginInvoke(
+                        //            new Action(
+                        //                () =>
+                        //                symbolData.MsgObject.Text =
+                        //                @"DOMBids depth: " + instrument.DOMBids.Count + @" DOMAsks depth: " +
+                        //                instrument.DOMAsks.Count));
+                        //}
+                    }
+                    else
+                    {
+                        domData.IsNewTrade = false;
+                    }
+                    domData.PrevTradePrice = instrument.Trade.Price;
+                    domData.PrevTradeVol = instrument.Trade.Volume;
+                    domData.PrevTradeTime = instrument.Timestamp;
+                }
+                else
+                {
+                    domData.PrevTradePrice = instrument.Trade.Price;
+                    domData.PrevTradeVol = instrument.Trade.Volume;
+                    domData.PrevTradeTime = instrument.Timestamp;
+                }
+                domData.FirstTride = false;
+
+                double askPrice;
+                double bidPrice;
+                int askVol;
+                int bidVol;
+                var serverTimestamp = new DateTime(instrument.ServerTimestamp.Year,
+                    instrument.ServerTimestamp.Month,
+                    instrument.ServerTimestamp.Day,
+                    instrument.ServerTimestamp.Hour,
+                    instrument.ServerTimestamp.Minute,
+                    instrument.ServerTimestamp.Second,
+                    instrument.ServerTimestamp.Millisecond);
+
+                var query = QueryBuilder.InsertData_dom(domData.TableName, instrument,
+                                                        Convert.ToInt32(symbolData.Depth), ++domData.GroupId,
+                                                        domData.IsNewTrade, _userName, out askPrice, out askVol, out bidPrice, out bidVol, serverTimestamp);
+                if (instrument.ServerTimestamp < DateTime.Now.AddDays(-1))
+                    return;
+
+                var tickDomData = new TickData
+                {
+                    AskPrice = askPrice,
+                    AskVolume = askVol,
+                    BidPrice = bidPrice,
+                    BidVolume = bidVol,
+                    SymbolName = domData.SymbolName,
+                    Timestamp = serverTimestamp,
+                    GroupID = domData.GroupId
+                };
+
+                
+                    DatabaseManager.AddToBuffer(query, true, tickDomData);
+
+                    if (!DatabaseManager.CurrentDbIsShared || symbolData.CanInsert)
+                    {
+                        //if (DatabaseManager.CurrentDbIsShared && serverTimestamp < _allowedSymbols[instrument.FullName])return;
+                        DatabaseManager.RunSQLLive(query, "InsertData", instrument.FullName);
+                    }
+
+
+                    symbolData.DomData = domData;
+            }
         }
 
         static void Cel_InstrumentChanged(CQGInstrument instrument, CQGQuotes quotes, CQGInstrumentProperties cqg_instrument_properties)
@@ -355,29 +435,101 @@ namespace TickNetClient.Core
 
         #endregion
 
-        #region START FROM LIST
+        #region START STOP COLLECTING
 
-        public static void StartFromList(List<string> symbols, int depth)
-        {            
-            IsStarted = true;           
-            _isStoped = false;
+
+        internal static void RemoveStopedSymbols()
+        {
+            for (int i = 0; i < _symbolsInProgress.Count; i++)
+			{
+                var item = _symbolsInProgress[i];
+
+                if (item!=null && !item.AllowedCollecting)
+                {
+                    _symbolsInProgress.Remove(item);
+                    i--;
+                }
+                
+			}
+            RefreshSubscribedSymbolOnUi();
+        }
+
+        private static void StartCollectingSymbol(string symbol, int depth)
+        {
+            var symbolData = _symbolsInProgress.Find(oo => oo.Name == symbol);
+            if (symbolData != null)
+            {
+                if(_isFromList)
+                    symbolData.Depth = Math.Max(symbolData.Depth, depth);
+                else
+                    symbolData.Depth =  depth;
+                symbolData.Description = "Started.";
+                symbolData.AllowedCollecting = true;
+            }
+            else
+            {
+                _symbolsInProgress.Add(new SubscribedSymbolModel { Name = symbol, Depth = depth, Description = "Started.", StartTime = DateTime.Now });
+
+                TicksRequest(symbol);
+            }
+        }
+
+        public static void StartFromLists(List<string> symbols, int depth)
+        {
             _isFromList = true;
-
-
+    
             foreach (var symbol in symbols)
             {
-                if (!_symbolsInProgress.Exists(oo => oo.Name == symbol))
-                {
-                    _symbolsInProgress.Add(new SubscribedSymbolModel { Name = symbol, Depth = depth, Description = "Started.", StartTime = DateTime.Now });
-
-                    TicksRequest(symbol);
-                }
+                StartCollectingSymbol(symbol, depth);
             }
 
             RefreshSubscribedSymbolOnUi();
         }
-        
-        #endregion
+
+        public static void LoadGroups(List<GroupItemModel> groups)
+        {
+            _groups = groups.ToList();
+        }
+
+        public class SymbolDepth { public string Symbol; public int Depth;}
+
+        public static void StartFromGroups()
+        {
+            _isFromList = false;
+
+            var listSymb = new List<SymbolDepth>();
+            var listAllSymbols = new List<string>();
+
+            foreach (var groupItem in _groups)
+            {
+                
+                
+                foreach (var symbol in groupItem.AllSymbols)
+                {
+                    listAllSymbols.Add(symbol);
+                    if (groupItem.GroupState == GroupState.NotInQueue) continue;
+
+                    var curr=listSymb.Find(oo => oo.Symbol == symbol);
+                    if (curr != null)
+                        curr.Depth = Math.Max(curr.Depth, groupItem.GroupModel.Depth);
+                    else
+                        listSymb.Add(new SymbolDepth { Symbol = symbol, Depth = groupItem.GroupModel.Depth });
+                }
+
+            }
+
+            foreach (var item in listSymb)
+            {
+                StartCollectingSymbol(item.Symbol, item.Depth);
+            }
+            var symbolsThatNeedToBeStoped = listAllSymbols.Except(listSymb.Select(oo => oo.Symbol).ToList());
+            foreach (var item in symbolsThatNeedToBeStoped)
+            {
+                StopCollectingSymbol(-1, item);
+            }
+
+            RefreshSubscribedSymbolOnUi();
+        }
 
         public static void StopCollectingSymbol(int itemIndex, string symbol)
         {
@@ -394,7 +546,8 @@ namespace TickNetClient.Core
                 }
                 else
                 {
-                    _symbolsInProgress.RemoveAt(itemIndex);
+                    if(itemIndex!=-1)
+                        _symbolsInProgress.RemoveAt(itemIndex);
                 }    
 
                 RefreshSubscribedSymbolOnUi();
@@ -402,22 +555,15 @@ namespace TickNetClient.Core
             }
         }
 
+        #endregion
+
+        
         #region START FROM GROUP
 
         #endregion
 /*
         #region GROUP LIST public
-        public static void LoadGroups(List<DADataManager.Models.GroupItem> groups)
-        {
-            _groups = groups.ToList();
-            foreach (var groupItem in _groups)
-            {
-                groupItem.CollectedSymbols.Clear();
-            }
-
-            //            RecalcStartTime();
-        }
-
+ 
 
 
         public static bool Start()
@@ -660,25 +806,51 @@ namespace TickNetClient.Core
 
             for (int index = 0; index < _groups.Count; index++)
             {
+                
                 var groupModel = _groups[index].GroupModel;
+                if (!groupModel.IsAutoModeEnabled) continue;
+
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
-                //
-                if (groupModel.IsAutoModeEnabled && (
-                    sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay
-                        && IsNowAGoodDay(oo.Days))))//startToday
+                var foundedRight = false;
+                foreach (var oneSess in sess)
+                {                    
+                    if (oneSess.IsStartYesterday)
+                    {
+                        if (IsNowAGoodDay(DateTime.Today.AddDays(1),oneSess.Days)&& (oneSess.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay) )                               
+                                { foundedRight = true; break; }
+
+                        if (IsNowAGoodDay(DateTime.Today, oneSess.Days)&&(oneSess.TimeEnd.TimeOfDay >= DateTime.Now.TimeOfDay))
+                                { foundedRight = true; break; }
+                    }
+                    else
+                    {
+                        if (IsNowAGoodDay(DateTime.Today, oneSess.Days)&&(oneSess.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay)
+                            &&(oneSess.TimeEnd.TimeOfDay >= DateTime.Now.TimeOfDay))
+                                { foundedRight = true; break; }
+                    }
+                }
+                //if (sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeEnd.TimeOfDay > DateTime.Now.TimeOfDay && IsNowAGoodDay(oo.Days)))//startToday
+                if(foundedRight)
                 {
                     if (_groups[index].GroupState != GroupState.InQueue)
                     {
                         _groups[index].GroupState = GroupState.InQueue;
                         OnItemStateChanged(index, GroupState.InQueue);
+                        
                     }
+                }else
+                {
+                    _groups[index].GroupState = GroupState.NotInQueue;
+                    OnItemStateChanged(index, GroupState.NotInQueue);
+                        
                 }
 
             }
+            StartFromGroups();
             //Start();
         }
 
-        private static bool IsNowAGoodDay(string days)
+        private static bool IsNowAGoodDay(DateTime date,string days)
         {
             var daysof = new List<DayOfWeek>();
 
@@ -690,8 +862,8 @@ namespace TickNetClient.Core
             if (days[5] != '_') daysof.Add(DayOfWeek.Friday);
             if (days[6] != '_') daysof.Add(DayOfWeek.Saturday);
 
-
-            return (daysof.Contains(DateTime.Today.DayOfWeek));
+            var res = (daysof.Contains(date.DayOfWeek));
+            return res;
         }
 
         static void _timerScheduler_Tick(object sender, EventArgs e)
@@ -700,18 +872,6 @@ namespace TickNetClient.Core
         }
 
         #endregion
-
-        public static bool IsStarted
-        {
-            get { return _isStarted; }
-            private set
-            {
-                _isStarted = value;
-                OnRunnedStateChanged(value);
-            }
-        }
-
-
 
 
         internal static void ActivateInserting(string symbol)
@@ -727,5 +887,7 @@ namespace TickNetClient.Core
             if (symbolData == null) return;
             symbolData.CanInsert = false;
         }
+
+      
     }
 }

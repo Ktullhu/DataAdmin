@@ -16,7 +16,7 @@ namespace DataNetClient.Core.CQGDataCollector
         #region VARS
 
         private static readonly CQGCEL Cel;
-        private static List<GroupItem> _groups;
+        private static List<GroupItemModel> _groups;
         private static bool _modeIsAuto;
         private static int _groupCurrent;
         private static bool _startedManualCollecting;
@@ -515,7 +515,7 @@ namespace DataNetClient.Core.CQGDataCollector
         #endregion
 
         #region GROUP LIST public
-        public static void LoadGroups(List<GroupItem> groups)
+        public static void LoadGroups(List<GroupItemModel> groups)
         {
             _groups = groups.ToList();
             foreach (var groupItem in _groups)

@@ -129,7 +129,6 @@
     <Compile Include="Core\LiveTickCollectingManager.cs" />
     <Compile Include="Core\MetroBillCommands.cs" />
     <Compile Include="Core\QueryBuilder.cs" />
-    <Compile Include="Core\SymbolDataWriter.cs" />
     <Compile Include="Core\ClientManager\DataNetLogService.cs" />
     <Compile Include="Forms\AddListControl.cs">
       <SubType>UserControl</SubType>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DADataManager.Models
 {
-    public class GroupItem
+    public class GroupItemModel
     {
         public GroupModel GroupModel;
         public GroupState GroupState;

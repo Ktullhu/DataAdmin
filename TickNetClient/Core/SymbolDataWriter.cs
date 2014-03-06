@@ -13,58 +13,7 @@ namespace TickNetClient.Core
 {
     #region Structures
 
-    public struct SymbolData
-    {
-        public string SymbolName;
-        public ICQGInstrument Instrument;
-        public bool IsNewTrade;
-        public bool FirstTride;
-        public double PrevTradePrice;
-        public double PrevTradeVol;
-        public DateTime PrevTradeTime;
-
-        public bool TsIsNewTrade;
-        public bool TsFirstTride;
-        public double TsPrevTradePrice;
-        public double TsPrevTradeVol;
-        public DateTime TsPrevTradeTime;
-
-        private readonly String _tableName;
-        public bool IsCanceled;
-        public uint GroupId;
-        public uint TsGroupId;
-        public int Depth;
-        public Control MsgObject;
-
-        public SymbolData(String tableName)
-        {
-            Instrument = null;
-            _tableName = tableName;
-            SymbolName = String.Empty;
-            FirstTride = true;
-            IsNewTrade = true;
-            PrevTradePrice = 0;
-            PrevTradeVol = 0;
-            PrevTradeTime = new DateTime();
-
-            TsFirstTride = true;
-            TsIsNewTrade = true;
-            TsPrevTradePrice = 0;
-            TsPrevTradeVol = 0;
-            TsPrevTradeTime = new DateTime();
-
-            IsCanceled = false;
-            GroupId = 0;
-            TsGroupId = 0;
-            Depth = 1;
-            MsgObject = null;
-        }
-
-        public String TableName
-        {
-            get { return _tableName; }
-        }
-    }
+   
 
     public struct SymbolMessage
     {
@@ -291,7 +240,7 @@ namespace TickNetClient.Core
                             return;
                         if (_onSymbolsList.Contains(instrument.FullName))
                         {
-                            DatabaseManager.AddToBuffer(query, false, tickData);
+                            //DatabaseManager.AddToBuffer(query, false, tickData);
                             if (_allowedSymbols.ContainsKey(tickData.SymbolName) ||
                                 !DatabaseManager.CurrentDbIsShared)
                             {

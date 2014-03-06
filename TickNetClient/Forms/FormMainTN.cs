@@ -40,8 +40,7 @@ namespace TickNetClient.Forms
         //private List<GroupModel> _groups = new List<GroupModel>();
         private List<SymbolModel> _symbols = new List<SymbolModel>();
         private Thread _logonThread;
-        private readonly List<int> _busySymbolList;
-        private SymbolDataWriter _sdr;
+        private readonly List<int> _busySymbolList;        
 
         private string _connectionToSharedDb;
         private string _connectionToLocalDb;
@@ -659,7 +658,13 @@ namespace TickNetClient.Forms
 
             LiveTickCollectorManager.Init(liveSymbolsList_symbols, _client.UserName);
             LiveTickCollectorManager.SymbolSubscribed += LiveTickCollectorManager_SymbolSubscribed;
+            LiveTickCollectorManager.ItemStateChanged += LiveTickCollectorManager_ItemStateChanged;
 
+        }
+
+        void LiveTickCollectorManager_ItemStateChanged(int index, GroupState state)
+        {
+            styledListControl_groups.ChangeState(index, state);
         }
 
         private void ChangedPrivileges(object sender, DataAdminMessageFactory.ChangePrivilage msg)
@@ -863,7 +868,7 @@ namespace TickNetClient.Forms
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
             if (!DatabaseManager.IsConnected()) return;
 
-            _groupItems = new List<GroupItem>();
+            _groupItems = new List<GroupItemModel>();
             //styledListControl_groups.ClearItems();
             var groups = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet);
             groups = OrderListOfGroups(DatabaseManager.SortingModeIsAsc, groups);
@@ -881,7 +886,7 @@ namespace TickNetClient.Forms
                 var sessions = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
 
                 _groupItems.Add(
-                    new GroupItem
+                    new GroupItemModel
                     {
                         GroupModel = groupModel,
                         GroupState = GroupState.NotInQueue,
@@ -1277,15 +1282,15 @@ namespace TickNetClient.Forms
         {
             var symbols = new List<string>();
             bool canSendlog = false;
-            if (_connector != null)
-                _connector.CQG_Stop();
-            if (_sdr != null)
-            {
-                symbols = _sdr.GetSymbols();
-                canSendlog = true;
-                _sdr.SymbolSubscribed -= CollectRequest;
-                _sdr = null;
-            }
+            //if (_connector != null)
+            //    _connector.CQG_Stop();
+            //if (_sdr != null)
+            //{
+            //    symbols = _sdr.GetSymbols();
+            //    canSendlog = true;
+            //    _sdr.SymbolSubscribed -= CollectRequest;
+            //    _sdr = null;
+            //}
 
 
             if (DatabaseManager.CurrentDbIsShared && symbols.Count > 0 && canSendlog && _normalizerStatus)
@@ -1308,7 +1313,7 @@ namespace TickNetClient.Forms
             var symbols = ui_listBox_symbols.SelectedItems.Cast<object>().Cast<string>().ToList();
 
 
-            LiveTickCollectorManager.StartFromList( symbols, (int)ui_nudDOMDepth.Value);
+            LiveTickCollectorManager.StartFromLists( symbols, (int)ui_nudDOMDepth.Value);
            
         }
 
@@ -1319,129 +1324,122 @@ namespace TickNetClient.Forms
 
         private void ui_collect_buttonX_startGroup_Click(object sender, EventArgs e)
         {
-
-            foreach (var gitem in _groupItems)
-            {
-                if(gitem.GroupState == GroupState.InQueue)
-                {
-                    //StartCollect(gitem.AllSymbols, true, gitem.GroupModel.GroupId);
-                   // StartCollectingThisSymbols(gitem.AllSymbols, gitem.GroupModel.Depth);
-                }
-            }
+            LiveTickCollectorManager.LoadGroups(_groupItems);
+            LiveTickCollectorManager.StartFromGroups();
 
         }
-
-
-        private void StartCollect(List<string> symbols, bool isGroup, int groupID)
+        private void ui_collect_buttonX_removeSymbols_Click(object sender, EventArgs e)
         {
-            if (symbols.Count == 0) return;
+            LiveTickCollectorManager.RemoveStopedSymbols();
+        }
 
-            ui_buttonX_localConnect.Enabled = false;
-            ui_buttonX_shareConnect.Enabled = false;
+        //private void StartCollect(List<string> symbols, bool isGroup, int groupID)
+        //{
+        //    if (symbols.Count == 0) return;
 
-            DatabaseManager.MaxQueueSize = (int)ui_SQL_PacketSize.Value;
-            DatabaseManager.MaxBufferSize = (int)ui_BufferSizeValue.Value;
+        //    ui_buttonX_localConnect.Enabled = false;
+        //    ui_buttonX_shareConnect.Enabled = false;
 
-            //ui_componentList.ColumnCount = 1;
-            //ui_componentList.AutoSize = true;
-            //ui_componentList.AutoSizeMode = AutoSizeMode.GrowOnly;
+        //    DatabaseManager.MaxQueueSize = (int)ui_SQL_PacketSize.Value;
+        //    DatabaseManager.MaxBufferSize = (int)ui_BufferSizeValue.Value;
 
-
-            _connector = new CQGConnector();
-
-            _connector.addDataConnectionStatusChangedListener(CEL_DataConnectionStatusChanged);
-
-            _sdr = new SymbolDataWriter(_connector, _client.UserName, (int)ui_nudDOMDepth.Value, cbUsMI.Checked);
-          
-
-            for (var i = 0; i < symbols.Count; i++)
-            {
-                var container = new Panel
-                {
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Size = new Size(370, 45),
-                    Dock = DockStyle.Top,
-                    AutoSize = false
-                };
-
-                var symbolDescription = new Label
-                {
-                    Text = symbols[i],
-                    Location = new Point(20, 4),
-                    Size = new Size(100, 20),
-                    Dock = DockStyle.None
-                };
-                container.Controls.Add(symbolDescription);
-
-                var btnCancel = new ButtonX
-                {
-                    Text = @"cancel",
-                    Location = new Point(180, 4),
-                    Size = new Size(70, 20),
-                    Dock = DockStyle.None,
-                    AutoSize = false,
-                    Style = ui_collect_buttonX_start.Style
-                };
-                btnCancel.Click += btnCommandExec;
-                container.Controls.Add(btnCancel);
-
-                var btnStop = new ButtonX
-                {
-                    Text = @"stop",
-                    Location = new Point(270, 4),
-                    Size = new Size(70, 20),
-                    Dock = DockStyle.None,
-                    AutoSize = false,
-                    Style = ui_collect_buttonX_start.Style
-                };
-                btnStop.Click += btnCommandExec;
-                container.Controls.Add(btnStop);
+        //    //ui_componentList.ColumnCount = 1;
+        //    //ui_componentList.AutoSize = true;
+        //    //ui_componentList.AutoSizeMode = AutoSizeMode.GrowOnly;
 
 
-                var mDesc = new Label
-                {
-                    Text = @"Status: ",
-                    Location = new Point(5, 24),
-                    Size = new Size(50, 20),
-                    Dock = DockStyle.None
-                };
-                container.Controls.Add(mDesc);
+        //    _connector = new CQGConnector();
 
-                var message = new LabelX
-                {
-                    Text = @"Waiting for processing...",
-                    Size = new Size(295, 17),
-                    Location = new Point(55, 24),
-                    AutoSize = false,
-                    Dock = DockStyle.None,
-                    PaddingLeft = 5
-                };
-                message.BackgroundStyle.BorderLeft = eStyleBorderType.Solid;
-                message.BackgroundStyle.BorderLeftColor = Color.Gray;
-                message.BackgroundStyle.BorderLeftWidth = 3;
+        //    _connector.addDataConnectionStatusChangedListener(CEL_DataConnectionStatusChanged);
+        
+        //    for (var i = 0; i < symbols.Count; i++)
+        //    {
+        //        var container = new Panel
+        //        {
+        //            BorderStyle = BorderStyle.FixedSingle,
+        //            Size = new Size(370, 45),
+        //            Dock = DockStyle.Top,
+        //            AutoSize = false
+        //        };
 
-                message.MouseMove += labelMessage_MouseMove;
+        //        var symbolDescription = new Label
+        //        {
+        //            Text = symbols[i],
+        //            Location = new Point(20, 4),
+        //            Size = new Size(100, 20),
+        //            Dock = DockStyle.None
+        //        };
+        //        container.Controls.Add(symbolDescription);
 
-                container.Controls.Add(message);
+        //        var btnCancel = new ButtonX
+        //        {
+        //            Text = @"cancel",
+        //            Location = new Point(180, 4),
+        //            Size = new Size(70, 20),
+        //            Dock = DockStyle.None,
+        //            AutoSize = false,
+        //            Style = ui_collect_buttonX_start.Style
+        //        };
+        //        btnCancel.Click += btnCommandExec;
+        //        container.Controls.Add(btnCancel);
+
+        //        var btnStop = new ButtonX
+        //        {
+        //            Text = @"stop",
+        //            Location = new Point(270, 4),
+        //            Size = new Size(70, 20),
+        //            Dock = DockStyle.None,
+        //            AutoSize = false,
+        //            Style = ui_collect_buttonX_start.Style
+        //        };
+        //        btnStop.Click += btnCommandExec;
+        //        container.Controls.Add(btnStop);
+
+
+        //        var mDesc = new Label
+        //        {
+        //            Text = @"Status: ",
+        //            Location = new Point(5, 24),
+        //            Size = new Size(50, 20),
+        //            Dock = DockStyle.None
+        //        };
+        //        container.Controls.Add(mDesc);
+
+        //        var message = new LabelX
+        //        {
+        //            Text = @"Waiting for processing...",
+        //            Size = new Size(295, 17),
+        //            Location = new Point(55, 24),
+        //            AutoSize = false,
+        //            Dock = DockStyle.None,
+        //            PaddingLeft = 5
+        //        };
+        //        message.BackgroundStyle.BorderLeft = eStyleBorderType.Solid;
+        //        message.BackgroundStyle.BorderLeftColor = Color.Gray;
+        //        message.BackgroundStyle.BorderLeftWidth = 3;
+
+        //        message.MouseMove += labelMessage_MouseMove;
+
+        //        container.Controls.Add(message);
 
                 
 
-                //ui_componentList.RowCount = i;
-               // ui_componentList.Controls.Add(container);
+        //        //ui_componentList.RowCount = i;
+        //       // ui_componentList.Controls.Add(container);
 
-                _sdr.AddSymbol(symbols[i], message);
-            }
-            if (DatabaseManager.CurrentDbIsShared)
-            {
-                _sdr.SymbolSubscribed += CollectRequest;
-            }
-            _connector.ICEL.Startup();
+        //        _sdr.AddSymbol(symbols[i], message);
+        //    }
+        //    if (DatabaseManager.CurrentDbIsShared)
+        //    {
+        //        _sdr.SymbolSubscribed += CollectRequest;
+        //    }
+        //    _connector.ICEL.Startup();
 
-            ui_collect_buttonX_start.Enabled =
-                ui_collect_buttonX_startGroup.Enabled =
-                ui_listBox_symbols.Enabled =
-                styledListControl_groups.Enabled = false;            
-        }
+        //    ui_collect_buttonX_start.Enabled =
+        //        ui_collect_buttonX_startGroup.Enabled =
+        //        ui_listBox_symbols.Enabled =
+        //        styledListControl_groups.Enabled = false;            
+        //}
 
 
         private void CollectRequest(List<string> symbols, int depth)
@@ -1477,43 +1475,43 @@ namespace TickNetClient.Forms
 
         }
 
-        private void btnCommandExec(object sender, EventArgs e)
-        {
-            var control = sender as Control;
-            var canSendLog = false;
-            var symbol = "";
-            if (control != null && control.Text == @"cancel")
-            {
-                symbol = control.Parent.Controls[0].Text;
-                _sdr.Cancel(symbol);
-                control.Parent.Parent.Controls.Remove(control.Parent);
-                //ui_componentList.RowCount = ui_componentList.Controls.Count;
+        //private void btnCommandExec(object sender, EventArgs e)
+        //{
+        //    var control = sender as Control;
+        //    var canSendLog = false;
+        //    var symbol = "";
+        //    if (control != null && control.Text == @"cancel")
+        //    {
+        //        symbol = control.Parent.Controls[0].Text;
+        //        _sdr.Cancel(symbol);
+        //        control.Parent.Parent.Controls.Remove(control.Parent);
+        //        //ui_componentList.RowCount = ui_componentList.Controls.Count;
 
-                canSendLog = true;
-            }
-            if (control != null && control.Text == @"stop")
-            {
-                symbol = control.Parent.Controls[0].Text;
-                _sdr.Stop(symbol);
-                control.Parent.Parent.Controls.Remove(control.Parent);
-                //ui_componentList.RowCount = ui_componentList.Controls.Count;
-                canSendLog = true;
+        //        canSendLog = true;
+        //    }
+        //    if (control != null && control.Text == @"stop")
+        //    {
+        //        symbol = control.Parent.Controls[0].Text;
+        //        _sdr.Stop(symbol);
+        //        control.Parent.Parent.Controls.Remove(control.Parent);
+        //        //ui_componentList.RowCount = ui_componentList.Controls.Count;
+        //        canSendLog = true;
 
-            }
-            if (control != null && control.Text == @"remove")
-            {
-                symbol = control.Parent.Controls[0].Text;
-                _sdr.Rm(symbol);
-                control.Parent.Parent.Controls.Remove(control.Parent);
-                //ui_componentList.RowCount = ui_componentList.Controls.Count;
-                canSendLog = false;
-            }
+        //    }
+        //    if (control != null && control.Text == @"remove")
+        //    {
+        //        symbol = control.Parent.Controls[0].Text;
+        //        _sdr.Rm(symbol);
+        //        control.Parent.Parent.Controls.Remove(control.Parent);
+        //        //ui_componentList.RowCount = ui_componentList.Controls.Count;
+        //        canSendLog = false;
+        //    }
          
-            if (DatabaseManager.CurrentDbIsShared && canSendLog)
-            {
-                Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.CollectFinished(symbol));
-            }
-        }
+        //    if (DatabaseManager.CurrentDbIsShared && canSendLog)
+        //    {
+        //        Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.CollectFinished(symbol));
+        //    }
+        //}
 
         #endregion
 
@@ -1559,13 +1557,20 @@ namespace TickNetClient.Forms
 
         private void switchButton_scheduler_ValueChanged(object sender, EventArgs e)
         {
-            ui_collect_buttonX_start.Enabled =
-                ui_collect_buttonX_startGroup.Enabled = !switchButton_scheduler.Value;
+            var isAuto =switchButton_scheduler.Value;
 
+            styledListControl_groups.StateChangingEnabled = 
+            ui_collect_buttonX_start.Enabled =
+                ui_collect_buttonX_startGroup.Enabled = !isAuto;
+            
+            LiveTickCollectorManager.LoadGroups(_groupItems);
+            
+            LiveTickCollectorManager.ChangeMode(switchButton_scheduler.Value);
+            
         }
         private void timer_scheduler_Tick(object sender, EventArgs e)
         {
-            TickScheduler();
+           
         }
 
         private List<string> _schAllSymbolsList = new List<string>();
@@ -1573,82 +1578,82 @@ namespace TickNetClient.Forms
         private List<GroupModel> _schAllGroupsList = new List<GroupModel>();
         private List<GroupModel> _schAllowedGroupsList = new List<GroupModel>();
         private List<string> _allowedSymbols = new List<string>();
-        private List<GroupItem> _groupItems;
+        private List<GroupItemModel> _groupItems;
         private int _sortMode=1;
         private bool _nowIsMaster=true;
 
-        private void StartScheduler()
-        {
-            ui_nudDOMDepth.Value = 1;
-            _schAllGroupsList = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet).Where(oo=>oo.IsAutoModeEnabled).ToList();
+        //private void StartScheduler()
+        //{
+        //    ui_nudDOMDepth.Value = 1;
+        //    _schAllGroupsList = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet).Where(oo=>oo.IsAutoModeEnabled).ToList();
 
-            _schAllowedGroupsList = new List<GroupModel>();
-            _schAllSymbolsList = new List<string>();
+        //    _schAllowedGroupsList = new List<GroupModel>();
+        //    _schAllSymbolsList = new List<string>();
 
-            foreach (var item in _schAllGroupsList)
-            {
-                var listSymb = DatabaseManager.GetSymbolsInGroup(item.GroupId);
-                foreach (var symbolModel in listSymb)
-                {
-                    if (!_schAllSymbolsList.Contains(symbolModel.SymbolName))
-                    {
-                        _schAllSymbolsList.Add(symbolModel.SymbolName);
-                    }
-                }
+        //    foreach (var item in _schAllGroupsList)
+        //    {
+        //        var listSymb = DatabaseManager.GetSymbolsInGroup(item.GroupId);
+        //        foreach (var symbolModel in listSymb)
+        //        {
+        //            if (!_schAllSymbolsList.Contains(symbolModel.SymbolName))
+        //            {
+        //                _schAllSymbolsList.Add(symbolModel.SymbolName);
+        //            }
+        //        }
 
 
-            }
-            StartCollect(_schAllSymbolsList, false, 0);
+        //    }
+        //    StartCollect(_schAllSymbolsList, false, 0);
 
-            TickScheduler();
-            //
-            timer_scheduler.Start();
+        //    TickScheduler();
+        //    //
+        //    timer_scheduler.Start();
 
-        }
+        //}
 
-        private void StopScheduler()
-        {
-            timer_scheduler.Enabled = false;
-            StopCollecting();
-        }
+        //private void StopScheduler()
+        //{
+        //    timer_scheduler.Enabled = false;
+        //    StopCollecting();
+        //}
 
-        private void TickScheduler()
-        {
-            var now = DateTime.Now;
-            _allowedSymbols = new List<string>();
+        //private void TickScheduler()
+        //{
+        //    var now = DateTime.Now;
+        //    _allowedSymbols = new List<string>();
 
-            foreach (var groupModel in _schAllGroupsList)
-            {
-                var sess=DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
-                if (groupModel.IsAutoModeEnabled && (
-                    sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeEnd.TimeOfDay > DateTime.Now.TimeOfDay 
-                        && IsNowDay(oo.Days, oo.IsStartYesterday))//startToday
-                    || (sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay
-                        && IsNowGoodDayYesterday(oo.Days, oo.IsStartYesterday)))))//startYesterday
-                {
-                    var err = DatabaseManager.GetSymbolsInGroup(groupModel.GroupId);
+        //    foreach (var groupModel in _schAllGroupsList)
+        //    {
+        //        var sess=DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
+        //        if (groupModel.IsAutoModeEnabled && (
+        //            sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeEnd.TimeOfDay > DateTime.Now.TimeOfDay 
+        //                && IsNowDay(oo.Days, oo.IsStartYesterday))//startToday
+        //            || (sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay
+        //                && IsNowGoodDayYesterday(oo.Days, oo.IsStartYesterday)))))//startYesterday
+        //        {
+        //            var err = DatabaseManager.GetSymbolsInGroup(groupModel.GroupId);
 
-                    foreach (var symbolModel in err)
-                    {
-                        if (!_allowedSymbols.Contains(symbolModel.SymbolName))
-                        {
-                            _allowedSymbols.Add(symbolModel.SymbolName);                            
-                        }
-                        if (_sdr.GetDepthForSymbol(symbolModel.SymbolName) < groupModel.Depth)
-                        {
-                            _sdr.SetDepthForSymbol(symbolModel.SymbolName, groupModel.Depth);
-                        }
+        //            foreach (var symbolModel in err)
+        //            {
+        //                if (!_allowedSymbols.Contains(symbolModel.SymbolName))
+        //                {
+        //                    _allowedSymbols.Add(symbolModel.SymbolName);                            
+        //                }
+        //                if (_sdr.GetDepthForSymbol(symbolModel.SymbolName) < groupModel.Depth)
+        //                {
+        //                    _sdr.SetDepthForSymbol(symbolModel.SymbolName, groupModel.Depth);
+        //                }
                         
-                    }
-                }
-            }
+        //            }
+        //        }
+        //    }
 
-            var disallowedList = _schAllSymbolsList.Where(symbol => !_allowedSymbols.Contains(symbol)).ToList();
+        //    var disallowedList = _schAllSymbolsList.Where(symbol => !_allowedSymbols.Contains(symbol)).ToList();
 
-            StopCollectingThisSymbols(disallowedList);
-            StartCollectingThisSymbols(_allowedSymbols,-1);
+        //    StopCollectingThisSymbols(disallowedList);
+        //    StartCollectingThisSymbols(_allowedSymbols,-1);
 
-        }
+        //}
 
         private bool IsNowGoodDayYesterday(string days, bool isStartYesterday)
         {
@@ -1715,27 +1720,27 @@ namespace TickNetClient.Forms
         }
 
 
-        private void StopCollectingThisSymbols(List<string> symbols)
-        {
-            foreach (var symbol in symbols)
-            {
-                Console.WriteLine("- " + symbol);
+        //private void StopCollectingThisSymbols(List<string> symbols)
+        //{
+        //    foreach (var symbol in symbols)
+        //    {
+        //        Console.WriteLine("- " + symbol);
 
-                _sdr.SchSymbolOff(symbol);
-            }
-        }
+        //        _sdr.SchSymbolOff(symbol);
+        //    }
+        //}
 
-        private void StartCollectingThisSymbols(List<string> symbols, int depth)
-        {
-            foreach (var symbol in symbols)
-            {
-                Console.WriteLine("+ " + symbol);
-                _sdr.SchSymbolOn(symbol);
-                if(depth!=-1)
-                    _sdr.SetDepthForSymbol(symbol, depth);
-            }
+        //private void StartCollectingThisSymbols(List<string> symbols, int depth)
+        //{
+        //    foreach (var symbol in symbols)
+        //    {
+        //        Console.WriteLine("+ " + symbol);
+        //        _sdr.SchSymbolOn(symbol);
+        //        if(depth!=-1)
+        //            _sdr.SetDepthForSymbol(symbol, depth);
+        //    }
 
-        }
+        //}
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

@@ -48,6 +48,7 @@
     <Compile Include="AdminDataManager.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataExportClientDataManager.cs" />
+    <Compile Include="Models\DomDataModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\MonthCharYearModel.cs" />
     <Compile Include="Models\ReportItem.cs" />
@@ -56,7 +57,7 @@
     <Compile Include="SqlQueryBuilders\DAQueryBuilder.cs" />
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\ApplicationType.cs" />
-    <Compile Include="Models\GroupItem.cs" />
+    <Compile Include="Models\GroupItemModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\GroupPrivilege.cs" />
     <Compile Include="Models\GroupState.cs" />
