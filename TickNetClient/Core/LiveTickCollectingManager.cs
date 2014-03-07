@@ -150,7 +150,7 @@ namespace TickNetClient.Core
                 Cel.APIConfiguration.CollectionsThrowException = false;
                 Cel.APIConfiguration.ReadyStatusCheck = eReadyStatusCheck.rscOff;
                 Cel.APIConfiguration.TimeZoneCode = eTimeZone.tzGMT;
-                Cel.APIConfiguration.DefaultInstrumentSubscriptionLevel = eDataSubscriptionLevel.dsQuotesAndBBA;
+                Cel.APIConfiguration.DefaultInstrumentSubscriptionLevel = eDataSubscriptionLevel.dsQuotesAndDOM;
                 Cel.APIConfiguration.DOMUpdatesMode = eDOMUpdatesMode.domUMDynamic;
 
                 Cel.DataConnectionStatusChanged += _cel_DataConnectionStatusChanged;
