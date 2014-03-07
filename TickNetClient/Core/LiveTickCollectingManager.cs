@@ -124,6 +124,16 @@ namespace TickNetClient.Core
         }
 
 
+        public delegate void SymbolStopedHandler(string symbol, bool canSendLog);
+
+        public static event SymbolStopedHandler SymbolStoped;
+
+        private static void OnSymbolStoped(string symbol, bool canSendLog)
+        {
+            SymbolStopedHandler handler = SymbolStoped;
+            if (handler != null) handler(symbol, canSendLog);
+        }
+
 
 
 
@@ -140,7 +150,7 @@ namespace TickNetClient.Core
                 Cel.APIConfiguration.CollectionsThrowException = false;
                 Cel.APIConfiguration.ReadyStatusCheck = eReadyStatusCheck.rscOff;
                 Cel.APIConfiguration.TimeZoneCode = eTimeZone.tzGMT;
-                Cel.APIConfiguration.DefaultInstrumentSubscriptionLevel = eDataSubscriptionLevel.dsQuotesAndDOM;
+                Cel.APIConfiguration.DefaultInstrumentSubscriptionLevel = eDataSubscriptionLevel.dsQuotesAndBBA;
                 Cel.APIConfiguration.DOMUpdatesMode = eDOMUpdatesMode.domUMDynamic;
 
                 Cel.DataConnectionStatusChanged += _cel_DataConnectionStatusChanged;
@@ -459,12 +469,23 @@ namespace TickNetClient.Core
             var symbolData = _symbolsInProgress.Find(oo => oo.Name == symbol);
             if (symbolData != null)
             {
-                if(_isFromList)
+                var prevDepth = symbolData.Depth;
+
+                if (_isFromList)
+                {
                     symbolData.Depth = Math.Max(symbolData.Depth, depth);
+                }
                 else
-                    symbolData.Depth =  depth;
+                    symbolData.Depth = depth;
                 symbolData.Description = "Started.";
                 symbolData.AllowedCollecting = true;
+
+                                
+                if (symbolData.Depth != prevDepth)
+                {
+                    OnSymbolStoped(symbol, true);
+                    OnSymbolSubscribed(symbol, symbolData.Depth);
+                }
             }
             else
             {
@@ -511,7 +532,10 @@ namespace TickNetClient.Core
 
                     var curr=listSymb.Find(oo => oo.Symbol == symbol);
                     if (curr != null)
+                    {                        
                         curr.Depth = Math.Max(curr.Depth, groupItem.GroupModel.Depth);
+                        
+                    }
                     else
                         listSymb.Add(new SymbolDepth { Symbol = symbol, Depth = groupItem.GroupModel.Depth });
                 }
@@ -543,12 +567,15 @@ namespace TickNetClient.Core
                     if (item.CqgInstrument!=null)
                         Cel.RemoveInstrument(item.CqgInstrument);
                     item.Description = "Stoped";
+                    OnSymbolStoped(symbol, true);
                 }
                 else
                 {
                     if(itemIndex!=-1)
                         _symbolsInProgress.RemoveAt(itemIndex);
                 }    
+
+
 
                 RefreshSubscribedSymbolOnUi();
                 

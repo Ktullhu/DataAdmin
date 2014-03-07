@@ -659,7 +659,12 @@ namespace TickNetClient.Forms
             LiveTickCollectorManager.Init(liveSymbolsList_symbols, _client.UserName);
             LiveTickCollectorManager.SymbolSubscribed += LiveTickCollectorManager_SymbolSubscribed;
             LiveTickCollectorManager.ItemStateChanged += LiveTickCollectorManager_ItemStateChanged;
+            LiveTickCollectorManager.SymbolStoped += LiveTickCollectorManager_SymbolStoped;
+        }
 
+        void LiveTickCollectorManager_SymbolStoped(string symbol, bool canSendLog)
+        {
+            CollectStoped(symbol, canSendLog);
         }
 
         void LiveTickCollectorManager_ItemStateChanged(int index, GroupState state)
@@ -1441,6 +1446,13 @@ namespace TickNetClient.Forms
         //        styledListControl_groups.Enabled = false;            
         //}
 
+        private void CollectStoped(string symbol, bool canSendLog)
+        {
+            if (DatabaseManager.CurrentDbIsShared && canSendLog)
+            {
+                Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.CollectFinished(symbol));
+            }
+        }
 
         private void CollectRequest(List<string> symbols, int depth)
         {
