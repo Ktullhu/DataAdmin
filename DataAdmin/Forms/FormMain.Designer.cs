@@ -233,6 +233,7 @@
             this.dataAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerLogon = new System.Windows.Forms.Timer(this.components);
+            this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.metroShellMain.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             this.metroTabPanel_symbols.SuspendLayout();
@@ -336,6 +337,7 @@
             // metroTabPanel1
             // 
             this.metroTabPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.metroTabPanel1.Controls.Add(this.labelX15);
             this.metroTabPanel1.Controls.Add(this.circularProgress1);
             this.metroTabPanel1.Controls.Add(this.comboBoxEx1);
             this.metroTabPanel1.Controls.Add(this.buttonX_backup_restore);
@@ -365,13 +367,14 @@
             // 
             // circularProgress1
             // 
+            this.circularProgress1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.circularProgress1.BackColor = System.Drawing.Color.White;
             // 
             // 
             // 
             this.circularProgress1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.circularProgress1.BackgroundStyle.UseMnemonic = true;
-            this.circularProgress1.Location = new System.Drawing.Point(390, 88);
+            this.circularProgress1.Location = new System.Drawing.Point(384, 112);
             this.circularProgress1.Name = "circularProgress1";
             this.circularProgress1.ProgressBarType = DevComponents.DotNetBar.eCircularProgressType.Donut;
             this.circularProgress1.ProgressColor = System.Drawing.Color.CadetBlue;
@@ -388,7 +391,7 @@
             this.comboBoxEx1.ForeColor = System.Drawing.Color.Black;
             this.comboBoxEx1.FormattingEnabled = true;
             this.comboBoxEx1.ItemHeight = 16;
-            this.comboBoxEx1.Location = new System.Drawing.Point(450, 121);
+            this.comboBoxEx1.Location = new System.Drawing.Point(450, 211);
             this.comboBoxEx1.Name = "comboBoxEx1";
             this.comboBoxEx1.Size = new System.Drawing.Size(336, 22);
             this.comboBoxEx1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -400,7 +403,7 @@
             this.buttonX_backup_restore.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.buttonX_backup_restore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonX_backup_restore.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_backup_restore.Location = new System.Drawing.Point(450, 26);
+            this.buttonX_backup_restore.Location = new System.Drawing.Point(450, 104);
             this.buttonX_backup_restore.Name = "buttonX_backup_restore";
             this.buttonX_backup_restore.Size = new System.Drawing.Size(336, 59);
             this.buttonX_backup_restore.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -475,7 +478,7 @@
             // 
             this.buttonX_backup_backup.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.buttonX_backup_backup.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_backup_backup.Location = new System.Drawing.Point(38, 26);
+            this.buttonX_backup_backup.Location = new System.Drawing.Point(38, 104);
             this.buttonX_backup_backup.Name = "buttonX_backup_backup";
             this.buttonX_backup_backup.Size = new System.Drawing.Size(336, 59);
             this.buttonX_backup_backup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -2989,6 +2992,21 @@
             // 
             this.timerLogon.Tick += new System.EventHandler(this.timerLogon_Tick);
             // 
+            // labelX15
+            // 
+            this.labelX15.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX15.ForeColor = System.Drawing.Color.Black;
+            this.labelX15.Location = new System.Drawing.Point(450, 182);
+            this.labelX15.Name = "labelX15";
+            this.labelX15.Size = new System.Drawing.Size(144, 23);
+            this.labelX15.TabIndex = 27;
+            this.labelX15.Text = "Backup for restoring:";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3233,6 +3251,7 @@
         private DevComponents.DotNetBar.ButtonX buttonX_backup_restore;
         private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
         private DevComponents.DotNetBar.Controls.CircularProgress circularProgress1;
+        private DevComponents.DotNetBar.LabelX labelX15;
 
     }
 }

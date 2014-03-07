@@ -2897,38 +2897,42 @@ namespace DataAdmin.Forms
         
         private void buttonX_backup_backup_Click(object sender, EventArgs e)
         {
+            circularProgress1.IsRunning = true;
+
+            var thr = new Thread(() =>
+            {
+                DataManager.BackupSystemTables();
+                Invoke((Action)(() =>
+                {
+                    circularProgress1.IsRunning = false;
+                }));
+
+            });
+            thr.Start();
             
-            labelX19.Text=DataManager.BackupSystemTables();
             
         }
 
         private void buttonX_backup_restore_Click(object sender, EventArgs e)
         {
-         
-            //circularProgress1.Visible = true;
-            circularProgress1.IsRunning = true;
-            //circularProgress1.
-            ////circularProgress1.IsRunning = true;
-            var thr = new Thread(() => Invoke((Action)(() =>
+            if (comboBoxEx1.SelectedItem == null)
             {
+                ToastNotification.Show(metroTabPanel1, "Please, choose backup file for restoring");
+                return;
+            }
+            circularProgress1.IsRunning = true;
+            var res = comboBoxEx1.SelectedItem.ToString();
 
-                DataManager.RestoreSystemTables(comboBoxEx1.SelectedItem.ToString());
-                circularProgress1.IsRunning = false;
-            })));
+            var thr = new Thread(() => {
+                DataManager.RestoreSystemTables(res);
+                Invoke((Action) (() =>
+                {
+                    circularProgress1.IsRunning = false;
+                }));
+
+            });
             thr.Start();
-            //circularProgress1.IsRunning = false;
-            //int i = 0;
-            //while (true)
-            //{DataManager.RestoreSystemTables(comboBoxEx1.SelectedItem.ToString());
-            //    Thread.Sleep(500);
-
-            //    circularProgress1.Value += i;
-            //    //circularProgress1.AnimationSpeed += i;
-            //    if (i == 100) i = 0;
-            //    i++;
-            //    Thread.Sleep(500);
-            //}
-
+    
         }
 
         private void comboBoxEx1_DropDown(object sender, EventArgs e)
