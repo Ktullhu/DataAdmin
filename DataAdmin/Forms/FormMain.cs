@@ -39,7 +39,7 @@ namespace DataAdmin.Forms
         public bool ServerlogoutFlag;
         private string nextTNClient;
         private string nextTNSymbol;
-
+        private List<string> _backUpFileNameList=new List<string>(); 
 
 
         private delegate void MainFormErrorReporter(ErrorInfo ei);
@@ -47,6 +47,7 @@ namespace DataAdmin.Forms
         private event MainFormErrorReporter ErrorReport;
 
         #region VARS
+
 
         private readonly Object _thisLock = new Object();
         private void DataNetCollectStarted(DataAdminMessageFactory.LogMessage msg)
@@ -692,6 +693,7 @@ namespace DataAdmin.Forms
             //   _hamachiIp = network.GetIPProperties().UnicastAddresses[0].Address.ToString();
                 
             //}
+
             ResumeLayout(false);
         }
 
@@ -702,7 +704,25 @@ namespace DataAdmin.Forms
 
             Size = Settings.Default.S;
             Location = Settings.Default.L;
-            UpdateControlsSizeAndLocation();            
+            UpdateControlsSizeAndLocation();
+            _backUpFileNameList = DataManager.ReturnBackUpFilesName();
+            foreach (var VARIABLE in _backUpFileNameList)
+            {
+                comboBoxEx1.Items.Add(VARIABLE);
+            }
+            string time;
+            time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[0];
+            
+            //time=time.Replace('_', '/');
+            //time = time.Replace('-', ':');
+            labelX19.Text = time;
+            DateTime ScheduledBackup = Convert.ToDateTime(_backUpFileNameList[0]);
+            ScheduledBackup=ScheduledBackup.AddDays(7);
+            labelX17.Text = ScheduledBackup.ToString();
+            if(ScheduledBackup.ToShortDateString()==DateTime.Today.ToShortDateString())
+                labelX19.Text = DataManager.BackupSystemTables();
+
+
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -2875,18 +2895,41 @@ namespace DataAdmin.Forms
         }
         #region BACKUP
 
+        
         private void buttonX_backup_backup_Click(object sender, EventArgs e)
         {
-            DataManager.BackupSystemTables();
+            
+            labelX19.Text=DataManager.BackupSystemTables();
+            
         }
 
         private void buttonX_backup_restore_Click(object sender, EventArgs e)
         {
-            DataManager.RestoreSystemTables();
+            circularProgress1.Visible = true;
+            DataManager.RestoreSystemTables(comboBoxEx1.SelectedItem.ToString());
+            //int i = 0;
+            //while(true)
+            //{
+            //    circularProgress1.Value =i;
+            //    if (i == 100) i = 0;
+            //    i++;
+            //    Thread.Sleep(500);
+            //}
+            
         }
 
-        
+        private void comboBoxEx1_DropDown(object sender, EventArgs e)
+        {
+            comboBoxEx1.Items.Clear();
+            List<string> tmpList = DataManager.ReturnBackUpFilesName();
+            foreach (var VARIABLE in tmpList)
+            {
+                comboBoxEx1.Items.Add(VARIABLE);
+            }
+        }
         #endregion
+
+
 
 
     }

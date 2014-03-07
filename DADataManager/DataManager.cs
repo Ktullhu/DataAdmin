@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
+using System.Threading;
 using MySql.Data.MySqlClient;
 using DADataManager.Models;
 
@@ -47,6 +49,8 @@ namespace DADataManager
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
+        public const string BackUpFilePath = @"e:\backup\";
+
 
         private static readonly object LockReader = new object();
         /*
@@ -1205,9 +1209,14 @@ namespace DADataManager
         }*/
         #endregion
 
-        public static void BackupSystemTables()
+        public static string BackupSystemTables()
         {
-            var file = @"C:\backup\backup.sql";// +DateTime.Now.ToShortDateString();
+
+            string time = DateTime.Now.ToString();
+            time=time.Replace('/', '_');
+            time = time.Replace(':', '-');
+            var file = BackUpFilePath + time;
+            //System.IO.
             using (MySqlCommand cmd = new MySqlCommand())
             {
                 using (MySqlBackup mb = new MySqlBackup(cmd))
@@ -1216,19 +1225,50 @@ namespace DADataManager
                     mb.ExportToFile(file);                   
                 }
             }
+            time = time.Replace('_', '/');
+            time = time.Replace('-', ':');
+            return time;
         }
 
-        public static void RestoreSystemTables()
+        public static List<string> ReturnBackUpFilesName()
         {
-            var file = @"C:\backup\backup.sql";// +DateTime.Now.ToShortDateString();
-            using (MySqlCommand cmd = new MySqlCommand())
+            List<string> list=System.IO.Directory.GetFiles(@"e:\backup\").ToList();
+            for (int i = 0; i < list.Count; i++)
             {
-                using (MySqlBackup mb = new MySqlBackup(cmd))
-                {
-                    cmd.Connection = _connectionSystem;                    
-                    mb.ImportFromFile(file);                    
-                }
+                list[i] = list[i].Replace(BackUpFilePath, "");
+                list[i] = list[i].Replace('_', '/');
+                list[i] = list[i].Replace('-', ':');
             }
+            return list;
+
+            // @"e:\backup\"
+            //return System.IO.Directory.GetFiles(@"e:\backup\").ToList();
+
+
+        }
+
+        public static void RestoreSystemTables(string fileName)
+        {
+
+
+           // string[] list = System.IO.Directory.GetFiles(@"e:\backup\");
+            Thread _backupThread = new Thread(() =>
+            {
+                fileName = fileName.Replace('/', '_');
+                fileName = fileName.Replace(':', '-');
+                //var file = @"e:\backup\backup.sql" + DateTime.Now;
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    using (MySqlBackup mb = new MySqlBackup(cmd))
+                    {
+                        cmd.Connection = _connectionSystem;
+                        mb.ImportFromFile(BackUpFilePath+fileName);
+                    }
+                }
+
+
+            });
+            _backupThread.Start();
         }
     }
 }
