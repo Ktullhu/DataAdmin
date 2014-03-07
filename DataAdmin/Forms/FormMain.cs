@@ -2873,8 +2873,20 @@ namespace DataAdmin.Forms
         {
             UpdateAllTables();
         }
+        #region BACKUP
 
-    
+        private void buttonX_backup_backup_Click(object sender, EventArgs e)
+        {
+            DataManager.BackupSystemTables();
+        }
+
+        private void buttonX_backup_restore_Click(object sender, EventArgs e)
+        {
+            DataManager.RestoreSystemTables();
+        }
+
+        
+        #endregion
 
 
     }

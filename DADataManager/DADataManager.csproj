@@ -35,6 +35,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="MySqlBackup">
+      <HintPath>.\MySqlBackup.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
@@ -45,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminDataManager.cs" />
+    <Compile Include="DataManager.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataExportClientDataManager.cs" />
     <Compile Include="Models\DomDataModel.cs" />

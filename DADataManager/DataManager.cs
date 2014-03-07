@@ -1204,5 +1204,31 @@ namespace DADataManager
             QueryQueue.Clear();
         }*/
         #endregion
+
+        public static void BackupSystemTables()
+        {
+            var file = @"C:\backup\backup.sql";// +DateTime.Now.ToShortDateString();
+            using (MySqlCommand cmd = new MySqlCommand())
+            {
+                using (MySqlBackup mb = new MySqlBackup(cmd))
+                {
+                    cmd.Connection = _connectionSystem;                    
+                    mb.ExportToFile(file);                   
+                }
+            }
+        }
+
+        public static void RestoreSystemTables()
+        {
+            var file = @"C:\backup\backup.sql";// +DateTime.Now.ToShortDateString();
+            using (MySqlCommand cmd = new MySqlCommand())
+            {
+                using (MySqlBackup mb = new MySqlBackup(cmd))
+                {
+                    cmd.Connection = _connectionSystem;                    
+                    mb.ImportFromFile(file);                    
+                }
+            }
+        }
     }
 }

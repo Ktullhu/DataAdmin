@@ -77,10 +77,6 @@
       <HintPath>C:\Program Files\DotNetBar for Windows Forms\DevComponents.DotNetBar2.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="Scs">
       <HintPath>..\Scs.dll</HintPath>
     </Reference>
