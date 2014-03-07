@@ -706,12 +706,11 @@ namespace DataAdmin.Forms
             Location = Settings.Default.L;
             UpdateControlsSizeAndLocation();
             _backUpFileNameList = DataManager.ReturnBackUpFilesName();
-            foreach (var VARIABLE in _backUpFileNameList)
+            foreach (var variable in _backUpFileNameList)
             {
-                comboBoxEx1.Items.Add(VARIABLE);
+                comboBoxEx1.Items.Add(variable);
             }
-            string time;
-            time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[0];
+            string time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[_backUpFileNameList.Count-1];
             
             //time=time.Replace('_', '/');
             //time = time.Replace('-', ':');
@@ -720,7 +719,7 @@ namespace DataAdmin.Forms
             ScheduledBackup=ScheduledBackup.AddDays(7);
             labelX17.Text = ScheduledBackup.ToString();
             if(ScheduledBackup.ToShortDateString()==DateTime.Today.ToShortDateString())
-                labelX19.Text = DataManager.BackupSystemTables();
+            labelX19.Text = DataManager.BackupSystemTables();
 
 
         }
@@ -2905,26 +2904,40 @@ namespace DataAdmin.Forms
 
         private void buttonX_backup_restore_Click(object sender, EventArgs e)
         {
-            circularProgress1.Visible = true;
-            DataManager.RestoreSystemTables(comboBoxEx1.SelectedItem.ToString());
+         
+            //circularProgress1.Visible = true;
+            circularProgress1.IsRunning = true;
+            //circularProgress1.
+            ////circularProgress1.IsRunning = true;
+            var thr = new Thread(() => Invoke((Action)(() =>
+            {
+
+                DataManager.RestoreSystemTables(comboBoxEx1.SelectedItem.ToString());
+                circularProgress1.IsRunning = false;
+            })));
+            thr.Start();
+            //circularProgress1.IsRunning = false;
             //int i = 0;
-            //while(true)
-            //{
-            //    circularProgress1.Value =i;
+            //while (true)
+            //{DataManager.RestoreSystemTables(comboBoxEx1.SelectedItem.ToString());
+            //    Thread.Sleep(500);
+
+            //    circularProgress1.Value += i;
+            //    //circularProgress1.AnimationSpeed += i;
             //    if (i == 100) i = 0;
             //    i++;
             //    Thread.Sleep(500);
             //}
-            
+
         }
 
         private void comboBoxEx1_DropDown(object sender, EventArgs e)
         {
             comboBoxEx1.Items.Clear();
             List<string> tmpList = DataManager.ReturnBackUpFilesName();
-            foreach (var VARIABLE in tmpList)
+            foreach (var variable in tmpList)
             {
-                comboBoxEx1.Items.Add(VARIABLE);
+                comboBoxEx1.Items.Add(variable);
             }
         }
         #endregion

@@ -50,7 +50,7 @@ namespace DADataManager
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
         public const string BackUpFilePath = @"e:\backup\";
-
+        public static Semaphore sem=new Semaphore(0,1);
 
         private static readonly object LockReader = new object();
         /*
@@ -1252,8 +1252,8 @@ namespace DADataManager
 
 
            // string[] list = System.IO.Directory.GetFiles(@"e:\backup\");
-            Thread _backupThread = new Thread(() =>
-            {
+           // Thread _backupThread = new Thread(() =>
+           // {
                 fileName = fileName.Replace('/', '_');
                 fileName = fileName.Replace(':', '-');
                 //var file = @"e:\backup\backup.sql" + DateTime.Now;
@@ -1263,12 +1263,15 @@ namespace DADataManager
                     {
                         cmd.Connection = _connectionSystem;
                         mb.ImportFromFile(BackUpFilePath+fileName);
+
                     }
                 }
 
 
-            });
-            _backupThread.Start();
+                
+            //});
+           // _backupThread.Start();
+            
         }
     }
 }

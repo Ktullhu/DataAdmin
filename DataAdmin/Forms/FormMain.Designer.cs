@@ -63,10 +63,8 @@
             this.comboBoxEx1 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.buttonX_backup_restore = new DevComponents.DotNetBar.ButtonX();
             this.labelX17 = new DevComponents.DotNetBar.LabelX();
-            this.labelX18 = new DevComponents.DotNetBar.LabelX();
             this.labelX19 = new DevComponents.DotNetBar.LabelX();
             this.labelX16 = new DevComponents.DotNetBar.LabelX();
-            this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.labelX14 = new DevComponents.DotNetBar.LabelX();
             this.buttonX_backup_backup = new DevComponents.DotNetBar.ButtonX();
             this.metroTabPanel_symbols = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -114,6 +112,7 @@
             this.labelX11 = new DevComponents.DotNetBar.LabelX();
             this.ui_symbols_textBoxX_collected_DN = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX12 = new DevComponents.DotNetBar.LabelX();
+            this.ui_symbols_timeSliceControl_collect = new DataAdmin.Forms.TimeSliceControl();
             this.ui_symbols_textBoxX_collected_by_TN = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX8 = new DevComponents.DotNetBar.LabelX();
             this.ui_symbols_textBoxX_collected_TN = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -148,6 +147,7 @@
             this.ui_users_panelEx_ud = new DevComponents.DotNetBar.PanelEx();
             this.ui_users_textBoxX_lastLogin = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.ui_users_TimeSliceControl_login = new DataAdmin.Forms.TimeSliceControl();
             this.ui_users_panelEx_ud_logins = new DevComponents.DotNetBar.PanelEx();
             this.ui_users_dataGridViewX_logins = new DevComponents.DotNetBar.Controls.DataGridViewX();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -164,6 +164,7 @@
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ui_groups_labelX_gh = new DevComponents.DotNetBar.LabelX();
             this.ui_groups_panelEx7 = new DevComponents.DotNetBar.PanelEx();
+            this.ui_groups_timeSliceControl_collect = new DataAdmin.Forms.TimeSliceControl();
             this.ui_groups_textBoxX_collected_by = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX9 = new DevComponents.DotNetBar.LabelX();
             this.ui_groups_textBoxX_collected = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -232,9 +233,6 @@
             this.dataAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerLogon = new System.Windows.Forms.Timer(this.components);
-            this.ui_symbols_timeSliceControl_collect = new DataAdmin.Forms.TimeSliceControl();
-            this.ui_users_TimeSliceControl_login = new DataAdmin.Forms.TimeSliceControl();
-            this.ui_groups_timeSliceControl_collect = new DataAdmin.Forms.TimeSliceControl();
             this.metroShellMain.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             this.metroTabPanel_symbols.SuspendLayout();
@@ -342,10 +340,8 @@
             this.metroTabPanel1.Controls.Add(this.comboBoxEx1);
             this.metroTabPanel1.Controls.Add(this.buttonX_backup_restore);
             this.metroTabPanel1.Controls.Add(this.labelX17);
-            this.metroTabPanel1.Controls.Add(this.labelX18);
             this.metroTabPanel1.Controls.Add(this.labelX19);
             this.metroTabPanel1.Controls.Add(this.labelX16);
-            this.metroTabPanel1.Controls.Add(this.labelX15);
             this.metroTabPanel1.Controls.Add(this.labelX14);
             this.metroTabPanel1.Controls.Add(this.buttonX_backup_backup);
             this.metroTabPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -374,25 +370,27 @@
             // 
             // 
             this.circularProgress1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.circularProgress1.Location = new System.Drawing.Point(450, 105);
+            this.circularProgress1.BackgroundStyle.UseMnemonic = true;
+            this.circularProgress1.Location = new System.Drawing.Point(390, 88);
             this.circularProgress1.Name = "circularProgress1";
             this.circularProgress1.ProgressBarType = DevComponents.DotNetBar.eCircularProgressType.Donut;
             this.circularProgress1.ProgressColor = System.Drawing.Color.CadetBlue;
-            this.circularProgress1.Size = new System.Drawing.Size(75, 23);
+            this.circularProgress1.Size = new System.Drawing.Size(54, 42);
             this.circularProgress1.Style = DevComponents.DotNetBar.eDotNetBarStyle.OfficeXP;
             this.circularProgress1.TabIndex = 26;
             // 
             // comboBoxEx1
             // 
+            this.comboBoxEx1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxEx1.DisplayMember = "Text";
             this.comboBoxEx1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxEx1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEx1.ForeColor = System.Drawing.Color.Black;
             this.comboBoxEx1.FormattingEnabled = true;
             this.comboBoxEx1.ItemHeight = 16;
-            this.comboBoxEx1.Location = new System.Drawing.Point(553, 106);
+            this.comboBoxEx1.Location = new System.Drawing.Point(450, 121);
             this.comboBoxEx1.Name = "comboBoxEx1";
-            this.comboBoxEx1.Size = new System.Drawing.Size(233, 22);
+            this.comboBoxEx1.Size = new System.Drawing.Size(336, 22);
             this.comboBoxEx1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.comboBoxEx1.TabIndex = 25;
             this.comboBoxEx1.DropDown += new System.EventHandler(this.comboBoxEx1_DropDown);
@@ -409,7 +407,6 @@
             this.buttonX_backup_restore.TabIndex = 24;
             this.buttonX_backup_restore.Text = "<p></p>\r\n<h1><font color=\"#456287\"><b>Restore</b></font></h1>\r\n<p>from backup</p>" +
     " ";
-            this.buttonX_backup_restore.Tooltip = "Add new list";
             this.buttonX_backup_restore.Click += new System.EventHandler(this.buttonX_backup_restore_Click);
             // 
             // labelX17
@@ -427,21 +424,6 @@
             this.labelX17.TabIndex = 23;
             this.labelX17.Text = "Not scheduled";
             // 
-            // labelX18
-            // 
-            this.labelX18.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.labelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX18.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX18.ForeColor = System.Drawing.Color.Black;
-            this.labelX18.Location = new System.Drawing.Point(191, 181);
-            this.labelX18.Name = "labelX18";
-            this.labelX18.Size = new System.Drawing.Size(183, 23);
-            this.labelX18.TabIndex = 22;
-            this.labelX18.Text = "This backup job was not run yet";
-            // 
             // labelX19
             // 
             this.labelX19.BackColor = System.Drawing.Color.White;
@@ -451,7 +433,7 @@
             this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX19.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelX19.ForeColor = System.Drawing.Color.Black;
-            this.labelX19.Location = new System.Drawing.Point(191, 152);
+            this.labelX19.Location = new System.Drawing.Point(191, 181);
             this.labelX19.Name = "labelX19";
             this.labelX19.Size = new System.Drawing.Size(183, 23);
             this.labelX19.TabIndex = 21;
@@ -473,22 +455,6 @@
             this.labelX16.Text = "Next scheduled backup:";
             this.labelX16.TextAlignment = System.Drawing.StringAlignment.Far;
             // 
-            // labelX15
-            // 
-            this.labelX15.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX15.ForeColor = System.Drawing.Color.Black;
-            this.labelX15.Location = new System.Drawing.Point(38, 181);
-            this.labelX15.Name = "labelX15";
-            this.labelX15.Size = new System.Drawing.Size(144, 23);
-            this.labelX15.TabIndex = 19;
-            this.labelX15.Text = "Last backup status:";
-            this.labelX15.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
             // labelX14
             // 
             this.labelX14.BackColor = System.Drawing.Color.White;
@@ -498,7 +464,7 @@
             this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX14.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelX14.ForeColor = System.Drawing.Color.Black;
-            this.labelX14.Location = new System.Drawing.Point(38, 152);
+            this.labelX14.Location = new System.Drawing.Point(38, 181);
             this.labelX14.Name = "labelX14";
             this.labelX14.Size = new System.Drawing.Size(144, 23);
             this.labelX14.TabIndex = 18;
@@ -516,7 +482,6 @@
             this.buttonX_backup_backup.TabIndex = 11;
             this.buttonX_backup_backup.Text = "<p></p>\r\n<h1><font color=\"#456287\"><b>Backup</b></font></h1>\r\n<p>create new backu" +
     "p</p> ";
-            this.buttonX_backup_backup.Tooltip = "Add new list";
             this.buttonX_backup_backup.Click += new System.EventHandler(this.buttonX_backup_backup_Click);
             // 
             // metroTabPanel_symbols
@@ -1071,6 +1036,28 @@
             this.labelX12.Size = new System.Drawing.Size(156, 23);
             this.labelX12.TabIndex = 24;
             this.labelX12.Text = "[DN] Last collecting date:";
+            // 
+            // ui_symbols_timeSliceControl_collect
+            // 
+            this.ui_symbols_timeSliceControl_collect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ui_symbols_timeSliceControl_collect.BackColor = System.Drawing.Color.White;
+            this.ui_symbols_timeSliceControl_collect.EndDate = new System.DateTime(((long)(0)));
+            this.ui_symbols_timeSliceControl_collect.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ui_symbols_timeSliceControl_collect.ForeColor = System.Drawing.Color.Black;
+            this.ui_symbols_timeSliceControl_collect.LineColor1 = System.Drawing.Color.Green;
+            this.ui_symbols_timeSliceControl_collect.LineColor2 = System.Drawing.Color.Green;
+            this.ui_symbols_timeSliceControl_collect.LineColor3 = System.Drawing.Color.CadetBlue;
+            this.ui_symbols_timeSliceControl_collect.LineCount = 2;
+            this.ui_symbols_timeSliceControl_collect.Location = new System.Drawing.Point(5, 118);
+            this.ui_symbols_timeSliceControl_collect.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ui_symbols_timeSliceControl_collect.MaxDaysLooksBack = 7;
+            this.ui_symbols_timeSliceControl_collect.MinimumSize = new System.Drawing.Size(100, 65);
+            this.ui_symbols_timeSliceControl_collect.Name = "ui_symbols_timeSliceControl_collect";
+            this.ui_symbols_timeSliceControl_collect.Size = new System.Drawing.Size(485, 65);
+            this.ui_symbols_timeSliceControl_collect.StartDate = new System.DateTime(2013, 9, 9, 17, 22, 0, 0);
+            this.ui_symbols_timeSliceControl_collect.TabIndex = 23;
+            this.ui_symbols_timeSliceControl_collect.TitleText = "Collecting Time Slice";
             // 
             // ui_symbols_textBoxX_collected_by_TN
             // 
@@ -1649,6 +1636,28 @@
             this.labelX6.Text = "Last logining:";
             this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
             // 
+            // ui_users_TimeSliceControl_login
+            // 
+            this.ui_users_TimeSliceControl_login.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ui_users_TimeSliceControl_login.BackColor = System.Drawing.Color.White;
+            this.ui_users_TimeSliceControl_login.EndDate = new System.DateTime(((long)(0)));
+            this.ui_users_TimeSliceControl_login.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ui_users_TimeSliceControl_login.ForeColor = System.Drawing.Color.Black;
+            this.ui_users_TimeSliceControl_login.LineColor1 = System.Drawing.Color.Green;
+            this.ui_users_TimeSliceControl_login.LineColor2 = System.Drawing.Color.Green;
+            this.ui_users_TimeSliceControl_login.LineColor3 = System.Drawing.Color.CadetBlue;
+            this.ui_users_TimeSliceControl_login.LineCount = 3;
+            this.ui_users_TimeSliceControl_login.Location = new System.Drawing.Point(5, 123);
+            this.ui_users_TimeSliceControl_login.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ui_users_TimeSliceControl_login.MaxDaysLooksBack = 7;
+            this.ui_users_TimeSliceControl_login.MinimumSize = new System.Drawing.Size(100, 65);
+            this.ui_users_TimeSliceControl_login.Name = "ui_users_TimeSliceControl_login";
+            this.ui_users_TimeSliceControl_login.Size = new System.Drawing.Size(230, 65);
+            this.ui_users_TimeSliceControl_login.StartDate = new System.DateTime(2013, 9, 11, 17, 22, 45, 680);
+            this.ui_users_TimeSliceControl_login.TabIndex = 16;
+            this.ui_users_TimeSliceControl_login.TitleText = "Login Time Slice";
+            // 
             // ui_users_panelEx_ud_logins
             // 
             this.ui_users_panelEx_ud_logins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1935,6 +1944,28 @@
             this.ui_groups_panelEx7.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
             this.ui_groups_panelEx7.Style.GradientAngle = 90;
             this.ui_groups_panelEx7.TabIndex = 7;
+            // 
+            // ui_groups_timeSliceControl_collect
+            // 
+            this.ui_groups_timeSliceControl_collect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ui_groups_timeSliceControl_collect.BackColor = System.Drawing.Color.White;
+            this.ui_groups_timeSliceControl_collect.EndDate = new System.DateTime(((long)(0)));
+            this.ui_groups_timeSliceControl_collect.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ui_groups_timeSliceControl_collect.ForeColor = System.Drawing.Color.Black;
+            this.ui_groups_timeSliceControl_collect.LineColor1 = System.Drawing.Color.Green;
+            this.ui_groups_timeSliceControl_collect.LineColor2 = System.Drawing.Color.Green;
+            this.ui_groups_timeSliceControl_collect.LineColor3 = System.Drawing.Color.CadetBlue;
+            this.ui_groups_timeSliceControl_collect.LineCount = 2;
+            this.ui_groups_timeSliceControl_collect.Location = new System.Drawing.Point(5, 107);
+            this.ui_groups_timeSliceControl_collect.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ui_groups_timeSliceControl_collect.MaxDaysLooksBack = 7;
+            this.ui_groups_timeSliceControl_collect.MinimumSize = new System.Drawing.Size(100, 65);
+            this.ui_groups_timeSliceControl_collect.Name = "ui_groups_timeSliceControl_collect";
+            this.ui_groups_timeSliceControl_collect.Size = new System.Drawing.Size(485, 65);
+            this.ui_groups_timeSliceControl_collect.StartDate = new System.DateTime(2013, 9, 9, 17, 22, 0, 0);
+            this.ui_groups_timeSliceControl_collect.TabIndex = 28;
+            this.ui_groups_timeSliceControl_collect.TitleText = "Collecting Time Slice";
             // 
             // ui_groups_textBoxX_collected_by
             // 
@@ -2958,72 +2989,6 @@
             // 
             this.timerLogon.Tick += new System.EventHandler(this.timerLogon_Tick);
             // 
-            // ui_symbols_timeSliceControl_collect
-            // 
-            this.ui_symbols_timeSliceControl_collect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ui_symbols_timeSliceControl_collect.BackColor = System.Drawing.Color.White;
-            this.ui_symbols_timeSliceControl_collect.EndDate = new System.DateTime(((long)(0)));
-            this.ui_symbols_timeSliceControl_collect.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ui_symbols_timeSliceControl_collect.ForeColor = System.Drawing.Color.Black;
-            this.ui_symbols_timeSliceControl_collect.LineColor1 = System.Drawing.Color.Green;
-            this.ui_symbols_timeSliceControl_collect.LineColor2 = System.Drawing.Color.Green;
-            this.ui_symbols_timeSliceControl_collect.LineColor3 = System.Drawing.Color.CadetBlue;
-            this.ui_symbols_timeSliceControl_collect.LineCount = 2;
-            this.ui_symbols_timeSliceControl_collect.Location = new System.Drawing.Point(5, 118);
-            this.ui_symbols_timeSliceControl_collect.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ui_symbols_timeSliceControl_collect.MaxDaysLooksBack = 7;
-            this.ui_symbols_timeSliceControl_collect.MinimumSize = new System.Drawing.Size(100, 65);
-            this.ui_symbols_timeSliceControl_collect.Name = "ui_symbols_timeSliceControl_collect";
-            this.ui_symbols_timeSliceControl_collect.Size = new System.Drawing.Size(485, 65);
-            this.ui_symbols_timeSliceControl_collect.StartDate = new System.DateTime(2013, 9, 9, 17, 22, 0, 0);
-            this.ui_symbols_timeSliceControl_collect.TabIndex = 23;
-            this.ui_symbols_timeSliceControl_collect.TitleText = "Collecting Time Slice";
-            // 
-            // ui_users_TimeSliceControl_login
-            // 
-            this.ui_users_TimeSliceControl_login.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ui_users_TimeSliceControl_login.BackColor = System.Drawing.Color.White;
-            this.ui_users_TimeSliceControl_login.EndDate = new System.DateTime(((long)(0)));
-            this.ui_users_TimeSliceControl_login.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ui_users_TimeSliceControl_login.ForeColor = System.Drawing.Color.Black;
-            this.ui_users_TimeSliceControl_login.LineColor1 = System.Drawing.Color.Green;
-            this.ui_users_TimeSliceControl_login.LineColor2 = System.Drawing.Color.Green;
-            this.ui_users_TimeSliceControl_login.LineColor3 = System.Drawing.Color.CadetBlue;
-            this.ui_users_TimeSliceControl_login.LineCount = 3;
-            this.ui_users_TimeSliceControl_login.Location = new System.Drawing.Point(5, 123);
-            this.ui_users_TimeSliceControl_login.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ui_users_TimeSliceControl_login.MaxDaysLooksBack = 7;
-            this.ui_users_TimeSliceControl_login.MinimumSize = new System.Drawing.Size(100, 65);
-            this.ui_users_TimeSliceControl_login.Name = "ui_users_TimeSliceControl_login";
-            this.ui_users_TimeSliceControl_login.Size = new System.Drawing.Size(230, 65);
-            this.ui_users_TimeSliceControl_login.StartDate = new System.DateTime(2013, 9, 11, 17, 22, 45, 680);
-            this.ui_users_TimeSliceControl_login.TabIndex = 16;
-            this.ui_users_TimeSliceControl_login.TitleText = "Login Time Slice";
-            // 
-            // ui_groups_timeSliceControl_collect
-            // 
-            this.ui_groups_timeSliceControl_collect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ui_groups_timeSliceControl_collect.BackColor = System.Drawing.Color.White;
-            this.ui_groups_timeSliceControl_collect.EndDate = new System.DateTime(((long)(0)));
-            this.ui_groups_timeSliceControl_collect.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ui_groups_timeSliceControl_collect.ForeColor = System.Drawing.Color.Black;
-            this.ui_groups_timeSliceControl_collect.LineColor1 = System.Drawing.Color.Green;
-            this.ui_groups_timeSliceControl_collect.LineColor2 = System.Drawing.Color.Green;
-            this.ui_groups_timeSliceControl_collect.LineColor3 = System.Drawing.Color.CadetBlue;
-            this.ui_groups_timeSliceControl_collect.LineCount = 2;
-            this.ui_groups_timeSliceControl_collect.Location = new System.Drawing.Point(5, 107);
-            this.ui_groups_timeSliceControl_collect.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ui_groups_timeSliceControl_collect.MaxDaysLooksBack = 7;
-            this.ui_groups_timeSliceControl_collect.MinimumSize = new System.Drawing.Size(100, 65);
-            this.ui_groups_timeSliceControl_collect.Name = "ui_groups_timeSliceControl_collect";
-            this.ui_groups_timeSliceControl_collect.Size = new System.Drawing.Size(485, 65);
-            this.ui_groups_timeSliceControl_collect.StartDate = new System.DateTime(2013, 9, 9, 17, 22, 0, 0);
-            this.ui_groups_timeSliceControl_collect.TabIndex = 28;
-            this.ui_groups_timeSliceControl_collect.TitleText = "Collecting Time Slice";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3261,11 +3226,9 @@
         private DevComponents.DotNetBar.Metro.MetroTabPanel metroTabPanel1;
         private DevComponents.DotNetBar.Metro.MetroTabItem metroTabItem1;
         private DevComponents.DotNetBar.LabelX labelX16;
-        private DevComponents.DotNetBar.LabelX labelX15;
         private DevComponents.DotNetBar.LabelX labelX14;
         private DevComponents.DotNetBar.ButtonX buttonX_backup_backup;
         private DevComponents.DotNetBar.LabelX labelX17;
-        private DevComponents.DotNetBar.LabelX labelX18;
         private DevComponents.DotNetBar.LabelX labelX19;
         private DevComponents.DotNetBar.ButtonX buttonX_backup_restore;
         private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
