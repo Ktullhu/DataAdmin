@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using MySql.Data.MySqlClient;
@@ -49,7 +50,7 @@ namespace DADataManager
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
-        public const string BackUpFilePath = @"e:\backup\";
+        public const string BackUpFilePath = @"\backup";
         public static Semaphore sem=new Semaphore(0,1);
 
         private static readonly object LockReader = new object();
@@ -1209,33 +1210,55 @@ namespace DADataManager
         }*/
         #endregion
 
-        public static string BackupSystemTables()
+        public static void CreateBackupDirectory(string path)
+        {
+            try
+            {
+                if (Directory.Exists(path))
+                {
+                    Console.WriteLine("That path exists already.");
+                    return;
+                }
+
+                // Try to create the directory.
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                Console.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(path));
+                Console.WriteLine("The directory was deleted successfully.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+        }
+
+
+        public static DateTime BackupSystemTables()
         {
 
-            string time = DateTime.Now.ToString();
+            string time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
             time=time.Replace('/', '_');
             time = time.Replace(':', '-');
-            var file = BackUpFilePath + time;
+            var file = BackUpFilePath+"\\" + time;
             //System.IO.
-            using (MySqlCommand cmd = new MySqlCommand())
+            using (var cmd = new MySqlCommand())
             {
-                using (MySqlBackup mb = new MySqlBackup(cmd))
+                using (var mb = new MySqlBackup(cmd))
                 {
-                    cmd.Connection = _connectionSystem;                    
+                    cmd.Connection = _connectionSystem;   
                     mb.ExportToFile(file);                   
                 }
             }
             time = time.Replace('_', '/');
             time = time.Replace('-', ':');
-            return time;
+            return Convert.ToDateTime(time);
         }
 
         public static List<string> ReturnBackUpFilesName()
         {
-            List<string> list=System.IO.Directory.GetFiles(@"e:\backup\").ToList();
+            List<string> list=System.IO.Directory.GetFiles(@"\backup\").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                list[i] = list[i].Replace(BackUpFilePath, "");
+                list[i] = list[i].Replace(BackUpFilePath+"\\", "");
                 list[i] = list[i].Replace('_', '/');
                 list[i] = list[i].Replace('-', ':');
             }
@@ -1257,12 +1280,12 @@ namespace DADataManager
                 fileName = fileName.Replace('/', '_');
                 fileName = fileName.Replace(':', '-');
                 //var file = @"e:\backup\backup.sql" + DateTime.Now;
-                using (MySqlCommand cmd = new MySqlCommand())
+                using (var cmd = new MySqlCommand())
                 {
-                    using (MySqlBackup mb = new MySqlBackup(cmd))
+                    using (var mb = new MySqlBackup(cmd))
                     {
                         cmd.Connection = _connectionSystem;
-                        mb.ImportFromFile(BackUpFilePath+fileName);
+                        mb.ImportFromFile(BackUpFilePath+"\\"+fileName);
 
                     }
                 }

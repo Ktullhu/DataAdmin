@@ -30,7 +30,7 @@ namespace DataNetClient.Forms
     {
         #region VARIABES
         private readonly MetroBillCommands _commands; // All application commands
-        private StartControl _startControl;        
+        private StartControl _startControl;
         private MissingBarManager _missingBarManager;
         private CQGCEL _cel;
         private bool _isStartedCqg;        

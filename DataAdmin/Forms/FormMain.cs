@@ -705,21 +705,31 @@ namespace DataAdmin.Forms
             Size = Settings.Default.S;
             Location = Settings.Default.L;
             UpdateControlsSizeAndLocation();
+            DataManager.CreateBackupDirectory(DataManager.BackUpFilePath);
             _backUpFileNameList = DataManager.ReturnBackUpFilesName();
             foreach (var variable in _backUpFileNameList)
             {
                 comboBoxEx1.Items.Add(variable);
             }
-            string time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[_backUpFileNameList.Count-1];
-            
-            //time=time.Replace('_', '/');
-            //time = time.Replace('-', ':');
-            labelX19.Text = time;
-            DateTime ScheduledBackup = Convert.ToDateTime(_backUpFileNameList[0]);
-            ScheduledBackup=ScheduledBackup.AddDays(7);
-            labelX17.Text = ScheduledBackup.ToString();
-            if(ScheduledBackup.ToShortDateString()==DateTime.Today.ToShortDateString())
-            labelX19.Text = DataManager.BackupSystemTables();
+            string time;
+            //string time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[_backUpFileNameList.Count-1];
+            if (_backUpFileNameList.Count == 0)
+            {
+                time = "none";
+            }
+            else
+            {
+                time = _backUpFileNameList[_backUpFileNameList.Count - 1];
+                //time=time.Replace('_', '/');
+                //time = time.Replace('-', ':');
+                labelX19.Text = time;
+                DateTime ScheduledBackup = Convert.ToDateTime(_backUpFileNameList[0]);
+                ScheduledBackup = ScheduledBackup.AddDays(7);
+                labelX17.Text = ScheduledBackup.ToString();
+                if (ScheduledBackup.ToShortDateString() == DateTime.Today.ToShortDateString())
+                    labelX19.Text = DataManager.BackupSystemTables().ToString();
+            }
+
 
 
         }
@@ -2901,10 +2911,13 @@ namespace DataAdmin.Forms
 
             var thr = new Thread(() =>
             {
-                DataManager.BackupSystemTables();
+                DateTime bufTime=DataManager.BackupSystemTables();
                 Invoke((Action)(() =>
                 {
                     circularProgress1.IsRunning = false;
+                    labelX19.Text = bufTime.ToString();
+                    bufTime = bufTime.AddDays(7);
+                    labelX17.Text = bufTime.ToString();
                 }));
 
             });
