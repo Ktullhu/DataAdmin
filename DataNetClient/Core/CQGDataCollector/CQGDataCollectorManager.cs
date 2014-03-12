@@ -49,6 +49,17 @@ namespace DataNetClient.Core.CQGDataCollector
 
         #region EVENTS
 
+
+        public delegate void ProgressBarChangedHandler(double i);
+
+        public static event ProgressBarChangedHandler ProgressBarChanged;
+
+        private static void OnProgressBarChanged(double i)
+        {
+            ProgressBarChangedHandler handler = ProgressBarChanged;
+            if (handler != null) handler(i);
+        }
+
         public delegate void ItemStateChangedHandler(int index, GroupState state);
 
         public static event ItemStateChangedHandler ItemStateChanged;
@@ -204,8 +215,8 @@ namespace DataNetClient.Core.CQGDataCollector
         static void _cel_TicksResolved(CQGTicks cqgTicks, CQGError cqgError)
         {
             if (_isStoped) return;
-            var symbol = cqgTicks.Request.Symbol;
 
+            var symbol = cqgTicks.Request.Symbol;
             TicksAdd(cqgTicks, cqgError, _userName);
             
                 
@@ -321,7 +332,6 @@ namespace DataNetClient.Core.CQGDataCollector
                 tickRequest.SessionsFilter = _sessionFilter;
 
                 CQGTicks ticks = Cel.RequestTicks(tickRequest);
-
                 if (ticks.Status == eRequestStatus.rsInProgress)
                 {
 
@@ -453,6 +463,33 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+
+        public static int CqgGetId(CQGTicks ticks, DateTime date)
+        {
+            int l = 0;            // нижняя граница
+            int u = ticks.Count - 1;    // верхняя граница
+            int m = -1;
+            while (l <= u)
+            {
+                m = (l + u) / 2;
+                if (ticks[m].Timestamp == date) return m;
+                if (ticks[m].Timestamp < date) l = m + 1;
+                if (ticks[m].Timestamp > date) u = m - 1;
+            }
+            l = 0;
+            u = ticks.Count - 1;
+            while (l <= u)
+            {
+                m = (l + u) / 2;
+                if (ticks[m].Timestamp.ToShortDateString() == date.ToShortDateString() && 
+                    (ticks[m].Timestamp.Minute == date.Minute||ticks[m].Timestamp.Hour==date.Hour)) return m;
+                if (ticks[m].Timestamp < date) l = m + 1;
+                if (ticks[m].Timestamp > date) u = m - 1;
+            }
+            return -1;
+        }
+
+
         public static void TicksAdd(CQGTicks cqgTicks, CQGError cqgError, string userName)
         {
             
@@ -470,7 +507,6 @@ namespace DataNetClient.Core.CQGDataCollector
 
                     DateTime runDateTime = DateTime.Now;
                     int groupId = 0;
-
                     if (cqgTicks.Count != 0)
                     {
                         new Thread(() =>
@@ -479,13 +515,45 @@ namespace DataNetClient.Core.CQGDataCollector
                             lock (_lockHistInsert)
                             {
                                 OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
-
-                                DatabaseManager.DeleteTicks(cqgTicks.Request.Symbol, cqgTicks[0].Timestamp, cqgTicks[cqgTicks.Count - 1].Timestamp);
-                                for (int i = cqgTicks.Count - 1; i >= 0; i--)
+                                Console.WriteLine(CqgGetId(cqgTicks, _rangeDateEnd));////
+                                Console.WriteLine(cqgTicks.StartTimestamp);
+                                DateTime _tmpTime=new DateTime();
+                               // if (cqgTicks.StartTimestamp > DatabaseManager.GetLasTime(cqgTicks.Request.Symbol))
+                                if (_tmpTime == DatabaseManager.GetLasTime(cqgTicks.Request.Symbol))
                                 {
-                                    if (_isStoped) break;
-                                    AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                  //  int i = CqgGetId(cqgTicks,_rangeDateEnd);
+                                  //  while (cqgTicks[i].Timestamp.ToShortDateString() ==
+                                        //   _rangeDateEnd.ToShortDateString())
+                                    int end = CqgGetId(cqgTicks, _rangeDateStart);
+                                    double progress = 100 / (CqgGetId(cqgTicks, _rangeDateEnd) + CqgGetId(cqgTicks, _rangeDateStart));
+                                    Console.WriteLine(cqgTicks.Count);
+                                    Console.WriteLine(cqgTicks.StartTimestamp);
+                                    Console.WriteLine(cqgTicks.EndTimestamp);
+                                    for (int i = CqgGetId(cqgTicks, _rangeDateEnd); i >= 0; i--)                                       
+                                    {
+                                        //Console.WriteLine(cqgTicks[i].Timestamp);
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                        OnProgressBarChanged(progress);
+
+                                    }
                                 }
+                                else if (cqgTicks.StartTimestamp > DatabaseManager.GetLasTime(cqgTicks.Request.Symbol))
+                                {
+                                    
+                                }
+                                {
+                                    DatabaseManager.DeleteTicks(cqgTicks.Request.Symbol, cqgTicks[0].Timestamp, cqgTicks[cqgTicks.Count - 1].Timestamp);
+                                    for (int i = cqgTicks.Count - 1; i >= 0; i--)
+                                    {
+                                        if (_isStoped) break;
+                                        if (cqgTicks[i].Timestamp.ToShortDateString() == _rangeDateEnd.ToShortDateString())
+                                            break;
+                                        
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                    }
+                                }
+                                
                                 DatabaseManager.CommitQueueTick();
 
                                 FinishCollectingSymbol(cqgTicks.Request.Symbol, true);

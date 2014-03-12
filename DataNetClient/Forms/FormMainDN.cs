@@ -214,6 +214,7 @@ namespace DataNetClient.Forms
 
                 CQGDataCollectorManager.UnsuccessfulSymbol += CQGDataCollectorManager_UnsuccessfulSymbol;
                 CQGDataCollectorManager.TickInsertingStarted += CQGDataCollectorManager_TickInsertingStarted;
+                CQGDataCollectorManager.ProgressBarChanged += CQGDataCollectorManager_ProgressBarChanched;
                 //todo
                 Thread.Sleep(100);// Fixed bug with closeing while starting//do not remove this
                 _cel.Startup();
@@ -1799,6 +1800,8 @@ namespace DataNetClient.Forms
 
         }
 
+
+
         private void CQGDataCollectorManager_RunnedStateChanged(bool state)
         {
             Invoke((Action) (() => ShowDataCollectorStatus(state)));
@@ -2099,8 +2102,18 @@ namespace DataNetClient.Forms
         
         #endregion
 
+        #region ProgressChenced 
+        private void CQGDataCollectorManager_ProgressBarChanched(double progress)
+        {
+            Invoke((Action)(() => ProgressChenched(progress)));
+        }
+
+        private void ProgressChenched(double progress)
+        {
+            progressBarItemCollecting.Value += Convert.ToInt32(Math.Round(progress));
+        }
+        #endregion
 
 
-        
     }
 }
