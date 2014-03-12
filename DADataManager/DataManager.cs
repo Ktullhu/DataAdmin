@@ -50,7 +50,7 @@ namespace DADataManager
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
-        public const string BackUpFilePath = @"\backup";
+        public const string BackUpFilePath = @"\BACKUP";
         public static Semaphore sem=new Semaphore(0,1);
 
         private static readonly object LockReader = new object();
@@ -1239,7 +1239,7 @@ namespace DADataManager
             time=time.Replace('/', '_');
             time = time.Replace(':', '-');
             var file = BackUpFilePath+"\\" + time;
-            //System.IO.
+    
             using (var cmd = new MySqlCommand())
             {
                 using (var mb = new MySqlBackup(cmd))
@@ -1255,17 +1255,14 @@ namespace DADataManager
 
         public static List<string> ReturnBackUpFilesName()
         {
-            List<string> list=System.IO.Directory.GetFiles(@"\backup\").ToList();
+            List<string> list=System.IO.Directory.GetFiles(BackUpFilePath+@"\").ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 list[i] = list[i].Replace(BackUpFilePath+"\\", "");
                 list[i] = list[i].Replace('_', '/');
                 list[i] = list[i].Replace('-', ':');
             }
-            return list;
-
-            // @"e:\backup\"
-            //return System.IO.Directory.GetFiles(@"e:\backup\").ToList();
+            return list.Where(oo => oo.Contains('/')).ToList();
 
 
         }
@@ -1274,12 +1271,9 @@ namespace DADataManager
         {
 
 
-           // string[] list = System.IO.Directory.GetFiles(@"e:\backup\");
-           // Thread _backupThread = new Thread(() =>
-           // {
                 fileName = fileName.Replace('/', '_');
                 fileName = fileName.Replace(':', '-');
-                //var file = @"e:\backup\backup.sql" + DateTime.Now;
+
                 using (var cmd = new MySqlCommand())
                 {
                     using (var mb = new MySqlBackup(cmd))
@@ -1290,10 +1284,6 @@ namespace DADataManager
                     }
                 }
 
-
-               // sem.Release(1); 
-            //});
-           // _backupThread.Start();
             
         }
     }
