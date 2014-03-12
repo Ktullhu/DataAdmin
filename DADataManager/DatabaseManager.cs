@@ -995,13 +995,13 @@ namespace DADataManager
 
         public static bool EditSymbol(string oldSymbolName, string newSymbolName, int userId, ApplicationType appType)
         {
-            var othersHaveOldSymbol = OtherUsersHaveThisSymbol(oldSymbolName, userId, true);
+            var othersHaveOldSymbol = OtherUsersHaveThisSymbol(oldSymbolName, userId,  appType);
 
             if (othersHaveOldSymbol || GetAllSymbols().Exists(a => a.SymbolName == oldSymbolName))
             {
                 Console.WriteLine("[o] OtherUsersHaveThisSymbol(" + oldSymbolName + "," + userId + ")");
 
-                var othersHaveNewSymbol = OtherUsersHaveThisSymbol(newSymbolName, userId, true);
+                var othersHaveNewSymbol = OtherUsersHaveThisSymbol(newSymbolName, userId,  appType);
 
                 if (!othersHaveNewSymbol && !GetAllSymbols().Exists(a => a.SymbolName == newSymbolName))
                 {
@@ -1016,7 +1016,7 @@ namespace DADataManager
                     AddSymbolForUser(userId, newSymbolId, appType);
 
                 var oldSymbolId = GetSymbolIdFromName(oldSymbolName);
-                DeleteSymbolForUser(userId, oldSymbolId);
+                DeleteSymbolForUser(userId, oldSymbolId, appType);
 
                 var myGroups = GetMyGroupsIds(userId, appType);
                 foreach (var gId in myGroups)
@@ -1113,13 +1113,13 @@ namespace DADataManager
             return -1;
         }
 
-        private static bool OtherUsersHaveThisSymbol(string oldName, int userId, bool tnOrDn)
+        private static bool OtherUsersHaveThisSymbol(string oldName, int userId, ApplicationType appType)
         {
             //TODO Test this function, MORE
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
                         + " ON " + TblSymbolsForUsers + ".SymbolID = "
-                        + TblSymbols + ".ID" + " WHERE " + TblSymbols + ".SymbolName= '" + oldName + "' AND NOT(" + TblSymbolsForUsers + ".UserID = " + userId + " AND " + TblSymbolsForUsers + ".TNorDN = " + tnOrDn + ") ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC");
+                        + TblSymbols + ".ID" + " WHERE " + TblSymbols + ".SymbolName= '" + oldName + "' AND NOT(" + TblSymbolsForUsers + ".UserID = " + userId + " AND " + TblSymbolsForUsers + ".TNorDN = " + (appType== ApplicationType.TickNet) + ") ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC");
 
             MySqlDataReader reader = GetReader(sql);
             if (reader != null)
@@ -1559,7 +1559,7 @@ namespace DADataManager
 
         #region SYMBOLS FOR USERS
         public static List<SymbolModel> GetSymbolsForUser(int userId, bool isTickNet)
-        {
+        {            
             var symbolsList = new List<SymbolModel>();
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
@@ -1571,8 +1571,13 @@ namespace DADataManager
             {
                 while (reader.Read())
                 {
+                    try { 
                     var symbol = new SymbolModel { SymbolId = reader.GetInt32(4), SymbolName = reader.GetString(5) };
-                    symbolsList.Add(symbol);
+                    symbolsList.Add(symbol);}
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Exception.DatabaseManager.GetSymbolsForUser Msg: " + ex.Message);
+                    }
                 }
 
                 reader.Close();
@@ -1606,10 +1611,10 @@ namespace DADataManager
             return false;
         }
 
-        public static bool DeleteSymbolForUser(int userId, int symbolId)
+        public static bool DeleteSymbolForUser(int userId, int symbolId, ApplicationType appType)
         {
             var sql = "DELETE FROM `" + TblSymbolsForUsers + "` WHERE UserID = '" + userId + "' AND SymbolID = '" +
-                      symbolId + "' AND TNorDN = true ;COMMIT;";
+                      symbolId + "' AND TNorDN = " + (appType == ApplicationType.TickNet ? 1 : 0) + " ;COMMIT;";
 
             return DoSql(sql);
         }

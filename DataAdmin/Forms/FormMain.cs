@@ -730,8 +730,6 @@ namespace DataAdmin.Forms
                     labelX19.Text = DataManager.BackupSystemTables().ToString();
             }
 
-
-
         }
 
         private void FormMain_Shown(object sender, EventArgs e)

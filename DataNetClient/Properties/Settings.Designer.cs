@@ -109,37 +109,37 @@ namespace DataNetClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("root")]
-        public string connectionUser {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string scUser1 {
             get {
-                return ((string)(this["connectionUser"]));
+                return ((string)(this["scUser1"]));
             }
             set {
-                this["connectionUser"] = value;
+                this["scUser1"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string connectionPassword {
+        public string scPassword {
             get {
-                return ((string)(this["connectionPassword"]));
+                return ((string)(this["scPassword"]));
             }
             set {
-                this["connectionPassword"] = value;
+                this["scPassword"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string connectionHost {
+        public string scHost {
             get {
-                return ((string)(this["connectionHost"]));
+                return ((string)(this["scHost"]));
             }
             set {
-                this["connectionHost"] = value;
+                this["scHost"] = value;
             }
         }
         
@@ -206,12 +206,12 @@ namespace DataNetClient.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string connectionHostSlave {
+        public string scHostSlave {
             get {
-                return ((string)(this["connectionHostSlave"]));
+                return ((string)(this["scHostSlave"]));
             }
             set {
-                this["connectionHostSlave"] = value;
+                this["scHostSlave"] = value;
             }
         }
     }
