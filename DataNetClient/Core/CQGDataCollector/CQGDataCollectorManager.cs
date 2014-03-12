@@ -910,7 +910,7 @@ namespace DataNetClient.Core.CQGDataCollector
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 if (groupModel.IsAutoModeEnabled && (
-                    sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay  // && oo.TimeStart.TimeOfDay  > groupModel.End.TimeOfDay
+                    sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay   && oo.TimeStart.TimeOfDay  > groupModel.End.TimeOfDay
                         && IsNowAGoodDay(oo.Days))))//startToday
                 {
                     if (_groups[index].GroupState != GroupState.InQueue)
