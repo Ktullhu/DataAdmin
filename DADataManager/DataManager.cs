@@ -1236,16 +1236,16 @@ namespace DADataManager
         {
 
             string time = DateTime.Now.ToString();
-            time = time.Replace('/', '_');
+            time=time.Replace('/', '_');
             time = time.Replace(':', '-');
-            var file = BackUpFilePath + "\\" + time;
-
+            var file = BackUpFilePath+"\\" + time;
+    
             using (var cmd = new MySqlCommand())
             {
                 using (var mb = new MySqlBackup(cmd))
                 {
-                    cmd.Connection = _connectionSystem;
-                    mb.ExportToFile(file);
+                    cmd.Connection = _connectionSystem;   
+                    mb.ExportToFile(file);                   
                 }
             }
             time = time.Replace('_', '/');
