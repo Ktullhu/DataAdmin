@@ -501,8 +501,8 @@ namespace DataNetClient.Forms
 
 
                     _logClientService.ServiceProxy.SendSimpleLog(logmsg);
-                    Settings.Default.connectionHost = _startControl.ui_textBox_ip.Text;
-                    Settings.Default.connectionHostSlave = _startControl.ui_textBox_ip_slave.Text;
+                    Settings.Default.scHost = _startControl.ui_textBox_ip.Text;
+                    Settings.Default.scHostSlave = _startControl.ui_textBox_ip_slave.Text;
                     Invoke((Action)(() =>{
                         labelItem_server.Text = isMaster ? "Master" : "Slave";
                         styleManager1.MetroColorParameters = new MetroColorGeneratorParameters(Color.White, isMaster ? Color.Green : Color.YellowGreen);
@@ -552,15 +552,15 @@ namespace DataNetClient.Forms
             {
                 _nowIsMaster = false;
 
-                LoginToServer(Settings.Default.connectionUser, Settings.Default.connectionPassword, Settings.Default.connectionHostSlave, _nowIsMaster);
+                LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword, Settings.Default.scHostSlave, _nowIsMaster);
             }
             else
             {
                 _nowIsMaster = true;
 
-                LoginToServer(Settings.Default.connectionUser,
-                            Settings.Default.connectionPassword,
-                            Settings.Default.connectionHost, _nowIsMaster);
+                LoginToServer(Settings.Default.scUser1,
+                            Settings.Default.scPassword,
+                            Settings.Default.scHost, _nowIsMaster);
             }
         }
 
@@ -623,7 +623,7 @@ namespace DataNetClient.Forms
 
         private void LoggedIn(object sender, DataAdminMessageFactory.ChangePrivilage msg)
         {
-            labelItemUserName.Text = "<" + _client.UserName + ">  " + Settings.Default.connectionHost;
+            labelItemUserName.Text = "<" + _client.UserName + ">  " + Settings.Default.scHost;
 
             _missingBarManager.AllowCollectingAndMissingBar();
             _logined = true;
@@ -950,17 +950,17 @@ namespace DataNetClient.Forms
         private void StartControl_LogonClick(object sender, EventArgs e)
         {
 
-            Settings.Default.connectionUser = _startControl.ui_textBoxX_login.Text;
-            Settings.Default.connectionPassword = _startControl.ui_textBoxX_password.Text;
-            Settings.Default.connectionHost = _startControl.ui_textBox_ip.Text;
-            Settings.Default.connectionHostSlave = _startControl.ui_textBox_ip_slave.Text;
+            Settings.Default.scUser1 = _startControl.ui_textBoxX_login.Text;
+            Settings.Default.scPassword = _startControl.ui_textBoxX_password.Text;
+            Settings.Default.scHost = _startControl.ui_textBox_ip.Text;
+            Settings.Default.scHostSlave = _startControl.ui_textBox_ip_slave.Text;
 
             Settings.Default.Save();
             _startControl.ui_buttonX_logon.Enabled = false;
 
             _nowIsMaster = true;
-            LoginToServer(Settings.Default.connectionUser, Settings.Default.connectionPassword,
-                                    Settings.Default.connectionHost, _nowIsMaster);
+            LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword,
+                                    Settings.Default.scHost, _nowIsMaster);
                       
         }
 
@@ -1003,7 +1003,7 @@ namespace DataNetClient.Forms
                 _startControl.BringToFront();
                 _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
                 UpdateControlsSizeAndLocation();
-                _startControl.ui_textBox_ip.Text = Settings.Default.connectionHost;
+                _startControl.ui_textBox_ip.Text = Settings.Default.scHost;
                 _pingTimer.Enabled = true;
             });
 
@@ -1504,7 +1504,12 @@ namespace DataNetClient.Forms
 
         private void progressBarItemCollecting_ValueChanged(object sender, EventArgs e)
         {
-            Invoke((Action) (Refresh));
+            Invoke((Action)( ()=>
+            {
+                metroStatusBar1.Refresh();
+                progressBarItemCollecting.Tooltip = progressBarItemCollecting.Value + "%";
+            })
+        );
 
         }        
 
@@ -2103,14 +2108,14 @@ namespace DataNetClient.Forms
         #endregion
 
         #region ProgressChenced 
-        private void CQGDataCollectorManager_ProgressBarChanched(double progress)
+        private void CQGDataCollectorManager_ProgressBarChanched(int progress)
         {
             Invoke((Action)(() => ProgressChenched(progress)));
         }
 
-        private void ProgressChenched(double progress)
+        private void ProgressChenched(int progress)
         {
-            progressBarItemCollecting.Value += Convert.ToInt32(Math.Round(progress));
+            progressBarItemCollecting.Value = progress;
         }
         #endregion
 

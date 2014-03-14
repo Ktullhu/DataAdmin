@@ -53,10 +53,10 @@ namespace DataNetClient.Forms
         {            
             labelX1.ForeColor = Color.Green;
             ui_textBox_ip.Focus();
-            ui_textBoxX_login.Text = Settings.Default.connectionUser;
-            ui_textBoxX_password.Text = Settings.Default.connectionPassword;
-            ui_textBox_ip.Text = Settings.Default.connectionHost;
-            ui_textBox_ip_slave.Text = Settings.Default.connectionHostSlave;   
+            ui_textBoxX_login.Text = Settings.Default.scUser1;
+            ui_textBoxX_password.Text = Settings.Default.scPassword;
+            ui_textBox_ip.Text = Settings.Default.scHost;
+            ui_textBox_ip_slave.Text = Settings.Default.scHostSlave;   
         }
 
         private void Ui_TextBoxX_Login_KeyDown(object sender, KeyEventArgs e)

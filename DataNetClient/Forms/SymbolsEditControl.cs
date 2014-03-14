@@ -101,7 +101,7 @@ namespace DataNetClient.Forms
             ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Clear()));
 
             _symbols = DatabaseManager.GetSymbols(_userID,false);
-            if (DatabaseManager.CurrentDbIsShared) _allSymbols = DatabaseManager.GetAllSymbols();
+            _allSymbols = DatabaseManager.GetAllSymbols();
             foreach (var item in _symbols)
             {
                 SymbolModel item1 = item;
@@ -180,7 +180,7 @@ namespace DataNetClient.Forms
                         {
                             DatabaseManager.DeleteSymbol(symbolId);
                         }
-                        DatabaseManager.DeleteSymbolForUser(_userID, symbolId);
+                        DatabaseManager.DeleteSymbolForUser(_userID, symbolId, ApplicationType.DataNet);
                     }
                 }
 
