@@ -1235,7 +1235,7 @@ namespace DADataManager
         public static DateTime BackupSystemTables()
         {
 
-            string time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            string time = DateTime.Now.ToString();
             time=time.Replace('/', '_');
             time = time.Replace(':', '-');
             var file = BackUpFilePath+"\\" + time;
