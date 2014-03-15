@@ -59,6 +59,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.metroShellMain = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.circularProgress1 = new DevComponents.DotNetBar.Controls.CircularProgress();
             this.comboBoxEx1 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.buttonX_backup_restore = new DevComponents.DotNetBar.ButtonX();
@@ -233,7 +234,6 @@
             this.dataAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerLogon = new System.Windows.Forms.Timer(this.components);
-            this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.metroShellMain.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             this.metroTabPanel_symbols.SuspendLayout();
@@ -364,6 +364,21 @@
             // 
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.TabIndex = 7;
+            // 
+            // labelX15
+            // 
+            this.labelX15.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX15.ForeColor = System.Drawing.Color.Black;
+            this.labelX15.Location = new System.Drawing.Point(450, 182);
+            this.labelX15.Name = "labelX15";
+            this.labelX15.Size = new System.Drawing.Size(144, 23);
+            this.labelX15.TabIndex = 27;
+            this.labelX15.Text = "Backup for restoring:";
             // 
             // circularProgress1
             // 
@@ -2991,21 +3006,6 @@
             // timerLogon
             // 
             this.timerLogon.Tick += new System.EventHandler(this.timerLogon_Tick);
-            // 
-            // labelX15
-            // 
-            this.labelX15.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX15.ForeColor = System.Drawing.Color.Black;
-            this.labelX15.Location = new System.Drawing.Point(450, 182);
-            this.labelX15.Name = "labelX15";
-            this.labelX15.Size = new System.Drawing.Size(144, 23);
-            this.labelX15.TabIndex = 27;
-            this.labelX15.Text = "Backup for restoring:";
             // 
             // FormMain
             // 

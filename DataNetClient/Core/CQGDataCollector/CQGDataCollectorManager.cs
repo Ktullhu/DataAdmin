@@ -354,7 +354,7 @@ namespace DataNetClient.Core.CQGDataCollector
               
                 if (cqgError != null && cqgError.Code != 0)
                 {
-                    FinishCollectingSymbol(cqgTicks.Request.Symbol, false);
+                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, false);
                 }
                 else
                 {

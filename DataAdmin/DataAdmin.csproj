@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon_01.ico</ApplicationIcon>
+    <ApplicationIcon>DA.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -227,6 +227,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DA.ico" />
     <Content Include="icon_01.ico" />
     <None Include="Resources\backbutton1.jpg" />
   </ItemGroup>

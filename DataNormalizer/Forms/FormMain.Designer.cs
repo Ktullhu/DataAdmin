@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -36,8 +35,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon();
             this.metroShellMain = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanelUsers = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.ui_tableLayoutPanel_Symbols = new System.Windows.Forms.TableLayoutPanel();
@@ -64,7 +63,7 @@
             this.metroTabItem_symbols = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem_GROUPS = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem_logs = new DevComponents.DotNetBar.Metro.MetroTabItem();
-            this.timerLogon = new System.Windows.Forms.Timer(this.components);
+            this.timerLogon = new System.Windows.Forms.Timer();
             this.metroShellMain.SuspendLayout();
             this.metroTabPanelUsers.SuspendLayout();
             this.ui_tableLayoutPanel_Symbols.SuspendLayout();

@@ -51,6 +51,28 @@ namespace DataNetClient.Forms
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
             this.labelItem_server = new DevComponents.DotNetBar.LabelItem();
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
+            this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.panelEx5 = new DevComponents.DotNetBar.PanelEx();
+            this.ui_LabelX_sharedAvaliable = new DevComponents.DotNetBar.LabelX();
+            this.ui_buttonX_shareConnect = new DevComponents.DotNetBar.ButtonX();
+            this.labelX16 = new DevComponents.DotNetBar.LabelX();
+            this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
+            this.labelX19 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_db_historical = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX18 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_db_bar = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.ui_LabelX_localAvaliable = new DevComponents.DotNetBar.LabelX();
+            this.checkBoxX1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.ui_buttonX_localConnect = new DevComponents.DotNetBar.ButtonX();
+            this.labelX5 = new DevComponents.DotNetBar.LabelX();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_pwd = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_uid = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_db = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_host = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.metroTabPanel5 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.listView2 = new System.Windows.Forms.ListView();
@@ -75,28 +97,6 @@ namespace DataNetClient.Forms
             this.panelEx10 = new DevComponents.DotNetBar.PanelEx();
             this.listBox_daily_symbols = new System.Windows.Forms.ListBox();
             this.labelX20 = new DevComponents.DotNetBar.LabelX();
-            this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.panelEx5 = new DevComponents.DotNetBar.PanelEx();
-            this.ui_LabelX_sharedAvaliable = new DevComponents.DotNetBar.LabelX();
-            this.ui_buttonX_shareConnect = new DevComponents.DotNetBar.ButtonX();
-            this.labelX16 = new DevComponents.DotNetBar.LabelX();
-            this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
-            this.labelX19 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_db_historical = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX18 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_db_bar = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.ui_LabelX_localAvaliable = new DevComponents.DotNetBar.LabelX();
-            this.checkBoxX1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.ui_buttonX_localConnect = new DevComponents.DotNetBar.ButtonX();
-            this.labelX5 = new DevComponents.DotNetBar.LabelX();
-            this.labelX4 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_pwd = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_uid = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_db = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_host = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
@@ -188,15 +188,15 @@ namespace DataNetClient.Forms
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.metroShell1.SuspendLayout();
+            this.metroTabPanel1.SuspendLayout();
+            this.panelEx5.SuspendLayout();
+            this.panelEx1.SuspendLayout();
             this.metroTabPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panelEx11.SuspendLayout();
             this.panelEx12.SuspendLayout();
             this.panelEx9.SuspendLayout();
             this.panelEx10.SuspendLayout();
-            this.metroTabPanel1.SuspendLayout();
-            this.panelEx5.SuspendLayout();
-            this.panelEx1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelEx3.SuspendLayout();
@@ -362,305 +362,6 @@ namespace DataNetClient.Forms
             this.metroShell1.Text = "Shell";
             this.metroShell1.SettingsButtonClick += new System.EventHandler(this.metroShell1_SettingsButtonClick);
             this.metroShell1.HelpButtonClick += new System.EventHandler(this.metroShell1_LogOutButtonClick);
-            // 
-            // metroTabPanel5
-            // 
-            this.metroTabPanel5.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.metroTabPanel5.Controls.Add(this.tableLayoutPanel2);
-            this.metroTabPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel5.Location = new System.Drawing.Point(0, 51);
-            this.metroTabPanel5.Name = "metroTabPanel5";
-            this.metroTabPanel5.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel5.Size = new System.Drawing.Size(799, 447);
-            // 
-            // 
-            // 
-            this.metroTabPanel5.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel5.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel5.TabIndex = 5;
-            this.metroTabPanel5.Visible = false;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.listView2, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.panelEx11, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.listView1, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.panelEx9, 0, 0);
-            this.tableLayoutPanel2.ForeColor = System.Drawing.Color.Black;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 420);
-            this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // listView2
-            // 
-            this.listView2.BackColor = System.Drawing.Color.White;
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8});
-            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.ForeColor = System.Drawing.Color.Black;
-            this.listView2.FullRowSelect = true;
-            listViewGroup1.Header = "10/12/2013";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "13/12/12";
-            listViewGroup2.Name = "listViewGroup2";
-            listViewGroup3.Header = "14/12/12";
-            listViewGroup3.Name = "listViewGroup3";
-            this.listView2.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
-            this.listView2.Location = new System.Drawing.Point(253, 250);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(537, 167);
-            this.listView2.TabIndex = 36;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Id";
-            this.columnHeader1.Width = 25;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Symbol";
-            this.columnHeader2.Width = 85;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Tick Size";
-            this.columnHeader6.Width = 90;
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "Currency";
-            this.columnHeader7.Width = 110;
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Expiration";
-            this.columnHeader8.Width = 80;
-            // 
-            // panelEx11
-            // 
-            this.panelEx11.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx11.Controls.Add(this.panelEx12);
-            this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx11.Location = new System.Drawing.Point(253, 3);
-            this.panelEx11.Name = "panelEx11";
-            this.panelEx11.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx11.Size = new System.Drawing.Size(537, 69);
-            this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx11.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx11.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx11.Style.GradientAngle = 90;
-            this.panelEx11.TabIndex = 35;
-            // 
-            // panelEx12
-            // 
-            this.panelEx12.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx12.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx12.Controls.Add(this.buttonX_daily_updateValues);
-            this.panelEx12.Controls.Add(this.buttonX_daily_getValues);
-            this.panelEx12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx12.Location = new System.Drawing.Point(1, 1);
-            this.panelEx12.Name = "panelEx12";
-            this.panelEx12.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx12.Size = new System.Drawing.Size(535, 67);
-            this.panelEx12.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx12.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx12.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx12.Style.BorderWidth = 0;
-            this.panelEx12.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx12.Style.GradientAngle = 90;
-            this.panelEx12.TabIndex = 39;
-            // 
-            // buttonX_daily_updateValues
-            // 
-            this.buttonX_daily_updateValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX_daily_updateValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_daily_updateValues.Location = new System.Drawing.Point(304, 10);
-            this.buttonX_daily_updateValues.Name = "buttonX_daily_updateValues";
-            this.buttonX_daily_updateValues.Size = new System.Drawing.Size(201, 46);
-            this.buttonX_daily_updateValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX_daily_updateValues.TabIndex = 54;
-            this.buttonX_daily_updateValues.Text = "Update values for selected symbols";
-            this.toolTip1.SetToolTip(this.buttonX_daily_updateValues, "From CQG");
-            this.buttonX_daily_updateValues.Click += new System.EventHandler(this.buttonX_daily_updateValues_Click);
-            // 
-            // buttonX_daily_getValues
-            // 
-            this.buttonX_daily_getValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX_daily_getValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_daily_getValues.Location = new System.Drawing.Point(17, 10);
-            this.buttonX_daily_getValues.Name = "buttonX_daily_getValues";
-            this.buttonX_daily_getValues.Size = new System.Drawing.Size(201, 46);
-            this.buttonX_daily_getValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX_daily_getValues.TabIndex = 53;
-            this.buttonX_daily_getValues.Text = "Get values for selected symbols";
-            this.toolTip1.SetToolTip(this.buttonX_daily_getValues, "From DB");
-            this.buttonX_daily_getValues.Click += new System.EventHandler(this.buttonX_daily_getValues_Click);
-            // 
-            // listView1
-            // 
-            this.listView1.BackColor = System.Drawing.Color.White;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader10,
-            this.columnHeader11,
-            this.columnHeader12,
-            this.columnHeader13,
-            this.columnHeader14,
-            this.columnHeader15,
-            this.columnHeader16});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.ForeColor = System.Drawing.Color.Black;
-            this.listView1.FullRowSelect = true;
-            listViewGroup4.Header = "10/12/2013";
-            listViewGroup4.Name = "listViewGroup1";
-            listViewGroup5.Header = "13/12/12";
-            listViewGroup5.Name = "listViewGroup2";
-            listViewGroup6.Header = "14/12/12";
-            listViewGroup6.Name = "listViewGroup3";
-            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
-            this.listView1.Location = new System.Drawing.Point(253, 78);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(537, 166);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.Text = "Id";
-            this.columnHeader10.Width = 25;
-            // 
-            // columnHeader11
-            // 
-            this.columnHeader11.Text = "Symbol";
-            this.columnHeader11.Width = 65;
-            // 
-            // columnHeader12
-            // 
-            this.columnHeader12.Text = "Date time";
-            this.columnHeader12.Width = 90;
-            // 
-            // columnHeader13
-            // 
-            this.columnHeader13.Text = "Indicative Open";
-            this.columnHeader13.Width = 110;
-            // 
-            // columnHeader14
-            // 
-            this.columnHeader14.Text = "Settlement";
-            this.columnHeader14.Width = 80;
-            // 
-            // columnHeader15
-            // 
-            this.columnHeader15.Text = "Marker";
-            // 
-            // columnHeader16
-            // 
-            this.columnHeader16.Text = "Today Marker";
-            this.columnHeader16.Width = 90;
-            // 
-            // panelEx9
-            // 
-            this.panelEx9.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx9.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx9.Controls.Add(this.panelEx10);
-            this.panelEx9.Controls.Add(this.labelX20);
-            this.panelEx9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx9.Location = new System.Drawing.Point(3, 3);
-            this.panelEx9.Name = "panelEx9";
-            this.panelEx9.Padding = new System.Windows.Forms.Padding(1);
-            this.tableLayoutPanel2.SetRowSpan(this.panelEx9, 3);
-            this.panelEx9.Size = new System.Drawing.Size(244, 414);
-            this.panelEx9.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx9.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx9.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx9.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx9.Style.GradientAngle = 90;
-            this.panelEx9.TabIndex = 34;
-            // 
-            // panelEx10
-            // 
-            this.panelEx10.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx10.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx10.Controls.Add(this.listBox_daily_symbols);
-            this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx10.Location = new System.Drawing.Point(1, 33);
-            this.panelEx10.Name = "panelEx10";
-            this.panelEx10.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx10.Size = new System.Drawing.Size(242, 380);
-            this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx10.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx10.Style.BorderWidth = 0;
-            this.panelEx10.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx10.Style.GradientAngle = 90;
-            this.panelEx10.TabIndex = 39;
-            this.panelEx10.Text = "panelEx7";
-            // 
-            // listBox_daily_symbols
-            // 
-            this.listBox_daily_symbols.BackColor = System.Drawing.Color.White;
-            this.listBox_daily_symbols.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox_daily_symbols.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox_daily_symbols.ForeColor = System.Drawing.Color.Black;
-            this.listBox_daily_symbols.FormattingEnabled = true;
-            this.listBox_daily_symbols.Location = new System.Drawing.Point(1, 1);
-            this.listBox_daily_symbols.Name = "listBox_daily_symbols";
-            this.listBox_daily_symbols.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox_daily_symbols.Size = new System.Drawing.Size(240, 378);
-            this.listBox_daily_symbols.TabIndex = 37;
-            // 
-            // labelX20
-            // 
-            // 
-            // 
-            // 
-            this.labelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX20.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelX20.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX20.ForeColor = System.Drawing.Color.Black;
-            this.labelX20.Location = new System.Drawing.Point(1, 1);
-            this.labelX20.Name = "labelX20";
-            this.labelX20.PaddingLeft = 6;
-            this.labelX20.Size = new System.Drawing.Size(242, 32);
-            this.labelX20.TabIndex = 38;
-            this.labelX20.Text = "SYMBOLS";
             // 
             // metroTabPanel1
             // 
@@ -1025,6 +726,305 @@ namespace DataNetClient.Forms
             this.ui_home_textBoxX_host.Name = "ui_home_textBoxX_host";
             this.ui_home_textBoxX_host.Size = new System.Drawing.Size(128, 22);
             this.ui_home_textBoxX_host.TabIndex = 2;
+            // 
+            // metroTabPanel5
+            // 
+            this.metroTabPanel5.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.metroTabPanel5.Controls.Add(this.tableLayoutPanel2);
+            this.metroTabPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel5.Location = new System.Drawing.Point(0, 51);
+            this.metroTabPanel5.Name = "metroTabPanel5";
+            this.metroTabPanel5.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.metroTabPanel5.Size = new System.Drawing.Size(799, 447);
+            // 
+            // 
+            // 
+            this.metroTabPanel5.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel5.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel5.TabIndex = 5;
+            this.metroTabPanel5.Visible = false;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.listView2, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.panelEx11, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.listView1, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.panelEx9, 0, 0);
+            this.tableLayoutPanel2.ForeColor = System.Drawing.Color.Black;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 420);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // listView2
+            // 
+            this.listView2.BackColor = System.Drawing.Color.White;
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8});
+            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView2.ForeColor = System.Drawing.Color.Black;
+            this.listView2.FullRowSelect = true;
+            listViewGroup1.Header = "10/12/2013";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "13/12/12";
+            listViewGroup2.Name = "listViewGroup2";
+            listViewGroup3.Header = "14/12/12";
+            listViewGroup3.Name = "listViewGroup3";
+            this.listView2.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+            this.listView2.Location = new System.Drawing.Point(253, 250);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(537, 167);
+            this.listView2.TabIndex = 36;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Id";
+            this.columnHeader1.Width = 25;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Symbol";
+            this.columnHeader2.Width = 85;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Tick Size";
+            this.columnHeader6.Width = 90;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Currency";
+            this.columnHeader7.Width = 110;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Expiration";
+            this.columnHeader8.Width = 80;
+            // 
+            // panelEx11
+            // 
+            this.panelEx11.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx11.Controls.Add(this.panelEx12);
+            this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx11.Location = new System.Drawing.Point(253, 3);
+            this.panelEx11.Name = "panelEx11";
+            this.panelEx11.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx11.Size = new System.Drawing.Size(537, 69);
+            this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx11.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx11.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx11.Style.GradientAngle = 90;
+            this.panelEx11.TabIndex = 35;
+            // 
+            // panelEx12
+            // 
+            this.panelEx12.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx12.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx12.Controls.Add(this.buttonX_daily_updateValues);
+            this.panelEx12.Controls.Add(this.buttonX_daily_getValues);
+            this.panelEx12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx12.Location = new System.Drawing.Point(1, 1);
+            this.panelEx12.Name = "panelEx12";
+            this.panelEx12.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx12.Size = new System.Drawing.Size(535, 67);
+            this.panelEx12.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx12.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx12.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx12.Style.BorderWidth = 0;
+            this.panelEx12.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx12.Style.GradientAngle = 90;
+            this.panelEx12.TabIndex = 39;
+            // 
+            // buttonX_daily_updateValues
+            // 
+            this.buttonX_daily_updateValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX_daily_updateValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX_daily_updateValues.Location = new System.Drawing.Point(304, 10);
+            this.buttonX_daily_updateValues.Name = "buttonX_daily_updateValues";
+            this.buttonX_daily_updateValues.Size = new System.Drawing.Size(201, 46);
+            this.buttonX_daily_updateValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX_daily_updateValues.TabIndex = 54;
+            this.buttonX_daily_updateValues.Text = "Update values for selected symbols";
+            this.toolTip1.SetToolTip(this.buttonX_daily_updateValues, "From CQG");
+            this.buttonX_daily_updateValues.Click += new System.EventHandler(this.buttonX_daily_updateValues_Click);
+            // 
+            // buttonX_daily_getValues
+            // 
+            this.buttonX_daily_getValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX_daily_getValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX_daily_getValues.Location = new System.Drawing.Point(17, 10);
+            this.buttonX_daily_getValues.Name = "buttonX_daily_getValues";
+            this.buttonX_daily_getValues.Size = new System.Drawing.Size(201, 46);
+            this.buttonX_daily_getValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX_daily_getValues.TabIndex = 53;
+            this.buttonX_daily_getValues.Text = "Get values for selected symbols";
+            this.toolTip1.SetToolTip(this.buttonX_daily_getValues, "From DB");
+            this.buttonX_daily_getValues.Click += new System.EventHandler(this.buttonX_daily_getValues_Click);
+            // 
+            // listView1
+            // 
+            this.listView1.BackColor = System.Drawing.Color.White;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader10,
+            this.columnHeader11,
+            this.columnHeader12,
+            this.columnHeader13,
+            this.columnHeader14,
+            this.columnHeader15,
+            this.columnHeader16});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.ForeColor = System.Drawing.Color.Black;
+            this.listView1.FullRowSelect = true;
+            listViewGroup4.Header = "10/12/2013";
+            listViewGroup4.Name = "listViewGroup1";
+            listViewGroup5.Header = "13/12/12";
+            listViewGroup5.Name = "listViewGroup2";
+            listViewGroup6.Header = "14/12/12";
+            listViewGroup6.Name = "listViewGroup3";
+            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
+            this.listView1.Location = new System.Drawing.Point(253, 78);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(537, 166);
+            this.listView1.TabIndex = 2;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "Id";
+            this.columnHeader10.Width = 25;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "Symbol";
+            this.columnHeader11.Width = 65;
+            // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "Date time";
+            this.columnHeader12.Width = 90;
+            // 
+            // columnHeader13
+            // 
+            this.columnHeader13.Text = "Indicative Open";
+            this.columnHeader13.Width = 110;
+            // 
+            // columnHeader14
+            // 
+            this.columnHeader14.Text = "Settlement";
+            this.columnHeader14.Width = 80;
+            // 
+            // columnHeader15
+            // 
+            this.columnHeader15.Text = "Marker";
+            // 
+            // columnHeader16
+            // 
+            this.columnHeader16.Text = "Today Marker";
+            this.columnHeader16.Width = 90;
+            // 
+            // panelEx9
+            // 
+            this.panelEx9.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx9.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx9.Controls.Add(this.panelEx10);
+            this.panelEx9.Controls.Add(this.labelX20);
+            this.panelEx9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx9.Location = new System.Drawing.Point(3, 3);
+            this.panelEx9.Name = "panelEx9";
+            this.panelEx9.Padding = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel2.SetRowSpan(this.panelEx9, 3);
+            this.panelEx9.Size = new System.Drawing.Size(244, 414);
+            this.panelEx9.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx9.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx9.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx9.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx9.Style.GradientAngle = 90;
+            this.panelEx9.TabIndex = 34;
+            // 
+            // panelEx10
+            // 
+            this.panelEx10.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx10.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx10.Controls.Add(this.listBox_daily_symbols);
+            this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx10.Location = new System.Drawing.Point(1, 33);
+            this.panelEx10.Name = "panelEx10";
+            this.panelEx10.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx10.Size = new System.Drawing.Size(242, 380);
+            this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx10.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx10.Style.BorderWidth = 0;
+            this.panelEx10.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx10.Style.GradientAngle = 90;
+            this.panelEx10.TabIndex = 39;
+            this.panelEx10.Text = "panelEx7";
+            // 
+            // listBox_daily_symbols
+            // 
+            this.listBox_daily_symbols.BackColor = System.Drawing.Color.White;
+            this.listBox_daily_symbols.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBox_daily_symbols.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox_daily_symbols.ForeColor = System.Drawing.Color.Black;
+            this.listBox_daily_symbols.FormattingEnabled = true;
+            this.listBox_daily_symbols.Location = new System.Drawing.Point(1, 1);
+            this.listBox_daily_symbols.Name = "listBox_daily_symbols";
+            this.listBox_daily_symbols.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBox_daily_symbols.Size = new System.Drawing.Size(240, 378);
+            this.listBox_daily_symbols.TabIndex = 37;
+            // 
+            // labelX20
+            // 
+            // 
+            // 
+            // 
+            this.labelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX20.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelX20.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX20.ForeColor = System.Drawing.Color.Black;
+            this.labelX20.Location = new System.Drawing.Point(1, 1);
+            this.labelX20.Name = "labelX20";
+            this.labelX20.PaddingLeft = 6;
+            this.labelX20.Size = new System.Drawing.Size(242, 32);
+            this.labelX20.TabIndex = 38;
+            this.labelX20.Text = "SYMBOLS";
             // 
             // metroTabPanel2
             // 
@@ -2317,15 +2317,15 @@ namespace DataNetClient.Forms
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.metroShell1.ResumeLayout(false);
             this.metroShell1.PerformLayout();
+            this.metroTabPanel1.ResumeLayout(false);
+            this.panelEx5.ResumeLayout(false);
+            this.panelEx1.ResumeLayout(false);
             this.metroTabPanel5.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panelEx11.ResumeLayout(false);
             this.panelEx12.ResumeLayout(false);
             this.panelEx9.ResumeLayout(false);
             this.panelEx10.ResumeLayout(false);
-            this.metroTabPanel1.ResumeLayout(false);
-            this.panelEx5.ResumeLayout(false);
-            this.panelEx1.ResumeLayout(false);
             this.metroTabPanel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panelEx3.ResumeLayout(false);
