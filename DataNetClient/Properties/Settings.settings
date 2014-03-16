@@ -23,13 +23,13 @@
     <Setting Name="AutoMissingBarReport" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="scUser1" Type="System.String" Scope="User">
+    <Setting Name="connectionUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
+    </Setting>
+    <Setting Name="connectionPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="scPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="scHost" Type="System.String" Scope="User">
+    <Setting Name="connectionHost" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="L" Type="System.Drawing.Point" Scope="User">
@@ -46,6 +46,18 @@
     </Setting>
     <Setting Name="dbHistorical" Type="System.String" Scope="User">
       <Value Profile="(Default)">HISTORICAL</Value>
+    </Setting>
+    <Setting Name="connectionHostSlave" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="scUser1" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="scPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="scHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="scHostSlave" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1</Value>

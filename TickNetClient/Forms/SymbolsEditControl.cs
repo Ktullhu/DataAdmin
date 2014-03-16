@@ -183,7 +183,7 @@ namespace TickNetClient.Forms
                         {
                             DatabaseManager.DeleteSymbol(symbolId);
                         }
-                        DatabaseManager.DeleteSymbolForUser(_userID, symbolId);
+                        DatabaseManager.DeleteSymbolForUser(_userID, symbolId, ApplicationType.TickNet);
                     }
                 }
                 

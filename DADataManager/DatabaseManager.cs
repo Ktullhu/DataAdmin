@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using CQG;
 using DADataManager.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace DADataManager
         public static bool CurrentDbIsShared;
         public static List<string> DeniedSymbols;
         public static int MaxBufferSize;
-        public static int MaxQueueSize = 500;
+        public static int MaxQueueSize =500;
         public static bool SortingModeIsAsc = true;
 
         private static string _connectionStringToShareDb;
@@ -1651,6 +1652,57 @@ namespace DADataManager
             var sql = "DELETE FROM " + tbl + " WHERE `TickTime` BETWEEN '" + dateFromStr + "' AND '" + dateToStr + "' ;COMMIT;";
 
             DoSqlHistorical(sql);
+        }
+
+
+
+        public static DateTime GetMinTime(string tblname)
+        {
+            MySqlDataReader reader = null;
+            
+            DateTime time=new DateTime();
+            var str = tblname.Trim().Split('.');
+            var sql = "select `TickTime` from `T_" + str[str.Length - 1].ToUpper() +
+                      "` order by  `TickTime` asc  limit 1;";
+            reader = GetReaderHistorical(sql);
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    time = Convert.ToDateTime(reader.GetValue(0));
+                   // int id = Convert.ToInt32(reader.GetValue(1));
+                }
+                reader.Close();
+            }
+
+
+            return time;
+        }
+
+
+  
+
+        public static DateTime GetMaxTime(string tblname)
+        {
+            MySqlDataReader reader = null;
+
+            DateTime time = new DateTime();
+            var str = tblname.Trim().Split('.');
+            var sql = "select `TickTime` from `T_" + str[str.Length - 1].ToUpper() +
+                      "` order by  `TickTime` desc  limit 1;";
+            reader = GetReaderHistorical(sql);
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    time = Convert.ToDateTime(reader.GetValue(0));
+                    // int id = Convert.ToInt32(reader.GetValue(1));
+                }
+                reader.Close();
+            }
+
+
+            return time;
         }
 
         public static void CreateTickTable(string symbol)

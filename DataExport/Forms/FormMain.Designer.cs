@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -37,6 +36,10 @@
             this.ui_buttonX_shareConnect = new DevComponents.DotNetBar.ButtonX();
             this.labelX16 = new DevComponents.DotNetBar.LabelX();
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_historicaldb = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_bardb = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.ui_LabelX_localAvaliable = new DevComponents.DotNetBar.LabelX();
             this.checkBoxX1 = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.ui_buttonX_localConnect = new DevComponents.DotNetBar.ButtonX();
@@ -123,7 +126,7 @@
             this.ui_AutomaticJob_checkBox = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.ui_DockPanelQueries = new DevComponents.DotNetBar.PanelEx();
             this.ui_ProfileQueries_listBox = new System.Windows.Forms.ListBox();
-            this.contextMenuStripQueryList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripQueryList = new System.Windows.Forms.ContextMenuStrip();
             this.deleteQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_DeleteProfile_button = new DevComponents.DotNetBar.ButtonX();
@@ -143,17 +146,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager();
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.ui__status_labelItem_status = new DevComponents.DotNetBar.LabelItem();
             this.ui_status_labelItemStatusSB = new DevComponents.DotNetBar.LabelItem();
             this.progressBarItemCollecting = new DevComponents.DotNetBar.ProgressBarItem();
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_bardb = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX7 = new DevComponents.DotNetBar.LabelX();
-            this.ui_home_textBoxX_historicaldb = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             this.panelEx5.SuspendLayout();
@@ -349,6 +348,66 @@
             this.panelEx1.Style.GradientAngle = 90;
             this.panelEx1.TabIndex = 0;
             this.panelEx1.Click += new System.EventHandler(this.panelEx1_Click);
+            // 
+            // labelX7
+            // 
+            // 
+            // 
+            // 
+            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX7.ForeColor = System.Drawing.Color.Black;
+            this.labelX7.Location = new System.Drawing.Point(35, 201);
+            this.labelX7.Name = "labelX7";
+            this.labelX7.Size = new System.Drawing.Size(75, 20);
+            this.labelX7.TabIndex = 28;
+            this.labelX7.Text = "Historical DB";
+            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // ui_home_textBoxX_historicaldb
+            // 
+            this.ui_home_textBoxX_historicaldb.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.ui_home_textBoxX_historicaldb.Border.BorderLeftColor = System.Drawing.Color.CadetBlue;
+            this.ui_home_textBoxX_historicaldb.Border.BorderLeftWidth = 3;
+            this.ui_home_textBoxX_historicaldb.Border.Class = "TextBoxBorder";
+            this.ui_home_textBoxX_historicaldb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_home_textBoxX_historicaldb.ForeColor = System.Drawing.Color.Black;
+            this.ui_home_textBoxX_historicaldb.Location = new System.Drawing.Point(116, 201);
+            this.ui_home_textBoxX_historicaldb.Name = "ui_home_textBoxX_historicaldb";
+            this.ui_home_textBoxX_historicaldb.Size = new System.Drawing.Size(128, 22);
+            this.ui_home_textBoxX_historicaldb.TabIndex = 5;
+            // 
+            // labelX6
+            // 
+            // 
+            // 
+            // 
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.ForeColor = System.Drawing.Color.Black;
+            this.labelX6.Location = new System.Drawing.Point(35, 173);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(75, 20);
+            this.labelX6.TabIndex = 26;
+            this.labelX6.Text = "Bar DB";
+            this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // ui_home_textBoxX_bardb
+            // 
+            this.ui_home_textBoxX_bardb.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.ui_home_textBoxX_bardb.Border.BorderLeftColor = System.Drawing.Color.CadetBlue;
+            this.ui_home_textBoxX_bardb.Border.BorderLeftWidth = 3;
+            this.ui_home_textBoxX_bardb.Border.Class = "TextBoxBorder";
+            this.ui_home_textBoxX_bardb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_home_textBoxX_bardb.ForeColor = System.Drawing.Color.Black;
+            this.ui_home_textBoxX_bardb.Location = new System.Drawing.Point(116, 173);
+            this.ui_home_textBoxX_bardb.Name = "ui_home_textBoxX_bardb";
+            this.ui_home_textBoxX_bardb.Size = new System.Drawing.Size(128, 22);
+            this.ui_home_textBoxX_bardb.TabIndex = 4;
             // 
             // ui_LabelX_localAvaliable
             // 
@@ -2149,66 +2208,6 @@
             this.labelItemUserName.PaddingRight = 5;
             this.labelItemUserName.Text = "User Name";
             this.labelItemUserName.Tooltip = "User name";
-            // 
-            // labelX6
-            // 
-            // 
-            // 
-            // 
-            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX6.ForeColor = System.Drawing.Color.Black;
-            this.labelX6.Location = new System.Drawing.Point(35, 173);
-            this.labelX6.Name = "labelX6";
-            this.labelX6.Size = new System.Drawing.Size(75, 20);
-            this.labelX6.TabIndex = 26;
-            this.labelX6.Text = "Bar DB";
-            this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // ui_home_textBoxX_bardb
-            // 
-            this.ui_home_textBoxX_bardb.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.ui_home_textBoxX_bardb.Border.BorderLeftColor = System.Drawing.Color.CadetBlue;
-            this.ui_home_textBoxX_bardb.Border.BorderLeftWidth = 3;
-            this.ui_home_textBoxX_bardb.Border.Class = "TextBoxBorder";
-            this.ui_home_textBoxX_bardb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_home_textBoxX_bardb.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_bardb.Location = new System.Drawing.Point(116, 173);
-            this.ui_home_textBoxX_bardb.Name = "ui_home_textBoxX_bardb";
-            this.ui_home_textBoxX_bardb.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_bardb.TabIndex = 4;
-            // 
-            // labelX7
-            // 
-            // 
-            // 
-            // 
-            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX7.ForeColor = System.Drawing.Color.Black;
-            this.labelX7.Location = new System.Drawing.Point(35, 201);
-            this.labelX7.Name = "labelX7";
-            this.labelX7.Size = new System.Drawing.Size(75, 20);
-            this.labelX7.TabIndex = 28;
-            this.labelX7.Text = "Historical DB";
-            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // ui_home_textBoxX_historicaldb
-            // 
-            this.ui_home_textBoxX_historicaldb.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.ui_home_textBoxX_historicaldb.Border.BorderLeftColor = System.Drawing.Color.CadetBlue;
-            this.ui_home_textBoxX_historicaldb.Border.BorderLeftWidth = 3;
-            this.ui_home_textBoxX_historicaldb.Border.Class = "TextBoxBorder";
-            this.ui_home_textBoxX_historicaldb.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_home_textBoxX_historicaldb.ForeColor = System.Drawing.Color.Black;
-            this.ui_home_textBoxX_historicaldb.Location = new System.Drawing.Point(116, 201);
-            this.ui_home_textBoxX_historicaldb.Name = "ui_home_textBoxX_historicaldb";
-            this.ui_home_textBoxX_historicaldb.Size = new System.Drawing.Size(128, 22);
-            this.ui_home_textBoxX_historicaldb.TabIndex = 5;
             // 
             // FormMain
             // 

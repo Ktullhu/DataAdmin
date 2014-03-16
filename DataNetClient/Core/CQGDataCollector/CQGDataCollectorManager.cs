@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms.VisualStyles;
 using CQG;
 using DataNetClient.Properties;
 using Timer = System.Windows.Forms.Timer;
@@ -48,6 +49,17 @@ namespace DataNetClient.Core.CQGDataCollector
         #endregion
 
         #region EVENTS
+
+
+        public delegate void ProgressBarChangedHandler(int i);
+
+        public static event ProgressBarChangedHandler ProgressBarChanged;
+
+        private static void OnProgressBarChanged(int i)
+        {
+            ProgressBarChangedHandler handler = ProgressBarChanged;
+            if (handler != null) handler(i);
+        }
 
         public delegate void ItemStateChangedHandler(int index, GroupState state);
 
@@ -204,8 +216,8 @@ namespace DataNetClient.Core.CQGDataCollector
         static void _cel_TicksResolved(CQGTicks cqgTicks, CQGError cqgError)
         {
             if (_isStoped) return;
-            var symbol = cqgTicks.Request.Symbol;
 
+            var symbol = cqgTicks.Request.Symbol;
             TicksAdd(cqgTicks, cqgError, _userName);
             
                 
@@ -321,7 +333,6 @@ namespace DataNetClient.Core.CQGDataCollector
                 tickRequest.SessionsFilter = _sessionFilter;
 
                 CQGTicks ticks = Cel.RequestTicks(tickRequest);
-
                 if (ticks.Status == eRequestStatus.rsInProgress)
                 {
 
@@ -343,7 +354,7 @@ namespace DataNetClient.Core.CQGDataCollector
               
                 if (cqgError != null && cqgError.Code != 0)
                 {
-                    
+                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, false);
                 }
                 else
                 {
@@ -453,6 +464,69 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+
+        public static int CqgGetId(CQGTicks ticks, DateTime date)
+        {
+            
+            int l = 0;            // нижняя граница
+            int u = ticks.Count - 1;    // верхняя граница
+            int m = -1; 
+            
+            
+            while (l <= u)
+                
+            {
+                m = (l + u) / 2;
+                if (ticks[m].Timestamp== date)//todo test serch
+                {
+
+                    ////Console.WriteLine((ticks[m].Timestamp));
+                    //if (ticks[m].Timestamp > date)
+                    //{
+                    //    l = 0;
+                    //    u = m;
+                    //    while (l <= u)
+                    //    {
+                    //        m = (l + u) / 2;
+                    //        if (ticks[m].Timestamp.Hour==date.Hour)
+                    //            return m;
+                    //        //Console.WriteLine(ticks[m].Timestamp);
+                    //        if (ticks[m].Timestamp.Hour < date.Hour) l = m + 1;
+                    //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
+                    //    }
+                    //}
+                    //if (ticks[m].Timestamp < date)
+                    //{
+                    //    l = m;
+                    //    u = ticks.Count-1;
+                    //    while (l <= u)
+                    //    {
+                    //        int tmp = m;
+                    //        m = (l + u) / 2;
+                    //        if (ticks[m].Timestamp.Hour==date.Hour)
+                    //            return m;
+                    //        if (ticks[m].Timestamp.Day > date.Day)
+                    //            return tmp;
+                    //        //Console.WriteLine(ticks[m].Timestamp);
+                    //        if (ticks[m].Timestamp.Hour < date.Hour) l = m + 1;
+                    //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
+                    //    }
+
+                        
+                    //}
+
+                    //if (l >= u) return m;
+                    return m;
+                }
+                    
+                Console.WriteLine(ticks[m].Timestamp);
+                if (ticks[m].Timestamp < date) l = m + 1;
+                if (ticks[m].Timestamp > date) u = m - 1;
+            }
+            return m;
+        }
+
+
         public static void TicksAdd(CQGTicks cqgTicks, CQGError cqgError, string userName)
         {
             
@@ -461,7 +535,7 @@ namespace DataNetClient.Core.CQGDataCollector
                 
                 if (cqgError != null && cqgError.Code != 0)
                 {
-                    
+                    FinishCollectingSymbol(cqgTicks.Request.Symbol, false);
                 }
                 else
                 {
@@ -470,7 +544,6 @@ namespace DataNetClient.Core.CQGDataCollector
 
                     DateTime runDateTime = DateTime.Now;
                     int groupId = 0;
-
                     if (cqgTicks.Count != 0)
                     {
                         new Thread(() =>
@@ -479,13 +552,132 @@ namespace DataNetClient.Core.CQGDataCollector
                             lock (_lockHistInsert)
                             {
                                 OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
-
-                                DatabaseManager.DeleteTicks(cqgTicks.Request.Symbol, cqgTicks[0].Timestamp, cqgTicks[cqgTicks.Count - 1].Timestamp);
-                                for (int i = cqgTicks.Count - 1; i >= 0; i--)
+                                DateTime _tmpTime=new DateTime();
+                                int end = CqgGetId(cqgTicks, _rangeDateEnd);
+                                Console.WriteLine(DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                                Console.WriteLine(DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                                Console.WriteLine(cqgTicks.StartTimestamp);
+                                Console.WriteLine(cqgTicks[end].Timestamp);
+                                if (_tmpTime == DatabaseManager.GetMinTime(cqgTicks.Request.Symbol))//todo if empty
                                 {
-                                    if (_isStoped) break;
-                                    AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                    var progr = 0;
+                                    var rowsMaxCount = end;
+                                    var rowsInserted = 0;
+                                    OnProgressBarChanged(progr);
+                                    Console.WriteLine(cqgTicks[end].Timestamp);
+                                    Console.WriteLine(cqgTicks[0].Timestamp);
+                                    for (int i = 0; i <=end; i++)
+                                    {
+                                        rowsInserted++;
+                                        //Console.WriteLine(cqgTicks[i].Timestamp);
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                        var cto = (double)rowsMaxCount;
+                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                        if (newProgr > progr)
+                                        {
+                                            progr = newProgr;
+                                            OnProgressBarChanged(progr);
+                                        }
+                                        //OnProgressBarChanged(progress);
+
+                                    }
                                 }
+                                else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp &&//todo ned test//6
+                                         DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp)
+                                {
+                                    
+                                    int first_start = 0;
+                                    int first_end = CqgGetId(cqgTicks,DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                                    Console.WriteLine(cqgTicks[first_start].Timestamp + " " + cqgTicks[first_end].Timestamp);
+                                    int last_start = CqgGetId(cqgTicks, DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                                    int last_end = end;
+                                    Console.WriteLine(cqgTicks[last_start].Timestamp + " " + cqgTicks[last_end].Timestamp);
+                                    for (int i = first_start; i <= first_end; i++)
+                                    {
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                    }
+                                    for (int i = last_start; i <= last_end; i++)
+                                    {
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                    }
+
+                                }
+                                else if (
+                                    DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp &&
+                                    DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp)//todo ned test//4
+                                {
+                                    int StartTimestamp = CqgGetId(cqgTicks, DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                                    Console.WriteLine(cqgTicks[StartTimestamp].Timestamp);
+                                    Console.WriteLine(cqgTicks[end].Timestamp);
+                                    var progr = 0;
+                                    OnProgressBarChanged(progr);
+                    
+                                    var rowsMaxCount = end - StartTimestamp;
+                                    var rowsInserted=0;
+                                    for (int i = StartTimestamp; i <= end; i++)
+                                    {
+                                        rowsInserted++;
+
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                       
+                                        var cto = (double)rowsMaxCount;
+                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                        if (newProgr > progr)
+                                        {
+                                            progr = newProgr;
+                                            OnProgressBarChanged(progr);
+                                        }
+                                    }
+                                    //Console.WriteLine(cqgTicks.StartTimestamp);
+
+                                }
+                                else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp &&
+                                    DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp)//todo ned test//5
+                                {
+                                    end = CqgGetId(cqgTicks,DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                                    Console.WriteLine(cqgTicks[end].Timestamp);
+                                   Console.WriteLine(cqgTicks[0].Timestamp);
+                                    var progr = 0;
+                                    OnProgressBarChanged(progr);
+                                    var rowsInserted = 0;
+                                    var rowsMaxCount = end;
+                                    for (int i = 0; i <= end; i++)
+                                    {
+                                        rowsInserted++;
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+
+                                        var cto = (double)rowsMaxCount;
+                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                        if (newProgr > progr)
+                                        {
+                                            progr = newProgr;
+                                            OnProgressBarChanged(progr);
+                                        }
+
+                                    }
+                                }
+                                else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks[end].Timestamp)//todo test 2   
+                                {
+                                    for (int i = 0; i <= end; i++)
+                                    {
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                    }
+                                }
+                                else if (DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks.StartTimestamp)//todo test 1   
+                                {
+                                    for (int i = 0; i <= end; i++)
+                                    {
+                                        if (_isStoped) break;
+                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                    }
+                                }
+                              
                                 DatabaseManager.CommitQueueTick();
 
                                 FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
