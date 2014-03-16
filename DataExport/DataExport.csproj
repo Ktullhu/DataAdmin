@@ -88,6 +88,10 @@
       <HintPath>.\EPPlus.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="MySql.Data">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="NCalc">
       <HintPath>.\NCalc.dll</HintPath>
       <Private>True</Private>

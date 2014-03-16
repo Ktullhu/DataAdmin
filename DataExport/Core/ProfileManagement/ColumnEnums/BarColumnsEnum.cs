@@ -2,20 +2,14 @@
 {
     enum BarColumnsEnum
     {
-        Open,
-        High,
-        Low,
-        Close,
-        TickVolume,
-        ActualVolume,
+        OpenValue,
+        HighValue,
+        LowValue,
+        CloseValue,
+        TickVol,
+        ActualVol,
         AskVol,
         BidVol,
-        Avg,
-        Time,
-        Mid,
-        Range,
-        TrueHigh,
-        TrueLow,
-        TrueRange
+        BarTime
     }
 }
