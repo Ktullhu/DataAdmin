@@ -430,17 +430,25 @@ namespace TickNetClient.Core
   
         private static void TicksRequest(string symbolName)
         {
-            if (!Cel.IsStarted) return;
+            try
+            {
+                if (!Cel.IsStarted) return;
 
-            Cel.NewInstrument(symbolName);
+                Cel.NewInstrument(symbolName);
 
 
-            CQGTicksRequest req = Cel.CreateTicksRequest();
-            req.Type = eTicksRequestType.trtCurrentNotify;
-            req.SessionsFilter = 0;
-            req.TickFilter = eTickFilter.tfAll;
-            req.Symbol = symbolName;
-            Cel.RequestTicks(req);          
+                CQGTicksRequest req = Cel.CreateTicksRequest();
+                req.Type = eTicksRequestType.trtCurrentNotify;
+                req.SessionsFilter = 0;
+                req.TickFilter = eTickFilter.tfAll;
+                req.Symbol = symbolName;
+                Cel.RequestTicks(req); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+                     
         }
 
         #endregion

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -126,7 +127,7 @@
             this.ui_AutomaticJob_checkBox = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.ui_DockPanelQueries = new DevComponents.DotNetBar.PanelEx();
             this.ui_ProfileQueries_listBox = new System.Windows.Forms.ListBox();
-            this.contextMenuStripQueryList = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStripQueryList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_DeleteProfile_button = new DevComponents.DotNetBar.ButtonX();
@@ -146,13 +147,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.styleManager1 = new DevComponents.DotNetBar.StyleManager();
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.ui__status_labelItem_status = new DevComponents.DotNetBar.LabelItem();
             this.ui_status_labelItemStatusSB = new DevComponents.DotNetBar.LabelItem();
             this.progressBarItemCollecting = new DevComponents.DotNetBar.ProgressBarItem();
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.metroShell1.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             this.panelEx5.SuspendLayout();
@@ -193,8 +194,8 @@
             this.metroShell1.CanCustomize = false;
             this.metroShell1.CaptionVisible = true;
             this.metroShell1.CategorizeMode = DevComponents.DotNetBar.Metro.eMetroCategorizeMode.Categories;
-            this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Controls.Add(this.metroTabPanel2);
+            this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
             this.metroShell1.HelpButtonText = "LOGOUT";
@@ -251,6 +252,7 @@
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.StyleMouseOver.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.metroTabPanel1.TabIndex = 0;
+            this.metroTabPanel1.Visible = false;
             // 
             // panelEx5
             // 
@@ -616,7 +618,6 @@
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 1;
-            this.metroTabPanel2.Visible = false;
             // 
             // metroTabPanel3
             // 
@@ -2112,13 +2113,13 @@
             // 
             // ui_HomeTab_metroTabItem
             // 
-            this.ui_HomeTab_metroTabItem.Checked = true;
             this.ui_HomeTab_metroTabItem.Name = "ui_HomeTab_metroTabItem";
             this.ui_HomeTab_metroTabItem.Panel = this.metroTabPanel1;
             this.ui_HomeTab_metroTabItem.Text = "&HOME";
             // 
             // ui_ExportTab_metroTabItem
             // 
+            this.ui_ExportTab_metroTabItem.Checked = true;
             this.ui_ExportTab_metroTabItem.Name = "ui_ExportTab_metroTabItem";
             this.ui_ExportTab_metroTabItem.Panel = this.metroTabPanel2;
             this.ui_ExportTab_metroTabItem.Text = "EXPORT";

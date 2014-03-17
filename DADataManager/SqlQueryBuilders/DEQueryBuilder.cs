@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using MySql.Data.MySqlClient;
 
 namespace DADataManager.SqlQueryBuilders
 {
@@ -16,8 +17,11 @@ namespace DADataManager.SqlQueryBuilders
         {            
             var sql = CreateSql(queryModel);
             _dataTable = CreateDataTable(queryModel.SelectedCols, queryModel.TimeFrame);
-            var reader = DataExportClientDataManager.GetReader(sql);
-
+            MySqlDataReader reader;
+            if(queryModel.TimeFrame=="Tick")
+                reader= DataExportClientDataManager.GetReaderLive(sql);
+            else
+                reader = DataExportClientDataManager.GetReaderBar(sql);
             if (reader != null)
             {
                 try
@@ -157,7 +161,7 @@ namespace DADataManager.SqlQueryBuilders
 
         private static string GetDateTimeColumnName(string timeFrame)
         {
-            return timeFrame == "Tick" ? "TickTime" : "BarTime";
+            return timeFrame == "Tick" ? "Time" : "BarTime";
         }
 
         private static string GetBarTableName(string symbolName, string timeFrame)
@@ -184,7 +188,7 @@ namespace DADataManager.SqlQueryBuilders
                     if (columnName != "Time")
                         selCols += "`" + columnName + "`, ";
                     else
-                        selCols += "`TickTime`, ";
+                        selCols += "`Time`, ";
                 }
                 return selCols.Remove(selCols.LastIndexOf(",", StringComparison.Ordinal));
             }
