@@ -663,24 +663,48 @@ namespace DataNetClient.Core.CQGDataCollector
                                 }
                                 else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks[end].Timestamp)//todo test 2   
                                 {
+                                    var progr = 0;
+                                    OnProgressBarChanged(progr);
+                                    var rowsInserted = 0;
+                                    var rowsMaxCount = end;
                                     for (int i = 0; i <= end; i++)
                                     {
                                         if (_isStoped) break;
                                         AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                        var cto = (double)rowsMaxCount;
+                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                        if (newProgr > progr)
+                                        {
+                                            progr = newProgr;
+                                            OnProgressBarChanged(progr);
+                                        }
                                     }
                                 }
                                 else if (DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks.StartTimestamp)//todo test 1   
                                 {
+                                    var progr = 0;
+                                    OnProgressBarChanged(progr);
+                                    var rowsInserted = 0;
+                                    var rowsMaxCount = end;
                                     for (int i = 0; i <= end; i++)
                                     {
                                         if (_isStoped) break;
                                         AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                        var cto = (double)rowsMaxCount;
+                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                        if (newProgr > progr)
+                                        {
+                                            progr = newProgr;
+                                            OnProgressBarChanged(progr);
+                                        }
+
                                     }
                                 }
                               
                                 DatabaseManager.CommitQueueTick();
 
                                 FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
+                                OnProgressBarChanged(100);
                             }
 
                         }) { Name ="InsertingHistoricalThread"}.Start();
