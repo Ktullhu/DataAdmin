@@ -581,32 +581,32 @@ namespace DataExport.Core.ExcelManagers
             {
                 if (_internalTable.Columns.Contains("Bid"))
                 {
-                    var open = varday.ToList().First(o => o.Field<double>("Bid") > 0).Field<double>("Bid");
+                    var open = editem.Value.Rows[indexer]["Bid"];
                     dtRow["Bid"] = open;
                 }
                 if (_internalTable.Columns.Contains("Ask"))
                 {
-                    var open = varday.ToList().First(o => o.Field<double>("Ask") > 0).Field<double>("Ask");
+                    var open = editem.Value.Rows[indexer]["Ask"];
                     dtRow["Ask"] = open;
                 }
                 if (_internalTable.Columns.Contains("BidVol"))
                 {
-                    var open = varday.ToList().First(o => o.Field<int>("BidVol") > 0).Field<int>("BidVol");
+                    var open = editem.Value.Rows[indexer]["BidVol"];
                     dtRow["BidVol"] = open;
                 }
                 if (_internalTable.Columns.Contains("AskVol"))
                 {
-                    var open = varday.ToList().First(o => o.Field<int>("AskVol") > 0).Field<int>("AskVol");
+                    var open = editem.Value.Rows[indexer]["AskVol"];
                     dtRow["AskVol"] = open;
                 }
                 if (_internalTable.Columns.Contains("Trade"))
                 {
-                    var open = varday.ToList().First(o => o.Field<double>("Trade") > 0).Field<double>("Trade");
+                    var open = editem.Value.Rows[indexer]["Trade"];
                     dtRow["Trade"] = open;
                 }
                 if (_internalTable.Columns.Contains("TradeVol"))
                 {
-                    var open = varday.ToList().First(o => o.Field<int>("TradeVol") > 0).Field<int>("TradeVol");
+                    var open = editem.Value.Rows[indexer]["TradeVol"];
                     dtRow["TradeVol"] = open;
                 }
             }
