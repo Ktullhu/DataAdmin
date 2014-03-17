@@ -39,9 +39,11 @@ namespace DataExport.Forms
         private string _connectionToSharedDb;
         private string _connectionToSharedDbBar;
         private string _connectionToSharedDbHistorical;
+        private string _connectionToSharedDbLive;
         private string _connectionStringToLocalDb;
         private string _connectionStringToLocalDbBar;
         private string _connectionStringToLocalDbHistorical;
+        private string _connectionStringToLocalDbLive;
         private List<SymbolModel> _symbols;
         private CustomFormulaControl _customFormulaControl;
         private ScheduleJobControl _scheduleJobControl;
@@ -194,7 +196,7 @@ namespace DataExport.Forms
                 if (!IsModalPanelDisplayed)
                     _startControl.BringToFront();
             }
-            if(_customFormulaControl!=null)
+            if (_customFormulaControl != null)
             {
                 if (!_customFormulaControl.IsOpen)
                     _customFormulaControl.OpenBounds = GetStartControlBounds();
@@ -345,7 +347,7 @@ namespace DataExport.Forms
             }
             catch (Exception)
             {
-                if (_startControl!=null)
+                if (_startControl != null)
                 _startControl.Invoke((Action)(() =>
                                                   {
                                                       ToastNotification.Show(_startControl, "Can't connect. IP is incorrect");
@@ -398,7 +400,7 @@ namespace DataExport.Forms
 
         private void LoggedIn(object sender, DataAdminMessageFactory.ChangePrivilage msg)
         {
-            labelItemUserName.Text = "<"+_client.UserName+">  "+Settings.Default.connectionHost;
+            labelItemUserName.Text = "<" + _client.UserName + ">  " + Settings.Default.connectionHost;
 
             _serverStatus = true;
             var xml = new XmlDocument();
@@ -406,6 +408,10 @@ namespace DataExport.Forms
 
             string host = "";
             string dbName = "";
+            string dbNameBar = "";
+            string dbNameLive = "";
+            string dbNameHist = "";
+
             string usName = "";
             string passw = "";
 
@@ -415,12 +421,25 @@ namespace DataExport.Forms
             {
                 host = (attr["Host"].Value);
                 dbName = attr["dbName"].Value;
+                dbNameBar = attr["dbNameBar"].Value;
+                dbNameHist = attr["dbNameHist"].Value;
+                dbNameLive = attr["dbNameLive"].Value;
                 usName = attr["userName"].Value;
                 passw = attr["password"].Value;
+
             }
-            _client.UserID = msg.ClientID;
-            ProfilesManager.UserId = msg.ClientID;
+            /*
+            xml.LoadXml("ID");
+            var elemUserId = xml.GetElementsByTagName("UserID");
+            var attrr = elemUserId[0].Attributes;
+            if (attrr != null)
+                _client.UserID = Convert.ToInt32(attrr["ID"].Value);
+            */
             _connectionToSharedDb = "SERVER=" + host + "; DATABASE=" + dbName + "; UID=" + usName + "; PASSWORD=" + passw;
+            _connectionToSharedDbBar = "SERVER=" + host + "; DATABASE=" + dbNameBar + "; UID=" + usName + "; PASSWORD=" + passw;
+            _connectionToSharedDbLive = "SERVER=" + host + "; DATABASE=" + dbNameLive + "; UID=" + usName + "; PASSWORD=" + passw;
+            _connectionToSharedDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
+
             SetPrivilages(msg);
         }
 
@@ -504,7 +523,7 @@ namespace DataExport.Forms
 
         public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, bool started, bool finished)
         {            
-            var status = started ? DataAdminMessageFactory.LogMessage.Status.Started: DataAdminMessageFactory.LogMessage.Status.Finished;
+            var status = started ? DataAdminMessageFactory.LogMessage.Status.Started : DataAdminMessageFactory.LogMessage.Status.Finished;
             if (symbols.Count > 0)
             {
                 foreach (var symbol in symbols)
@@ -551,7 +570,7 @@ namespace DataExport.Forms
                                                     Settings.Default.connectionPassword,
                                                     Settings.Default.connectionHost))
 
-                ) {Name = "LogonThread", IsBackground = true};
+                ) { Name = "LogonThread", IsBackground = true };
             _logonThread.Start();
         }
 
@@ -563,7 +582,7 @@ namespace DataExport.Forms
         private void Logout()
         {
             if (_serverStatus)
-                if (_clientService != null && _clientService.ServiceProxy != null )
+                if (_clientService != null && _clientService.ServiceProxy != null)
                     try
                     {
                         _clientService.ServiceProxy.Logout("e", _client.UserName);
@@ -607,7 +626,7 @@ namespace DataExport.Forms
         {
             if (DataExportClientDataManager.CurrentDbIsShared) return;
 
-            DataExportClientDataManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, _connectionToSharedDbHistorical, "", _client.UserID);
+            DataExportClientDataManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, "", _connectionToSharedDbLive, _client.UserID);
             _client.ConnectedToSharedDb = true;
             _client.ConnectedToLocalDb = false;
 
@@ -616,7 +635,7 @@ namespace DataExport.Forms
             ClearAllQueryUi();
             Refresh();
             
-            if(_exportJobs != null)
+            if (_exportJobs != null)
             {
                 _exportJobs = new ScheduleTimer();
             }
@@ -641,7 +660,7 @@ namespace DataExport.Forms
             _connectionStringToLocalDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
 
 
-            DataExportClientDataManager.ConnectToLocalDb(_connectionStringToLocalDb, _connectionStringToLocalDbBar, _connectionStringToLocalDbHistorical, "", _client.UserID);
+            DataExportClientDataManager.ConnectToLocalDb(_connectionStringToLocalDb, _connectionStringToLocalDbBar, _connectionStringToLocalDbHistorical, _connectionStringToLocalDbLive, _client.UserID);
             _client.ConnectedToSharedDb = false;
             _client.ConnectedToLocalDb = true;
 
@@ -661,7 +680,7 @@ namespace DataExport.Forms
         {
             var strConn = connected ? @"Connnected to " + (isShared ? @"Shared DB" : @"Local DB") : "Not connected";
             ui_status_labelItemStatusSB.Text = strConn;
-            if(connected)
+            if (connected)
             {
                 ui_ExportTab_metroTabItem.Visible = true;
                 
@@ -670,6 +689,8 @@ namespace DataExport.Forms
             else
             {
                 ui_ExportTab_metroTabItem.Visible = false;                
+                ToastNotification.Show(this, @"Input login data is incorrect", 2000, eToastPosition.BottomCenter);
+                //todo
             }
         }
        
@@ -745,7 +766,7 @@ namespace DataExport.Forms
                 ui_SelectedColumns_chListBox.Items.Add(name);
             }
         }
-
+        //todo
         public void DisplayBarColumns()
         {
             ui_SelectedColumns_chListBox.Items.Clear();
@@ -799,7 +820,7 @@ namespace DataExport.Forms
                             ui_Profiles_comboBox.SelectedItem = item;
                     }
                 }
-                else {ToastNotification.Show(this, @"Can't add profile. Profile with name " + profile + " already exists.", 2000, eToastPosition.TopCenter);}
+                else { ToastNotification.Show(this, @"Can't add profile. Profile with name " + profile + " already exists.", 2000, eToastPosition.TopCenter); }
             }
         }
 
@@ -829,7 +850,7 @@ namespace DataExport.Forms
                 };
 
             ProfilesManager.EditCurrentProfile(profileModel);
-            if(!ProfilesManager.CurrentProfile.Parameters.EnableScheduleJob)
+            if (!ProfilesManager.CurrentProfile.Parameters.EnableScheduleJob)
                 _exportJobs.ClearJobs(ProfilesManager.CurrentProfile.Parameters.ProfileName);
             else
             RefreshJobList(ProfilesManager.CurrentProfile.Parameters.SheduleJobs);
@@ -1342,7 +1363,7 @@ namespace DataExport.Forms
             ui_TimeSliceExtrPeriodsList_listBox.Items.Clear();
             ui_SnapShootExtrTimesList_listBox.Items.Clear();
 
-            for (int i = 0; i < ui_TimeSliceSelDaysList_chListBox.Items.Count; i ++)
+            for (int i = 0; i < ui_TimeSliceSelDaysList_chListBox.Items.Count; i++)
             {
                 ui_TimeSliceSelDaysList_chListBox.SetItemChecked(i, false);
             }
@@ -1395,7 +1416,7 @@ namespace DataExport.Forms
 
         private void ui_DeleteTimeSlice_button_Click(object sender, EventArgs e)
         {
-            var items = new List<string> (ui_TimeSliceExtrPeriodsList_listBox.SelectedItems.Cast<string>());
+            var items = new List<string>(ui_TimeSliceExtrPeriodsList_listBox.SelectedItems.Cast<string>());
 
             foreach (var item in items)
             {
@@ -1435,12 +1456,12 @@ namespace DataExport.Forms
 
         private void ui_CreateCustomFormula_button_Click(object sender, EventArgs e)
         {
-            if (ProfilesManager.CurrentProfile == null )
+            if (ProfilesManager.CurrentProfile == null)
             {
                 ToastNotification.Show(ui_ProfileOptions_expandPanel, @"Please, pick or create profile", 2000, eToastPosition.TopCenter);
                 return;
             }
-            if(String.IsNullOrEmpty(ProfilesManager.CurrentProfile.CurrentQuery.QueryName))
+            if (String.IsNullOrEmpty(ProfilesManager.CurrentProfile.CurrentQuery.QueryName))
             {
                 ToastNotification.Show(ui_ProfileOptions_expandPanel, @"Please select a query.", 2000, eToastPosition.TopCenter);
                 return;
@@ -1490,7 +1511,7 @@ namespace DataExport.Forms
 
         private void CloseCustomFormulaControl()
         {
-            if(_customFormulaControl!=null)
+            if (_customFormulaControl != null)
             {
                 CloseModalPanel(_customFormulaControl, eSlideSide.Left);
                 _customFormulaControl.Dispose();
@@ -1504,7 +1525,7 @@ namespace DataExport.Forms
 
         private void CustomFormulaControl_SaveClisk(object sender, EventArgs e)
         {
-            if(_customFormulaControl.IfSnapShot)
+            if (_customFormulaControl.IfSnapShot)
             {
                 ProfilesManager.UpdateSnapShotFormulas(_customFormulaControl.Formulas);    
             }
@@ -1559,7 +1580,7 @@ namespace DataExport.Forms
                 {
 
                     var table = DEQueryBuilder.GetDataTable(query);
-                    if(table.Rows.Count == 0)
+                    if (table.Rows.Count == 0)
                         continue;
               
                 
@@ -1575,10 +1596,10 @@ namespace DataExport.Forms
                     var tfinalBuilder = new EDataTableBuilder(table, queryId);
                     var selectedColumns = query.SelectedCols;
                     var dtype = query.TimeFrame == "Tick" ? EDataTableBuilder.DataType.Tick : EDataTableBuilder.DataType.Bar;
-                    tfinalBuilder.CreateTimeSliceTables(tdays.ToList(), periods.ToList(), dtype,selectedColumns);
+                    tfinalBuilder.CreateTimeSliceTables(tdays.ToList(), periods.ToList(), dtype, selectedColumns);
 
 
-                    foreach(var tableTs in tfinalBuilder.GetTimeSliceTable())
+                    foreach (var tableTs in tfinalBuilder.GetTimeSliceTable())
                     {
                         CustomFormulaManager.Initialize(query, tableTs,
                                                         new EDataTable(1, true, false),
@@ -1618,15 +1639,15 @@ namespace DataExport.Forms
             excel.ExportRowProgress += ExportProgress;
             CheckDictionaryForEmptyData(finalDictionary);
 
-           if(CheckDictionaryForEmptyData(finalDictionary))
+            if (CheckDictionaryForEmptyData(finalDictionary))
            {
-               Invoke((Action) delegate
+                Invoke((Action)delegate
                                    {
                                        ui_Exprot_button.Enabled = false;
                                    });
 
                if (profile != null)
-                   excel.ExportDataToExcel(finalDictionary, ExportStyle.ColumnWise,profile.Parameters.ProfileName);
+                    excel.ExportDataToExcel(finalDictionary, ExportStyle.ColumnWise, profile.Parameters.ProfileName);
            }
            else
            {
@@ -1638,7 +1659,7 @@ namespace DataExport.Forms
           
             Thread.CurrentThread.CurrentCulture = oldThread;
            
-            if(Thread.CurrentThread.IsAlive)
+            if (Thread.CurrentThread.IsAlive)
                 Thread.CurrentThread.Abort();
            
         }
@@ -1655,9 +1676,9 @@ namespace DataExport.Forms
 
         private void ExportProgress(int icurrentitem, int itotalitems)
         {
-            Invoke((Action) delegate
+            Invoke((Action)delegate
                                 {
-                                    var progress = icurrentitem*100/itotalitems;
+                var progress = icurrentitem * 100 / itotalitems;
                                     progressBarItemCollecting.Value = progress;
                                     ui__status_labelItem_status.Text = "Export progress : " +
                                                                        progress + " %";
@@ -1754,16 +1775,16 @@ namespace DataExport.Forms
                           where
                               prof.Parameters.ProfileName == profileName
                           select prof).First();
-            Task.Factory.StartNew((Action) delegate{ ExportProfile(profile); });
+            Task.Factory.StartNew((Action)delegate { ExportProfile(profile); });
        
         }
 
-        private void AddProfileToJobList(string prfName,string eventBase, string time)
+        private void AddProfileToJobList(string prfName, string eventBase, string time)
         {
 
 
                 string profileName = prfName;
-                IScheduledItem item = GetSchedule(eventBase,time);
+            IScheduledItem item = GetSchedule(eventBase, time);
                 _exportJobs.Stop();
                 _exportJobs.AddJob(item, profileName, new TickHandler(ExportJob));
                 _exportJobs.Start();
@@ -1771,7 +1792,7 @@ namespace DataExport.Forms
             
         }
 
-        public IScheduledItem GetSchedule(string eventBase,string time)
+        public IScheduledItem GetSchedule(string eventBase, string time)
         {
            
             return new ScheduledTime(eventBase, time);
@@ -1806,7 +1827,7 @@ namespace DataExport.Forms
 
         private void ui_AutomaticJob_checkBox_CheckedChanged(object sender, EventArgs e)
         {
-            ui_ScheduleJob_button.Enabled = ui_AutomaticJob_checkBox.CheckState== CheckState.Checked;
+            ui_ScheduleJob_button.Enabled = ui_AutomaticJob_checkBox.CheckState == CheckState.Checked;
         }
 
         #endregion
@@ -1822,6 +1843,11 @@ namespace DataExport.Forms
         }
 
         private void ui_home_textBoxX_host_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ui_Symbols_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

@@ -145,17 +145,42 @@ namespace DataExport.Core.ExcelManagers
        }
        private void AddTimeSliceResults(IEnumerable<DataRow> varday, DataType tableType ,DataRow drow)
        {
-
-           
-
-           if (_internalTable.Columns.Contains("OpenValue") || tableType == DataType.Tick)
+           if (tableType==DataType.Tick)
            {
-               if (tableType == DataType.Tick)
+               if (_internalTable.Columns.Contains("Bid"))
+               {
+                   var open = varday.ToList().First(o => o.Field<double>("Bid") > 0).Field<double>("Bid");
+                   drow["Bid"] = open;
+               }
+               if (_internalTable.Columns.Contains("Ask"))
+               {
+                   var open = varday.ToList().First(o => o.Field<double>("Ask") > 0).Field<double>("Ask");
+                   drow["Ask"] = open;
+               }
+               if (_internalTable.Columns.Contains("BidVol"))
+               {
+                   var open = varday.ToList().First(o => o.Field<int>("BidVol") > 0).Field<int>("BidVol");
+                   drow["BidVol"] = open;
+               }
+               if (_internalTable.Columns.Contains("AskVol"))
+               {
+                   var open = varday.ToList().First(o => o.Field<int>("AskVol") > 0).Field<int>("AskVol");
+                   drow["AskVol"] = open;
+               }
+               if (_internalTable.Columns.Contains("Trade"))
                {
                    var open = varday.ToList().First(o => o.Field<double>("Trade") > 0).Field<double>("Trade");
-                   drow["OpenValue"] = open;
+                   drow["Trade"] = open;
                }
-               else
+               if (_internalTable.Columns.Contains("TradeVol"))
+               {
+                   var open = varday.ToList().First(o => o.Field<int>("TradeVol") > 0).Field<int>("TradeVol");
+                   drow["TradeVol"] = open;
+               }
+           }
+           if (tableType == DataType.Bar)
+           {
+               if (_internalTable.Columns.Contains("OpenValue"))
                {
                    try
                    {
@@ -168,190 +193,135 @@ namespace DataExport.Core.ExcelManagers
                        var open = varday.ToList().First(o => o.Field<float>("OpenValue") >= 0).Field<float>("OpenValue");
                        drow["OpenValue"] = open;
                    }
-                   
                }
-           }
-
-           if (_internalTable.Columns.Contains("HighValue") || tableType == DataType.Tick)
-           {
-               if (tableType == DataType.Tick)
-               {
-                   var highlist = from highitem in varday select highitem.Field<double>("Trade");
-                   var high = highlist.Max();
-                   drow["HighValue"] = high;
-               }
-               else
+               if (_internalTable.Columns.Contains("HighValue"))
                {
                    var highlist = from highitem in varday select highitem.Field<float>("HighValue");
-                   var high = highlist.Max();
-                   drow["HighValue"] = high;
+                       var high = highlist.Max();
+                       drow["HighValue"] = high;
                }
-           }
-
-
-
-           if (_internalTable.Columns.Contains("LowValue") || tableType == DataType.Tick)
-           {
-               if (tableType == DataType.Tick)
+               if (_internalTable.Columns.Contains("LowValue"))
                {
-                   var lowlist = from lowitem in varday
-                                 where lowitem.Field<double>("Trade") != 0.0
-                                 select lowitem.Field<double>("Trade");
-                   var low = lowlist.Min();
-                   drow["LowValue"] = low;
+                   try
+                       {
+                           var lowlist = from lowitem in varday
+                                         where lowitem.Field<float>("LowValue") != 0.0
+                                         select lowitem.Field<float>("LowValue");
+                           var low = lowlist.Min();
+                           drow["LowValue"] = low;
+                       }
+                       catch (Exception ex)
+                       {
+                           var lowlist = from lowitem in varday
+                                         where lowitem.Field<float>("LowValue") == 0.0
+                                         select lowitem.Field<float>("LowValue");
+                           var low = lowlist.Min();
+                           drow["LowValue"] = low;
+                       }
                }
-               else
+               if (_internalTable.Columns.Contains("CloseValue"))
+               {
+                       try
+                       {
+                           var closeList = from closeitem in varday
+                                           where closeitem.Field<float>("CloseValue") != 0.0
+                                           select closeitem.Field<float>("CloseValue");
+                           var close = closeList.ToList().Last();
+                           //  dvalues.Add(close);
+                           drow["CloseValue"] = close;
+                       }
+                       catch (Exception)
+                       {
+                           var closeList = from closeitem in varday
+                                           where closeitem.Field<float>("CloseValue") == 0.0
+                                           select closeitem.Field<float>("CloseValue");
+                           var close = closeList.ToList().Last();
+                           //  dvalues.Add(close);
+                           drow["CloseValue"] = close;
+
+                       }
+
+               }
+               if (_internalTable.Columns.Contains("ActualVol"))
                {
                    try
                    {
-                       var lowlist = from lowitem in varday
-                           where lowitem.Field<float>("LowValue") != 0.0
-                           select lowitem.Field<float>("LowValue");
-                       var low = lowlist.Min();
-                       drow["LowValue"] = low;
-                   }
-                   catch (Exception ex)
-                   {
-                       var lowlist = from lowitem in varday
-                                     where lowitem.Field<float>("LowValue") == 0.0
-                                     select lowitem.Field<float>("LowValue");
-                       var low = lowlist.Min();
-                       drow["LowValue"] = low;
-                   }
-                   
-               }
-
-           }
-
-           if (_internalTable.Columns.Contains("CloseValue") || tableType == DataType.Tick)
-           {
-               
-               if (tableType == DataType.Tick)
-               {
-                   try
-                   {
-                       var closeList = from closeitem in varday
-                                       where closeitem.Field<double>("Trade") != 0.0
-                                       select closeitem.Field<double>("Trade");
-                       var close = closeList.ToList().Last();
-                       //  dvalues.Add(close);
-                       drow["CloseValue"] = close;
+                       var actualVolume = from actvol in varday
+                                          where Convert.ToInt32(actvol.Field<float>("ActualVol")) != 0
+                                          select Convert.ToInt32(actvol.Field<float>("ActualVol"));
+                       var sum = actualVolume.Sum();
+                       drow["ActualVol"] = sum;
                    }
                    catch (Exception)
                    {
-                       var closeList = from closeitem in varday
-                                       where closeitem.Field<double>("Trade") == 0.0
-                                       select closeitem.Field<double>("Trade");
-                       var close = closeList.ToList().Last();
-                       //  dvalues.Add(close);
-                       drow["CloseValue"] = close;
+                       var actualVolume = from actvol in varday
+                                          where Convert.ToInt32(actvol.Field<float>("ActualVol")) == 0
+                                          select Convert.ToInt32(actvol.Field<float>("ActualVol"));
+                       var sum = actualVolume.Sum();
+                       drow["ActualVol"] = sum;
                    }
-                   
-                   
+
                }
-               else
+               if (_internalTable.Columns.Contains("TickVol"))
                {
                    try
                    {
-                       var closeList = from closeitem in varday
-                                       where closeitem.Field<float>("CloseValue") != 0.0
-                                       select closeitem.Field<float>("CloseValue");
-                       var close = closeList.ToList().Last();
-                       //  dvalues.Add(close);
-                       drow["CloseValue"] = close;
+                       var tickVolume = from tickvol in varday
+                                        where Convert.ToInt32(tickvol.Field<float>("TickVol")) != 0
+                                        select Convert.ToInt32(tickvol.Field<float>("TickVol"));
+                       var sum = tickVolume.Sum();
+                       drow["TickVol"] = sum;
                    }
                    catch (Exception)
                    {
-                       var closeList = from closeitem in varday
-                                   where closeitem.Field<float>("CloseValue") == 0.0
-                                   select closeitem.Field<float>("CloseValue");
-                   var close = closeList.ToList().Last();
-                   //  dvalues.Add(close);
-                       drow["CloseValue"] = close;
-
+                       var tickVolume = from tickvol in varday
+                                        where Convert.ToInt32(tickvol.Field<float>("TickVol")) == 0
+                                        select Convert.ToInt32(tickvol.Field<float>("TickVol"));
+                       var sum = tickVolume.Sum();
+                       drow["TickVol"] = sum;
                    }
 
                }
-           }
-           if (_internalTable.Columns.Contains("ActualVol"))
-           {
-               try
+               if (_internalTable.Columns.Contains("AskVol"))
                {
-                   var actualVolume = from actvol in varday
-                                      where Convert.ToInt32(actvol.Field<float>("ActualVol")) != 0
-                                      select Convert.ToInt32(actvol.Field<float>("ActualVol"));
-                   var sum = actualVolume.Sum();
-                   drow["ActualVol"] = sum;
+                   try
+                   {
+                       var askVolume = from askvol in varday
+                                       where askvol.Field<int>("AskVol") != 0
+                                       select askvol.Field<int>("AskVol");
+                       var sum = askVolume.Sum();
+                       drow["AskVol"] = sum;
+                   }
+                   catch (Exception)
+                   {
+                       var askVolume = from askvol in varday
+                                       where askvol.Field<int>("AskVol") == 0
+                                       select askvol.Field<int>("AskVol");
+                       var sum = askVolume.Sum();
+                       drow["AskVol"] = sum;
+                   }
+
                }
-               catch (Exception)
+               if (_internalTable.Columns.Contains("BidVol"))
                {
-                   var actualVolume = from actvol in varday
-                                      where Convert.ToInt32(actvol.Field<float>("ActualVol")) == 0
-                                      select Convert.ToInt32(actvol.Field<float>("ActualVol"));
-                   var sum = actualVolume.Sum();
-                   drow["ActualVol"] = sum;
-               }
-               
-           }
-           if (_internalTable.Columns.Contains("TickVol"))
-           {
-               try
-               {
-                   var tickVolume = from tickvol in varday
-                                    where Convert.ToInt32(tickvol.Field<float>("TickVol")) != 0
-                                    select Convert.ToInt32(tickvol.Field<float>("TickVol"));
-                   var sum = tickVolume.Sum();
-                   drow["TickVol"] = sum;
-               }
-               catch (Exception)
-               {
-                   var tickVolume = from tickvol in varday
-                                    where Convert.ToInt32(tickvol.Field<float>("TickVol")) == 0
-                                    select Convert.ToInt32(tickvol.Field<float>("TickVol"));
-                   var sum = tickVolume.Sum();
-                   drow["TickVol"] = sum;
-               }
-               
-           }
-           if (_internalTable.Columns.Contains("AskVol"))
-           {
-               try
-               {
-                   var askVolume = from askvol in varday
-                                   where askvol.Field<int>("AskVol") != 0
-                                   select askvol.Field<int>("AskVol");
-                   var sum = askVolume.Sum();
-                   drow["AskVol"] = sum;
-               }
-               catch (Exception)
-               {
-                   var askVolume = from askvol in varday
-                                   where askvol.Field<int>("AskVol") == 0
-                                   select askvol.Field<int>("AskVol");
-                   var sum = askVolume.Sum();
-                   drow["AskVol"] = sum;
-               }
-               
-           }
-           if (_internalTable.Columns.Contains("BidVol"))
-           {
-               try
-               {
-                   var bidVolume = from bidvol in varday
-                                   where bidvol.Field<int>("BidVol") != 0
-                                   select bidvol.Field<int>("BidVol");
-                   var sum = bidVolume.Sum();
-                   drow["BidVol"] = sum;
-               }
-               catch (Exception)
-               {
-                   var bidVolume = from bidvol in varday
-                                   where bidvol.Field<int>("BidVol") == 0
-                                   select bidvol.Field<int>("BidVol");
-                   var sum = bidVolume.Sum();
-                   drow["BidVol"] = sum;
-               }
-               
+                   try
+                   {
+                       var bidVolume = from bidvol in varday
+                                       where bidvol.Field<int>("BidVol") != 0
+                                       select bidvol.Field<int>("BidVol");
+                       var sum = bidVolume.Sum();
+                       drow["BidVol"] = sum;
+                   }
+                   catch (Exception)
+                   {
+                       var bidVolume = from bidvol in varday
+                                       where bidvol.Field<int>("BidVol") == 0
+                                       select bidvol.Field<int>("BidVol");
+                       var sum = bidVolume.Sum();
+                       drow["BidVol"] = sum;
+                   }
+
+                }
            }
            drow["Time"] = varday.ToList()[0].Field<DateTime>("Time");
        }
@@ -555,91 +525,103 @@ namespace DataExport.Core.ExcelManagers
     {       
          
         var dtRow = currtable.NewRow();
-    
-             if(editem.Value.AsEnumerable().ToList().Exists(p => p.Field<DateTime>("Time").ToString(
-                       CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern) == 
-                 rowItem.Field<string>("Date")))
-             {
 
-
-              
-                 if (_internalTable.Columns.Contains("OpenValue") || dataType == DataType.Tick)
+        if (editem.Value.AsEnumerable().ToList().Exists(p => p.Field<DateTime>("Time").ToString(
+            CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern) ==
+                                                             rowItem.Field<string>("Date")))
+        {
+            if (dataType == DataType.Bar)
+            {
+            if (_internalTable.Columns.Contains("OpenValue"))
             {
                 var open = editem.Value.Rows[indexer].Field<float>("OpenValue");
                 dtRow["OpenValue"] = open;
             }
-                 if (_internalTable.Columns.Contains("HighValue") || dataType == DataType.Tick)
+            if (_internalTable.Columns.Contains("HighValue"))
             {
-
                 var high = editem.Value.Rows[indexer].Field<float>("HighValue");
                 dtRow["HighValue"] = high;
             }
-                 if (_internalTable.Columns.Contains("LowValue") || dataType == DataType.Tick)
+            if (_internalTable.Columns.Contains("LowValue"))
             {
-
                 var low = editem.Value.Rows[indexer].Field<float>("LowValue");
                 dtRow["LowValue"] = low;
-
             }
 
-                 if (_internalTable.Columns.Contains("CloseValue") || dataType == DataType.Tick)
+            if (_internalTable.Columns.Contains("CloseValue"))
             {
-
                 var close = editem.Value.Rows[indexer].Field<float>("CloseValue");
                 dtRow["CloseValue"] = close;
             }
-           
+
             if (_internalTable.Columns.Contains("ActualVol"))
             {
-                
                 var actvol = editem.Value.Rows[indexer]["ActualVol"];
                 dtRow["ActualVol"] = actvol;
             }
 
-           if (_internalTable.Columns.Contains("TickVol"))
+            if (_internalTable.Columns.Contains("TickVol"))
             {
-
                 var tickvolume = editem.Value.Rows[indexer]["TickVol"];
                 dtRow["TickVol"] = tickvolume;
             }
 
-           if (_internalTable.Columns.Contains("AskVol"))
+            if (_internalTable.Columns.Contains("AskVol"))
             {
-
                 var askvol = editem.Value.Rows[indexer]["AskVol"];
                 dtRow["AskVol"] = askvol;
             }
-          if (_internalTable.Columns.Contains("BidVol"))
-                   {
-
-                       var bidvol = editem.Value.Rows[indexer]["BidVol"];
-
-                       dtRow["BidVol"] = bidvol;
-
-                   }
-
-            currtable.Rows.Add(dtRow);
+            if (_internalTable.Columns.Contains("BidVol"))
+            {
+                var bidvol = editem.Value.Rows[indexer]["BidVol"];
+                dtRow["BidVol"] = bidvol;
+            }
+        }
+            if (dataType==DataType.Tick)
+            {
+                if (_internalTable.Columns.Contains("Bid"))
+                {
+                    var open = editem.Value.Rows[indexer]["Bid"];
+                    dtRow["Bid"] = open;
+                }
+                if (_internalTable.Columns.Contains("Ask"))
+                {
+                    var open = editem.Value.Rows[indexer]["Ask"];
+                    dtRow["Ask"] = open;
+                }
+                if (_internalTable.Columns.Contains("BidVol"))
+                {
+                    var open = editem.Value.Rows[indexer]["BidVol"];
+                    dtRow["BidVol"] = open;
+                }
+                if (_internalTable.Columns.Contains("AskVol"))
+                {
+                    var open = editem.Value.Rows[indexer]["AskVol"];
+                    dtRow["AskVol"] = open;
+                }
+                if (_internalTable.Columns.Contains("Trade"))
+                {
+                    var open = editem.Value.Rows[indexer]["Trade"];
+                    dtRow["Trade"] = open;
+                }
+                if (_internalTable.Columns.Contains("TradeVol"))
+                {
+                    var open = editem.Value.Rows[indexer]["TradeVol"];
+                    dtRow["TradeVol"] = open;
+                }
+            }
+        currtable.Rows.Add(dtRow);
 
             indexer++;
         }
              else
         {
-            dtRow.ItemArray = new ArrayList()
-                                        {
-                                          "-" ,
-                                            "-",
-                                            "-",
-                                            "-"
-                                        }.ToArray();
+            dtRow.ItemArray = new ArrayList(){"-" ,"-","-","-"}.ToArray();
             currtable.Rows.Add(dtRow);
         }
-
-        
     }
-
      }
- 
-       }
+        }
        private void ParsePeriods(IEnumerable<string> periods )
        {
            _periodStructs.Clear();
