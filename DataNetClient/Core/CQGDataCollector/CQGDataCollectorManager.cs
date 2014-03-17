@@ -1129,11 +1129,11 @@ namespace DataNetClient.Core.CQGDataCollector
             for (int index = 0; index < _groups.Count; index++)
             {
                 var groupModel = _groups[index].GroupModel;
-                //if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
-                //{
-                //    groupModel.End=new DateTime();
-                //    DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
-                //}
+                if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
+                {
+                    groupModel.End = new DateTime();
+                    DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
+                }
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 bool any = false;
@@ -1145,7 +1145,7 @@ namespace DataNetClient.Core.CQGDataCollector
                     Console.WriteLine("Now time: " + now.ToShortTimeString());
 
                     if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && 
-                        (oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay)||(DateTime.Now.Day>groupModel.End.Day) && 
+                        (oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay)/*||(DateTime.Now.Day>groupModel.End.Day)*/ && 
                          IsNowAGoodDay(oo.Days))
                     {
                         any = true;
