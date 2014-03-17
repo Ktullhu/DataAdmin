@@ -703,7 +703,7 @@ namespace DataExport.Forms
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
             if (!DataExportClientDataManager.IsConnected()) return;
 
-            _symbols = DataExportClientDataManager.GetSymbolsForUser(_client.UserID);
+            _symbols = DataExportClientDataManager.GetSymbolsForUser(_client.UserName);
 
             Invoke((Action)delegate
             {

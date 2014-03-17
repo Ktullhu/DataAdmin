@@ -362,6 +362,7 @@
             this.saveButton.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.saveButton.TabIndex = 94;
             this.saveButton.Text = "Save";
+           // this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // labelX_back
             // 
