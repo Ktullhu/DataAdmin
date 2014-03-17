@@ -53,12 +53,12 @@ namespace DADataManager
 
         #region SYMBOLS
 
-        public static List<SymbolModel> GetSymbols(int userId)
+        public static List<SymbolModel> GetSymbols(string userName)
         {
             if (!CurrentDbIsShared)
                 return GetAllSymbols();
 
-            return GetSymbolsForUser(userId);
+            return GetSymbolsForUser(userName);
         }
 
         public static List<SymbolModel> GetAllSymbols()
@@ -73,7 +73,7 @@ namespace DADataManager
                 {
                     while (reader.Read())
                     {
-                        var symbol = new SymbolModel {SymbolId = reader.GetInt32(0), SymbolName = reader.GetString(1)};
+                        var symbol = new SymbolModel { SymbolId = reader.GetInt32(0), SymbolName = reader.GetString(1) };
                         symbolsList.Add(symbol);
                     }
 
@@ -86,23 +86,40 @@ namespace DADataManager
             return symbolsList;
         }
 
-        public static List<SymbolModel> GetSymbolsForUser(int userId)
+        public static List<SymbolModel> GetSymbolsForUser(string userName)
         {
             var symbolsList = new List<SymbolModel>();
+            string sql_ = "SELECT ID FROM tbl_users WHERE UserName='" + userName + "';";
+            MySqlDataReader reader1 = GetReader(sql_);
+            int userId = 0;
+            if (reader1 != null)
+            {
+                try
+                {
+                    while (reader1.Read())
+                    {
+                        userId = reader1.GetInt32(0);
+                    }
+                }
+                finally
+                {
+                    reader1.Close();
+                }
+            }
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
                         + " ON " + TblSymbolsForUsers + ".SymbolID = "
                         + TblSymbols + ".ID" + " WHERE " + TblSymbolsForUsers + ".UserID = '" + userId + "' ; COMMIT;";
-
             MySqlDataReader reader = GetReader(sql);
+
             if (reader != null)
             {
                 try
                 {
                     while (reader.Read())
                     {
-                        var symbol = new SymbolModel {SymbolId = reader.GetInt32(4), SymbolName = reader.GetString(5)};
-                        if(!symbolsList.Exists(a=>a.SymbolName==symbol.SymbolName))
+                        var symbol = new SymbolModel { SymbolId = reader.GetInt32(4), SymbolName = reader.GetString(5) };
+                        if (!symbolsList.Exists(a => a.SymbolName == symbol.SymbolName))
                             symbolsList.Add(symbol);
                     }
                 }
@@ -124,8 +141,8 @@ namespace DADataManager
             var sql = "INSERT IGNORE INTO " + TblProfiles
                     + " (`UserID`, `ProfileName`, `EnableLink`, `EnableShedule`)"
                     + "VALUES('" + userId
-                    + "', '" + profile.ProfileName 
-                    + "', '" + profile.EnableLinkExport 
+                    + "', '" + profile.ProfileName
+                    + "', '" + profile.EnableLinkExport
                     + "', '" + profile.EnableScheduleJob + "');COMMIT;";
 
             if (DoSql(sql))
@@ -168,7 +185,7 @@ namespace DADataManager
 
             DoSql(sql);
         }
-        
+
         public static ProfileModel GetProfileInfo(int profileId)
         {
             var profile = new ProfileModel();
@@ -184,13 +201,13 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         profile = new ProfileModel
-                                      {
-                                          ProfileId = reader.GetInt32(0),
-                                          UserId = reader.GetInt32(1),
-                                          ProfileName = reader.GetString(2),
-                                          EnableLinkExport = reader.GetBoolean(3),
-                                          EnableScheduleJob = reader.GetBoolean(4)
-                                      };
+                        {
+                            ProfileId = reader.GetInt32(0),
+                            UserId = reader.GetInt32(1),
+                            ProfileName = reader.GetString(2),
+                            EnableLinkExport = reader.GetBoolean(3),
+                            EnableScheduleJob = reader.GetBoolean(4)
+                        };
                     }
                 }
                 finally
@@ -223,13 +240,13 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         var profile = new ProfileModel
-                                          {
-                                              ProfileId = reader.GetInt32(0),
-                                              UserId = reader.GetInt32(1),
-                                              ProfileName = reader.GetString(2),
-                                              EnableLinkExport = reader.GetBoolean(3),
-                                              EnableScheduleJob = reader.GetBoolean(4)
-                                          };
+                        {
+                            ProfileId = reader.GetInt32(0),
+                            UserId = reader.GetInt32(1),
+                            ProfileName = reader.GetString(2),
+                            EnableLinkExport = reader.GetBoolean(3),
+                            EnableScheduleJob = reader.GetBoolean(4)
+                        };
                         profilesList.Add(profile);
                     }
                 }
@@ -262,13 +279,13 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         var profile = new ProfileModel
-                                          {
-                                              ProfileId = reader.GetInt32(0),
-                                              UserId = reader.GetInt32(1),
-                                              ProfileName = reader.GetString(2),
-                                              EnableLinkExport = reader.GetBoolean(3),
-                                              EnableScheduleJob = reader.GetBoolean(4)
-                                          };
+                        {
+                            ProfileId = reader.GetInt32(0),
+                            UserId = reader.GetInt32(1),
+                            ProfileName = reader.GetString(2),
+                            EnableLinkExport = reader.GetBoolean(3),
+                            EnableScheduleJob = reader.GetBoolean(4)
+                        };
                         profilesList.Add(profile);
                     }
                 }
@@ -301,14 +318,14 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         var shedule = new SheduleJobModel
-                            {
-                                Id = reader.GetInt32(0),
-                                ProfileId = reader.GetInt32(1),
-                                Name = reader.GetString(2),
-                                Date = reader.GetDateTime(3),
-                                IsDaily = reader.GetBoolean(4),
-                                SelectedDays = new List<int>()
-                            };
+                        {
+                            Id = reader.GetInt32(0),
+                            ProfileId = reader.GetInt32(1),
+                            Name = reader.GetString(2),
+                            Date = reader.GetDateTime(3),
+                            IsDaily = reader.GetBoolean(4),
+                            SelectedDays = new List<int>()
+                        };
 
                         var selectedDays = reader.GetString(5).Split(',');
                         if (selectedDays.Count() != 1 || selectedDays[0] != String.Empty)
@@ -357,7 +374,7 @@ namespace DADataManager
 
                 foreach (var shedule in sheduleJobs)
                 {
-                    if (!newProfile.SheduleJobs.Exists(a => a.Id == shedule.Id && 
+                    if (!newProfile.SheduleJobs.Exists(a => a.Id == shedule.Id &&
                         a.Date == shedule.Date && a.Name == shedule.Name && a.IsDaily == shedule.IsDaily && a.SelectedDays == shedule.SelectedDays))
                     {
                         DoSql("DELETE FROM `" + TblSheduleJobs + "` WHERE ID = " + shedule.Id + ";COMMIT;");
@@ -396,21 +413,21 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         var query = new QueryModel
-                                        {
-                                            QueryId = reader.GetInt32(0),
-                                            ProfileId = reader.GetInt32(1),
-                                            QueryName = reader.GetString(2),
-                                            SymbolName = reader.GetString(3),
-                                            TimeFrame = reader.GetString(4),
-                                            SelectedCols = new List<string>(reader.GetString(5).Split(',')),
-                                            DateOrDaysBack = reader.GetBoolean(6),
-                                            Start = reader.GetDateTime(7),
-                                            End = reader.GetDateTime(8),
-                                            MostRecent = reader.GetBoolean(9),
-                                            DaysBackCount = reader.GetInt32(10),
-                                            TimeSlice = new TimeSliceModel(),
-                                            SnapShoot = new SnapShootModel()
-                                        };
+                        {
+                            QueryId = reader.GetInt32(0),
+                            ProfileId = reader.GetInt32(1),
+                            QueryName = reader.GetString(2),
+                            SymbolName = reader.GetString(3),
+                            TimeFrame = reader.GetString(4),
+                            SelectedCols = new List<string>(reader.GetString(5).Split(',')),
+                            DateOrDaysBack = reader.GetBoolean(6),
+                            Start = reader.GetDateTime(7),
+                            End = reader.GetDateTime(8),
+                            MostRecent = reader.GetBoolean(9),
+                            DaysBackCount = reader.GetInt32(10),
+                            TimeSlice = new TimeSliceModel(),
+                            SnapShoot = new SnapShootModel()
+                        };
 
                         queryList.Add(query);
                     }
@@ -421,9 +438,9 @@ namespace DADataManager
                 }
             }
 
-            for (int i = 0; i < queryList.Count; i++ )
+            for (int i = 0; i < queryList.Count; i++)
             {
-                var ass  = queryList[i];
+                var ass = queryList[i];
                 ass.TimeSlice = GetTimeSliceForQuery(queryList[i].QueryId);
                 ass.SnapShoot = GetSnapShootForQuery(queryList[i].QueryId);
                 queryList[i] = ass;
@@ -465,9 +482,9 @@ namespace DADataManager
         public static bool DeleteQueryFromProfie(int profileId, int queryId)
         {
             var sql = "DELETE FROM `" + TblQueries + "` WHERE `ID`='" + queryId + "' AND `ProfileID` = '" + profileId + "';COMMIT;";
-            
+
             var timeSliceSql = "DELETE FROM `" + TblTimeSlices + "` WHERE `QueryID` = '" + queryId + "';";
-            
+
             var delSnapShooteSql = "DELETE FROM `" + TblSnapShots + "` WHERE `QueryID` = '" + queryId + "';COMMIT;";
 
             var tsId = GetTimeSliceForQuery(queryId).TimeSliceId;
@@ -530,7 +547,7 @@ namespace DADataManager
         #endregion // need test
 
         #region TIME SLICES //need test
-        
+
         public static bool AddTimeSliceToQuery(int queryId, TimeSliceModel timeSlice)
         {
             var extrPeriodsString = String.Join(",", timeSlice.ExtractedPeriods);
@@ -555,10 +572,10 @@ namespace DADataManager
         public static TimeSliceModel GetTimeSliceForQuery(int queryId)
         {
             var timeSlice = new TimeSliceModel
-                {
-                    ExtractedPeriods = new List<string>(),
-                    SelectedDays = new Dictionary<string, bool>()
-                };
+            {
+                ExtractedPeriods = new List<string>(),
+                SelectedDays = new Dictionary<string, bool>()
+            };
 
             var sql = "SELECT * FROM " + TblTimeSlices + " WHERE `QueryID` = '" + queryId + "';";
 
@@ -570,11 +587,11 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         timeSlice = new TimeSliceModel
-                                        {
-                                            TimeSliceId = reader.GetInt32(0),
-                                            QueryId = reader.GetInt32(1),
-                                            ExtractedPeriods = new List<string>(reader.GetString(2).Split(',')),
-                                        };
+                        {
+                            TimeSliceId = reader.GetInt32(0),
+                            QueryId = reader.GetInt32(1),
+                            ExtractedPeriods = new List<string>(reader.GetString(2).Split(',')),
+                        };
                         if (timeSlice.ExtractedPeriods.Count == 1 && timeSlice.ExtractedPeriods[0] == String.Empty)
                             timeSlice.ExtractedPeriods.Clear();
                         var selectedDays = reader.GetString(3).Split(',');
@@ -618,7 +635,7 @@ namespace DADataManager
                             Formula = reader.GetString(7),
                             UsedColumns = reader.GetString(8).Split(',').ToList(),
                         };
-                        if (formula.UsedColumns.Count == 1 && formula.UsedColumns[0]=="")
+                        if (formula.UsedColumns.Count == 1 && formula.UsedColumns[0] == "")
                         {
                             formula.UsedColumns.Clear();
                         }
@@ -632,10 +649,10 @@ namespace DADataManager
                             {
                                 var value = element.Split('^')[1];
                                 var elementStruc = new ElementStructure
-                                    {
-                                        Type = type,
-                                        Value = value
-                                    };
+                                {
+                                    Type = type,
+                                    Value = value
+                                };
                                 formula.Elements.Add(elementStruc);
                             }
                         }
@@ -773,10 +790,10 @@ namespace DADataManager
         public static SnapShootModel GetSnapShootForQuery(int queryId)
         {
             var snapShoot = new SnapShootModel
-                {
-                    ExtrTimes = new List<string>(),
-                    SelectedDays = new Dictionary<string, bool>()
-                };
+            {
+                ExtrTimes = new List<string>(),
+                SelectedDays = new Dictionary<string, bool>()
+            };
 
             var sql = "SELECT * FROM " + TblSnapShots + " WHERE `QueryID` = '" + queryId + "';";
 
@@ -788,11 +805,11 @@ namespace DADataManager
                     while (reader.Read())
                     {
                         snapShoot = new SnapShootModel
-                                        {
-                                            SnapShootId = reader.GetInt32(0),
-                                            QueryId = reader.GetInt32(1),
-                                            ExtrTimes = new List<string>(reader.GetString(2).Split(',')),
-                                        };
+                        {
+                            SnapShootId = reader.GetInt32(0),
+                            QueryId = reader.GetInt32(1),
+                            ExtrTimes = new List<string>(reader.GetString(2).Split(',')),
+                        };
                         if (snapShoot.ExtrTimes.Count == 1 && snapShoot.ExtrTimes[0] == String.Empty)
                             snapShoot.ExtrTimes.Clear();
                         var selectedDays = reader.GetString(3).Split(',');
@@ -963,7 +980,7 @@ namespace DADataManager
         #endregion
 
         #region MAIN FUNCTIONS (Connect, IsOpen, DoSql, GetReader, AddToQueue)
-        public static void ConnectToShareDb(string connectionStringToShareDb, string connectionStringToShareDbBar, string connectionStringToSharedDbHistorical, string connectionStringToShareDbLive, int uId)
+        public static bool ConnectToShareDb(string connectionStringToShareDb, string connectionStringToShareDbBar, string connectionStringToSharedDbHistorical, string connectionStringToShareDbLive, int uId)
         {
             CloseConnectionToDbSystem();
             _connectionStringToShareDb = connectionStringToShareDb;
@@ -990,12 +1007,16 @@ namespace DADataManager
             var res = OpenConnectionSystem();
             if (res)
             {
-                OpenConnectionBar(_connectionStringToShareDbBar);
-                OpenConnectionHistorical(_connectionStringToShareDbHistorical);
-                OpenConnectionLive(_connectionStringToShareDbLive);
-                CurrentDbIsShared = true;
+                CreateTables();
+                if (OpenConnectionBar(_connectionStringToShareDbBar) == false ||
+                    OpenConnectionLive(_connectionStringToShareDbLive) == false)
+                {
+                    return false;
+                }
+                CurrentDbIsShared = false;
             }
             ConnectionStatusChanged(res, CurrentDbIsShared);
+            return true;
         }
 
         private static bool OpenConnectionSystem()
@@ -1003,7 +1024,6 @@ namespace DADataManager
             try
             {
                 _connectionToDb.Open();
-
                 if (_connectionToDb.State == ConnectionState.Open)
                 {
                     _sqlCommandToDb = _connectionToDb.CreateCommand();
@@ -1041,6 +1061,7 @@ namespace DADataManager
         {
             try
             {
+                if (connection == "") return false;
                 if (string.IsNullOrEmpty(connection)) return false;
 
                 _connectionToDbBar = new MySqlConnection(connection);
@@ -1083,6 +1104,7 @@ namespace DADataManager
         {
             try
             {
+                if (connection == "") return false;
                 if (string.IsNullOrEmpty(connection)) return false;
 
                 _connectionToDbHistorical = new MySqlConnection(connection);
@@ -1188,12 +1210,17 @@ namespace DADataManager
             }
             _connectionToDb = new MySqlConnection(_connectionStringToLocalDb);
             var res = OpenConnectionSystem();
+            //_connectionToDb = new MySqlConnection(_connectionStringToLocalDbBar);
+
+            //var resbar = OpenConnectionBar(_connectionStringToLocalDbBar);
+            //var reshist = OpenConnectionHistorical(_connectionStringToLocalDbHistorical);
+
             if (res)
             {
                 CreateTables();
-                OpenConnectionBar(_connectionStringToLocalDbBar);
-                OpenConnectionHistorical(_connectionStringToLocalDbHistorical);
-                OpenConnectionLive(_connectionStringToLocalDbLive);
+                if (!OpenConnectionBar(_connectionStringToLocalDbBar) ||
+                !OpenConnectionHistorical(_connectionStringToLocalDbHistorical))
+                    res = false;
                 CurrentDbIsShared = false;
             }
             ConnectionStatusChanged(res, CurrentDbIsShared);
@@ -1243,7 +1270,7 @@ namespace DADataManager
         {
             if (_connectionToDb == null)
                 return false;
-            return _connectionToDb.State == ConnectionState.Open;
+            return _connectionToDb.State == ConnectionState.Open && _connectionToDbBar.State == ConnectionState.Open;
         }
 
         public static void Commit()
@@ -1294,6 +1321,52 @@ namespace DADataManager
 
         }
 
+        public static MySqlDataReader GetReaderBar(String sql)
+        {
+            try
+            {
+                if (_connectionToDbBar.State != ConnectionState.Open)
+                {
+                    //OpenConnectionToDb();
+                    return null;
+                }
+
+                var command = _connectionToDbBar.CreateCommand();
+                command.CommandText = sql;
+                var reader = command.ExecuteReader();
+
+                return reader;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
+        public static MySqlDataReader GetReaderLive(String sql)
+        {
+            try
+            {
+                if (_connectionToDbLive.State != ConnectionState.Open)
+                {
+                    //OpenConnectionToDb();
+                    return null;
+                }
+
+                var command = _connectionToDbLive.CreateCommand();
+                command.CommandText = sql;
+                var reader = command.ExecuteReader();
+
+                return reader;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
         private static void CreateTables()
         {
             const string createProfilesSql = "CREATE TABLE  IF NOT EXISTS `" + TblProfiles + "` ("
@@ -1302,7 +1375,7 @@ namespace DADataManager
                                          + "`ProfileName` VARCHAR(100) NOT NULL,"
                                          + "`EnableLink` BOOLEAN NULL,"
                                          + "`EnableShedule` BOOLEAN NULL,"
-                                         
+
                                          + "PRIMARY KEY (`ID`,`ProfileName`)"
                                          + ")"
                                          + "COLLATE='latin1_swedish_ci'"
@@ -1436,7 +1509,7 @@ namespace DADataManager
             {
                 sql += " WHERE UserId= " + userId;
             }
-            
+
             var reader = GetReader(sql);
             if (reader != null)
             {
