@@ -437,12 +437,12 @@ namespace TickNetClient.Core
                 Cel.NewInstrument(symbolName);
 
 
-                CQGTicksRequest req = Cel.CreateTicksRequest();
-                req.Type = eTicksRequestType.trtCurrentNotify;
-                req.SessionsFilter = 0;
-                req.TickFilter = eTickFilter.tfAll;
-                req.Symbol = symbolName;
-                Cel.RequestTicks(req); 
+                //CQGTicksRequest req = Cel.CreateTicksRequest();
+                //req.Type = eTicksRequestType.trtCurrentNotify;
+                //req.SessionsFilter = 0;
+                //req.TickFilter = eTickFilter.tfAll;
+                //req.Symbol = symbolName;
+                //Cel.RequestTicks(req); 
             }
             catch (Exception ex)
             {

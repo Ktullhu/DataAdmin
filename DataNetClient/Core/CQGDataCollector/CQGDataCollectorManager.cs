@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms.VisualStyles;
 using CQG;
 using DataNetClient.Properties;
+using DevComponents.DotNetBar.Schedule;
 using Timer = System.Windows.Forms.Timer;
 using DADataManager.Models;
 using DADataManager;
@@ -518,8 +519,6 @@ namespace DataNetClient.Core.CQGDataCollector
                     //if (l >= u) return m;
                     return m;
                 }
-                    
-                Console.WriteLine(ticks[m].Timestamp);
                 if (ticks[m].Timestamp < date) l = m + 1;
                 if (ticks[m].Timestamp > date) u = m - 1;
             }
@@ -553,7 +552,13 @@ namespace DataNetClient.Core.CQGDataCollector
                             {
                                 OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
                                 DateTime _tmpTime=new DateTime();
-                                int end = CqgGetId(cqgTicks, _rangeDateEnd);
+                                int end;
+                                if (_rangeDateEnd == _tmpTime)
+                                {
+                                    end = cqgTicks.Count - 1;
+                                }
+                                else end = CqgGetId(cqgTicks, _rangeDateEnd);
+                                
                                 Console.WriteLine(DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
                                 Console.WriteLine(DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
                                 Console.WriteLine(cqgTicks.StartTimestamp);
@@ -1125,9 +1130,16 @@ namespace DataNetClient.Core.CQGDataCollector
                 var groupModel = _groups[index].GroupModel;
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
-                if (groupModel.IsAutoModeEnabled && (
-                    sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay   && oo.TimeStart.TimeOfDay  > groupModel.End.TimeOfDay
-                        && IsNowAGoodDay(oo.Days))))//startToday
+                bool any = false;
+                foreach (SessionModel oo in sess)
+                {
+                    if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay && IsNowAGoodDay(oo.Days))
+                    {
+                        any = true;
+                        break;
+                    }
+                }
+                if (groupModel.IsAutoModeEnabled && (any))//startToday
                 {
                     if (_groups[index].GroupState != GroupState.InQueue)
                     {
