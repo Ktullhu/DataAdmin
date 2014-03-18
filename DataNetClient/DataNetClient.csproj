@@ -52,7 +52,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>DN.ico</ApplicationIcon>
+    <ApplicationIcon>MainIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevComponents.DotNetBar.Schedule, Version=11.3.0.4, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
@@ -234,7 +234,6 @@
     <None Include="Resources\cqg_logo_color_gray_500x120.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DN.ico" />
     <Content Include="MainIcon.ico" />
     <None Include="Resources\backbutton1.jpg" />
     <None Include="Resources\OneTableWhite64.png" />
