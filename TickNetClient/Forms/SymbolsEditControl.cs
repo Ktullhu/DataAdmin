@@ -102,7 +102,8 @@ namespace TickNetClient.Forms
             ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Clear()));
             
             _symbols = DatabaseManager.GetSymbols(_userID, true);
-            if (DatabaseManager.CurrentDbIsShared) _allSymbols = DatabaseManager.GetAllSymbols();
+            //if (DatabaseManager.CurrentDbIsShared) 
+                _allSymbols = DatabaseManager.GetAllSymbols();
             foreach (var item in _symbols)
             {
                 SymbolModel item1 = item;
