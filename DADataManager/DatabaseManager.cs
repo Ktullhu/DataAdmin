@@ -1355,6 +1355,8 @@ namespace DADataManager
         }
 
 
+        
+
         public static bool IsGroupOnlyForThisUser(int groupId)
         {
             string sql = "SELECT * FROM " + TblGroupsForUsers
@@ -1388,6 +1390,8 @@ namespace DADataManager
                 }
             }
         }
+
+       
 
         #endregion
 
@@ -2354,6 +2358,9 @@ namespace DADataManager
 
         #region SESSIONS
 
+
+        
+
         public static List<SessionModel> GetSessions()
         {
             var symbolsList = new List<SessionModel>();
@@ -2403,6 +2410,11 @@ namespace DADataManager
             }
             return symbolsList;
         }
+
+
+        
+
+
 
         public static void AddSessionForGroup(int groupId, SessionModel sess)
         {

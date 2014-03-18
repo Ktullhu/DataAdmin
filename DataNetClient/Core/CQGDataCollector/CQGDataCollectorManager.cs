@@ -1123,21 +1123,38 @@ namespace DataNetClient.Core.CQGDataCollector
         private static void TickScheduler()
         {
             
-            var now = DateTime.Now;
+            var now = new DateTime();
+            
 
             for (int index = 0; index < _groups.Count; index++)
             {
                 var groupModel = _groups[index].GroupModel;
+                if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
+                {
+                    groupModel.End=new DateTime();
+                    DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
+                }
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 bool any = false;
                 foreach (SessionModel oo in sess)
                 {
-                    if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay && IsNowAGoodDay(oo.Days))
+                    
+                    Console.WriteLine("Session name: " + oo.Name);
+                    Console.WriteLine("Last time collecting:" + groupModel.End.TimeOfDay);
+                    Console.WriteLine("Now time: " + now.ToShortTimeString());
+
+                    if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && 
+                        oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay && IsNowAGoodDay(oo.Days))
                     {
                         any = true;
+                        Console.WriteLine("Yeah");
+                        
                         break;
                     }
+                    
+                        Console.WriteLine("No way");
+                    
                 }
                 if (groupModel.IsAutoModeEnabled && (any))//startToday
                 {
