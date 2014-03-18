@@ -31,6 +31,7 @@ namespace DataNetClient.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
@@ -40,6 +41,7 @@ namespace DataNetClient.Forms
             System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainDN));
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.ui__status_labelItem_status = new DevComponents.DotNetBar.LabelItem();
             this.labelItem_collecting = new DevComponents.DotNetBar.LabelItem();
@@ -139,7 +141,7 @@ namespace DataNetClient.Forms
             this.linkLabel_edit = new System.Windows.Forms.LinkLabel();
             this.panelEx8 = new DevComponents.DotNetBar.PanelEx();
             this.ui_listBox_symbols = new System.Windows.Forms.ListBox();
-            this.contextMenuStripSymbols = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStripSymbols = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unselectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
@@ -159,7 +161,7 @@ namespace DataNetClient.Forms
             this.ui_missingbar_panelEx_symbolsBack = new DevComponents.DotNetBar.PanelEx();
             this.ui_missingbars_panelEx_list_back = new DevComponents.DotNetBar.PanelEx();
             this.ui_listBox_symbolsForMissing = new System.Windows.Forms.ListBox();
-            this.contextMenuStripTables = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStripTables = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.labelX17 = new DevComponents.DotNetBar.LabelX();
@@ -175,15 +177,15 @@ namespace DataNetClient.Forms
             this.metroTabItem3 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem5 = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem4 = new DevComponents.DotNetBar.Metro.MetroTabItem();
-            this.contextMenuStripGroups = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStripGroups = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem6_selectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_unselectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.styleManager1 = new DevComponents.DotNetBar.StyleManager();
-            this.toolTip1 = new System.Windows.Forms.ToolTip();
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.metroShell1.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
             this.panelEx5.SuspendLayout();
@@ -2289,6 +2291,7 @@ namespace DataNetClient.Forms
             this.Controls.Add(this.metroStatusBar1);
             this.Controls.Add(this.metroShell1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "FormMainDN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

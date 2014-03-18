@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.metroTabPanel3 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
@@ -104,7 +104,7 @@
             this.ui_AutomaticJob_checkBox = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.ui_DockPanelQueries = new DevComponents.DotNetBar.PanelEx();
             this.ui_ProfileQueries_listBox = new System.Windows.Forms.ListBox();
-            this.contextMenuStripQueryList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripQueryList = new System.Windows.Forms.ContextMenuStrip();
             this.deleteQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewQueryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ui_DeleteProfile_button = new DevComponents.DotNetBar.ButtonX();
@@ -146,13 +146,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
+            this.styleManager1 = new DevComponents.DotNetBar.StyleManager();
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.ui__status_labelItem_status = new DevComponents.DotNetBar.LabelItem();
             this.ui_status_labelItemStatusSB = new DevComponents.DotNetBar.LabelItem();
             this.progressBarItemCollecting = new DevComponents.DotNetBar.ProgressBarItem();
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.metroTabPanel3.SuspendLayout();
@@ -2219,6 +2219,7 @@
             this.Controls.Add(this.metroStatusBar1);
             this.Controls.Add(this.metroShell1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(932, 574);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

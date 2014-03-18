@@ -37,6 +37,7 @@ namespace TickNetClient.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainTN));
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -47,11 +48,9 @@ namespace TickNetClient.Forms
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panelEx9 = new DevComponents.DotNetBar.PanelEx();
-            this.styledListControl_groups = new TickNetClient.Controls.GroupList();
             this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.panelEx4 = new DevComponents.DotNetBar.PanelEx();
             this.ui_collect_buttonX_removeSymbols = new DevComponents.DotNetBar.ButtonX();
-            this.liveSymbolsList_symbols = new TickNetClient.Controls.SymbolList();
             this.panelEx12 = new DevComponents.DotNetBar.PanelEx();
             this.ui_label_BufferSize = new System.Windows.Forms.Label();
             this.ui_SQL_PacketSize = new System.Windows.Forms.NumericUpDown();
@@ -146,6 +145,8 @@ namespace TickNetClient.Forms
             this.labelItem_server = new DevComponents.DotNetBar.LabelItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer_scheduler = new System.Windows.Forms.Timer(this.components);
+            this.styledListControl_groups = new TickNetClient.Controls.GroupList();
+            this.liveSymbolsList_symbols = new TickNetClient.Controls.SymbolList();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -386,18 +387,6 @@ namespace TickNetClient.Forms
             this.panelEx9.Style.GradientAngle = 90;
             this.panelEx9.TabIndex = 25;
             // 
-            // styledListControl_groups
-            // 
-            this.styledListControl_groups.BackColor = System.Drawing.Color.White;
-            this.styledListControl_groups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.styledListControl_groups.ForeColor = System.Drawing.Color.Black;
-            this.styledListControl_groups.Location = new System.Drawing.Point(1, 1);
-            this.styledListControl_groups.Name = "styledListControl_groups";
-            this.styledListControl_groups.SelectedItem = -1;
-            this.styledListControl_groups.Size = new System.Drawing.Size(274, 397);
-            this.styledListControl_groups.StateChangingEnabled = false;
-            this.styledListControl_groups.TabIndex = 24;
-            // 
             // labelX7
             // 
             // 
@@ -450,20 +439,6 @@ namespace TickNetClient.Forms
             this.ui_collect_buttonX_removeSymbols.TabIndex = 67;
             this.ui_collect_buttonX_removeSymbols.Text = "Remove stoped symbols";
             this.ui_collect_buttonX_removeSymbols.Click += new System.EventHandler(this.ui_collect_buttonX_removeSymbols_Click);
-            // 
-            // liveSymbolsList_symbols
-            // 
-            this.liveSymbolsList_symbols.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.liveSymbolsList_symbols.BackColor = System.Drawing.Color.White;
-            this.liveSymbolsList_symbols.ForeColor = System.Drawing.Color.Black;
-            this.liveSymbolsList_symbols.Location = new System.Drawing.Point(4, 178);
-            this.liveSymbolsList_symbols.Name = "liveSymbolsList_symbols";
-            this.liveSymbolsList_symbols.SelectedItem = -1;
-            this.liveSymbolsList_symbols.Size = new System.Drawing.Size(344, 251);
-            this.liveSymbolsList_symbols.StateChangingEnabled = false;
-            this.liveSymbolsList_symbols.TabIndex = 66;
             // 
             // panelEx12
             // 
@@ -1609,7 +1584,7 @@ namespace TickNetClient.Forms
             // 
             this.styleManager1.ManagerColorTint = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Metro;
-            this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.SteelBlue);
+            this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.CadetBlue);
             // 
             // metroStatusBar1
             // 
@@ -1693,6 +1668,32 @@ namespace TickNetClient.Forms
             this.timer_scheduler.Interval = 10000;
             this.timer_scheduler.Tick += new System.EventHandler(this.timer_scheduler_Tick);
             // 
+            // styledListControl_groups
+            // 
+            this.styledListControl_groups.BackColor = System.Drawing.Color.White;
+            this.styledListControl_groups.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.styledListControl_groups.ForeColor = System.Drawing.Color.Black;
+            this.styledListControl_groups.Location = new System.Drawing.Point(1, 1);
+            this.styledListControl_groups.Name = "styledListControl_groups";
+            this.styledListControl_groups.SelectedItem = -1;
+            this.styledListControl_groups.Size = new System.Drawing.Size(274, 397);
+            this.styledListControl_groups.StateChangingEnabled = false;
+            this.styledListControl_groups.TabIndex = 24;
+            // 
+            // liveSymbolsList_symbols
+            // 
+            this.liveSymbolsList_symbols.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.liveSymbolsList_symbols.BackColor = System.Drawing.Color.White;
+            this.liveSymbolsList_symbols.ForeColor = System.Drawing.Color.Black;
+            this.liveSymbolsList_symbols.Location = new System.Drawing.Point(4, 178);
+            this.liveSymbolsList_symbols.Name = "liveSymbolsList_symbols";
+            this.liveSymbolsList_symbols.SelectedItem = -1;
+            this.liveSymbolsList_symbols.Size = new System.Drawing.Size(344, 251);
+            this.liveSymbolsList_symbols.StateChangingEnabled = false;
+            this.liveSymbolsList_symbols.TabIndex = 66;
+            // 
             // FormMainTN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1701,6 +1702,7 @@ namespace TickNetClient.Forms
             this.Controls.Add(this.metroStatusBar1);
             this.Controls.Add(this.metroShell1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(820, 520);
             this.Name = "FormMainTN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
