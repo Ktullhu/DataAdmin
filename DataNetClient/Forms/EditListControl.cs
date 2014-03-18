@@ -247,8 +247,6 @@ namespace DataNetClient.Forms
             DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
         }
 
-     
-
 
     }
 }

@@ -34,8 +34,8 @@ namespace DataExport.Forms
     {
         #region VARIABLES
         private readonly MetroBillCommands _commands; // All application commands
-        private StartControl _startControl;        
-        private Thread _logonThread;                
+        private StartControl _startControl;
+        private Thread _logonThread;
         private string _connectionToSharedDb;
         private string _connectionToSharedDbBar;
         private string _connectionToSharedDbHistorical;
@@ -81,7 +81,7 @@ namespace DataExport.Forms
             _commands.CustomFormulaControlCommands.Cancel.Executed += CustomFormulaControl_CancelClisk;
 
             _commands.ScheduleJobControlCommands.Save.Executed += ScheduleJobControl_SaveClisk;
-            _commands.ScheduleJobControlCommands.Cancel.Executed += ScheduleJobControl_CancelClisk;            
+            _commands.ScheduleJobControlCommands.Cancel.Executed += ScheduleJobControl_CancelClisk;
 
             _startControl = new StartControl(_commands);
             //_addUserControl = new AddUserControl {Commands = _commands, Tag = 0};
@@ -89,7 +89,7 @@ namespace DataExport.Forms
             Controls.Add(_startControl);
             _startControl.BringToFront();
             _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
-            ResumeLayout(false);            
+            ResumeLayout(false);
         }
 
 
@@ -205,7 +205,7 @@ namespace DataExport.Forms
                 if (!IsModalPanelDisplayed)
                     _customFormulaControl.BringToFront();
             }
-            
+
             if (_scheduleJobControl != null)
             {
                 if (!_scheduleJobControl.IsOpen)
@@ -303,7 +303,7 @@ namespace DataExport.Forms
 
             }
         }
-      
+
         private void ServerStatusChanged()
         {
             _serverStatus = false;
@@ -334,27 +334,27 @@ namespace DataExport.Forms
                 _client.logoutServer += ServerStatusChanged;
                 _clientService.Disconnected += OnServerCrashed;
                 var logmsg = new DataAdminMessageFactory.LogMessage
-                    {
-                        Symbol = username,
-                        LogType = DataAdminMessageFactory.LogMessage.Log.Login,
-                        Group = ""
-                    };
+                {
+                    Symbol = username,
+                    LogType = DataAdminMessageFactory.LogMessage.Log.Login,
+                    Group = ""
+                };
 
 
                 _logClientService.ServiceProxy.SendSimpleLog(logmsg);
                 Settings.Default.connectionHost = _startControl.ui_textBox_ip.Text;
-             
+
             }
             catch (Exception)
             {
                 if (_startControl != null)
-                _startControl.Invoke((Action)(() =>
-                                                  {
-                                                      ToastNotification.Show(_startControl, "Can't connect. IP is incorrect");
-                                                      _startControl.ui_buttonX_logon.Enabled = true;
-                                                  }
-                    ));
-                
+                    _startControl.Invoke((Action)(() =>
+                    {
+                        ToastNotification.Show(_startControl, "Can't connect. IP is incorrect");
+                        _startControl.ui_buttonX_logon.Enabled = true;
+                    }
+                        ));
+
                 return;
             }
             var loginMsg = new DataAdminMessageFactory.LoginMessage(username, password, 'e');
@@ -386,11 +386,11 @@ namespace DataExport.Forms
         private void LoginFailed(object sender, DataAdminMessageFactory.LoginMessage msg)
         {
             _startControl.Invoke((Action)(() =>
-                                              {
-                                                  ToastNotification.Show(_startControl, msg.ServerMessage);
-                                                  _startControl.ui_buttonX_logon.Enabled = true;
-                                              }));
-            
+            {
+                ToastNotification.Show(_startControl, msg.ServerMessage);
+                _startControl.ui_buttonX_logon.Enabled = true;
+            }));
+
         }
 
         private void ScsClient_Connected(object sender, EventArgs e)
@@ -522,7 +522,7 @@ namespace DataExport.Forms
         }
 
         public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, bool started, bool finished)
-        {            
+        {
             var status = started ? DataAdminMessageFactory.LogMessage.Status.Started : DataAdminMessageFactory.LogMessage.Status.Finished;
             if (symbols.Count > 0)
             {
@@ -530,17 +530,17 @@ namespace DataExport.Forms
                 {
                     var logMsg = new DataAdminMessageFactory.LogMessage(_client.UserID, DateTime.Now, symbol,
                                            logtype, groupName, status)
-                        {
-                            IsByDataNetBusy = true,
-                            IsDataNetClient = true,
-                            IsTickNetClient = false
-                        };
+                    {
+                        IsByDataNetBusy = true,
+                        IsDataNetClient = true,
+                        IsTickNetClient = false
+                    };
                     if (started)
                         _logClientService.ServiceProxy.SendStartedOperationLog(logMsg);
                     else if (finished)
                     {
                         logMsg.IsByDataNetBusy = false;
-                       _logClientService.ServiceProxy.SendFinishedOperationLog(logMsg);
+                        _logClientService.ServiceProxy.SendFinishedOperationLog(logMsg);
                     }
                 }
             }
@@ -554,7 +554,7 @@ namespace DataExport.Forms
                     _logClientService.ServiceProxy.SendFinishedOperationLog(logMsg);
             }
         }
-        #endregion 
+        #endregion
 
         #region LOGIN & LOGOUT
 
@@ -590,7 +590,7 @@ namespace DataExport.Forms
                     catch
                     {
                     }
-           
+
             if (_logonThread != null) _logonThread.Abort();
 
             Invoke((Action)delegate
@@ -616,10 +616,10 @@ namespace DataExport.Forms
         private void StartControl_ExitClick(object sender, EventArgs e)
         {
             Application.Exit();
-        }     
+        }
 
         #endregion
-      
+
         #region CONNECTION TO DB
 
         private void ui_buttonX_shareConnect_Click(object sender, EventArgs e)
@@ -634,7 +634,7 @@ namespace DataExport.Forms
             RefreshSymbols();
             ClearAllQueryUi();
             Refresh();
-            
+
             if (_exportJobs != null)
             {
                 _exportJobs = new ScheduleTimer();
@@ -683,17 +683,17 @@ namespace DataExport.Forms
             if (connected)
             {
                 ui_ExportTab_metroTabItem.Visible = true;
-                
-                metroShell1.SelectedTab = ui_ExportTab_metroTabItem;                                           
+
+                metroShell1.SelectedTab = ui_ExportTab_metroTabItem;
             }
             else
             {
-                ui_ExportTab_metroTabItem.Visible = false;                
+                ui_ExportTab_metroTabItem.Visible = false;
                 ToastNotification.Show(this, @"Input login data is incorrect", 2000, eToastPosition.BottomCenter);
                 //todo
             }
         }
-       
+
         #endregion
 
         #region REFRESH UI AND GLOBAL VARIABLES
@@ -841,19 +841,19 @@ namespace DataExport.Forms
             }
 
             var profileModel = new ProfileModel
-                {
-                    ProfileName = ProfilesManager.CurrentProfile.Parameters.ProfileName,
-                    ProfileId = ProfilesManager.CurrentProfile.Parameters.ProfileId,
-                    EnableLinkExport = ui_EnableLiveExport_checkBox.Checked,
-                    EnableScheduleJob = ui_AutomaticJob_checkBox.Checked,
-                    SheduleJobs = new List<SheduleJobModel>(ProfilesManager.CurrentProfile.GetSheduleTimes())
-                };
+            {
+                ProfileName = ProfilesManager.CurrentProfile.Parameters.ProfileName,
+                ProfileId = ProfilesManager.CurrentProfile.Parameters.ProfileId,
+                EnableLinkExport = ui_EnableLiveExport_checkBox.Checked,
+                EnableScheduleJob = ui_AutomaticJob_checkBox.Checked,
+                SheduleJobs = new List<SheduleJobModel>(ProfilesManager.CurrentProfile.GetSheduleTimes())
+            };
 
             ProfilesManager.EditCurrentProfile(profileModel);
             if (!ProfilesManager.CurrentProfile.Parameters.EnableScheduleJob)
                 _exportJobs.ClearJobs(ProfilesManager.CurrentProfile.Parameters.ProfileName);
             else
-            RefreshJobList(ProfilesManager.CurrentProfile.Parameters.SheduleJobs);
+                RefreshJobList(ProfilesManager.CurrentProfile.Parameters.SheduleJobs);
         }
 
         private void ui_Rename_button_Click(object sender, EventArgs e)
@@ -875,13 +875,13 @@ namespace DataExport.Forms
             if (dr == DialogResult.OK)
             {
                 _exportJobs.ClearJobs(ProfilesManager.CurrentProfile.Parameters.ProfileName);
-                  
+
                 var profile = profileAdd.ui_textBoxX_ProfileName.Text;
                 if (ProfilesManager.RenameCurrentProfile(profile))
                 {
                     RefreshProfiles();
                     RefreshJobList(ProfilesManager.CurrentProfile.Parameters.SheduleJobs);
-                    
+
                     foreach (var item in ui_Profiles_comboBox.Items)
                     {
                         if (item.ToString() == profile)
@@ -963,7 +963,7 @@ namespace DataExport.Forms
             ProfilesManager.UpdateTimeSliceFormulas(viewedQuery.TimeSlice.Formulas);
             ProfilesManager.UpdateSnapShotFormulas(viewedQuery.SnapShoot.Formulas);
 
-            ui_QueryName_textBox.Text = viewedQuery.QueryName;            
+            ui_QueryName_textBox.Text = viewedQuery.QueryName;
 
             foreach (var item in ui_Symbols_comboBox.Items)
             {
@@ -1012,7 +1012,7 @@ namespace DataExport.Forms
             for (int i = 0; i < ui_TimeSliceSelDaysList_chListBox.Items.Count; i++)
             {
                 if (viewedQuery.TimeSlice.SelectedDays.Count == 0) break;
-                ui_TimeSliceSelDaysList_chListBox.SetItemChecked(i, 
+                ui_TimeSliceSelDaysList_chListBox.SetItemChecked(i,
                     viewedQuery.TimeSlice.SelectedDays[ui_TimeSliceSelDaysList_chListBox.Items[i].ToString()]);
             }
 
@@ -1143,30 +1143,30 @@ namespace DataExport.Forms
             try
             {
                 var newQuery = new QueryModel
+                {
+                    ProfileId = ProfilesManager.CurrentProfile.Parameters.ProfileId,
+                    QueryName = ui_QueryName_textBox.Text,
+                    SymbolName = ui_Symbols_comboBox.SelectedItem.ToString(),
+                    TimeFrame = ui_BarTables_radioButton.Checked
+                            ? ui_TimeFrames_comboBox.SelectedItem.ToString()
+                            : "Tick",
+                    DateOrDaysBack = ui_FullDT_radioButton.Checked,
+                    MostRecent = ui_MostRecent_checkBox.Checked,
+                    DaysBackCount = ui_DaysBackCount_integerInput.Value,
+                    SelectedCols = new List<string>(),
+                    TimeSlice = new TimeSliceModel
                     {
-                        ProfileId = ProfilesManager.CurrentProfile.Parameters.ProfileId,
-                        QueryName = ui_QueryName_textBox.Text,
-                        SymbolName = ui_Symbols_comboBox.SelectedItem.ToString(),
-                        TimeFrame = ui_BarTables_radioButton.Checked
-                                ? ui_TimeFrames_comboBox.SelectedItem.ToString()
-                                : "Tick",
-                        DateOrDaysBack = ui_FullDT_radioButton.Checked,
-                        MostRecent = ui_MostRecent_checkBox.Checked,
-                        DaysBackCount = ui_DaysBackCount_integerInput.Value,
-                        SelectedCols = new List<string>(),
-                        TimeSlice = new TimeSliceModel
-                                    {
-                                        ExtractedPeriods = new List<string>(),
-                                        SelectedDays = new Dictionary<string, bool>(),
-                                        Formulas = ProfilesManager.TimeSliceFormulas != null ? new List<SimpleFormulaModel>(ProfilesManager.TimeSliceFormulas) : new List<SimpleFormulaModel>()
-                                    },
-                        SnapShoot = new SnapShootModel
-                                    {
-                                        ExtrTimes = new List<string>(),
-                                        SelectedDays = new Dictionary<string, bool>(),
-                                        Formulas = ProfilesManager.SnapShootFormulas != null ? new List<SimpleFormulaModel>(ProfilesManager.SnapShootFormulas) : new List<SimpleFormulaModel>()
-                                    }
-                    };
+                        ExtractedPeriods = new List<string>(),
+                        SelectedDays = new Dictionary<string, bool>(),
+                        Formulas = ProfilesManager.TimeSliceFormulas != null ? new List<SimpleFormulaModel>(ProfilesManager.TimeSliceFormulas) : new List<SimpleFormulaModel>()
+                    },
+                    SnapShoot = new SnapShootModel
+                    {
+                        ExtrTimes = new List<string>(),
+                        SelectedDays = new Dictionary<string, bool>(),
+                        Formulas = ProfilesManager.SnapShootFormulas != null ? new List<SimpleFormulaModel>(ProfilesManager.SnapShootFormulas) : new List<SimpleFormulaModel>()
+                    }
+                };
 
                 foreach (var item in ui_SelectedColumns_chListBox.CheckedItems)
                 {
@@ -1348,7 +1348,7 @@ namespace DataExport.Forms
         }
 
         public void ClearAllQueryUi()
-        {            
+        {
             ui_TickTables_radioButton.Checked = false;
             ui_BarTables_radioButton.Checked = false;
             ui_SelectedColumns_chListBox.Items.Clear();
@@ -1428,7 +1428,7 @@ namespace DataExport.Forms
 
         #region UI PANEL SNAP SHOOT
         private void ui_AddSnapShoot_button_Click(object sender, EventArgs e)
-        {            
+        {
             var extractedTime = ui_SnapShotTimeValue_dTInput.Value.ToLongTimeString();
 
             if (ui_SnapShootExtrTimesList_listBox.Items.Cast<object>().Any(item => item.ToString() == extractedTime))
@@ -1451,7 +1451,7 @@ namespace DataExport.Forms
         }
 
         #endregion
-        
+
         #region CUSTOM FORMULA
 
         private void ui_CreateCustomFormula_button_Click(object sender, EventArgs e)
@@ -1467,11 +1467,11 @@ namespace DataExport.Forms
                 return;
             }
 
-            
+
             var list = (from object item in ui_SelectedColumns_chListBox.CheckedItems select item.ToString()).ToList();
 
             ShowCustomFormulaControl(false, list);
-            
+
         }
 
 
@@ -1493,7 +1493,7 @@ namespace DataExport.Forms
 
 
         private void ShowCustomFormulaControl(bool isSnapShot, IEnumerable<string> checkedColumns)
-        {            
+        {
             if (isSnapShot)
             {
                 _customFormulaControl = new CustomFormulaControl(_commands, _client.UserID, true,
@@ -1527,13 +1527,13 @@ namespace DataExport.Forms
         {
             if (_customFormulaControl.IfSnapShot)
             {
-                ProfilesManager.UpdateSnapShotFormulas(_customFormulaControl.Formulas);    
+                ProfilesManager.UpdateSnapShotFormulas(_customFormulaControl.Formulas);
             }
             else
             {
-                ProfilesManager.UpdateTimeSliceFormulas(_customFormulaControl.Formulas);    
+                ProfilesManager.UpdateTimeSliceFormulas(_customFormulaControl.Formulas);
             }
-            
+
             CloseCustomFormulaControl();
         }
 
@@ -1554,18 +1554,18 @@ namespace DataExport.Forms
                 ToastNotification.Show(ui_ProfileOptions_expandPanel, @"No queries in current profile", 2000, eToastPosition.TopCenter);
                 return;
             }
-          ui__status_labelItem_status.Text = "Export to excel started...";
+            ui__status_labelItem_status.Text = "Export to excel started...";
 
             var exportThread = new Thread(ExportProfile)
-                                   {
-                                       Name = "ExportToExcel",
-                                       IsBackground = true,
-                                       Priority = ThreadPriority.Highest
-                                   };
+            {
+                Name = "ExportToExcel",
+                IsBackground = true,
+                Priority = ThreadPriority.Highest
+            };
             Task.Factory.StartNew(delegate
-                                               {
-                                                   exportThread.Start(ProfilesManager.CurrentProfile);
-                                               });
+            {
+                exportThread.Start(ProfilesManager.CurrentProfile);
+            });
 
 
         }
@@ -1582,8 +1582,8 @@ namespace DataExport.Forms
                     var table = DEQueryBuilder.GetDataTable(query);
                     if (table.Rows.Count == 0)
                         continue;
-              
-                
+
+
                     table.TableName = query.QueryName;
                     var periods = query.TimeSlice.ExtractedPeriods;
 
@@ -1604,12 +1604,12 @@ namespace DataExport.Forms
                         CustomFormulaManager.Initialize(query, tableTs,
                                                         new EDataTable(1, true, false),
                                                         table);
-                
+
                         CustomFormulaManager.CalculateTimeSliceTable();
 
                         finalDictionary.AddRange(tfinalBuilder.ETableDictionary);
                     }
-              
+
 
                     var sdays = from items in query.SnapShoot.SelectedDays
                                 where items.Value
@@ -1640,28 +1640,28 @@ namespace DataExport.Forms
             CheckDictionaryForEmptyData(finalDictionary);
 
             if (CheckDictionaryForEmptyData(finalDictionary))
-           {
+            {
                 Invoke((Action)delegate
-                                   {
-                                       ui_Exprot_button.Enabled = false;
-                                   });
+                {
+                    ui_Exprot_button.Enabled = false;
+                });
 
-               if (profile != null)
+                if (profile != null)
                     excel.ExportDataToExcel(finalDictionary, ExportStyle.ColumnWise, profile.Parameters.ProfileName);
-           }
-           else
-           {
-               Invoke((Action)delegate
-               {
-                   ToastNotification.Show(this, @"The profile's queries are not found any data.", 2000, eToastPosition.MiddleCenter);
-               }); 
-           }
-          
+            }
+            else
+            {
+                Invoke((Action)delegate
+                {
+                    ToastNotification.Show(this, @"The profile's queries are not found any data.", 2000, eToastPosition.MiddleCenter);
+                });
+            }
+
             Thread.CurrentThread.CurrentCulture = oldThread;
-           
+
             if (Thread.CurrentThread.IsAlive)
                 Thread.CurrentThread.Abort();
-           
+
         }
 
         private bool CheckDictionaryForEmptyData(EDataTableDictionary finalDictionary)
@@ -1677,18 +1677,18 @@ namespace DataExport.Forms
         private void ExportProgress(int icurrentitem, int itotalitems)
         {
             Invoke((Action)delegate
-                                {
+            {
                 var progress = icurrentitem * 100 / itotalitems;
-                                    progressBarItemCollecting.Value = progress;
-                                    ui__status_labelItem_status.Text = "Export progress : " +
-                                                                       progress + " %";
+                progressBarItemCollecting.Value = progress;
+                ui__status_labelItem_status.Text = "Export progress : " +
+                                                   progress + " %";
 
-                                    if (icurrentitem != itotalitems) return;
-                             
-                                    ui__status_labelItem_status.Text = "Export Finished.";
-                                    progressBarItemCollecting.Value = progressBarItemCollecting.Maximum;
-                               ui_Exprot_button.Enabled = true;
-                                });
+                if (icurrentitem != itotalitems) return;
+
+                ui__status_labelItem_status.Text = "Export Finished.";
+                progressBarItemCollecting.Value = progressBarItemCollecting.Maximum;
+                ui_Exprot_button.Enabled = true;
+            });
         }
 
         #endregion
@@ -1696,7 +1696,7 @@ namespace DataExport.Forms
         #region Schedule Job
 
         private void ShowScheduleJobControl()
-        {            
+        {
             _scheduleJobControl = new ScheduleJobControl(_commands);
             UpdateControlsSizeAndLocation();
 
@@ -1736,9 +1736,9 @@ namespace DataExport.Forms
                 EnableLinkExport = ui_EnableLiveExport_checkBox.Checked,
                 EnableScheduleJob = ui_AutomaticJob_checkBox.Checked,
                 SheduleJobs = _scheduleJobControl.Schedulas
-            };          
+            };
             ProfilesManager.EditCurrentProfile(profileModel);
-            RefreshJobList(_scheduleJobControl.Schedulas);          
+            RefreshJobList(_scheduleJobControl.Schedulas);
 
             CloseScheduleJobControl();
         }
@@ -1772,29 +1772,29 @@ namespace DataExport.Forms
         {
 
             var profile = (from prof in ProfilesManager.Profiles
-                          where
-                              prof.Parameters.ProfileName == profileName
-                          select prof).First();
+                           where
+                               prof.Parameters.ProfileName == profileName
+                           select prof).First();
             Task.Factory.StartNew((Action)delegate { ExportProfile(profile); });
-       
+
         }
 
         private void AddProfileToJobList(string prfName, string eventBase, string time)
         {
 
 
-                string profileName = prfName;
+            string profileName = prfName;
             IScheduledItem item = GetSchedule(eventBase, time);
-                _exportJobs.Stop();
-                _exportJobs.AddJob(item, profileName, new TickHandler(ExportJob));
-                _exportJobs.Start();
-            
-            
+            _exportJobs.Stop();
+            _exportJobs.AddJob(item, profileName, new TickHandler(ExportJob));
+            _exportJobs.Start();
+
+
         }
 
         public IScheduledItem GetSchedule(string eventBase, string time)
         {
-           
+
             return new ScheduledTime(eventBase, time);
         }
         public void LoadJobs()
@@ -1802,7 +1802,7 @@ namespace DataExport.Forms
             _exportJobs.Stop();
             _exportJobs.ClearJobs();
             var profiles = ProfilesManager.Profiles.ToList();
-           
+
             foreach (var profile in profiles.Where(profile => profile.Parameters.EnableScheduleJob))
             {
                 foreach (var job in profile.Parameters.SheduleJobs)

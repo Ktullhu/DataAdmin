@@ -248,6 +248,7 @@
   <ItemGroup>
     <Content Include="MainIcon.ico" />
     <Content Include="Text Edit.ico" />
+    <Content Include="TN.ico" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="CQG">

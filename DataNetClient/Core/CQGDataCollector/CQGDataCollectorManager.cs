@@ -6,7 +6,6 @@ using System.Threading;
 using System.Windows.Forms.VisualStyles;
 using CQG;
 using DataNetClient.Properties;
-using DevComponents.DotNetBar.Schedule;
 using Timer = System.Windows.Forms.Timer;
 using DADataManager.Models;
 using DADataManager;
@@ -552,19 +551,11 @@ namespace DataNetClient.Core.CQGDataCollector
 
                             lock (_lockHistInsert)
                             {
-                                DateTime test_time = DateTime.Now;
                                 OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
                                 DateTime _tmpTime=new DateTime();
-                                int end;
-                                if (_rangeDateEnd == _tmpTime)
-                                {
-                                    end = cqgTicks.Count-1;
-                                }
-                                else
-                                end = CqgGetId(cqgTicks, _rangeDateEnd);
-                                int start = CqgGetId(cqgTicks, _rangeDateStart);
-                                //Console.WriteLine(DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
-                               // Console.WriteLine(DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                                int end = CqgGetId(cqgTicks, _rangeDateEnd);
+                                Console.WriteLine(DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                                Console.WriteLine(DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
                                 Console.WriteLine(cqgTicks.StartTimestamp);
                                 Console.WriteLine(cqgTicks[end].Timestamp);
                                 if (_tmpTime == DatabaseManager.GetMinTime(cqgTicks.Request.Symbol))//todo if empty
@@ -575,8 +566,6 @@ namespace DataNetClient.Core.CQGDataCollector
                                     OnProgressBarChanged(progr);
                                     Console.WriteLine(cqgTicks[end].Timestamp);
                                     Console.WriteLine(cqgTicks[0].Timestamp);
-                                   // end = 100000;
-                                    
                                     for (int i = 0; i <=end; i++)
                                     {
                                         rowsInserted++;
@@ -590,7 +579,7 @@ namespace DataNetClient.Core.CQGDataCollector
                                             progr = newProgr;
                                             OnProgressBarChanged(progr);
                                         }
-                                        
+                                        //OnProgressBarChanged(progress);
 
                                     }
                                 }
@@ -675,12 +664,11 @@ namespace DataNetClient.Core.CQGDataCollector
                                 else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks[end].Timestamp)//todo test 2   
                                 {
                                     var progr = 0;
-                                    var rowsMaxCount = end;
-                                    var rowsInserted = 0;
                                     OnProgressBarChanged(progr);
+                                    var rowsInserted = 0;
+                                    var rowsMaxCount = end;
                                     for (int i = 0; i <= end; i++)
                                     {
-                                        rowsInserted++;
                                         if (_isStoped) break;
                                         AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
                                         var cto = (double)rowsMaxCount;
@@ -695,12 +683,11 @@ namespace DataNetClient.Core.CQGDataCollector
                                 else if (DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks.StartTimestamp)//todo test 1   
                                 {
                                     var progr = 0;
-                                    var rowsMaxCount = end;
-                                    var rowsInserted = 0;
                                     OnProgressBarChanged(progr);
+                                    var rowsInserted = 0;
+                                    var rowsMaxCount = end;
                                     for (int i = 0; i <= end; i++)
                                     {
-                                       
                                         if (_isStoped) break;
                                         AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
                                         var cto = (double)rowsMaxCount;
@@ -710,19 +697,17 @@ namespace DataNetClient.Core.CQGDataCollector
                                             progr = newProgr;
                                             OnProgressBarChanged(progr);
                                         }
+
                                     }
                                 }
-                                
+                              
                                 DatabaseManager.CommitQueueTick();
-                                 
-                                FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
-                                Console.WriteLine("start: " + test_time+ " end: "+DateTime.Now);
-                                OnProgressBarChanged(100);
 
+                                FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
+                                OnProgressBarChanged(100);
                             }
 
                         }) { Name ="InsertingHistoricalThread"}.Start();
-
                         
                     }
                    
@@ -764,11 +749,6 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
-
-        
-
-   
-         
 
 
         #endregion
@@ -1145,17 +1125,9 @@ namespace DataNetClient.Core.CQGDataCollector
                 var groupModel = _groups[index].GroupModel;
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
-                bool any = false;
-                foreach (SessionModel oo in sess)
-                {
-                    if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay && IsNowAGoodDay(oo.Days))
-                    {
-                        any = true;
-                        break;
-                    }
-                }
                 if (groupModel.IsAutoModeEnabled && (
-                    any))//startToday
+                    sess.Any(oo => oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay   && oo.TimeStart.TimeOfDay  > groupModel.End.TimeOfDay
+                        && IsNowAGoodDay(oo.Days))))//startToday
                 {
                     if (_groups[index].GroupState != GroupState.InQueue)
                     {
