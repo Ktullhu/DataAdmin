@@ -1458,6 +1458,7 @@ namespace TickNetClient.Forms
         {
             foreach (var symbol in symbols)
             {
+                if(DatabaseManager.CurrentDbIsShared)
                 Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.TickNetCollectRequest(
                      new DataNormalizatorMessageFactory
                          .TickNetCollectRequest
