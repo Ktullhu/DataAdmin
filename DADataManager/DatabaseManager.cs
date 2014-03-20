@@ -1243,7 +1243,7 @@ namespace DADataManager
                         + " SET GroupName = '" + group.GroupName
                         + "', TimeFrame = '" + group.TimeFrame
                         + "', Start = '" + startDateStr
-                        + "', End = '" + endDateStr
+                       // + "', End = '" + endDateStr
                         + "', CntType = '" + group.CntType
                         + "' WHERE ID = '" + groupId + "' ; COMMIT;";
 
@@ -1253,7 +1253,7 @@ namespace DADataManager
                     + " SET GroupName = '" + group.GroupName
                     + "', TimeFrame = '" + group.TimeFrame
                     + "', Start = '" + startDateStr
-                    + "', End = '" + endDateStr
+                   // + "', End = '" + endDateStr
                     + "', CntType = '" + group.CntType
                     + "', Depth =  " + group.Depth
                     + ", IsAutoModeEnabled =  " + (group.IsAutoModeEnabled ? "1" : "0")
@@ -1334,9 +1334,15 @@ namespace DADataManager
             return groupList;
         }
 
+        private static DateTime TrimSeconds(DateTime dt)
+        {
+            return dt.AddMilliseconds(-dt.Millisecond).AddSeconds(-dt.Second);
+        }
         public static void SetGroupEndDatetime(int groupId, DateTime dateTime)
         {
-            string dateTimeStr = Convert.ToDateTime(dateTime).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var dt = TrimSeconds(dateTime);
+
+            string dateTimeStr = Convert.ToDateTime(dt).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             var query = "UPDATE " + TblGroupsForUsers
                     + " SET  End = '" + dateTimeStr

@@ -1120,46 +1120,44 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+        private static DateTime TrimSeconds(DateTime dt)
+        {
+            dt = dt.AddMilliseconds(-dt.Millisecond);
+            dt = dt.AddSeconds(-dt.Second);
+            return dt;
+        }
+
         private static void TickScheduler()
         {
-            
-            var now = new DateTime();
-            
-
+       
             for (int index = 0; index < _groups.Count; index++)
             {
                 var groupModel = _groups[index].GroupModel;
-                if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
+               /* if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
                 {
                     groupModel.End = new DateTime();
                     DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
-                }
+                }*/
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 bool any = false;
-                foreach (SessionModel oo in sess)
+                foreach (SessionModel ss in sess)
                 {
-                    
-                    Console.WriteLine("Session name: " + oo.Name);
-                    Console.WriteLine("Last time collecting:" + groupModel.End.TimeOfDay);
-                    Console.WriteLine("Now time: " + now.ToShortTimeString());
 
-                    if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && 
-                        (oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay)/*||(DateTime.Now.Day>groupModel.End.Day)*/ && 
-                         IsNowAGoodDay(oo.Days))
-                    {
-                        any = true;
-                        Console.WriteLine("Yeah");
-                        
-                        break;
-                    }
-                    
-                        Console.WriteLine("No way");
+                    if (IsNowAGoodDay(ss.Days))
+                        if (ss.TimeStart.Hour == DateTime.Now.Hour && ss.TimeStart.Minute == DateTime.Now.Minute )
+                            if ( (DateTime.Now-groupModel.End).TotalMinutes>1 )
+                            {
+                                any = true;
+                                Console.WriteLine("Start collecting! Last collecting was at: "+(TrimSeconds(groupModel.End).ToString())+" Now: "+DateTime.Now.ToString());
+
+                                break;
+                            }             
                     
                 }
                 if (groupModel.IsAutoModeEnabled && (any))//startToday
                 {
-                    if (_groups[index].GroupState != GroupState.InQueue)
+                    if (_groups[index].GroupState == GroupState.NotInQueue || _groups[index].GroupState == GroupState.Finished)
                     {
                         _groups[index].GroupState = GroupState.InQueue;
                         OnItemStateChanged(index, GroupState.InQueue);

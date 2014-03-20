@@ -192,7 +192,7 @@ namespace DataNetClient.Forms
             var sess = new SessionModel
             {
                 Id = -1,
-                Name = textBoxX_sessionsName.Text,
+                Name = textBoxX_sessionsName.Text==""?"Untitled session":textBoxX_sessionsName.Text,
                 IsStartYesterday = checkBox_sy.Checked,
                 Days = GetDaysStr(),
                 TimeStart = dateTimeInput1.Value,
