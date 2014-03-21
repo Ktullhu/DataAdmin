@@ -19,7 +19,7 @@ namespace DADataManager
 
         public static bool CurrentDbIsShared;
         public static List<string> DeniedSymbols;
-        public static int MaxBufferSize;
+        public static int MaxBufferSize=5000;
         public static int MaxQueueSize =500;
         public static bool SortingModeIsAsc = true;
 
