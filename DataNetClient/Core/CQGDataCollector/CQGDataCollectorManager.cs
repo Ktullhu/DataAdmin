@@ -45,6 +45,7 @@ namespace DataNetClient.Core.CQGDataCollector
         private static List<MonthCharYearModel> monthCharYearlList = new List<MonthCharYearModel>(); 
 
         private static Timer _timerScheduler = new Timer{Interval = 3000};
+        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.TimeOutMinutes *60* 1000 };// 5 minutes
         private static bool _isStarted;
         
         #endregion
@@ -168,6 +169,8 @@ namespace DataNetClient.Core.CQGDataCollector
 
 
                 _timerScheduler.Tick += _timerScheduler_Tick;
+                //_timerTimeout.Tick += _timerTimeout_Tick;
+                _timerTimeout.Elapsed += _timerTimeout_Elapsed;
             }
             catch (Exception ex)
             {                
@@ -175,6 +178,12 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+        static void _timerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            FinishCollectingGroup(_groupCurrent);
+        }
+
+        
         public static void Init(string userName)
         {
             _userName = userName;
@@ -216,21 +225,28 @@ namespace DataNetClient.Core.CQGDataCollector
 
         static void _cel_TicksResolved(CQGTicks cqgTicks, CQGError cqgError)
         {
+            _timerTimeout.Enabled = false;
+
             if (_isStoped) return;
 
             var symbol = cqgTicks.Request.Symbol;
-            TicksAdd(cqgTicks, cqgError, _userName);
-            
-                
+            TicksAdd(cqgTicks, cqgError, _userName);                            
+
         }
 
         static void _cel_TimedBarsResolved(CQGTimedBars cqgTimedBars, CQGError cqgError)
         {
+            _timerTimeout.Enabled = false;
+
             if (_isStoped) return;
+
+            
             var symbol = cqgTimedBars.Request.Symbol;
 
             BarsAdd(cqgTimedBars, cqgError, _userName);
-            FinishCollectingSymbol(symbol, true);           
+            FinishCollectingSymbol(symbol, true);
+
+            
         }
 
         static void _cel_DataError(object cqgError, string errorDescription)
@@ -867,6 +883,12 @@ namespace DataNetClient.Core.CQGDataCollector
         #endregion
 
         #region GROUP LIST private
+
+        static void _timerTimeout_Tick(object sender, EventArgs e)
+        {
+            FinishCollectingGroup(_groupCurrent);
+        }
+
         private static bool ThereAreHaveInProgress()
         {
             int a = 5;
@@ -923,8 +945,14 @@ namespace DataNetClient.Core.CQGDataCollector
                     TimeBarRequest(symbol);
                 
             }
-            if(group.AllSymbols.Count == 0)
-                FinishCollectingGroup(index);
+            if (group.AllSymbols.Count == 0)
+            { 
+                FinishCollectingGroup(index); 
+            }
+            else
+            {
+                _timerTimeout.Enabled = true;
+            }
         }
 
         private static void FinishCollectingGroup(int index)
@@ -974,7 +1002,11 @@ namespace DataNetClient.Core.CQGDataCollector
             {
                 FinishCollectingGroup(_groupCurrent);
             }
-
+            else
+            {
+                _timerTimeout.Enabled = true;
+            }
+            
 
         }
 
