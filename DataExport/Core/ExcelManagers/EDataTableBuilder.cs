@@ -179,13 +179,13 @@ namespace DataExport.Core.ExcelManagers
                {
                    try
                    {
-                       var open = varday.ToList().First(o => o.Field<double>("BidVol") > 0).Field<double>("BidVol");
+                       var open = varday.ToList().First(o => o.Field<int>("BidVol") > 0).Field<int>("BidVol");
                        drow["BidVol"] = open;
                    }
                    catch (Exception ex)
                    {
                        Console.WriteLine(ex.Message);
-                       var open = varday.ToList().First(o => o.Field<double>("BidVol") >= 0).Field<double>("BidVol");
+                       var open = varday.ToList().First(o => o.Field<int>("BidVol") >= 0).Field<int>("BidVol");
                        drow["BidVol"] = open;
                    }
                }
@@ -193,13 +193,13 @@ namespace DataExport.Core.ExcelManagers
                {
                    try
                    {
-                       var open = varday.ToList().First(o => o.Field<double>("AskVol") > 0).Field<double>("AskVol");
+                       var open = varday.ToList().First(o => o.Field<int>("AskVol") > 0).Field<int>("AskVol");
                        drow["AskVol"] = open;
                    }
                    catch (Exception ex)
                    {
                        Console.WriteLine(ex.Message);
-                       var open = varday.ToList().First(o => o.Field<double>("AskVol") >= 0).Field<double>("AskVol");
+                       var open = varday.ToList().First(o => o.Field<int>("AskVol") >= 0).Field<int>("AskVol");
                        drow["BidVol"] = open;
                    }
                }
@@ -221,13 +221,13 @@ namespace DataExport.Core.ExcelManagers
                {
                    try
                    {
-                       var open = varday.ToList().First(o => o.Field<double>("TradeVol") > 0).Field<double>("TradeVol");
+                       var open = varday.ToList().First(o => o.Field<int>("TradeVol") > 0).Field<int>("TradeVol");
                        drow["TradeVol"] = open;
                    }
                    catch (Exception ex)
                    {
                        Console.WriteLine(ex.Message);
-                       var open = varday.ToList().First(o => o.Field<double>("TradeVol") >= 0).Field<double>("TradeVol");
+                       var open = varday.ToList().First(o => o.Field<int>("TradeVol") >= 0).Field<int>("TradeVol");
                        drow["TradeVol"] = open;
                    }
                }
