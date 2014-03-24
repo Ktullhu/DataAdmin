@@ -19,7 +19,7 @@ namespace DADataManager
 
         public static bool CurrentDbIsShared;
         public static List<string> DeniedSymbols;
-        public static int MaxBufferSize;
+        public static int MaxBufferSize=5000;
         public static int MaxQueueSize =500;
         public static bool SortingModeIsAsc = true;
 
@@ -1018,6 +1018,8 @@ namespace DADataManager
 
                 var oldSymbolId = GetSymbolIdFromName(oldSymbolName);
                 DeleteSymbolForUser(userId, oldSymbolId, appType);
+                if(!CurrentDbIsShared)
+                    DeleteSymbol(oldSymbolId);
 
                 var myGroups = GetMyGroupsIds(userId, appType);
                 foreach (var gId in myGroups)
@@ -1241,7 +1243,7 @@ namespace DADataManager
                         + " SET GroupName = '" + group.GroupName
                         + "', TimeFrame = '" + group.TimeFrame
                         + "', Start = '" + startDateStr
-                        + "', End = '" + endDateStr
+                       // + "', End = '" + endDateStr
                         + "', CntType = '" + group.CntType
                         + "' WHERE ID = '" + groupId + "' ; COMMIT;";
 
@@ -1251,7 +1253,7 @@ namespace DADataManager
                     + " SET GroupName = '" + group.GroupName
                     + "', TimeFrame = '" + group.TimeFrame
                     + "', Start = '" + startDateStr
-                    + "', End = '" + endDateStr
+                   // + "', End = '" + endDateStr
                     + "', CntType = '" + group.CntType
                     + "', Depth =  " + group.Depth
                     + ", IsAutoModeEnabled =  " + (group.IsAutoModeEnabled ? "1" : "0")
@@ -1332,9 +1334,15 @@ namespace DADataManager
             return groupList;
         }
 
+        private static DateTime TrimSeconds(DateTime dt)
+        {
+            return dt.AddMilliseconds(-dt.Millisecond).AddSeconds(-dt.Second);
+        }
         public static void SetGroupEndDatetime(int groupId, DateTime dateTime)
         {
-            string dateTimeStr = Convert.ToDateTime(dateTime).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var dt = TrimSeconds(dateTime);
+
+            string dateTimeStr = Convert.ToDateTime(dt).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             var query = "UPDATE " + TblGroupsForUsers
                     + " SET  End = '" + dateTimeStr

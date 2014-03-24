@@ -13,13 +13,16 @@ namespace DataNetClient.Forms
         private void FormSettings_Load(object sender, EventArgs e)
         {
             numericUpDown_maxTick.Value = Properties.Settings.Default.MaxTickDays;
-            nudEndBar.Value = Properties.Settings.Default.valFinish;            
+            nudEndBar.Value = Properties.Settings.Default.valFinish;
+            numericUpDown1.Value = Properties.Settings.Default.TimeOutMinutes;
         }
 
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.valFinish = (int)(nudEndBar.Value);
             Properties.Settings.Default.MaxTickDays = (int) numericUpDown_maxTick.Value;
+
+            Properties.Settings.Default.TimeOutMinutes = (int)numericUpDown1.Value;
             Properties.Settings.Default.Save();
         }
     }

@@ -45,6 +45,7 @@ namespace DataNetClient.Core.CQGDataCollector
         private static List<MonthCharYearModel> monthCharYearlList = new List<MonthCharYearModel>(); 
 
         private static Timer _timerScheduler = new Timer{Interval = 3000};
+        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.TimeOutMinutes *60* 1000 };// 5 minutes
         private static bool _isStarted;
         
         #endregion
@@ -168,6 +169,8 @@ namespace DataNetClient.Core.CQGDataCollector
 
 
                 _timerScheduler.Tick += _timerScheduler_Tick;
+                //_timerTimeout.Tick += _timerTimeout_Tick;
+                _timerTimeout.Elapsed += _timerTimeout_Elapsed;
             }
             catch (Exception ex)
             {                
@@ -175,6 +178,12 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+        static void _timerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            FinishCollectingGroup(_groupCurrent);
+        }
+
+        
         public static void Init(string userName)
         {
             _userName = userName;
@@ -216,21 +225,28 @@ namespace DataNetClient.Core.CQGDataCollector
 
         static void _cel_TicksResolved(CQGTicks cqgTicks, CQGError cqgError)
         {
+            _timerTimeout.Enabled = false;
+
             if (_isStoped) return;
 
             var symbol = cqgTicks.Request.Symbol;
-            TicksAdd(cqgTicks, cqgError, _userName);
-            
-                
+            TicksAdd(cqgTicks, cqgError, _userName);                            
+
         }
 
         static void _cel_TimedBarsResolved(CQGTimedBars cqgTimedBars, CQGError cqgError)
         {
+            _timerTimeout.Enabled = false;
+
             if (_isStoped) return;
+
+            
             var symbol = cqgTimedBars.Request.Symbol;
 
             BarsAdd(cqgTimedBars, cqgError, _userName);
-            FinishCollectingSymbol(symbol, true);           
+            FinishCollectingSymbol(symbol, true);
+
+            
         }
 
         static void _cel_DataError(object cqgError, string errorDescription)
@@ -867,6 +883,12 @@ namespace DataNetClient.Core.CQGDataCollector
         #endregion
 
         #region GROUP LIST private
+
+        static void _timerTimeout_Tick(object sender, EventArgs e)
+        {
+            FinishCollectingGroup(_groupCurrent);
+        }
+
         private static bool ThereAreHaveInProgress()
         {
             int a = 5;
@@ -923,8 +945,14 @@ namespace DataNetClient.Core.CQGDataCollector
                     TimeBarRequest(symbol);
                 
             }
-            if(group.AllSymbols.Count == 0)
-                FinishCollectingGroup(index);
+            if (group.AllSymbols.Count == 0)
+            { 
+                FinishCollectingGroup(index); 
+            }
+            else
+            {
+                _timerTimeout.Enabled = true;
+            }
         }
 
         private static void FinishCollectingGroup(int index)
@@ -974,7 +1002,11 @@ namespace DataNetClient.Core.CQGDataCollector
             {
                 FinishCollectingGroup(_groupCurrent);
             }
-
+            else
+            {
+                _timerTimeout.Enabled = true;
+            }
+            
 
         }
 
@@ -1120,46 +1152,44 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+        private static DateTime TrimSeconds(DateTime dt)
+        {
+            dt = dt.AddMilliseconds(-dt.Millisecond);
+            dt = dt.AddSeconds(-dt.Second);
+            return dt;
+        }
+
         private static void TickScheduler()
         {
-            
-            var now = new DateTime();
-            
-
+       
             for (int index = 0; index < _groups.Count; index++)
             {
                 var groupModel = _groups[index].GroupModel;
-                if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
+               /* if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
                 {
                     groupModel.End = new DateTime();
                     DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
-                }
+                }*/
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 bool any = false;
-                foreach (SessionModel oo in sess)
+                foreach (SessionModel ss in sess)
                 {
-                    
-                    Console.WriteLine("Session name: " + oo.Name);
-                    Console.WriteLine("Last time collecting:" + groupModel.End.TimeOfDay);
-                    Console.WriteLine("Now time: " + now.ToShortTimeString());
 
-                    if (oo.TimeStart.TimeOfDay < DateTime.Now.TimeOfDay && 
-                        (oo.TimeStart.TimeOfDay > groupModel.End.TimeOfDay)/*||(DateTime.Now.Day>groupModel.End.Day)*/ && 
-                         IsNowAGoodDay(oo.Days))
-                    {
-                        any = true;
-                        Console.WriteLine("Yeah");
-                        
-                        break;
-                    }
-                    
-                        Console.WriteLine("No way");
+                    if (IsNowAGoodDay(ss.Days))
+                        if (ss.TimeStart.Hour == DateTime.Now.Hour && ss.TimeStart.Minute == DateTime.Now.Minute )
+                            if ( (DateTime.Now-groupModel.End).TotalMinutes>1 )
+                            {
+                                any = true;
+                                Console.WriteLine("Start collecting! Last collecting was at: "+(TrimSeconds(groupModel.End).ToString())+" Now: "+DateTime.Now.ToString());
+
+                                break;
+                            }             
                     
                 }
                 if (groupModel.IsAutoModeEnabled && (any))//startToday
                 {
-                    if (_groups[index].GroupState != GroupState.InQueue)
+                    if (_groups[index].GroupState == GroupState.NotInQueue || _groups[index].GroupState == GroupState.Finished)
                     {
                         _groups[index].GroupState = GroupState.InQueue;
                         OnItemStateChanged(index, GroupState.InQueue);

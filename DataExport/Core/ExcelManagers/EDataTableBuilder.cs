@@ -149,33 +149,87 @@ namespace DataExport.Core.ExcelManagers
            {
                if (_internalTable.Columns.Contains("Bid"))
                {
-                   var open = varday.ToList().First(o => o.Field<double>("Bid") > 0).Field<double>("Bid");
-                   drow["Bid"] = open;
+                   try
+                   {
+                       var open = varday.ToList().First(o => o.Field<double>("Bid") > 0).Field<double>("Bid");
+                       drow["Bid"] = open;
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex.Message);
+                       var open = varday.ToList().First(o => o.Field<double>("Bid") >= 0).Field<double>("Bid");
+                       drow["Bid"] = open;
+                   }
                }
                if (_internalTable.Columns.Contains("Ask"))
                {
-                   var open = varday.ToList().First(o => o.Field<double>("Ask") > 0).Field<double>("Ask");
-                   drow["Ask"] = open;
+                   try
+                   {
+                       var open = varday.ToList().First(o => o.Field<double>("Ask") > 0).Field<double>("Ask");
+                       drow["Ask"] = open;
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex.Message);
+                       var open = varday.ToList().First(o => o.Field<double>("Ask") >= 0).Field<double>("Ask");
+                       drow["Ask"] = open;
+                   }
                }
                if (_internalTable.Columns.Contains("BidVol"))
                {
-                   var open = varday.ToList().First(o => o.Field<int>("BidVol") > 0).Field<int>("BidVol");
-                   drow["BidVol"] = open;
+                   try
+                   {
+                       var open = varday.ToList().First(o => o.Field<int>("BidVol") > 0).Field<int>("BidVol");
+                       drow["BidVol"] = open;
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex.Message);
+                       var open = varday.ToList().First(o => o.Field<int>("BidVol") >= 0).Field<int>("BidVol");
+                       drow["BidVol"] = open;
+                   }
                }
                if (_internalTable.Columns.Contains("AskVol"))
                {
-                   var open = varday.ToList().First(o => o.Field<int>("AskVol") > 0).Field<int>("AskVol");
-                   drow["AskVol"] = open;
+                   try
+                   {
+                       var open = varday.ToList().First(o => o.Field<int>("AskVol") > 0).Field<int>("AskVol");
+                       drow["AskVol"] = open;
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex.Message);
+                       var open = varday.ToList().First(o => o.Field<int>("AskVol") >= 0).Field<int>("AskVol");
+                       drow["BidVol"] = open;
+                   }
                }
                if (_internalTable.Columns.Contains("Trade"))
                {
-                   var open = varday.ToList().First(o => o.Field<double>("Trade") > 0).Field<double>("Trade");
-                   drow["Trade"] = open;
+                   try
+                   {
+                       var open = varday.ToList().First(o => o.Field<double>("Trade") > 0).Field<double>("Trade");
+                       drow["Trade"] = open;
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex.Message);
+                       var open = varday.ToList().First(o => o.Field<double>("Trade") >= 0).Field<double>("Trade");
+                       drow["Trade"] = open;
+                   }
                }
                if (_internalTable.Columns.Contains("TradeVol"))
                {
-                   var open = varday.ToList().First(o => o.Field<int>("TradeVol") > 0).Field<int>("TradeVol");
-                   drow["TradeVol"] = open;
+                   try
+                   {
+                       var open = varday.ToList().First(o => o.Field<int>("TradeVol") > 0).Field<int>("TradeVol");
+                       drow["TradeVol"] = open;
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex.Message);
+                       var open = varday.ToList().First(o => o.Field<int>("TradeVol") >= 0).Field<int>("TradeVol");
+                       drow["TradeVol"] = open;
+                   }
                }
            }
            if (tableType == DataType.Bar)
