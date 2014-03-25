@@ -1018,14 +1018,15 @@ namespace DADataManager
 
                 var oldSymbolId = GetSymbolIdFromName(oldSymbolName);
                 DeleteSymbolForUser(userId, oldSymbolId, appType);
-                if(!CurrentDbIsShared)
-                    DeleteSymbol(oldSymbolId);
+                
 
                 var myGroups = GetMyGroupsIds(userId, appType);
                 foreach (var gId in myGroups)
                 {
                     ReplaceSymbolInGroups(gId, oldSymbolId, newSymbolId, newSymbolName);
                 }
+                if (!CurrentDbIsShared)
+                    DeleteSymbol(oldSymbolId);
             }
             else
             {
