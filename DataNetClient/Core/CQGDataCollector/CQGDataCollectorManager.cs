@@ -375,8 +375,14 @@ namespace DataNetClient.Core.CQGDataCollector
                 }
                 else
                 {
+                    var str5 = mCurTimedBars.Request.Symbol.Trim();
+                var str = str5.Split('.');
+                str5 = str[str.Length - 1];
+
                     if (mCurTimedBars.Status == eRequestStatus.rsSuccess)
                     {
+                        DatabaseManager.DeleteLastBar("B_" + str5 + "_" + GetTableType(_historicalPeriod));
+
                         DateTime runDateTime = DateTime.Now;
                         if (mCurTimedBars.Count != 0)
                         {

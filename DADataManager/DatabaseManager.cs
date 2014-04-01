@@ -2170,12 +2170,12 @@ namespace DADataManager
             AddToQueue(query, 0);
         }
 
-        public static void DeleteLastBar(string tablename, string username)
+        public static void DeleteLastBar(string tablename)
         {
             try
             {
-                var query = "DELETE FROM " + tablename + " WHERE UserName='" + username +
-                            "' ORDER BY BarTime DESC LIMIT 1;COMMIT";
+                var query = "DELETE FROM " + tablename +
+                            " ORDER BY BarTime DESC LIMIT 1;COMMIT";
                 DoSqlBar(query);
             }
             catch (Exception e)
