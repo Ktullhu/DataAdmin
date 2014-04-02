@@ -31,6 +31,8 @@ namespace DataNetClient.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
             this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.numericUpDown_maxTick = new System.Windows.Forms.NumericUpDown();
             this.labelX14 = new DevComponents.DotNetBar.LabelX();
@@ -39,15 +41,16 @@ namespace DataNetClient.Forms
             this.superTabControlPanel9 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.superTabControlPanel8 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxTick)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEndBar)).BeginInit();
             this.superTabControlPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // superTabControl1
@@ -90,6 +93,8 @@ namespace DataNetClient.Forms
             // 
             // superTabControlPanel2
             // 
+            this.superTabControlPanel2.Controls.Add(this.labelX3);
+            this.superTabControlPanel2.Controls.Add(this.numericUpDown2);
             this.superTabControlPanel2.Controls.Add(this.labelX2);
             this.superTabControlPanel2.Controls.Add(this.numericUpDown1);
             this.superTabControlPanel2.Controls.Add(this.labelX1);
@@ -102,6 +107,45 @@ namespace DataNetClient.Forms
             this.superTabControlPanel2.Size = new System.Drawing.Size(315, 305);
             this.superTabControlPanel2.TabIndex = 1;
             this.superTabControlPanel2.TabItem = this.superTabItem2;
+            // 
+            // labelX2
+            // 
+            this.labelX2.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.ForeColor = System.Drawing.Color.Black;
+            this.labelX2.Location = new System.Drawing.Point(3, 102);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(229, 23);
+            this.labelX2.TabIndex = 47;
+            this.labelX2.Text = "Max time to waiting data from CQG [m]";
+            this.labelX2.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.BackColor = System.Drawing.Color.White;
+            this.numericUpDown1.ForeColor = System.Drawing.Color.Black;
+            this.numericUpDown1.Location = new System.Drawing.Point(238, 102);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(65, 22);
+            this.numericUpDown1.TabIndex = 46;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // labelX1
             // 
@@ -220,40 +264,41 @@ namespace DataNetClient.Forms
             this.superTabControlPanel8.Size = new System.Drawing.Size(315, 305);
             this.superTabControlPanel8.TabIndex = 2;
             // 
-            // labelX2
+            // labelX3
             // 
-            this.labelX2.BackColor = System.Drawing.Color.White;
+            this.labelX3.BackColor = System.Drawing.Color.White;
             // 
             // 
             // 
-            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.ForeColor = System.Drawing.Color.Black;
-            this.labelX2.Location = new System.Drawing.Point(3, 102);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(229, 23);
-            this.labelX2.TabIndex = 47;
-            this.labelX2.Text = "Max time to waiting data from CQG [m]";
-            this.labelX2.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.ForeColor = System.Drawing.Color.Black;
+            this.labelX3.Location = new System.Drawing.Point(3, 130);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(229, 36);
+            this.labelX3.TabIndex = 49;
+            this.labelX3.Text = "Max time to waiting data from CQG For Standard [m]";
+            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX3.WordWrap = true;
             // 
-            // numericUpDown1
+            // numericUpDown2
             // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.White;
-            this.numericUpDown1.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown1.Location = new System.Drawing.Point(238, 102);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericUpDown2.BackColor = System.Drawing.Color.White;
+            this.numericUpDown2.ForeColor = System.Drawing.Color.Black;
+            this.numericUpDown2.Location = new System.Drawing.Point(238, 139);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.numericUpDown2.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(65, 22);
-            this.numericUpDown1.TabIndex = 46;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(65, 22);
+            this.numericUpDown2.TabIndex = 48;
+            this.numericUpDown2.Value = new decimal(new int[] {
             2,
             0,
             0,
@@ -278,10 +323,11 @@ namespace DataNetClient.Forms
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).EndInit();
             this.superTabControl1.ResumeLayout(false);
             this.superTabControlPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxTick)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEndBar)).EndInit();
             this.superTabControlPanel9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -300,6 +346,8 @@ namespace DataNetClient.Forms
         private System.Windows.Forms.NumericUpDown numericUpDown_maxTick;
         private DevComponents.DotNetBar.LabelX labelX2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private DevComponents.DotNetBar.LabelX labelX3;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
 
     }
 }

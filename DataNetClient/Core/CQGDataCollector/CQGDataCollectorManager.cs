@@ -45,8 +45,10 @@ namespace DataNetClient.Core.CQGDataCollector
         private static List<MonthCharYearModel> monthCharYearlList = new List<MonthCharYearModel>(); 
 
         private static Timer _timerScheduler = new Timer{Interval = 3000};
-        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.TimeOutMinutes *60* 1000 };// 5 minutes
+        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.MaxTimeOutMinutes *60* 1000 };// 5 minutes
         private static bool _isStarted;
+        private static object _lockHistInsert = new object();
+
         
         #endregion
 
@@ -136,8 +138,7 @@ namespace DataNetClient.Core.CQGDataCollector
         }
 
         #endregion
-           private static object _lockHistInsert = new object();
-
+        
         #region INIT
 
         static CQGDataCollectorManager()
@@ -176,11 +177,6 @@ namespace DataNetClient.Core.CQGDataCollector
             {                
                 Console.WriteLine(ex);
             }
-        }
-
-        static void _timerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            FinishCollectingGroup(_groupCurrent);
         }
 
         
@@ -225,7 +221,7 @@ namespace DataNetClient.Core.CQGDataCollector
 
         static void _cel_TicksResolved(CQGTicks cqgTicks, CQGError cqgError)
         {
-            _timerTimeout.Enabled = false;
+            ChangeTimeoutState(false, false);
 
             if (_isStoped) return;
 
@@ -236,7 +232,7 @@ namespace DataNetClient.Core.CQGDataCollector
 
         static void _cel_TimedBarsResolved(CQGTimedBars cqgTimedBars, CQGError cqgError)
         {
-            _timerTimeout.Enabled = false;
+            ChangeTimeoutState(false, false);
 
             if (_isStoped) return;
 
@@ -890,10 +886,6 @@ namespace DataNetClient.Core.CQGDataCollector
 
         #region GROUP LIST private
 
-        static void _timerTimeout_Tick(object sender, EventArgs e)
-        {
-            FinishCollectingGroup(_groupCurrent);
-        }
 
         private static bool ThereAreHaveInProgress()
         {
@@ -957,7 +949,7 @@ namespace DataNetClient.Core.CQGDataCollector
             }
             else
             {
-                _timerTimeout.Enabled = true;
+                ChangeTimeoutState(true, group.GroupModel.CntType.Contains("tsctStandard"));
             }
         }
 
@@ -1010,7 +1002,7 @@ namespace DataNetClient.Core.CQGDataCollector
             }
             else
             {
-                _timerTimeout.Enabled = true;
+                ChangeTimeoutState(true, _groups[_groupCurrent].GroupModel.CntType.Contains("tsctStandard"));
             }
             
 
@@ -1238,8 +1230,38 @@ namespace DataNetClient.Core.CQGDataCollector
                 OnRunnedStateChanged(value);
             }
         }
+        
 
-    
+        #region TimeOutLogic
+
+
+        static void _timerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            FinishCollectingGroup(_groupCurrent);
+        }
+
+
+        static void ChangeTimeoutState(bool newValue, bool isStandard)
+        {
+            if (isStandard) 
+                _timerTimeout.Interval = Settings.Default.MaxTimeOutMinutesStandard;
+            else
+                _timerTimeout.Interval = Settings.Default.MaxTimeOutMinutes;
+
+            if (newValue)
+            {
+                _timerTimeout.Enabled = false;
+                _timerTimeout.Enabled = true;
+            }
+            else 
+            {
+                _timerTimeout.Enabled = false; 
+            }
+
+        }
+
+        
+        #endregion
     
     }
 }

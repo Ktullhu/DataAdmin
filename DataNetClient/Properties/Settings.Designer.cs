@@ -265,13 +265,25 @@ namespace DataNetClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int TimeOutMinutes {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int MaxTimeOutMinutes {
             get {
-                return ((int)(this["TimeOutMinutes"]));
+                return ((int)(this["MaxTimeOutMinutes"]));
             }
             set {
-                this["TimeOutMinutes"] = value;
+                this["MaxTimeOutMinutes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int MaxTimeOutMinutesStandard {
+            get {
+                return ((int)(this["MaxTimeOutMinutesStandard"]));
+            }
+            set {
+                this["MaxTimeOutMinutesStandard"] = value;
             }
         }
     }
