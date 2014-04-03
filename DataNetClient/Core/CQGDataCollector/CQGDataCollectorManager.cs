@@ -146,7 +146,7 @@ namespace DataNetClient.Core.CQGDataCollector
             try
             {
 
-                Cel = new CQGCEL();
+                Cel = new CQGCEL();                
                 Cel.APIConfiguration.TimeZoneCode = eTimeZone.tzGMT;
                 Cel.APIConfiguration.ReadyStatusCheck = eReadyStatusCheck.rscOff;
                 Cel.APIConfiguration.CollectionsThrowException = false;
@@ -1243,10 +1243,10 @@ namespace DataNetClient.Core.CQGDataCollector
 
         static void ChangeTimeoutState(bool newValue, bool isStandard)
         {
-            if (isStandard) 
-                _timerTimeout.Interval = Settings.Default.MaxTimeOutMinutesStandard;
+            if (isStandard)
+                _timerTimeout.Interval = Settings.Default.MaxTimeOutMinutesStandard * 60 * 1000;
             else
-                _timerTimeout.Interval = Settings.Default.MaxTimeOutMinutes;
+                _timerTimeout.Interval = Settings.Default.MaxTimeOutMinutes * 60 * 1000;
 
             if (newValue)
             {
