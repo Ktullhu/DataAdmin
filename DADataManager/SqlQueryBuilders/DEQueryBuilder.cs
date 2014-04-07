@@ -31,7 +31,10 @@ namespace DADataManager.SqlQueryBuilders
                         var row = _dataTable.NewRow();
                         for (int i = 0; i < _dataTable.Columns.Count; i++)
                         {
-                            row[i] = reader.GetValue(i);
+                            //try{
+                                var el=reader.GetValue(i);
+                                row[i] = el;
+                            //}catch (Exception) {  }
                         }
                         _dataTable.Rows.Add(row);
                     }
@@ -85,7 +88,7 @@ namespace DADataManager.SqlQueryBuilders
             {
                 foreach (var column in selectedCols)
                 {
-                    if (column == "Time")
+                    if (column == "BarTime")
                         dataTable.Columns.Add(column, typeof(DateTime));
                     else switch (column)
                     {
@@ -103,8 +106,8 @@ namespace DADataManager.SqlQueryBuilders
                             break;
                     }
                 }
-                if (!dataTable.Columns.Contains("Time"))
-                    dataTable.Columns.Add("Time", typeof(DateTime));
+                if (!dataTable.Columns.Contains("BarTime"))
+                    dataTable.Columns.Add("BarTime", typeof(DateTime));
             }
             return dataTable;
         }

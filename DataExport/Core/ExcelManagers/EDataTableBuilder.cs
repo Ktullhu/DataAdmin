@@ -88,29 +88,29 @@ namespace DataExport.Core.ExcelManagers
 
                    var currentDayInDT = from rows in _internalTable.AsEnumerable()
                                         where
-                                            rows.Field<DateTime>("Time").DayOfWeek.ToString() == day
+                                            rows.Field<DateTime>("BarTime").DayOfWeek.ToString() == day
                                         select rows;
 
                    if (!currentDayInDT.Any()) continue;
 
                    var daysWithStartPeriod =
-                       from rowss in currentDayInDT.OrderBy(oo => oo.Field<DateTime>("Time").DayOfYear)
+                       from rowss in currentDayInDT.OrderBy(oo => oo.Field<DateTime>("BarTime").DayOfYear)
                        where
-                           rowss.Field<DateTime>("Time").TimeOfDay > period.StartPeriod
+                           rowss.Field<DateTime>("BarTime").TimeOfDay > period.StartPeriod
                        select rowss;
 
                    if (!daysWithStartPeriod.Any()) continue;
 
 
                    var daysInPeriod = from rowsss in daysWithStartPeriod
-                                      where rowsss.Field<DateTime>("Time").TimeOfDay < period.EndPeriod
+                                      where rowsss.Field<DateTime>("BarTime").TimeOfDay < period.EndPeriod
                                       select rowsss;
                    if (!daysInPeriod.Any()) continue;
 
 
-                   var sday = daysInPeriod.ToList()[0].Field<DateTime>("Time").DayOfYear;
+                   var sday = daysInPeriod.ToList()[0].Field<DateTime>("BarTime").DayOfYear;
                    _tempList = from rowsss in daysInPeriod
-                               where rowsss.Field<DateTime>("Time").TimeOfDay < period.EndPeriod
+                               where rowsss.Field<DateTime>("BarTime").TimeOfDay < period.EndPeriod
                                select rowsss;
 
                    DispositionDays(sday);
@@ -377,7 +377,7 @@ namespace DataExport.Core.ExcelManagers
 
                 }
            }
-           drow["Time"] = varday.ToList()[0].Field<DateTime>("Time");
+           drow["Time"] = varday.ToList()[0].Field<DateTime>("BarTime");
        }
        private void AddTimeSliceTableColumns(EDataTable edataTable,List<string> selectedColumns )
        {
@@ -423,7 +423,7 @@ namespace DataExport.Core.ExcelManagers
 
 
            var dayresult = from seldays in _internalTable.AsEnumerable()
-                           where (_days.Contains(seldays.Field<DateTime>("Time").DayOfWeek.ToString()))
+                           where (_days.Contains(seldays.Field<DateTime>("BarTime").DayOfWeek.ToString()))
                            select seldays;
 
            if (!dayresult.Any()) return;
@@ -438,8 +438,8 @@ namespace DataExport.Core.ExcelManagers
 
                var sdayResult = from items in dayresult
                                 where
-                                       items.Field<DateTime>("Time").Hour == timespan1.Hours
-                                      && items.Field<DateTime>("Time").Minute == timespan1.Minutes
+                                       items.Field<DateTime>("BarTime").Hour == timespan1.Hours
+                                      && items.Field<DateTime>("BarTime").Minute == timespan1.Minutes
                                 select items;
                if (sdayResult.Any())
                    globalResult.AddRange(sdayResult);
@@ -453,10 +453,10 @@ namespace DataExport.Core.ExcelManagers
            if (!_tempList.Any()) return;
 
 
-           var sday = globalResult[0].Field<DateTime>("Time").DayOfYear;
+           var sday = globalResult[0].Field<DateTime>("BarTime").DayOfYear;
            DispositionDays(sday);
            var result = _sortedList;
-           foreach (var dataRow in result.OrderBy(oo => oo.ToList()[0].Field<DateTime>("Time").DayOfYear))
+           foreach (var dataRow in result.OrderBy(oo => oo.ToList()[0].Field<DateTime>("BarTime").DayOfYear))
            {
 
                if (!dataRow.Any()) continue;
@@ -472,10 +472,10 @@ namespace DataExport.Core.ExcelManagers
 
                    var arritem = new ArrayList()
                                      {
-                                      row.Field<DateTime>("Time").ToString(
+                                      row.Field<DateTime>("BarTime").ToString(
                                              CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern),
-                                             row.Field<DateTime>("Time").TimeOfDay,
-                                              row.Field<DateTime>("Time").DayOfWeek.ToString()
+                                             row.Field<DateTime>("BarTime").TimeOfDay,
+                                              row.Field<DateTime>("BarTime").DayOfWeek.ToString()
                                        
                                      
                                      };
@@ -488,7 +488,7 @@ namespace DataExport.Core.ExcelManagers
            }
 
 
-           tempTable.Columns.Remove("Time");
+           tempTable.Columns.Remove("BarTime");
            tempTable.TableName = _internalTable.TableName + " SnapShot TimeFrames";
            ETableDictionary.Add(_internalTable.TableName + " SnapShot Results", tempTable);
        }
@@ -511,24 +511,24 @@ namespace DataExport.Core.ExcelManagers
        {
            var rowsForOneDay = from items in _tempList
                       where
-                          items.Field<DateTime>("Time").DayOfYear == dayofYear
+                          items.Field<DateTime>("BarTime").DayOfYear == dayofYear
                       select items ;
            var rowsWithoutCurrDay = from items in _tempList
                        where
-                           items.Field<DateTime>("Time").DayOfYear != dayofYear
+                           items.Field<DateTime>("BarTime").DayOfYear != dayofYear
                        select items;
            _tempList = rowsWithoutCurrDay;
 
-           _sortedList.Add(rowsForOneDay.OrderBy(o => o.Field<DateTime>("Time").DayOfYear).ToList());
+           _sortedList.Add(rowsForOneDay.OrderBy(o => o.Field<DateTime>("BarTime").DayOfYear).ToList());
            if(_tempList.Count() !=0)
-               DispositionDays(_tempList.ToList()[0].Field<DateTime>("Time").DayOfYear);
+               DispositionDays(_tempList.ToList()[0].Field<DateTime>("BarTime").DayOfYear);
        }
        private  void NormalizeEDataTables(DataType dataType)
        {
            var summaryDays = new List<DataRow>();
            foreach(var day in _days)
            {
-              
+
                foreach (var tempdays in _eDataTableDictionary.Select(etable => etable.Value.AsEnumerable().OrderBy(oo => oo.Field<DateTime>("Time").DayOfYear)))
                {
                    summaryDays.AddRange((from eday in tempdays
@@ -563,7 +563,7 @@ namespace DataExport.Core.ExcelManagers
          foreach (var editem in _eDataTableDictionary)
          {
             var dtable = new EDataTable(_queryId, false, true);
-          foreach (var column in editem.Value.Columns.Cast<DataColumn>().Where(column => column.ColumnName != "Time"))
+            foreach (var column in editem.Value.Columns.Cast<DataColumn>().Where(column => column.ColumnName != "BarTime"))
           {
               dtable.Columns.Add(column.ColumnName);
           }

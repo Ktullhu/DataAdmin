@@ -447,7 +447,7 @@ namespace DataNetClient.Core.CQGDataCollector
 
                 var sql = "INSERT IGNORE INTO B_" + str5 + "_" + tType + " (Symbol, OpenValue, HighValue, LowValue, CloseValue," +
                     " TickVol, ActualVol, AskVol, BidVol, OpenInterest," +
-                             "BarTime, SystemTime, ContinuationType, UserName, MonthChar, Year) VALUES (" + str3 + ");";
+                             "BarTime, SystemTime, ContinuationType, UserName, MonthChar, YearChar) VALUES (" + str3 + ");";
 
                 DatabaseManager.AddToQueue(sql, 5);
             }

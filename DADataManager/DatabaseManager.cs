@@ -83,7 +83,7 @@ namespace DADataManager
             try
             {
                 var str = symbol.Trim().Split('.');
-                var sql = "Select `MonthChar`, `Year` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
+                var sql = "Select `MonthChar`, `YearChar` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
                 return DoSqlBar(sql);
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace DADataManager
                     + "`MonthChar` VARCHAR(50) NOT NULL DEFAULT 'empty' after `userName`";
                 DoSqlBar(sql);
                 sql = "ALTER TABLE `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` ADD COLUMN"
-                + "`Year` VARCHAR(50) NOT NULL DEFAULT 'empty' after `MonthChar`";
+                + "`YearChar` VARCHAR(50) NOT NULL DEFAULT 'empty' after `MonthChar`";
                 DoSqlBar(sql);
 
             }
