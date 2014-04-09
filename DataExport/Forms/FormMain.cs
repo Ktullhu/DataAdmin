@@ -651,6 +651,7 @@ namespace DataExport.Forms
             var systemdbName = ui_home_textBoxX_systemdb.Text;
             var dbNameBar = ui_home_textBoxX_bardb.Text;
             var dbNameHist = ui_home_textBoxX_historicaldb.Text;
+            var dbNameLive = ui_home_textBoxX_liveDB.Text;
             var host = ui_home_textBoxX_host.Text;
             var usName = ui_home_textBoxX_uid.Text;
             var passw = ui_home_textBoxX_pwd.Text;
@@ -658,6 +659,7 @@ namespace DataExport.Forms
             _connectionStringToLocalDb = "SERVER=" + host + "; DATABASE=" + systemdbName + "; UID=" + usName + "; PASSWORD=" + passw;
             _connectionStringToLocalDbBar = "SERVER=" + host + "; DATABASE=" + dbNameBar + "; UID=" + usName + "; PASSWORD=" + passw;
             _connectionStringToLocalDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
+            _connectionStringToLocalDbLive  = "SERVER=" + host + "; DATABASE=" + dbNameLive+ "; UID=" + usName + "; PASSWORD=" + passw;
 
 
             DataExportClientDataManager.ConnectToLocalDb(_connectionStringToLocalDb, _connectionStringToLocalDbBar, _connectionStringToLocalDbHistorical, _connectionStringToLocalDbLive, _client.UserID);

@@ -154,6 +154,8 @@
             this.progressBarItemCollecting = new DevComponents.DotNetBar.ProgressBarItem();
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.labelX8 = new DevComponents.DotNetBar.LabelX();
+            this.ui_home_textBoxX_liveDB = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.metroTabPanel3.SuspendLayout();
@@ -194,8 +196,8 @@
             this.metroShell1.CanCustomize = false;
             this.metroShell1.CaptionVisible = true;
             this.metroShell1.CategorizeMode = DevComponents.DotNetBar.Metro.eMetroCategorizeMode.Categories;
-            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
+            this.metroShell1.Controls.Add(this.metroTabPanel2);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroShell1.ForeColor = System.Drawing.Color.Black;
             this.metroShell1.HelpButtonText = "LOGOUT";
@@ -250,6 +252,7 @@
             // 
             this.metroTabPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel2.TabIndex = 1;
+            this.metroTabPanel2.Visible = false;
             // 
             // metroTabPanel3
             // 
@@ -1755,7 +1758,6 @@
             this.metroTabPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.metroTabPanel1.StyleMouseOver.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.metroTabPanel1.TabIndex = 0;
-            this.metroTabPanel1.Visible = false;
             // 
             // panelEx5
             // 
@@ -1765,9 +1767,9 @@
             this.panelEx5.Controls.Add(this.ui_LabelX_sharedAvaliable);
             this.panelEx5.Controls.Add(this.ui_buttonX_shareConnect);
             this.panelEx5.Controls.Add(this.labelX16);
-            this.panelEx5.Location = new System.Drawing.Point(219, 84);
+            this.panelEx5.Location = new System.Drawing.Point(219, 52);
             this.panelEx5.Name = "panelEx5";
-            this.panelEx5.Size = new System.Drawing.Size(272, 310);
+            this.panelEx5.Size = new System.Drawing.Size(272, 342);
             this.panelEx5.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx5.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
             this.panelEx5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1797,7 +1799,7 @@
             this.ui_buttonX_shareConnect.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.ui_buttonX_shareConnect.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.ui_buttonX_shareConnect.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ui_buttonX_shareConnect.Location = new System.Drawing.Point(58, 268);
+            this.ui_buttonX_shareConnect.Location = new System.Drawing.Point(58, 296);
             this.ui_buttonX_shareConnect.Name = "ui_buttonX_shareConnect";
             this.ui_buttonX_shareConnect.Size = new System.Drawing.Size(144, 29);
             this.ui_buttonX_shareConnect.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -1826,6 +1828,8 @@
             this.panelEx1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelEx1.CanvasColor = System.Drawing.SystemColors.Control;
             this.panelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx1.Controls.Add(this.labelX8);
+            this.panelEx1.Controls.Add(this.ui_home_textBoxX_liveDB);
             this.panelEx1.Controls.Add(this.labelX7);
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_historicaldb);
             this.panelEx1.Controls.Add(this.labelX6);
@@ -1842,9 +1846,9 @@
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_systemdb);
             this.panelEx1.Controls.Add(this.labelX1);
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_host);
-            this.panelEx1.Location = new System.Drawing.Point(497, 84);
+            this.panelEx1.Location = new System.Drawing.Point(497, 52);
             this.panelEx1.Name = "panelEx1";
-            this.panelEx1.Size = new System.Drawing.Size(272, 310);
+            this.panelEx1.Size = new System.Drawing.Size(272, 342);
             this.panelEx1.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
             this.panelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1940,11 +1944,11 @@
             this.checkBoxX1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxX1.CheckValue = "Y";
             this.checkBoxX1.ForeColor = System.Drawing.Color.Black;
-            this.checkBoxX1.Location = new System.Drawing.Point(120, 236);
+            this.checkBoxX1.Location = new System.Drawing.Point(120, 264);
             this.checkBoxX1.Name = "checkBoxX1";
             this.checkBoxX1.Size = new System.Drawing.Size(100, 23);
             this.checkBoxX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.checkBoxX1.TabIndex = 5;
+            this.checkBoxX1.TabIndex = 6;
             this.checkBoxX1.Text = "Save me";
             // 
             // ui_buttonX_localConnect
@@ -1952,11 +1956,11 @@
             this.ui_buttonX_localConnect.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.ui_buttonX_localConnect.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.ui_buttonX_localConnect.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ui_buttonX_localConnect.Location = new System.Drawing.Point(64, 268);
+            this.ui_buttonX_localConnect.Location = new System.Drawing.Point(64, 296);
             this.ui_buttonX_localConnect.Name = "ui_buttonX_localConnect";
             this.ui_buttonX_localConnect.Size = new System.Drawing.Size(144, 29);
             this.ui_buttonX_localConnect.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_buttonX_localConnect.TabIndex = 6;
+            this.ui_buttonX_localConnect.TabIndex = 7;
             this.ui_buttonX_localConnect.Text = "Connect to Local DB";
             this.ui_buttonX_localConnect.Click += new System.EventHandler(this.ui_buttonX_localConnect_Click);
             // 
@@ -2113,13 +2117,13 @@
             // 
             // ui_HomeTab_metroTabItem
             // 
+            this.ui_HomeTab_metroTabItem.Checked = true;
             this.ui_HomeTab_metroTabItem.Name = "ui_HomeTab_metroTabItem";
             this.ui_HomeTab_metroTabItem.Panel = this.metroTabPanel1;
             this.ui_HomeTab_metroTabItem.Text = "&HOME";
             // 
             // ui_ExportTab_metroTabItem
             // 
-            this.ui_ExportTab_metroTabItem.Checked = true;
             this.ui_ExportTab_metroTabItem.Name = "ui_ExportTab_metroTabItem";
             this.ui_ExportTab_metroTabItem.Panel = this.metroTabPanel2;
             this.ui_ExportTab_metroTabItem.Text = "EXPORT";
@@ -2209,6 +2213,36 @@
             this.labelItemUserName.PaddingRight = 5;
             this.labelItemUserName.Text = "User Name";
             this.labelItemUserName.Tooltip = "User name";
+            // 
+            // labelX8
+            // 
+            // 
+            // 
+            // 
+            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX8.ForeColor = System.Drawing.Color.Black;
+            this.labelX8.Location = new System.Drawing.Point(35, 228);
+            this.labelX8.Name = "labelX8";
+            this.labelX8.Size = new System.Drawing.Size(75, 20);
+            this.labelX8.TabIndex = 30;
+            this.labelX8.Text = "Live DB";
+            this.labelX8.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // ui_home_textBoxX_liveDB
+            // 
+            this.ui_home_textBoxX_liveDB.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.ui_home_textBoxX_liveDB.Border.BorderLeftColor = System.Drawing.Color.CadetBlue;
+            this.ui_home_textBoxX_liveDB.Border.BorderLeftWidth = 3;
+            this.ui_home_textBoxX_liveDB.Border.Class = "TextBoxBorder";
+            this.ui_home_textBoxX_liveDB.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_home_textBoxX_liveDB.ForeColor = System.Drawing.Color.Black;
+            this.ui_home_textBoxX_liveDB.Location = new System.Drawing.Point(116, 228);
+            this.ui_home_textBoxX_liveDB.Name = "ui_home_textBoxX_liveDB";
+            this.ui_home_textBoxX_liveDB.Size = new System.Drawing.Size(128, 22);
+            this.ui_home_textBoxX_liveDB.TabIndex = 6;
             // 
             // FormMain
             // 
@@ -2390,7 +2424,9 @@
         private DevComponents.DotNetBar.LabelX labelX7;
         private DevComponents.DotNetBar.Controls.TextBoxX ui_home_textBoxX_historicaldb;
         private DevComponents.DotNetBar.LabelX labelX6;
-        private DevComponents.DotNetBar.Controls.TextBoxX ui_home_textBoxX_bardb;        
+        private DevComponents.DotNetBar.Controls.TextBoxX ui_home_textBoxX_bardb;
+        private DevComponents.DotNetBar.LabelX labelX8;
+        private DevComponents.DotNetBar.Controls.TextBoxX ui_home_textBoxX_liveDB;        
     }
 }
 
