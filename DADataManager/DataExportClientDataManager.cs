@@ -88,6 +88,8 @@ namespace DADataManager
 
         public static List<SymbolModel> GetSymbolsForUser(string userName)
         {
+            if (!CurrentDbIsShared) return GetAllSymbols();
+
             var symbolsList = new List<SymbolModel>();
             string sql_ = "SELECT ID FROM tbl_users WHERE UserName='" + userName + "';";
             MySqlDataReader reader1 = GetReader(sql_);
