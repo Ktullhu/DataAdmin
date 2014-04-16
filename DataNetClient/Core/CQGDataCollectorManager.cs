@@ -11,7 +11,7 @@ using Timer = System.Windows.Forms.Timer;
 using DADataManager.Models;
 using DADataManager;
 
-namespace DataNetClient.Core.CQGDataCollector
+namespace DataNetClient.CQGDataCollector
 {
     static class CQGDataCollectorManager
     {
@@ -309,18 +309,6 @@ namespace DataNetClient.Core.CQGDataCollector
 
         }
 
-        private static eTimeSeriesContinuationType ConvertToTsts(string continuationType)
-        {
-            switch (continuationType)
-            {
-                case "tsctStandard":
-                    return eTimeSeriesContinuationType.tsctStandard;
-
-                default: return eTimeSeriesContinuationType.tsctNoContinuation;
-            }
-        }
-
-        
         private static void TicksRequest(string symbolName)
         {
             try
@@ -357,6 +345,18 @@ namespace DataNetClient.Core.CQGDataCollector
             }
         }
 
+        private static eTimeSeriesContinuationType ConvertToTsts(string continuationType)
+        {
+            switch (continuationType)
+            {
+                case "tsctStandard":
+                    return eTimeSeriesContinuationType.tsctStandard;
+
+                default: return eTimeSeriesContinuationType.tsctNoContinuation;
+            }
+        }
+
+        
         #endregion
 
         #region SAVING COLLECTED DATA
@@ -546,202 +546,196 @@ namespace DataNetClient.Core.CQGDataCollector
 
         public static void TicksAdd(CQGTicks cqgTicks, CQGError cqgError, string userName)
         {
-            
+
             try
             {
-                
-                if (cqgError != null && cqgError.Code != 0)
+
+                if ((cqgError != null && cqgError.Code != 0) || cqgTicks.Count == 0)
                 {
                     FinishCollectingSymbol(cqgTicks.Request.Symbol, false);
+                    return;
                 }
-                else
+
+                new Thread(() =>
                 {
-                    DatabaseManager.CreateTickTable(cqgTicks.Request.Symbol);
 
-
-                    DateTime runDateTime = DateTime.Now;
-                    int groupId = 0;
-                    if (cqgTicks.Count != 0)
+                    lock (_lockHistInsert)
                     {
-                        new Thread(() =>
+                        DatabaseManager.CreateTickTable(cqgTicks.Request.Symbol);
+
+
+                        DateTime runDateTime = DateTime.Now;
+                        int groupId = 0;
+
+                        OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
+                        DateTime _tmpTime = new DateTime();
+                        int end;
+                        if (_rangeDateEnd == _tmpTime)
+                        {
+                            end = cqgTicks.Count - 1;
+                        }
+                        else end = CqgGetId(cqgTicks, _rangeDateEnd);
+
+                        Console.WriteLine(DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                        Console.WriteLine(DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                        Console.WriteLine(cqgTicks.StartTimestamp);
+                        Console.WriteLine(cqgTicks[end].Timestamp);
+                        if (_tmpTime == DatabaseManager.GetMinTime(cqgTicks.Request.Symbol))//todo if empty
+                        {
+                            var progr = 0;
+                            var rowsMaxCount = end;
+                            var rowsInserted = 0;
+                            OnProgressBarChanged(progr);
+                            Console.WriteLine(cqgTicks[end].Timestamp);
+                            Console.WriteLine(cqgTicks[0].Timestamp);
+                            for (int i = 0; i <= end; i++)
+                            {
+                                rowsInserted++;
+                                //Console.WriteLine(cqgTicks[i].Timestamp);
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                var cto = (double)rowsMaxCount;
+                                var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                if (newProgr > progr)
+                                {
+                                    progr = newProgr;
+                                    OnProgressBarChanged(progr);
+                                }
+                                //OnProgressBarChanged(progress);
+
+                            }
+                        }
+                        else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp &&//todo ned test//6
+                                 DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp)
                         {
 
-                            lock (_lockHistInsert)
+                            int first_start = 0;
+                            int first_end = CqgGetId(cqgTicks, DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                            Console.WriteLine(cqgTicks[first_start].Timestamp + " " + cqgTicks[first_end].Timestamp);
+                            int last_start = CqgGetId(cqgTicks, DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                            int last_end = end;
+                            Console.WriteLine(cqgTicks[last_start].Timestamp + " " + cqgTicks[last_end].Timestamp);
+                            for (int i = first_start; i <= first_end; i++)
                             {
-                                OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
-                                DateTime _tmpTime=new DateTime();
-                                int end;
-                                if (_rangeDateEnd == _tmpTime)
-                                {
-                                    end = cqgTicks.Count - 1;
-                                }
-                                else end = CqgGetId(cqgTicks, _rangeDateEnd);
-                                
-                                Console.WriteLine(DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
-                                Console.WriteLine(DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
-                                Console.WriteLine(cqgTicks.StartTimestamp);
-                                Console.WriteLine(cqgTicks[end].Timestamp);
-                                if (_tmpTime == DatabaseManager.GetMinTime(cqgTicks.Request.Symbol))//todo if empty
-                                {
-                                    var progr = 0;
-                                    var rowsMaxCount = end;
-                                    var rowsInserted = 0;
-                                    OnProgressBarChanged(progr);
-                                    Console.WriteLine(cqgTicks[end].Timestamp);
-                                    Console.WriteLine(cqgTicks[0].Timestamp);
-                                    for (int i = 0; i <=end; i++)
-                                    {
-                                        rowsInserted++;
-                                        //Console.WriteLine(cqgTicks[i].Timestamp);
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                                        var cto = (double)rowsMaxCount;
-                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
-                                        if (newProgr > progr)
-                                        {
-                                            progr = newProgr;
-                                            OnProgressBarChanged(progr);
-                                        }
-                                        //OnProgressBarChanged(progress);
-
-                                    }
-                                }
-                                else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp &&//todo ned test//6
-                                         DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp)
-                                {
-                                    
-                                    int first_start = 0;
-                                    int first_end = CqgGetId(cqgTicks,DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
-                                    Console.WriteLine(cqgTicks[first_start].Timestamp + " " + cqgTicks[first_end].Timestamp);
-                                    int last_start = CqgGetId(cqgTicks, DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
-                                    int last_end = end;
-                                    Console.WriteLine(cqgTicks[last_start].Timestamp + " " + cqgTicks[last_end].Timestamp);
-                                    for (int i = first_start; i <= first_end; i++)
-                                    {
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                                    }
-                                    for (int i = last_start; i <= last_end; i++)
-                                    {
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                                    }
-
-                                }
-                                else if (
-                                    DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp &&
-                                    DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp)//todo ned test//4
-                                {
-                                    int StartTimestamp = CqgGetId(cqgTicks, DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
-                                    Console.WriteLine(cqgTicks[StartTimestamp].Timestamp);
-                                    Console.WriteLine(cqgTicks[end].Timestamp);
-                                    var progr = 0;
-                                    OnProgressBarChanged(progr);
-                    
-                                    var rowsMaxCount = end - StartTimestamp;
-                                    var rowsInserted=0;
-                                    for (int i = StartTimestamp; i <= end; i++)
-                                    {
-                                        rowsInserted++;
-
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                                       
-                                        var cto = (double)rowsMaxCount;
-                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
-                                        if (newProgr > progr)
-                                        {
-                                            progr = newProgr;
-                                            OnProgressBarChanged(progr);
-                                        }
-                                    }
-                                    //Console.WriteLine(cqgTicks.StartTimestamp);
-
-                                }
-                                else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp &&
-                                    DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp)//todo ned test//5
-                                {
-                                    end = CqgGetId(cqgTicks,DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
-                                    Console.WriteLine(cqgTicks[end].Timestamp);
-                                   Console.WriteLine(cqgTicks[0].Timestamp);
-                                    var progr = 0;
-                                    OnProgressBarChanged(progr);
-                                    var rowsInserted = 0;
-                                    var rowsMaxCount = end;
-                                    for (int i = 0; i <= end; i++)
-                                    {
-                                        rowsInserted++;
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-
-                                        var cto = (double)rowsMaxCount;
-                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
-                                        if (newProgr > progr)
-                                        {
-                                            progr = newProgr;
-                                            OnProgressBarChanged(progr);
-                                        }
-
-                                    }
-                                }
-                                else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks[end].Timestamp)//todo test 2   
-                                {
-                                    var progr = 0;
-                                    OnProgressBarChanged(progr);
-                                    var rowsInserted = 0;
-                                    var rowsMaxCount = end;
-                                    for (int i = 0; i <= end; i++)
-                                    {
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                                        var cto = (double)rowsMaxCount;
-                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
-                                        if (newProgr > progr)
-                                        {
-                                            progr = newProgr;
-                                            OnProgressBarChanged(progr);
-                                        }
-                                    }
-                                }
-                                else if (DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks.StartTimestamp)//todo test 1   
-                                {
-                                    var progr = 0;
-                                    OnProgressBarChanged(progr);
-                                    var rowsInserted = 0;
-                                    var rowsMaxCount = end;
-                                    for (int i = 0; i <= end; i++)
-                                    {
-                                        if (_isStoped) break;
-                                        AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
-                                        var cto = (double)rowsMaxCount;
-                                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
-                                        if (newProgr > progr)
-                                        {
-                                            progr = newProgr;
-                                            OnProgressBarChanged(progr);
-                                        }
-
-                                    }
-                                }
-                              
-                                DatabaseManager.CommitQueueTick();
-
-                                FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
-                                OnProgressBarChanged(100);
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                            }
+                            for (int i = last_start; i <= last_end; i++)
+                            {
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
                             }
 
-                        }) { Name ="InsertingHistoricalThread"}.Start();
-                        
-                    }
-                   
+                        }
+                        else if (
+                            DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp &&
+                            DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp)//todo ned test//4
+                        {
+                            int StartTimestamp = CqgGetId(cqgTicks, DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol));
+                            Console.WriteLine(cqgTicks[StartTimestamp].Timestamp);
+                            Console.WriteLine(cqgTicks[end].Timestamp);
+                            var progr = 0;
+                            OnProgressBarChanged(progr);
 
-                }
-               
+                            var rowsMaxCount = end - StartTimestamp;
+                            var rowsInserted = 0;
+                            for (int i = StartTimestamp; i <= end; i++)
+                            {
+                                rowsInserted++;
+
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+
+                                var cto = (double)rowsMaxCount;
+                                var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                if (newProgr > progr)
+                                {
+                                    progr = newProgr;
+                                    OnProgressBarChanged(progr);
+                                }
+                            }
+                            //Console.WriteLine(cqgTicks.StartTimestamp);
+
+                        }
+                        else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) < cqgTicks[end].Timestamp &&
+                            DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks.StartTimestamp)//todo ned test//5
+                        {
+                            end = CqgGetId(cqgTicks, DatabaseManager.GetMinTime(cqgTicks.Request.Symbol));
+                            Console.WriteLine(cqgTicks[end].Timestamp);
+                            Console.WriteLine(cqgTicks[0].Timestamp);
+                            var progr = 0;
+                            OnProgressBarChanged(progr);
+                            var rowsInserted = 0;
+                            var rowsMaxCount = end;
+                            for (int i = 0; i <= end; i++)
+                            {
+                                rowsInserted++;
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+
+                                var cto = (double)rowsMaxCount;
+                                var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                if (newProgr > progr)
+                                {
+                                    progr = newProgr;
+                                    OnProgressBarChanged(progr);
+                                }
+
+                            }
+                        }
+                        else if (DatabaseManager.GetMinTime(cqgTicks.Request.Symbol) > cqgTicks[end].Timestamp)//todo test 2   
+                        {
+                            var progr = 0;
+                            OnProgressBarChanged(progr);
+                            var rowsInserted = 0;
+                            var rowsMaxCount = end;
+                            for (int i = 0; i <= end; i++)
+                            {
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                var cto = (double)rowsMaxCount;
+                                var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                if (newProgr > progr)
+                                {
+                                    progr = newProgr;
+                                    OnProgressBarChanged(progr);
+                                }
+                            }
+                        }
+                        else if (DatabaseManager.GetMaxTime(cqgTicks.Request.Symbol) < cqgTicks.StartTimestamp)//todo test 1   
+                        {
+                            var progr = 0;
+                            OnProgressBarChanged(progr);
+                            var rowsInserted = 0;
+                            var rowsMaxCount = end;
+                            for (int i = 0; i <= end; i++)
+                            {
+                                if (_isStoped) break;
+                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, runDateTime, ++groupId, userName);
+                                var cto = (double)rowsMaxCount;
+                                var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                                if (newProgr > progr)
+                                {
+                                    progr = newProgr;
+                                    OnProgressBarChanged(progr);
+                                }
+
+                            }
+                        }
+
+                        DatabaseManager.CommitQueueTick();
+
+                        FinishCollectingSymbol(cqgTicks.Request.Symbol, true);
+                        OnProgressBarChanged(100);
+                    }
+
+                }) { Name = "InsertingHistoricalThread" }.Start();
 
             }
+
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);                
+                Console.WriteLine("TicksAdd"+ex.Message);
             }
         }
 
@@ -790,20 +784,11 @@ namespace DataNetClient.Core.CQGDataCollector
 
 
 
-        public static bool Start()
-        //    DateTime rangeDateStart, DateTime rangeDateEnd, int sessionFilter,  int rangeStart, int rangeEnd, 
+        public static bool Start()        
         {
             if (IsStarted) return false;
             _isFromList = false;
             IsStarted = true;
-
-            //_rangeStart = rangeStart;
-            //_rangeEnd = rangeEnd;
-            //_sessionFilter = sessionFilter;
-            //_rangeDateStart = rangeDateStart;
-            //_rangeDateEnd = rangeDateEnd;
-
-
 
             foreach (var groupItem in _groups)
             {
@@ -935,14 +920,16 @@ namespace DataNetClient.Core.CQGDataCollector
             StartProgress(index);
             OnCollectedSymbolCountChanged(_groupCurrent,"", 0, _groups[index].AllSymbols.Count, true);
 
-            foreach (var symbol in group.AllSymbols)
+            if (group.GroupModel.TimeFrame != "tick")
             {
-                if(group.GroupModel.TimeFrame == "tick")
-                    TicksRequest(symbol);
-                else
+                foreach (var symbol in group.AllSymbols)
                     TimeBarRequest(symbol);
-                
             }
+            else if (group.AllSymbols.Count != 0)
+            {
+                TicksRequest(group.AllSymbols.First());
+            }
+
             if (group.AllSymbols.Count == 0)
             { 
                 FinishCollectingGroup(index); 
@@ -1003,9 +990,15 @@ namespace DataNetClient.Core.CQGDataCollector
             else
             {
                 ChangeTimeoutState(true, _groups[_groupCurrent].GroupModel.CntType.Contains("tsctStandard"));
+                TicksRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
             }
             
 
+        }
+
+        private static string GetFirstSymbol(List<string> listAllSymbols, List<string> collectedSymbols)
+        {
+            return listAllSymbols.Except(collectedSymbols).ToList().First();
         }
 
         private static void FinishCollectingAllSymbols()

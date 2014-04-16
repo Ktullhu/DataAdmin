@@ -15,13 +15,13 @@ using DADataManager;
 using DADataManager.Models;
 using DataNetClient.Core;
 using DataNetClient.Core.ClientManager;
-using DataNetClient.Core.CQGDataCollector;
 using DataNetClient.Properties;
 using DevComponents.DotNetBar;
 using Hik.Communication.Scs.Communication.EndPoints.Tcp;
 using Hik.Communication.ScsServices.Client;
 using Timer = System.Windows.Forms.Timer;
 using DevComponents.DotNetBar.Metro.ColorTables;
+using DataNetClient.CQGDataCollector;
  
 
 namespace DataNetClient.Forms

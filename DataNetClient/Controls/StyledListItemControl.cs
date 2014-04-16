@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using DataNetClient.Core.CQGDataCollector;
 using DADataManager.Models;
 
 namespace DataNetClient.Controls

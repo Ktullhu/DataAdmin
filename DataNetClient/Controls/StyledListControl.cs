@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using DataNetClient.Core.CQGDataCollector;
 using DADataManager.Models;
 
 namespace DataNetClient.Controls

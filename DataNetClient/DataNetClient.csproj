@@ -104,7 +104,7 @@
     <Compile Include="Controls\StyledTextBox.Designer.cs">
       <DependentUpon>StyledTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\CQGDataCollector\CQGDataCollectorManager.cs" />
+    <Compile Include="Core\CQGDataCollectorManager.cs" />
     <Compile Include="Core\Daily_NotChanchedValuesManager.cs" />
     <Compile Include="Core\MissingBarManager.cs" />
     <Compile Include="Core\ClientManager\DataClientClass.cs" />
