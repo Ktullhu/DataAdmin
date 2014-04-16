@@ -341,7 +341,7 @@ namespace DataAdmin.Forms
         {
             OldGroupName = textBoxXListName.Text;
 
-            var symbolsList = DataManager.GetSymbols();
+            var symbolsList = AdminDatabaseManager.GetSymbols();
             foreach (var symbol in symbolsList)
             {
                 var exist = false;

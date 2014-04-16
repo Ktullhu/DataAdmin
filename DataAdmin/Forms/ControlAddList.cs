@@ -340,7 +340,7 @@ namespace DataAdmin.Forms
             cmbContinuationType.Items.Add(eTimeSeriesContinuationType.tsctAdjustedByMonth);
             cmbContinuationType.SelectedIndex = 0;
 
-            var symbolsList = DataManager.GetSymbols();
+            var symbolsList = AdminDatabaseManager.GetSymbols();
             foreach (var symbol in symbolsList)
             {
                 lbAvbList.Items.Add(symbol.SymbolName);

@@ -826,6 +826,7 @@ namespace DataNetClient.Forms
                 {
                     logMsg.IsByDataNetBusy = false;
                     logMsg.IsDataNetClient = true;
+                    logMsg.TimeFrame = timeFrame;
                     _logClientService.ServiceProxy.SendFinishedOperationLog(logMsg);
                 }
             }
@@ -1753,15 +1754,17 @@ namespace DataNetClient.Forms
                     
                     _logger.LogAdd(@"     Symbol '" + symbol + "' collected ["+(isCorrect?"Success":"Unsuccessful")+"]", isCorrect?Category.Information:Category.Warning);
                     
-
                     
                     if (count == totalCount)
                         ui__status_labelItem_status.Text = "Collecting finished.";
                     return;
                 }
-                if(count!=0)
+                if (count != 0)
+                {
+//                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
+                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
                     _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "]", isCorrect ? Category.Information : Category.Warning);
-
+                }
                 styledListControl1.ChangeCollectedCount(index, count, totalCount);
                 ui__status_labelItem_status.Text = "Collecting: "+_groupItems[index].GroupModel.GroupName+" ["+count+"/"+totalCount+"]";
 
@@ -1783,8 +1786,7 @@ namespace DataNetClient.Forms
                     Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
                                                                     _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
 
-                    Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,
-                                                                    "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
+                    Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
                 }
                 if (state == GroupState.Finished)
                 {
@@ -1795,8 +1797,7 @@ namespace DataNetClient.Forms
                     DatabaseManager.SetGroupEndDatetime(_groupItems[index].GroupModel.GroupId, _groupItems[index].GroupModel.End);
                     ui__status_labelItem_status.Text = "Collecting finished for group: " + _groupItems[index].GroupModel.GroupName;
 
-                    Task.Factory.StartNew(() => SendLog(_groupItems[index].CollectedSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,
-                                                                    "", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
+                   // Task.Factory.StartNew(() => SendLog(_groupItems[index].CollectedSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
                     Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
                                                 _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
                 }

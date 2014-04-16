@@ -23,6 +23,8 @@ namespace DataAdmin.Forms
 {
     public partial class FormMain : MetroAppForm
     {
+        #region VARS
+
         private readonly MetroBillCommands _commands;
         private readonly StartControl _startControl;
         private AddUserControl _addUserControl;
@@ -46,13 +48,448 @@ namespace DataAdmin.Forms
 
         private event MainFormErrorReporter ErrorReport;
 
-        #region VARS
-
 
         private readonly Object _thisLock = new Object();
-        private void DataNetCollectStarted(DataAdminMessageFactory.LogMessage msg)
+        private readonly Object _thisNLock = new Object();
+      
+        private object _lockFinishedCollect = new object();
+
+        #endregion
+
+
+        #region Basic function (Constructor, Load, Show, Closing, Resize, Notify)
+
+        public FormMain()
+        {
+            InitializeComponent();
+            metroShellMain.SelectedTab = metroTabItem_users;
+           
+            ToastNotification.ToastBackColor = Color.SteelBlue;
+            ToastNotification.DefaultToastPosition = eToastPosition.BottomCenter;
+
+            SuspendLayout();
+
+            _commands = new MetroBillCommands
+            {
+                StartControlCommands = { Logon = new Command(), Exit = new Command() },
+                AddUserControlCommands = { Add = new Command(), Cancel = new Command() },
+                EditUserControlCommands = { SaveChanges = new Command(), Cancel = new Command() },
+                AddListCommands = { Save = new Command (), Cancel = new Command() },
+                EditListCommands = { Save = new Command(), Cancel = new Command() }
+            };            
+            //**
+            _commands.StartControlCommands.Logon.Executed += StartControl_LogonClick;
+            _commands.StartControlCommands.Exit.Executed += StartControl_ExitClick;
+
+            _commands.AddUserControlCommands.Add.Executed += AddNewUserControl_AddClick;
+            _commands.AddUserControlCommands.Cancel.Executed += AddNewUserControl_CancelClick;
+
+            _commands.EditUserControlCommands.SaveChanges.Executed += EditUserControl_SaveClick;
+            _commands.EditUserControlCommands.Cancel.Executed += EditUserControl_CancelClick;
+
+            _commands.AddListCommands.Cancel.Executed += AddListControl_CancelClick;
+            _commands.AddListCommands.Save.Executed += AddListControl_SaveClick;
+
+            _commands.EditListCommands.Cancel.Executed += EditListControl_CancelClick;
+            _commands.EditListCommands.Save.Executed += EditListControl_SaveClick;
+
+            //**
+            _startControl = new StartControl {Commands = _commands};
+
+            Controls.Add(_startControl);
+            _startControl.BringToFront();            
+            _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
+
+            //NetworkInterface[] networks = NetworkInterface.GetAllNetworkInterfaces();
+
+            //foreach (NetworkInterface network in networks)
+            //{
+            //    if (network.Name != "Hamachi") continue;
+            //   _hamachiIp = network.GetIPProperties().UnicastAddresses[0].Address.ToString();
+                
+            //}
+
+            ResumeLayout(false);
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0,0);
+            if (Settings.Default.S.Width < 0 || Settings.Default.S.Height < 0) Settings.Default.S = new Size(1000, 500);
+
+            Size = Settings.Default.S;
+            Location = Settings.Default.L;
+            UpdateControlsSizeAndLocation();
+            AdminDatabaseManager.CreateBackupDirectory(AdminDatabaseManager.BackUpFilePath);
+            _backUpFileNameList = AdminDatabaseManager.ReturnBackUpFilesName();
+            foreach (var variable in _backUpFileNameList)
+            {
+                comboBoxEx1.Items.Add(variable);
+            }
+            string time;
+            //string time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[_backUpFileNameList.Count-1];
+            if (_backUpFileNameList.Count == 0)
+            {
+                time = "none";
+            }
+            else
+            {
+                time = _backUpFileNameList[_backUpFileNameList.Count - 1];
+                //time=time.Replace('_', '/');
+                //time = time.Replace('-', ':');
+                labelX19.Text = time;
+                DateTime ScheduledBackup = Convert.ToDateTime(_backUpFileNameList[0]);
+                ScheduledBackup = ScheduledBackup.AddDays(7);
+                labelX17.Text = ScheduledBackup.ToString();
+                if (ScheduledBackup.ToShortDateString() == DateTime.Today.ToShortDateString())
+                    labelX19.Text = AdminDatabaseManager.BackupSystemTables().ToString();
+            }
+
+        }
+
+        private void FormMain_Shown(object sender, EventArgs e)
+        {
+            metroShellMain.TitleText = @"Data Admin v" + Application.ProductVersion;
+            var color = Color.SteelBlue;
+
+            ui_user_labelX_users.ForeColor =
+                ui_user_labelX_gas.ForeColor =
+                ui_user_labelX_ud.ForeColor =
+                ui_symbols_labelX_sd.ForeColor =
+                ui_symbols_labelX_s.ForeColor =
+                ui_symbols_labelX_sh.ForeColor =
+                ui_symbols_labelX_Symbols.ForeColor =
+                ui_groups_labelX_SymbolLists.ForeColor =
+                ui_groups_labelX_SListDetails.ForeColor =
+                ui_groups_labelX_gd.ForeColor = 
+                ui_groups_labelX_gh.ForeColor=
+                ui_logs_labelX_logs.ForeColor = color;                        
+
+            notifyIcon.Icon = Icon;
+            if (_startControl!=null)
+                _startControl.ui_textBoxX_login.Focus();
+            //_startControl.ui_textBoxX_host.Text = _hamachiIp;
+            timerLogon.Enabled = true;
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Logout();
+            Hide();
+            e.Cancel = false;
+            if (WindowState == FormWindowState.Normal)
+            {
+                Settings.Default.L = Location;
+                Settings.Default.S = Size;
+            }
+            Settings.Default.Save();
+        }
+
+        private void metroShell1_Resize(object sender, EventArgs e)
+        {
+            UpdateControlsSizeAndLocation();
+            if (WindowState == FormWindowState.Minimized)
+            {
+                ShowInTaskbar = Settings.Default.ShowInTaskBar;
+            }
+        }
+
+        private void notifyIcon1_Click(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                ShowInTaskbar = true;
+            }
+        }
+
+        #endregion
+
+
+        #region DATA ADMIN SERVICE VARIABLES
+        private DataAdminService _adminService;
+        private DataNetLogService _logService;
+        private IScsServiceApplication _server;
+        #endregion
+      
+
+        #region SERVER
+
+        private void Logined()
+        {
+            ui_status_labelItem_host.Text = Settings.Default.connectionHost;
+            _startControl.IsOpen = false;
+
+                  
+
+            _server = ScsServiceBuilder.CreateService(new ScsTcpEndPoint(_startControl.ui_textBoxX_host.Text,443));           
+            _adminService = new DataAdminService();            
+           
+            _adminService.OnloggedInLog += ClientLoggedLog;
+            _adminService.OnloggedOutLog += ClientLoggedOutLog;
+            _adminService.OnsymbolListChanged += UpdateSymbolTable;
+            _adminService.OngroupListChanged += UpdateGroupTable;
+            _adminService.DClientCrashed += RefreshDaBusySymbols;
+            _adminService.TClientCrashed += RefreshTicknetBusySymbols;
+            _adminService.OnTNResponseAboutCollect += ActivateClient;
+            _logService = new DataNetLogService();
+            _logService.abortedOperation += AbortedOperationLog;
+            _logService.finishedOperation += FinishedOperationLog;
+            _logService.startedOperation += StartedOperationLog;
+            _logService.simpleMessage += SimpleMessageLog;
+
+            _server.AddService<IDataAdminService, DataAdminService>(_adminService);
+            _server.AddService<IDataNetLogService, DataNetLogService>(_logService);
+            _adminService.ErrorReport += ErrorMonitor.AddError;
+            
+            //Start server
+            try
+            {
+                _server.Start();
+                ServerlogoutFlag = false;
+
+                new Thread(() =>
+                               {
+                                   Thread.Sleep(200);
+                                   UpdateAllTables();
+                               }).Start();
+
+            }
+            catch(SocketException ex)
+            {
+                Console.WriteLine(ex);
+                ToastNotification.Show(_startControl, ex.Message);
+            }
+            catch (TimeOutException ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show(ex.Message, @"Sql Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            catch(IndexOutOfRangeException ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show(String.Format("Thare are some troubles with table's structure.\n"+
+                "Maybe You have old version of tables.\n Please, drop tables"), 
+                @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                ToastNotification.Show(_startControl, @"Incorrect login parameters!");                
+            }
+                                        
+        }
+
+        private void ActivateClient()
+        {
+            _adminService.Clients.GetAllItems().Find(oo =>oo.UserName == nextTNClient).TClientProxy.SendActivateMsgToClient(nextTNSymbol);
+        }
+
+        private void RefreshTicknetBusySymbols(string userName)
+        {
+            var symbolList = from keyValue in _adminService.TickNetSymbolAccesRank.ToList()
+                             let users = keyValue.Value
+                             let symbol = keyValue.Key
+                             where
+                                users.Exists(o => o.UserName == userName)
+                             select symbol;
+            var enumerable = symbolList as List<string> ?? symbolList.ToList();
+            if (!enumerable.Any())
+                return;
+            foreach (var symbol in enumerable)
+            {
+                string symbol1 = symbol;
+                Task.Factory.StartNew(() => ActivateNextClient(symbol1));
+            }
+        }
+
+        private void RefreshDaBusySymbols(string username)
+        {
+            var symbols = from items in _busySymbols
+                          where items.TimeFrames.Exists(oo => oo.UserId == _users.Find(o => o.Name == username).Id)
+                          select items;
+
+          //  var listS = symbols.Select(item => item.ID).ToList();
+            var smbols = new List<DataAdminService.BusySymbol>(symbols);
+            var logMSg = new DataAdminMessageFactory.LogMessage
+                             {
+
+                                 Time = DateTime.Now,
+                                 Group = "",
+                                 UserID = (from user in _users where user.Name == username select user.Id).First(),
+                                 IsDataNetClient = true,
+                                 OperationStatus = DataAdminMessageFactory.LogMessage.Status.Aborted,
+                                 TimeFrame = "",
+                                 LogType = DataAdminMessageFactory.LogMessage.Log.CollectSymbol
+                             };
+          
+           
+            foreach(var symbol in smbols)
+            {
+                logMSg.Symbol =  _symbols.Find(o => o.SymbolId == symbol.ID).SymbolName;
+                var timeFr = from items in symbol.TimeFrames
+                             where
+                                 items.UserId == logMSg.UserID
+                             select new {items.TimeFrame};
+
+             logMSg.TimeFrame = timeFr.First().TimeFrame;
+                    DataNetCollectingSymbolFinished(logMSg);
+                
+           }
+        }
+
+        private void UpdateSymbolTable()
+        {
+            AdminDatabaseManager.Commit();
+            UpdateSymbolsTable();            
+        }
+
+        private void UpdateGroupTable()
+        {
+            AdminDatabaseManager.Commit();
+            UpdateGroupsTable();            
+        }
+
+        private void ClientLoggedLog(DataAdminMessageFactory.LogMessage msg, string msgMain)
+        {
+            var userConnected = _users.Find(a => a.Id == msg.UserID);
+            var logmodel = new LogModel
+                               {
+                                   Date = msg.Time,
+                                   Group = msg.Group,
+                                   UserId = msg.UserID,
+                                   MsgType = Convert.ToInt32(msg.LogType),
+                                   Status = Convert.ToInt32(msg.OperationStatus),
+                                   Symbol = msg.Symbol,
+                                   Timeframe = msg.TimeFrame,
+                                   Application = (msg.IsDataNetClient?"DataNet":msg.IsTickNetClient?"TickNet":"DataExport")
+                               };
+            _onlineUsers = _adminService.OnlineClients.GetAllItems();
+
+            if (_onlineUsers.Exists(a => a.UserName == userConnected.Name))
+            {
+
+
+                var tickNet = _onlineUsers.Find(a => a.UserName == userConnected.Name).IsTickNetConnected;
+                var dNet = _onlineUsers.Find(a => a.UserName == userConnected.Name).IsDatanetConnected;
+
+                foreach (DataGridViewRow row in ui_users_dgridX_users.Rows)
+                {
+                    if (row.Cells[0].Value.ToString() == userConnected.Name && dNet)
+                    {
+                        row.Cells[2].Value = "online";
+                    }
+
+                    if (row.Cells[0].Value.ToString() == userConnected.Name && tickNet)
+                    {
+                        row.Cells[3].Value = "online";
+                    }
+                }
+
+                AdminDatabaseManager.AddNewLog(logmodel);
+                UpdateLogsTable();
+            }
+        }
+
+        private void ClientLoggedOutLog(DataAdminMessageFactory.LogMessage msg, string msgMain, string userName)
+        {
+            _onlineUsers = _adminService.OnlineClients.GetAllItems();
+            foreach (DataGridViewRow row in ui_users_dgridX_users.Rows)
+            {
+                if (_onlineUsers.Exists(a => a.UserName == userName))
+                {
+                    var tickNet = _onlineUsers.Find(a => a.UserName == userName).IsTickNetConnected;
+                    var dNet = _onlineUsers.Find(a => a.UserName == userName).IsDatanetConnected;
+
+                    if (row.Cells[0].Value.ToString() == userName && dNet)
+                    {
+                        row.Cells[2].Value = "online";
+                    }
+                    else
+                    {
+                        row.Cells[2].Value = "offline";
+                    }
+
+                    if (row.Cells[0].Value.ToString() == userName && tickNet)
+                    {
+                        row.Cells[3].Value = "online";
+                    }
+                    else
+                    {
+                        row.Cells[3].Value = "offline";
+                    }
+                }
+                else
+                {
+                    if (row.Cells[0].Value.ToString() == userName)
+                    {
+                        row.Cells[2].Value = "offline";
+                        row.Cells[3].Value = "offline";
+                    }
+                }
+            }
+            var logmodel = new LogModel
+            {
+                Date = msg.Time,
+                Group = msg.Group,
+                UserId = msg.UserID,
+                MsgType = Convert.ToInt32(msg.LogType),
+                Status = Convert.ToInt32(msg.OperationStatus),
+                Symbol = msg.Symbol,
+                Timeframe = msg.TimeFrame,
+                Application = (msg.IsDataNetClient ? "DataNet" : msg.IsTickNetClient ? "TickNet" : "DataExport")
+            };
+            AdminDatabaseManager.AddNewLog(logmodel);
+            UpdateLogsTable();
+            
+        }
+
+        private void SimpleMessageLog(object sender, DataAdminMessageFactory.LogMessage msg)
+        {
+            
+            var logmodel = new LogModel
+            {
+                Date = msg.Time,
+                Group = "",
+
+                UserId = msg.UserID,
+                MsgType = Convert.ToInt32(msg.LogType),
+                Status = Convert.ToInt32(msg.OperationStatus),
+                Symbol = msg.Symbol,
+                Timeframe = msg.TimeFrame
+            };
+
+            AdminDatabaseManager.AddNewLog(logmodel);
+        }
+
+        private void StartedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
         {
 
+            if (msg.IsTickNetClient)
+                Task.Factory.StartNew(() => TickNetCollectStarted(msg));
+            else
+            {
+                if (msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectGroup)
+                    Task.Factory.StartNew(() => DataNetCollectingGroupStarted(msg));
+                else 
+                    Task.Factory.StartNew(() => DataNetCollectingSymbolStarted(msg));                
+            }
+        }
+
+        private void FinishedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
+        {
+            if (msg.IsTickNetClient)
+                Task.Factory.StartNew(() => TicknetCollectFinished(msg));
+            else
+            {
+                if (msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectGroup)
+                    Task.Factory.StartNew(() => DataNetCollectingGroupFinished(msg));
+                else
+                    Task.Factory.StartNew(() => DataNetCollectingSymbolFinished(msg));
+            }
+        }
+        private void AbortedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
+        {
             var logmodel = new LogModel
             {
                 Date = msg.Time,
@@ -64,94 +501,248 @@ namespace DataAdmin.Forms
                 Timeframe = msg.TimeFrame
             };
 
+            AdminDatabaseManager.AddNewLog(logmodel);
+            UpdateLogsTable();
+        }
 
-            IEnumerable<string> symbolList = null;
+        #endregion
 
-            if (msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectGroup)
+        #region LOGS FROM [DN]
+
+        private void DataNetCollectingGroupStarted(DataAdminMessageFactory.LogMessage msg)
+        {            
+            lock (_thisLock)
             {
-                var idGr = DataManager.GetGroups().Find(a => a.GroupName == msg.Group).GroupId;
-
-                symbolList = from symbols in DataManager.GetSymbolsInGroup(idGr) select symbols.SymbolName;
-                DataManager.AddNewLog(logmodel);
-            }
-            else 
-                if (msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectSymbol)
-            {
-                symbolList = msg.Symbol.Split(',').ToList().AsEnumerable();
-            }
-
-            if (symbolList != null)
-                foreach (var smbcollect in symbolList)
+                var logmodel = new LogModel
                 {
+                    Date = msg.Time,
+                    Group = msg.Group,
+                    UserId = msg.UserID,
+                    MsgType = Convert.ToInt32(msg.LogType),
+                    Status = Convert.ToInt32(msg.OperationStatus),
+                    Symbol = "",//todo empty msg.Symbol,
+                    Timeframe = msg.TimeFrame,
+                    Application = ApplicationType.DataNet.ToString()
+                };
 
+                AdminDatabaseManager.AddNewLog(logmodel);         
 
-                    var smb = _symbols.Find(a => a.SymbolName == smbcollect);
-                    var bsmb = new DataAdminService.BusySymbol
+                UpdateLogsTable();
+            }
+
+        }
+        private void DataNetCollectingGroupFinished(DataAdminMessageFactory.LogMessage msg)
+        {
+            lock (_thisLock)
+            {
+                var logmodel = new LogModel
+                {
+                    Date = msg.Time,
+                    Group = msg.Group,
+                    UserId = msg.UserID,
+                    MsgType = Convert.ToInt32(msg.LogType),
+                    Status = Convert.ToInt32(msg.OperationStatus),
+                    Symbol = "",//todo empty msg.Symbol,
+                    Timeframe = msg.TimeFrame,
+                    Application = ApplicationType.DataNet.ToString()
+                };
+
+                AdminDatabaseManager.AddNewLog(logmodel);
+
+                UpdateLogsTable();
+            }
+        }
+
+        private void DataNetCollectingSymbolStarted(DataAdminMessageFactory.LogMessage msg)
+        {
+            lock (_thisLock)
+            {
+                IEnumerable<string> symbolList = null;
+
+                if (msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectGroup)
+                {
+                    var idGr = AdminDatabaseManager.GetGroups().Find(a => a.GroupName == msg.Group).GroupId;
+
+                    symbolList = from symbols in AdminDatabaseManager.GetSymbolsInGroup(idGr) select symbols.SymbolName;
+                    lock (_thisLock)
                     {
-                        ID = smb.SymbolId,
-                        IsDataNet = msg.IsByDataNetBusy,
-                        UserName =
-                            (from items in _users where items.Id == msg.UserID select items.Name).
-                            First(),
-                        TimeFrames = new List<DataAdminService.TimeFrameModel>
+                        var logmodel = new LogModel
+                        {
+                            Date = msg.Time,
+                            Group = msg.Group,
+                            UserId = msg.UserID,
+                            MsgType = Convert.ToInt32(msg.LogType),
+                            Status = Convert.ToInt32(msg.OperationStatus),
+                            Symbol = "",//todo empty msg.Symbol,
+                            Timeframe = msg.TimeFrame,
+                            Application = ApplicationType.DataNet.ToString()
+                        };
+
+                        AdminDatabaseManager.AddNewLog(logmodel);
+                    }
+                }
+                else
+                    if (msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectSymbol)
+                    {
+                        symbolList = msg.Symbol.Split(',').ToList().AsEnumerable();
+                    }
+
+                if (symbolList != null)
+                    foreach (var smbcollect in symbolList)
+                    {
+
+
+                        var smb = _symbols.Find(a => a.SymbolName == smbcollect);
+                        var bsmb = new DataAdminService.BusySymbol
+                        {
+                            ID = smb.SymbolId,
+                            IsDataNet = msg.IsByDataNetBusy,
+                            UserName =
+                                (from items in _users where items.Id == msg.UserID select items.Name).
+                                First(),
+                            TimeFrames = new List<DataAdminService.TimeFrameModel>
                                                             {
                                                                 new DataAdminService.TimeFrameModel
                                                                     {TimeFrame =  msg.TimeFrame,
                                                                 UserId =  msg.UserID}
                                                             }
 
-                    };
+                        };
 
-                    if (!_adminService.BusySymbols.Exists(a => a.ID == bsmb.ID))
-                        _adminService.BusySymbols.Add(bsmb);
-                    else
-                    {
-                        bsmb.IsTickNet = _adminService.BusySymbols.Find(a => a.ID == bsmb.ID).IsTickNet;
-                        _adminService.BusySymbols.Find(a => a.ID == bsmb.ID).IsDataNet = true;
-                        if (!_adminService.BusySymbols.Find(a => a.ID == bsmb.ID).TimeFrames.Exists(oo => oo.TimeFrame == msg.TimeFrame))
-                            _adminService.BusySymbols.Find(a => a.ID == bsmb.ID).TimeFrames.Add(
-                                new DataAdminService.TimeFrameModel { TimeFrame = msg.TimeFrame, UserId = msg.UserID });
+                        if (!_adminService.BusySymbols.Exists(a => a.ID == bsmb.ID))
+                            _adminService.BusySymbols.Add(bsmb);
+                        else
+                        {
+                            bsmb.IsTickNet = _adminService.BusySymbols.Find(a => a.ID == bsmb.ID).IsTickNet;
+                            _adminService.BusySymbols.Find(a => a.ID == bsmb.ID).IsDataNet = true;
+                            if (!_adminService.BusySymbols.Find(a => a.ID == bsmb.ID).TimeFrames.Exists(oo => oo.TimeFrame == msg.TimeFrame))
+                                _adminService.BusySymbols.Find(a => a.ID == bsmb.ID).TimeFrames.Add(
+                                    new DataAdminService.TimeFrameModel { TimeFrame = msg.TimeFrame, UserId = msg.UserID });
+
+                        }
+
+                        var tickNetStatus = bsmb.IsTickNet ? "Busy" : "Enabled";
+                        var dataNetStatus = bsmb.IsDataNet ? "Busy" : "Enabled";
+                        foreach (DataGridViewRow row in ui_symbols_dGrid_Symbols.Rows)
+                        {
+                            var name = row.Cells[0].Value.ToString();
+                            if (name != smb.SymbolName) continue;
+                            row.Cells[1].Value = dataNetStatus;
+                            row.Cells[2].Value = tickNetStatus;
+                        }
+
+                        var logmodellow = new LogModel
+                        {
+                            Date = msg.Time,
+                            Group = "",
+                            UserId = msg.UserID,
+                            MsgType = Convert.ToInt32(DataAdminMessageFactory.LogMessage.Log.CollectSymbol),
+                            Status = Convert.ToInt32(msg.OperationStatus),
+                            Symbol = smbcollect,
+                            Timeframe = msg.TimeFrame,
+                            Application = ApplicationType.DataNet.ToString()
+                        };
+
+                        lock (_thisLock)
+                        {
+                            AdminDatabaseManager.AddNewLog(logmodellow);
+                        }
 
                     }
 
-                    var tickNetStatus = bsmb.IsTickNet ? "Busy" : "Enabled";
-                    var dataNetStatus = bsmb.IsDataNet ? "Busy" : "Enabled";
-                    foreach (DataGridViewRow row in ui_symbols_dGrid_Symbols.Rows)
-                    {
-                        var name = row.Cells[0].Value.ToString();
-                        if (name != smb.SymbolName) continue;
-                        row.Cells[1].Value = dataNetStatus;
-                        row.Cells[2].Value = tickNetStatus;
-                    }
+                _adminService.SendBusySymbolList(msg.UserID);
 
-                    var logmodellow = new LogModel
-                    {
-                        Date = msg.Time,
-                        Group = "",
-                        UserId = msg.UserID,
-                        MsgType = Convert.ToInt32(DataAdminMessageFactory.LogMessage.Log.CollectSymbol),
-                        Status = Convert.ToInt32(msg.OperationStatus),
-                        Symbol = smbcollect,
-                        Timeframe = msg.TimeFrame
-                    };
-
-                    lock (_thisLock)
-                    {
-                        DataManager.AddNewLog(logmodellow);
-                    }
-
-                }
-
-            _adminService.SendBusySymbolList(msg.UserID);
-
-            lock (_thisLock)
-            {
                 UpdateLogsTable();
             }
 
         }
-        private readonly Object _thisNLock = new Object();
-       
+
+        private void DataNetCollectingSymbolFinished(DataAdminMessageFactory.LogMessage msg)
+        {
+            lock (_thisLock)
+            {
+                IEnumerable<SymbolModel> symbolList = null;
+    
+                var smList = msg.Symbol.Split(',').ToList();
+                symbolList = from items in _symbols
+                                where smList.Exists(o => o == items.SymbolName)
+                                select items;
+                
+                if (symbolList != null)
+                    foreach (var smb in symbolList)
+                    {
+                        var bsmb = new DataAdminService.BusySymbol
+                        {
+                            ID = smb.SymbolId
+                        };
+
+
+                        if (_adminService.BusySymbols.Exists(a => a.ID == bsmb.ID))
+                        {
+                            var tempbsm = _adminService.BusySymbols.Find(a => a.ID == bsmb.ID);
+                            if (!tempbsm.IsTickNet && tempbsm.TimeFrames.Count == 1)
+                            {
+                                _adminService.BusySymbols.Remove(tempbsm);
+                                bsmb.IsDataNet = false;
+
+                            }
+                            else
+
+                                if (tempbsm.IsTickNet && tempbsm.TimeFrames.Count == 1)
+                                {
+                                    bsmb.IsTickNet = tempbsm.IsTickNet;
+                                    bsmb.IsDataNet = false;
+                                    tempbsm.IsDataNet = false;
+                                    var tf = tempbsm.TimeFrames.Find(oo => oo.TimeFrame == msg.TimeFrame);
+                                    tempbsm.TimeFrames.Remove(tf);
+                                }
+                                else
+                                    if (tempbsm.TimeFrames.Count > 1)
+                                    {
+                                        bsmb.IsTickNet = tempbsm.IsTickNet;
+                                        bsmb.IsDataNet = true;
+                                        var tf = tempbsm.TimeFrames.Find(oo => oo.TimeFrame == msg.TimeFrame);
+                                        tempbsm.TimeFrames.Remove(tf);
+                                    }
+                        }
+
+
+                        var tickNetStatus = bsmb.IsTickNet ? "Busy" : "Enabled";
+                        var dataNetStatus = bsmb.IsDataNet ? "Busy" : "Enabled";
+                        foreach (DataGridViewRow row in ui_symbols_dGrid_Symbols.Rows)
+                        {
+                            if (row.Cells[0].Value.ToString() != smb.SymbolName) continue;
+                            row.Cells[1].Value = dataNetStatus;
+                            row.Cells[2].Value = tickNetStatus;
+                        }
+
+                        lock (_lockFinishedCollect)
+                        {
+                            var logmodelLow = new LogModel
+                            {
+                                Date = msg.Time,
+                                Group = msg.Group,
+                                UserId = msg.UserID,
+                                MsgType = Convert.ToInt32(msg.LogType),
+                                Status = Convert.ToInt32(msg.OperationStatus),
+                                Symbol = msg.Symbol,
+                                Timeframe = msg.TimeFrame,
+                                Application = ApplicationType.DataNet.ToString()
+                            };
+                            AdminDatabaseManager.AddNewLog(logmodelLow);
+                        }
+                    }
+
+                _adminService.SendBusySymbolList(msg.UserID);
+
+                UpdateLogsTable();
+            }
+        }
+
+        #endregion
+        
+        #region LOGS FROM [TN]
+
         private void TickNetCollectStarted(DataAdminMessageFactory.LogMessage msg)
         {
             lock (_thisNLock)
@@ -177,7 +768,7 @@ namespace DataAdmin.Forms
                     {
                         var idGr = _groups.Find(a => a.GroupName == msg.Group).GroupId;
 
-                        var listSmb = DataManager.GetSymbolsInGroup(idGr);
+                        var listSmb = AdminDatabaseManager.GetSymbolsInGroup(idGr);
 
                         foreach (var symbolModel in listSmb)
                         {
@@ -350,7 +941,7 @@ namespace DataAdmin.Forms
                         }
                     }
                     //         _adminService.SendBusySymbolList();
-                    Task.Factory.StartNew(() => DataManager.AddNewLog(logmodel)).ContinueWith(delegate
+                    Task.Factory.StartNew(() => AdminDatabaseManager.AddNewLog(logmodel)).ContinueWith(delegate
                     {
                         UpdateLogsTable();
                     });
@@ -366,15 +957,6 @@ namespace DataAdmin.Forms
                     });
                 }
             }
-        }
-        private void FinishedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
-        {
-            if (msg.IsTickNetClient)
-            {
-                Task.Factory.StartNew(() => TicknetCollectFinished(msg));
-            }
-            else
-                Task.Factory.StartNew(() => DataNetFinishedCollect(msg));
         }
         private void TicknetCollectFinished(DataAdminMessageFactory.LogMessage msg)
         {
@@ -403,7 +985,7 @@ namespace DataAdmin.Forms
                         _adminService.TickNetSymbolAccesRank[smb.SymbolName].Find(
                             o => o.DBId == msg.UserID);
                     _adminService.TickNetSymbolAccesRank[smb.SymbolName].Remove(delusr);
-                    DataManager.AddNewLog(logmodel);
+                    AdminDatabaseManager.AddNewLog(logmodel);
 
                     return;
                 }
@@ -411,7 +993,7 @@ namespace DataAdmin.Forms
 
             Task.Factory.StartNew(() => ActivateNextClient(msg.Symbol)).Wait();
 
-            DataManager.AddNewLog(logmodel);
+            AdminDatabaseManager.AddNewLog(logmodel);
             UpdateLogsTable();
         }
         private void ActivateNextClient(object symbol)
@@ -440,7 +1022,7 @@ namespace DataAdmin.Forms
                 try
                 {
                     var symb = symbol.ToString();
-                    
+
                     Task.Factory.StartNew(() => usrList[0].TClientProxy.SendActivateMsgToClient(symb)).Wait();
                 }
                 catch (Exception ex)
@@ -475,119 +1057,6 @@ namespace DataAdmin.Forms
                 Console.WriteLine(ex);
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-
-        private object _lockFinishedCollect = new object();
-        private void DataNetFinishedCollect(DataAdminMessageFactory.LogMessage msg)
-        {
-
-            var logmodel = new LogModel();
-            var groupFlag = false;
-            IEnumerable<SymbolModel> symbolList = null;
-            switch (msg.LogType)
-            {
-                case DataAdminMessageFactory.LogMessage.Log.CollectGroup:
-                    {
-                        groupFlag = true;
-                        var idGr = _groups.Find(a => a.GroupName == msg.Group).GroupId;
-                        symbolList = DataManager.GetSymbolsInGroup(idGr).AsEnumerable();
-                    
-                             logmodel = new LogModel
-                            {
-                                Date = msg.Time,
-                                Group = msg.Group,
-                                UserId = msg.UserID,
-                                MsgType = Convert.ToInt32(msg.LogType),
-                                Status = Convert.ToInt32(msg.OperationStatus),
-                                Symbol = msg.Symbol,
-                                Timeframe = msg.TimeFrame
-                            };
-                
-                       }
-                    break;
-                case DataAdminMessageFactory.LogMessage.Log.CollectSymbol:
-                    {
-                        var smList = msg.Symbol.Split(',').ToList();
-                        symbolList = from items in _symbols
-                                     where smList.Exists(o => o == items.SymbolName)
-                                     select items;
-                    }
-
-                    break;
-            }
-
-            if (symbolList != null)
-                foreach (var smb in symbolList)
-                {
-                    var bsmb = new DataAdminService.BusySymbol
-                    {
-                        ID = smb.SymbolId
-                    };
-
-
-                    if (_adminService.BusySymbols.Exists(a => a.ID == bsmb.ID))
-                    {
-                        var tempbsm = _adminService.BusySymbols.Find(a => a.ID == bsmb.ID);
-                        if (!tempbsm.IsTickNet && tempbsm.TimeFrames.Count == 1)
-                        {
-                            _adminService.BusySymbols.Remove(tempbsm);
-                            bsmb.IsDataNet = false;
-
-                        }
-                        else
-
-                            if (tempbsm.IsTickNet && tempbsm.TimeFrames.Count == 1)
-                            {
-                                bsmb.IsTickNet = tempbsm.IsTickNet;
-                                bsmb.IsDataNet = false;
-                                tempbsm.IsDataNet = false;
-                                var tf = tempbsm.TimeFrames.Find(oo => oo.TimeFrame == msg.TimeFrame);
-                                tempbsm.TimeFrames.Remove(tf);
-                            }
-                            else
-                                if (tempbsm.TimeFrames.Count > 1)
-                                {
-                                    bsmb.IsTickNet = tempbsm.IsTickNet;
-                                    bsmb.IsDataNet = true;
-                                    var tf = tempbsm.TimeFrames.Find(oo => oo.TimeFrame == msg.TimeFrame);
-                                    tempbsm.TimeFrames.Remove(tf);
-                                }
-                    }
-
-
-                    var tickNetStatus = bsmb.IsTickNet ? "Busy" : "Enabled";
-                    var dataNetStatus = bsmb.IsDataNet ? "Busy" : "Enabled";
-                    foreach (DataGridViewRow row in ui_symbols_dGrid_Symbols.Rows)
-                    {
-                        if (row.Cells[0].Value.ToString() != smb.SymbolName) continue;
-                        row.Cells[1].Value = dataNetStatus;
-                        row.Cells[2].Value = tickNetStatus;
-                    }
-
-                    lock (_lockFinishedCollect)
-                    {
-                        var logmodelLow = new LogModel
-                        {
-                            Date = msg.Time,
-                            Group = msg.Group,
-                            UserId = msg.UserID,
-                            MsgType = Convert.ToInt32(msg.LogType),
-                            Status = Convert.ToInt32(msg.OperationStatus),
-                            Symbol = msg.Symbol,
-                            Timeframe = msg.TimeFrame
-                        };
-                     DataManager.AddNewLog(logmodelLow);
-                    }
-
-
-                }
-
-            if(groupFlag)
-                DataManager.AddNewLog(logmodel);
-
-            _adminService.SendBusySymbolList(msg.UserID);
-            Task.Factory.StartNew(UpdateLogsTable).Wait();
         }
         private void UpdateBusySymbolsInUi(string symbol)
         {
@@ -639,447 +1108,10 @@ namespace DataAdmin.Forms
                 }
             }
         }
-        #endregion
 
-
-        #region Basic function (Constructor, Load, Show, Closing, Resize, Notify)
-
-        public FormMain()
-        {
-            InitializeComponent();
-            metroShellMain.SelectedTab = metroTabItem_users;
-           
-            ToastNotification.ToastBackColor = Color.SteelBlue;
-            ToastNotification.DefaultToastPosition = eToastPosition.BottomCenter;
-
-            SuspendLayout();
-
-            _commands = new MetroBillCommands
-            {
-                StartControlCommands = { Logon = new Command(), Exit = new Command() },
-                AddUserControlCommands = { Add = new Command(), Cancel = new Command() },
-                EditUserControlCommands = { SaveChanges = new Command(), Cancel = new Command() },
-                AddListCommands = { Save = new Command (), Cancel = new Command() },
-                EditListCommands = { Save = new Command(), Cancel = new Command() }
-            };            
-            //**
-            _commands.StartControlCommands.Logon.Executed += StartControl_LogonClick;
-            _commands.StartControlCommands.Exit.Executed += StartControl_ExitClick;
-
-            _commands.AddUserControlCommands.Add.Executed += AddNewUserControl_AddClick;
-            _commands.AddUserControlCommands.Cancel.Executed += AddNewUserControl_CancelClick;
-
-            _commands.EditUserControlCommands.SaveChanges.Executed += EditUserControl_SaveClick;
-            _commands.EditUserControlCommands.Cancel.Executed += EditUserControl_CancelClick;
-
-            _commands.AddListCommands.Cancel.Executed += AddListControl_CancelClick;
-            _commands.AddListCommands.Save.Executed += AddListControl_SaveClick;
-
-            _commands.EditListCommands.Cancel.Executed += EditListControl_CancelClick;
-            _commands.EditListCommands.Save.Executed += EditListControl_SaveClick;
-
-            //**
-            _startControl = new StartControl {Commands = _commands};
-
-            Controls.Add(_startControl);
-            _startControl.BringToFront();            
-            _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
-
-            //NetworkInterface[] networks = NetworkInterface.GetAllNetworkInterfaces();
-
-            //foreach (NetworkInterface network in networks)
-            //{
-            //    if (network.Name != "Hamachi") continue;
-            //   _hamachiIp = network.GetIPProperties().UnicastAddresses[0].Address.ToString();
-                
-            //}
-
-            ResumeLayout(false);
-        }
-
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-            if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0,0);
-            if (Settings.Default.S.Width < 0 || Settings.Default.S.Height < 0) Settings.Default.S = new Size(1000, 500);
-
-            Size = Settings.Default.S;
-            Location = Settings.Default.L;
-            UpdateControlsSizeAndLocation();
-            DataManager.CreateBackupDirectory(DataManager.BackUpFilePath);
-            _backUpFileNameList = DataManager.ReturnBackUpFilesName();
-            foreach (var variable in _backUpFileNameList)
-            {
-                comboBoxEx1.Items.Add(variable);
-            }
-            string time;
-            //string time = _backUpFileNameList.Count == 0 ? "none" : _backUpFileNameList[_backUpFileNameList.Count-1];
-            if (_backUpFileNameList.Count == 0)
-            {
-                time = "none";
-            }
-            else
-            {
-                time = _backUpFileNameList[_backUpFileNameList.Count - 1];
-                //time=time.Replace('_', '/');
-                //time = time.Replace('-', ':');
-                labelX19.Text = time;
-                DateTime ScheduledBackup = Convert.ToDateTime(_backUpFileNameList[0]);
-                ScheduledBackup = ScheduledBackup.AddDays(7);
-                labelX17.Text = ScheduledBackup.ToString();
-                if (ScheduledBackup.ToShortDateString() == DateTime.Today.ToShortDateString())
-                    labelX19.Text = DataManager.BackupSystemTables().ToString();
-            }
-
-        }
-
-        private void FormMain_Shown(object sender, EventArgs e)
-        {
-            metroShellMain.TitleText = @"Data Admin v" + Application.ProductVersion;
-            var color = Color.SteelBlue;
-
-            ui_user_labelX_users.ForeColor =
-                ui_user_labelX_gas.ForeColor =
-                ui_user_labelX_ud.ForeColor =
-                ui_symbols_labelX_sd.ForeColor =
-                ui_symbols_labelX_s.ForeColor =
-                ui_symbols_labelX_sh.ForeColor =
-                ui_symbols_labelX_Symbols.ForeColor =
-                ui_groups_labelX_SymbolLists.ForeColor =
-                ui_groups_labelX_SListDetails.ForeColor =
-                ui_groups_labelX_gd.ForeColor = 
-                ui_groups_labelX_gh.ForeColor=
-                ui_logs_labelX_logs.ForeColor = color;                        
-
-            notifyIcon.Icon = Icon;
-            if (_startControl!=null)
-                _startControl.ui_textBoxX_login.Focus();
-            //_startControl.ui_textBoxX_host.Text = _hamachiIp;
-            timerLogon.Enabled = true;
-        }
-
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Logout();
-            Hide();
-            e.Cancel = false;
-            if (WindowState == FormWindowState.Normal)
-            {
-                Settings.Default.L = Location;
-                Settings.Default.S = Size;
-            }
-            Settings.Default.Save();
-        }
-
-        private void metroShell1_Resize(object sender, EventArgs e)
-        {
-            UpdateControlsSizeAndLocation();
-            if (WindowState == FormWindowState.Minimized)
-            {
-                ShowInTaskbar = Settings.Default.ShowInTaskBar;
-            }
-        }
-
-        private void notifyIcon1_Click(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized)
-            {
-                WindowState = FormWindowState.Normal;
-                ShowInTaskbar = true;
-            }
-        }
 
         #endregion
 
-
-        #region DATA ADMIN SERVICE VARIABLES
-        private DataAdminService _adminService;
-        private DataNetLogService _logService;
-        private IScsServiceApplication _server;
-        #endregion
-      
-
-        #region SERVER
-
-        /// <summary>
-        /// Called when we have success logining to DB 
-        /// </summary>
-        private void Logined()
-        {
-            ui_status_labelItem_host.Text = Settings.Default.connectionHost;
-            _startControl.IsOpen = false;
-
-                  
-
-            _server = ScsServiceBuilder.CreateService(new ScsTcpEndPoint(_startControl.ui_textBoxX_host.Text,443));           
-            _adminService = new DataAdminService();            
-           
-            _adminService.OnloggedInLog += ClientLoggedLog;
-            _adminService.OnloggedOutLog += ClientLoggedOutLog;
-            _adminService.OnsymbolListChanged += UpdateSymbolTable;
-            _adminService.OngroupListChanged += UpdateGroupTable;
-            _adminService.DClientCrashed += RefreshDaBusySymbols;
-            _adminService.TClientCrashed += RefreshTicknetBusySymbols;
-            _adminService.OnTNResponseAboutCollect += ActivateClient;
-            _logService = new DataNetLogService();
-            _logService.abortedOperation += AbortedOperationLog;
-            _logService.finishedOperation += FinishedOperationLog;
-            _logService.startedOperation += StartedOperationLog;
-            _logService.simpleMessage += SimpleMessageLog;
-
-            _server.AddService<IDataAdminService, DataAdminService>(_adminService);
-            _server.AddService<IDataNetLogService, DataNetLogService>(_logService);
-            _adminService.ErrorReport += ErrorMonitor.AddError;
-            
-            //Start server
-            try
-            {
-                _server.Start();
-                ServerlogoutFlag = false;
-
-                new Thread(() =>
-                               {
-                                   Thread.Sleep(200);
-                                   UpdateAllTables();
-                               }).Start();
-
-            }
-            catch(SocketException ex)
-            {
-                Console.WriteLine(ex);
-                ToastNotification.Show(_startControl, ex.Message);
-            }
-            catch (TimeOutException ex)
-            {
-                Console.WriteLine(ex);
-                MessageBox.Show(ex.Message, @"Sql Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }
-            catch(IndexOutOfRangeException ex)
-            {
-                Console.WriteLine(ex);
-                MessageBox.Show(String.Format("Thare are some troubles with table's structure.\n"+
-                "Maybe You have old version of tables.\n Please, drop tables"), 
-                @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-                ToastNotification.Show(_startControl, @"Incorrect login parameters!");                
-            }
-                                        
-        }
-
-        private void ActivateClient()
-        {
-            _adminService.Clients.GetAllItems().Find(oo =>oo.UserName == nextTNClient).TClientProxy.SendActivateMsgToClient(nextTNSymbol);
-        }
-
-        private void RefreshTicknetBusySymbols(string userName)
-        {
-            var symbolList = from keyValue in _adminService.TickNetSymbolAccesRank.ToList()
-                             let users = keyValue.Value
-                             let symbol = keyValue.Key
-                             where
-                                users.Exists(o => o.UserName == userName)
-                             select symbol;
-            var enumerable = symbolList as List<string> ?? symbolList.ToList();
-            if (!enumerable.Any())
-                return;
-            foreach (var symbol in enumerable)
-            {
-                string symbol1 = symbol;
-                Task.Factory.StartNew(() => ActivateNextClient(symbol1));
-            }
-        }
-
-        private void RefreshDaBusySymbols(string username)
-        {
-            var symbols = from items in _busySymbols
-                          where items.TimeFrames.Exists(oo => oo.UserId == _users.Find(o => o.Name == username).Id)
-                          select items;
-
-          //  var listS = symbols.Select(item => item.ID).ToList();
-            var smbols = new List<DataAdminService.BusySymbol>(symbols);
-            var logMSg = new DataAdminMessageFactory.LogMessage
-                             {
-
-                                 Time = DateTime.Now,
-                                 Group = "",
-                                 UserID = (from user in _users where user.Name == username select user.Id).First(),
-                                 IsDataNetClient = true,
-                                 OperationStatus = DataAdminMessageFactory.LogMessage.Status.Aborted,
-                                 TimeFrame = "",
-                                 LogType = DataAdminMessageFactory.LogMessage.Log.CollectSymbol
-                             };
-          
-           
-            foreach(var symbol in smbols)
-            {
-                logMSg.Symbol =  _symbols.Find(o => o.SymbolId == symbol.ID).SymbolName;
-                var timeFr = from items in symbol.TimeFrames
-                             where
-                                 items.UserId == logMSg.UserID
-                             select new {items.TimeFrame};
-
-             logMSg.TimeFrame = timeFr.First().TimeFrame;
-                    DataNetFinishedCollect(logMSg);
-                
-           }
-        }
-
-        private void UpdateSymbolTable()
-        {
-            DataManager.Commit();
-            UpdateSymbolsTable();            
-        }
-
-        private void UpdateGroupTable()
-        {
-            DataManager.Commit();
-            UpdateGroupsTable();            
-        }
-
-        private void ClientLoggedLog(DataAdminMessageFactory.LogMessage msg, string msgMain)
-        {
-            var userConnected = _users.Find(a => a.Id == msg.UserID);
-            var logmodel = new LogModel
-                               {
-                                   Date = msg.Time,
-                                   Group = msg.Group,
-                                   UserId = msg.UserID,
-                                   MsgType = Convert.ToInt32(msg.LogType),
-                                   Status = Convert.ToInt32(msg.OperationStatus),
-                                   Symbol = msg.Symbol,
-                                   Timeframe = msg.TimeFrame,
-                                   Application = (msg.IsDataNetClient?"DataNet":msg.IsTickNetClient?"TickNet":"DataExport")
-                               };
-            _onlineUsers = _adminService.OnlineClients.GetAllItems();
-
-            if (_onlineUsers.Exists(a => a.UserName == userConnected.Name))
-            {
-
-
-                var tickNet = _onlineUsers.Find(a => a.UserName == userConnected.Name).IsTickNetConnected;
-                var dNet = _onlineUsers.Find(a => a.UserName == userConnected.Name).IsDatanetConnected;
-
-                foreach (DataGridViewRow row in ui_users_dgridX_users.Rows)
-                {
-                    if (row.Cells[0].Value.ToString() == userConnected.Name && dNet)
-                    {
-                        row.Cells[2].Value = "online";
-                    }
-
-                    if (row.Cells[0].Value.ToString() == userConnected.Name && tickNet)
-                    {
-                        row.Cells[3].Value = "online";
-                    }
-                }
-
-                DataManager.AddNewLog(logmodel);
-                UpdateLogsTable();
-            }
-        }
-
-        private void ClientLoggedOutLog(DataAdminMessageFactory.LogMessage msg, string msgMain, string userName)
-        {
-            _onlineUsers = _adminService.OnlineClients.GetAllItems();
-            foreach (DataGridViewRow row in ui_users_dgridX_users.Rows)
-            {
-                if (_onlineUsers.Exists(a => a.UserName == userName))
-                {
-                    var tickNet = _onlineUsers.Find(a => a.UserName == userName).IsTickNetConnected;
-                    var dNet = _onlineUsers.Find(a => a.UserName == userName).IsDatanetConnected;
-
-                    if (row.Cells[0].Value.ToString() == userName && dNet)
-                    {
-                        row.Cells[2].Value = "online";
-                    }
-                    else
-                    {
-                        row.Cells[2].Value = "offline";
-                    }
-
-                    if (row.Cells[0].Value.ToString() == userName && tickNet)
-                    {
-                        row.Cells[3].Value = "online";
-                    }
-                    else
-                    {
-                        row.Cells[3].Value = "offline";
-                    }
-                }
-                else
-                {
-                    if (row.Cells[0].Value.ToString() == userName)
-                    {
-                        row.Cells[2].Value = "offline";
-                        row.Cells[3].Value = "offline";
-                    }
-                }
-            }
-            var logmodel = new LogModel
-            {
-                Date = msg.Time,
-                Group = msg.Group,
-                UserId = msg.UserID,
-                MsgType = Convert.ToInt32(msg.LogType),
-                Status = Convert.ToInt32(msg.OperationStatus),
-                Symbol = msg.Symbol,
-                Timeframe = msg.TimeFrame,
-                Application = (msg.IsDataNetClient ? "DataNet" : msg.IsTickNetClient ? "TickNet" : "DataExport")
-            };
-            DataManager.AddNewLog(logmodel);
-            UpdateLogsTable();
-            
-        }
-
-        private void SimpleMessageLog(object sender, DataAdminMessageFactory.LogMessage msg)
-        {
-            
-            var logmodel = new LogModel
-            {
-                Date = msg.Time,
-                Group = "",
-
-                UserId = msg.UserID,
-                MsgType = Convert.ToInt32(msg.LogType),
-                Status = Convert.ToInt32(msg.OperationStatus),
-                Symbol = msg.Symbol,
-                Timeframe = msg.TimeFrame
-            };
-
-            DataManager.AddNewLog(logmodel);
-        }
-
-        private void StartedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
-        {
-          
-           if(msg.IsTickNetClient) 
-              Task.Factory.StartNew( () => TickNetCollectStarted(msg));
-           else
-             Task.Factory.StartNew( () =>  DataNetCollectStarted(msg));
-           
-
-        }
-
-        private void AbortedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
-        {
-            var logmodel = new LogModel
-            {
-                Date = msg.Time,
-                Group = msg.Group,
-                UserId = msg.UserID,
-                MsgType = Convert.ToInt32(msg.LogType),
-                Status = Convert.ToInt32(msg.OperationStatus),
-                Symbol = msg.Symbol,
-                Timeframe = msg.TimeFrame
-            };
-
-            DataManager.AddNewLog(logmodel);
-            UpdateLogsTable();
-        }
-
-        #endregion
-       
 
         #region COMMON UI
         
@@ -1161,7 +1193,7 @@ namespace DataAdmin.Forms
             Settings.Default.AutoLogin = _startControl.ui_checkBoxX_autoLogin.CheckState == CheckState.Checked;
             try
             {
-                if (DataManager.Initialize(Settings.Default.connectionHost, Settings.Default.connectionUser, Settings.Default.connectionPassword,
+                if (AdminDatabaseManager.Initialize(Settings.Default.connectionHost, Settings.Default.connectionUser, Settings.Default.connectionPassword,
                                            Settings.Default.dbSystem, 
                                            Settings.Default.dbBar,
                                            Settings.Default.dbLive,
@@ -1197,7 +1229,7 @@ namespace DataAdmin.Forms
         private void UpdateSymbolsTable()
         {
             ui_symbols_dGrid_Symbols.Invoke((Action) (() => ui_symbols_dGrid_Symbols.Rows.Clear()));
-            _symbols = DataManager.GetSymbols();
+            _symbols = AdminDatabaseManager.GetSymbols();
             _busySymbols = _adminService.BusySymbols;
             foreach (var symbol in _symbols)
             {
@@ -1221,7 +1253,7 @@ namespace DataAdmin.Forms
         {
             Invoke((Action)(() => 
             ui_users_dgridX_users.Rows.Clear()));
-            _users = DataManager.GetUsers();
+            _users = AdminDatabaseManager.GetUsers();
             _onlineUsers = _adminService.OnlineClients.GetAllItems();
             foreach (var userModel in _users)
             {
@@ -1246,7 +1278,7 @@ namespace DataAdmin.Forms
 
             ui_groups_dataGridViewX_groupsList.Invoke((Action)(() => ui_groups_dataGridViewX_groupsList.Rows.Clear()));
              
-            _groups = DataManager.GetGroups();
+            _groups = AdminDatabaseManager.GetGroups();
             foreach (var group in _groups)
             {
                 var currentGroup = group;
@@ -1266,7 +1298,7 @@ namespace DataAdmin.Forms
         {
             if(!ServerlogoutFlag)
             {
-                _logs = DataManager.GetLogBetweenDates(DateTime.Now.AddDays(-2), DateTime.Now);
+                _logs = AdminDatabaseManager.GetLogBetweenDates(DateTime.Now.AddDays(-2), DateTime.Now);
 
                 Invoke((Action)delegate
                 {
@@ -1436,7 +1468,7 @@ namespace DataAdmin.Forms
             else if ((!_users.Exists(a => a.Name == userModel.Name) && _users.Exists(a => a.Name == oldUserName)) || (userModel.Name == oldUserName && _users.Exists(a => a.Name == oldUserName)))
             {
                 var userId = _users.Find(a => a.Name == oldUserName).Id;
-                DataManager.EditUser(userId, userModel);
+                AdminDatabaseManager.EditUser(userId, userModel);
                 UpdateUsersTable();
                 CloseEditUserControl();
                 if (_adminService.OnlineClients.GetAllItems().Exists(a => a.UserName == userModel.Name))
@@ -1534,7 +1566,7 @@ namespace DataAdmin.Forms
                 }
                 else if (!_users.Exists(a => a.Name == userModel.Name))
                 {
-                    DataManager.AddNewUser(userModel);
+                    AdminDatabaseManager.AddNewUser(userModel);
                     UpdateUsersTable();
                     CloseAddUserControl();
                 }
@@ -1543,7 +1575,7 @@ namespace DataAdmin.Forms
                     ToastNotification.Show(_addUserControl, @"User with this login is already exists!", eToastPosition.TopCenter);
                 }
             }
-            catch (PleaseDropTablesException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 MessageBox.Show(ex.Message, @"Sql Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
@@ -1609,7 +1641,7 @@ namespace DataAdmin.Forms
                         var userId = _users.Find(a => a.Name == item.Cells["ui_users_dGridCol_Login"].Value.ToString()).Id;
                         var username =
                             _users.Find(a => a.Name == item.Cells["ui_users_dGridCol_Login"].Value.ToString()).Name;
-                        DataManager.DeleteUser(userId);
+                        AdminDatabaseManager.DeleteUser(userId);
 
 
                         _adminService.DeletedUser(username);//send to client request to logging out
@@ -1646,9 +1678,9 @@ namespace DataAdmin.Forms
 
 
             var userName = ui_users_dgridX_users.SelectedRows[0].Cells[0].Value.ToString();
-            var userId = DataManager.GetUsers().Find(a => a.Name == userName).Id;
+            var userId = AdminDatabaseManager.GetUsers().Find(a => a.Name == userName).Id;
 
-            var logs = DataManager.GetLogBetweenDates(DateTime.Today.AddDays(-(Settings.Default.MaxHistoryLooksBackDays-1)), DateTime.Today.AddDays(1), false);
+            var logs = AdminDatabaseManager.GetLogBetweenDates(DateTime.Today.AddDays(-(Settings.Default.MaxHistoryLooksBackDays-1)), DateTime.Today.AddDays(1), false);
             
             Invoke((Action) (() =>
                                  {
@@ -1792,7 +1824,7 @@ namespace DataAdmin.Forms
                         var symbol = fAdd.ui_textBoxX_SymbolName.Text;
                         if (!_symbols.Exists(a => a.SymbolName == symbol))
                         {
-                            DataManager.AddNewSymbol(symbol);
+                            AdminDatabaseManager.AddNewSymbol(symbol);
                             _adminService.SymbolListChanged();
                             UpdateSymbolsTable();
                         }
@@ -1828,7 +1860,7 @@ namespace DataAdmin.Forms
                         string symbol = fEdit.ui_textBoxX_SymbolName.Text;
                         if (!_symbols.Exists(a => a.SymbolName == symbol))
                         {
-                            DataManager.EditSymbol(oldName, symbol);
+                            AdminDatabaseManager.EditSymbol(oldName, symbol);
                             _adminService.SymbolListChanged();
 
                             UpdateSymbolsTable();
@@ -1851,7 +1883,7 @@ namespace DataAdmin.Forms
                 {
                     foreach (DataGridViewRow row in ui_symbols_dGrid_Symbols.SelectedRows)
                     {
-                        DataManager.DeleteSymbol(row.Cells[0].Value.ToString());
+                        AdminDatabaseManager.DeleteSymbol(row.Cells[0].Value.ToString());
                         _adminService.SymbolListChanged();
 
                     }
@@ -1894,8 +1926,8 @@ namespace DataAdmin.Forms
                 });
             var symbolId = _symbols.Find(a => a.SymbolName == ui_symbols_dGrid_Symbols.SelectedRows[0].Cells[0].Value.ToString()).SymbolId;
 
-            var usersForTickNet = DataManager.GetUsersForSymbol(symbolId, ApplicationType.TickNet.ToString());
-            var usersForDataNet = DataManager.GetUsersForSymbol(symbolId, ApplicationType.DataNet.ToString());
+            var usersForTickNet = AdminDatabaseManager.GetUsersForSymbol(symbolId, ApplicationType.TickNet.ToString());
+            var usersForDataNet = AdminDatabaseManager.GetUsersForSymbol(symbolId, ApplicationType.DataNet.ToString());
             Invoke((Action) delegate
                 {
                     foreach (var userModel in usersForDataNet)
@@ -1937,8 +1969,8 @@ namespace DataAdmin.Forms
             var symbolId = _symbols.Find(a => a.SymbolName == ui_symbols_dGrid_Symbols.SelectedRows[0].Cells[0].Value.ToString()).SymbolId;
             var user = _users.Find(a => a.Name == ui_symbols_comboBoxEx_NotAllowedUsers.SelectedItem.ToString());
 
-            var tickNetUsersForSymbol = DataManager.GetUsersForSymbol(symbolId, ApplicationType.TickNet.ToString());
-            var dataNetUsersForSymbol = DataManager.GetUsersForSymbol(symbolId, ApplicationType.DataNet.ToString());
+            var tickNetUsersForSymbol = AdminDatabaseManager.GetUsersForSymbol(symbolId, ApplicationType.TickNet.ToString());
+            var dataNetUsersForSymbol = AdminDatabaseManager.GetUsersForSymbol(symbolId, ApplicationType.DataNet.ToString());
 
             var existTn = false;
             foreach (var userForSymbol in tickNetUsersForSymbol)
@@ -1981,7 +2013,7 @@ namespace DataAdmin.Forms
             Enum.TryParse(ui_symbols_comboBoxEx_AppType.SelectedItem.ToString(), out appType);
 
 
-            DataManager.AddSymbolForUser(userId, symbol.SymbolId, appType == ApplicationType.TickNet);
+            AdminDatabaseManager.AddSymbolForUser(userId, symbol.SymbolId, appType == ApplicationType.TickNet);
 
             Task.Factory.StartNew(() => _adminService.SymbolPermissionChanged(appType, username));
 
@@ -2006,7 +2038,7 @@ namespace DataAdmin.Forms
             var symbolId = _symbols.Find(a => a.SymbolName == ui_symbols_dGrid_Symbols.SelectedRows[0].Cells[0].Value.ToString()).SymbolId;
 
 
-            if (DataManager.DeleteSymbolForUser(userId, symbolId, appType == ApplicationType.TickNet))
+            if (AdminDatabaseManager.DeleteSymbolForUser(userId, symbolId, appType == ApplicationType.TickNet))
             {
                 UpdateAllowedUsersForSymbol();
             }
@@ -2027,7 +2059,7 @@ namespace DataAdmin.Forms
             var symbolName = ui_symbols_dGrid_Symbols.SelectedRows[0].Cells[0].Value.ToString();
             //var userId = DataManager.GetUsers().Find(a => a.Name == userName).Id;
 
-            var logs = DataManager.GetLogBetweenDates(DateTime.Today.AddDays(-(Settings.Default.MaxHistoryLooksBackDays - 1)), DateTime.Today.AddDays(1), false);
+            var logs = AdminDatabaseManager.GetLogBetweenDates(DateTime.Today.AddDays(-(Settings.Default.MaxHistoryLooksBackDays - 1)), DateTime.Today.AddDays(1), false);
 
             Invoke((Action)(() =>
             {
@@ -2197,7 +2229,7 @@ namespace DataAdmin.Forms
             }
             else if (!_groups.Exists(a => a.GroupName == group.GroupName))
             {
-                if (DataManager.AddGroupOfSymbols(group))
+                if (AdminDatabaseManager.AddGroupOfSymbols(group))
                 {
                     UpdateGroupsTable();
 
@@ -2207,7 +2239,7 @@ namespace DataAdmin.Forms
                         if (_symbols.Exists(a => a.SymbolName == item.ToString()))
                         {
                             var symbol = _symbols.Find(a => a.SymbolName == item.ToString());
-                            DataManager.AddSymbolIntoGroup(groupId, symbol);
+                            AdminDatabaseManager.AddSymbolIntoGroup(groupId, symbol);
                         }
                     }
                     _adminService.GroupChanged();
@@ -2272,7 +2304,7 @@ namespace DataAdmin.Forms
                 }
             }
 
-            var symbols = DataManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
+            var symbols = AdminDatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
 
             foreach (var symbol in symbols)
             {
@@ -2301,20 +2333,20 @@ namespace DataAdmin.Forms
             else if ((!_groups.Exists(a => a.GroupName == group.GroupName) && _groups.Exists(a => a.GroupName == oldGroupName)) || (group.GroupName == oldGroupName && _groups.Exists(a => a.GroupName == oldGroupName)))
             {
                 var groupId = _groups.Find(a => a.GroupName == oldGroupName).GroupId;
-                DataManager.EditGroupOfSymbols(groupId, group);
-                var symbolsInGroup = DataManager.GetSymbolsInGroup(groupId);
+                AdminDatabaseManager.EditGroupOfSymbols(groupId, group);
+                var symbolsInGroup = AdminDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var item in _editListControl.lbSelList.Items)
                 {
                     if (!symbolsInGroup.Exists(a => a.SymbolName == item.ToString()) && _symbols.Exists(a => a.SymbolName == item.ToString()))
                     {
                         var symbol = _symbols.Find(a => a.SymbolName == item.ToString());
-                        DataManager.AddSymbolIntoGroup(groupId, symbol);
+                        AdminDatabaseManager.AddSymbolIntoGroup(groupId, symbol);
 
 
                     }
                 }
 
-                symbolsInGroup = DataManager.GetSymbolsInGroup(groupId);
+                symbolsInGroup = AdminDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var symbol in symbolsInGroup)
                 {
                     var exist = false;
@@ -2322,7 +2354,7 @@ namespace DataAdmin.Forms
                     {
                         if (symbol.SymbolName == item.ToString()) exist = true;
                     }
-                    if (!exist) DataManager.DeleteSymbolFromGroup(groupId, symbol.SymbolId);
+                    if (!exist) AdminDatabaseManager.DeleteSymbolFromGroup(groupId, symbol.SymbolId);
                 }
 
                 UpdateGroupsTable();
@@ -2368,7 +2400,7 @@ namespace DataAdmin.Forms
                     {
                         var item = ui_groups_dataGridViewX_groupsList.SelectedRows[index];
                         var groupId = _groups.Find(a => a.GroupName == item.Cells[0].Value.ToString()).GroupId;
-                        DataManager.DeleteGroupOfSymbols(groupId);
+                        AdminDatabaseManager.DeleteGroupOfSymbols(groupId);
                         _adminService.GroupChanged();
                         UpdateLogComponents();
                     }
@@ -2419,7 +2451,7 @@ namespace DataAdmin.Forms
             var symbolName = ui_groups_dataGridViewX_groupsList.SelectedRows[0].Cells[0].Value.ToString();
             //var userId = DataManager.GetUsers().Find(a => a.Name == userName).Id;
 
-            var logs = DataManager.GetLogBetweenDates(DateTime.Today.AddDays(-(Settings.Default.MaxHistoryLooksBackDays - 1)), DateTime.Today.AddDays(1), false);
+            var logs = AdminDatabaseManager.GetLogBetweenDates(DateTime.Today.AddDays(-(Settings.Default.MaxHistoryLooksBackDays - 1)), DateTime.Today.AddDays(1), false);
 
             Invoke((Action)(() =>
             {
@@ -2524,7 +2556,7 @@ namespace DataAdmin.Forms
             var groupId = _groups.Find(a => a.GroupName == ui_groups_dataGridViewX_groupsList.SelectedRows[0].Cells[0].Value.ToString()).GroupId;
 
 
-            if (DataManager.DeleteGroupForUser(userId, groupId, appType))
+            if (AdminDatabaseManager.DeleteGroupForUser(userId, groupId, appType))
             {
                 UpdateAllowedUsersTable();
             }
@@ -2549,8 +2581,8 @@ namespace DataAdmin.Forms
 
             var groupId = _groups.Find(a => a.GroupName == ui_groups_dataGridViewX_groupsList.SelectedRows[0].Cells[0].Value.ToString()).GroupId;
 
-            var tickNetUsersForGroup = DataManager.GetUsersForGroup(groupId, ApplicationType.TickNet.ToString());
-            var dataNetUsersForGroup = DataManager.GetUsersForGroup(groupId, ApplicationType.DataNet.ToString());
+            var tickNetUsersForGroup = AdminDatabaseManager.GetUsersForGroup(groupId, ApplicationType.TickNet.ToString());
+            var dataNetUsersForGroup = AdminDatabaseManager.GetUsersForGroup(groupId, ApplicationType.DataNet.ToString());
             Invoke((Action) delegate
                 {
                     foreach (var userModel in tickNetUsersForGroup)
@@ -2601,7 +2633,7 @@ namespace DataAdmin.Forms
             Enum.TryParse(ui_groups_comboBox_Applications.SelectedItem.ToString(), out appType);
             group.AppType = appType;
 
-            DataManager.AddGroupForUser(userId, group);
+            AdminDatabaseManager.AddGroupForUser(userId, group);
 
             Task.Factory.StartNew(() => _adminService.SendToClientSymbolGroupList(username));
 
@@ -2625,19 +2657,19 @@ namespace DataAdmin.Forms
             Enum.TryParse(ui_groups_comboBox_Applications.SelectedItem.ToString(), out appType);
             group.AppType = appType;
 
-            DataManager.AddGroupForUser(userId, group);
+            AdminDatabaseManager.AddGroupForUser(userId, group);
 
             Task.Factory.StartNew(() => _adminService.SendToClientSymbolGroupList(username));
 
 
             UpdateAllowedUsersTable();
 
-            var symbols = DataManager.GetSymbolsInGroup(group.GroupId);
-            var symbolsForUser = DataManager.GetSymbolsForUser(userId, appType == ApplicationType.TickNet);
+            var symbols = AdminDatabaseManager.GetSymbolsInGroup(group.GroupId);
+            var symbolsForUser = AdminDatabaseManager.GetSymbolsForUser(userId, appType == ApplicationType.TickNet);
             foreach (var symbolModel in symbols)
             {
                 if (!symbolsForUser.Exists(a => a.SymbolId == symbolModel.SymbolId))
-                    DataManager.AddSymbolForUser(userId, symbolModel.SymbolId, appType == ApplicationType.TickNet);
+                    AdminDatabaseManager.AddSymbolForUser(userId, symbolModel.SymbolId, appType == ApplicationType.TickNet);
             }
 
             Task.Factory.StartNew(() => _adminService.SymbolPermissionChanged(appType, username));
@@ -2652,8 +2684,8 @@ namespace DataAdmin.Forms
             var groupId = _groups.Find(a => a.GroupName == ui_groups_dataGridViewX_groupsList.SelectedRows[0].Cells[0].Value.ToString()).GroupId;
             var user = _users.Find(a => a.Name == ui_groups_comboBox_NotAllowedUsers.SelectedItem.ToString());
 
-            var tickNetUsersForGroup = DataManager.GetUsersForGroup(groupId, ApplicationType.TickNet.ToString());
-            var dataNetUsersForGroup = DataManager.GetUsersForGroup(groupId, ApplicationType.DataNet.ToString());
+            var tickNetUsersForGroup = AdminDatabaseManager.GetUsersForGroup(groupId, ApplicationType.TickNet.ToString());
+            var dataNetUsersForGroup = AdminDatabaseManager.GetUsersForGroup(groupId, ApplicationType.DataNet.ToString());
 
             var existTn = false;
             foreach (var userInGroup in tickNetUsersForGroup)
@@ -2690,7 +2722,7 @@ namespace DataAdmin.Forms
             var dateStart = ui_logs_DTime_StartFilter.Value;
             var dateEnd = ui_logs_DTime_EndFilter.Value;
 
-            var logs = DataManager.GetLogBetweenDates(dateStart, new DateTime(dateEnd.Year, dateEnd.Month, dateEnd.Day, 23, 59, 59));
+            var logs = AdminDatabaseManager.GetLogBetweenDates(dateStart, new DateTime(dateEnd.Year, dateEnd.Month, dateEnd.Day, 23, 59, 59));
 
             var userFilter = uiLogUserFilter.Text;
             var eventFilter = uiLogEventFilter.Text;
@@ -2701,7 +2733,7 @@ namespace DataAdmin.Forms
                 ui_logs_dGridX_Logs.Rows.Clear();
                 foreach (var log in logs)
                 {
-                    var userName = DataManager.GetUsers().Find(a => a.Id == log.UserId).Name;
+                    var userName = AdminDatabaseManager.GetUsers().Find(a => a.Id == log.UserId).Name;
 
                     var type = "";
                     var status = "";
@@ -2743,7 +2775,7 @@ namespace DataAdmin.Forms
                         continue;
                     if ((eventFilter != "") && (type != eventFilter))
                         continue;
-                    if ((userFilter != "") && (log.UserId != DataManager.GetUsers().Find(a => a.Name == userFilter).Id))
+                    if ((userFilter != "") && (log.UserId != AdminDatabaseManager.GetUsers().Find(a => a.Name == userFilter).Id))
                         continue;
 
 
@@ -2909,7 +2941,7 @@ namespace DataAdmin.Forms
 
             var thr = new Thread(() =>
             {
-                DateTime bufTime=DataManager.BackupSystemTables();
+                DateTime bufTime=AdminDatabaseManager.BackupSystemTables();
                 Invoke((Action)(() =>
                 {
                     circularProgress1.IsRunning = false;
@@ -2935,7 +2967,7 @@ namespace DataAdmin.Forms
             var res = comboBoxEx1.SelectedItem.ToString();
 
             var thr = new Thread(() => {
-                DataManager.RestoreSystemTables(res);
+                AdminDatabaseManager.RestoreSystemTables(res);
                 Invoke((Action) (() =>
                 {
                     circularProgress1.IsRunning = false;
@@ -2949,7 +2981,7 @@ namespace DataAdmin.Forms
         private void comboBoxEx1_DropDown(object sender, EventArgs e)
         {
             comboBoxEx1.Items.Clear();
-            List<string> tmpList = DataManager.ReturnBackUpFilesName();
+            List<string> tmpList = AdminDatabaseManager.ReturnBackUpFilesName();
             foreach (var variable in tmpList)
             {
                 comboBoxEx1.Items.Add(variable);

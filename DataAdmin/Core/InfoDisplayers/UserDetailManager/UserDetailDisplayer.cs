@@ -27,9 +27,9 @@ namespace DataAdmin.Core.InfoDisplayers.UserDetailManager
         {
             foreach (var userId in _usersId)
             {
-                var user = DataManager.GetUserData(userId);
+                var user = AdminDatabaseManager.GetUserData(userId);
                 AddUser(user);
-                var groups = DataManager.GetGroupsForUser(userId);
+                var groups = AdminDatabaseManager.GetGroupsForUser(userId);
 
                 foreach (var group in groups)
                 {
@@ -81,7 +81,7 @@ namespace DataAdmin.Core.InfoDisplayers.UserDetailManager
 
         private static void AddGroupSymbols(GroupModel group)
         {
-            var symbolList = DataManager.GetSymbolsInGroup(group.GroupId);
+            var symbolList = AdminDatabaseManager.GetSymbolsInGroup(group.GroupId);
 
             foreach (var symbol in symbolList)
             {

@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataManager.cs" />
+    <Compile Include="AdminDatabaseManager.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataExportClientDataManager.cs" />
     <Compile Include="Models\DomDataModel.cs" />

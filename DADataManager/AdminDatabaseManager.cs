@@ -10,14 +10,6 @@ using DADataManager.Models;
 
 namespace DADataManager
 {
-    public class PleaseDropTablesException : Exception
-    {
-        public PleaseDropTablesException(string tableName)
-            : base(String.Format("Thare are some troubles with table's structure.\n" +
-            "Maybe You have old version of tables.\n Please, drop table: {0}", tableName))
-        { }
-        public PleaseDropTablesException(string message, Exception inner) : base(message, inner) { }
-    }
 
     public class TimeOutException : Exception
     {
@@ -29,7 +21,7 @@ namespace DADataManager
 
     }
 
-    public static class DataManager
+    public static class AdminDatabaseManager
     {
         #region VARIABLES
 
@@ -203,7 +195,7 @@ namespace DADataManager
 
             var resultList = new List<LogModel>();
 
-            string sql = "SELECT * FROM " + TblLogs + " WHERE Date BETWEEN '" + dateStart + "' AND '" + dateEnd + "' ORDER BY `Date` " + (desc ? "DESC" : " ") + " , `ID` ASC;";
+            string sql = "SELECT * FROM " + TblLogs + " WHERE Date BETWEEN '" + dateStart + "' AND '" + dateEnd + "' ORDER BY `Date` ASC  , `ID` ASC;";
             lock (LockReader)
             {
                 var reader = GetReader(sql);
@@ -875,8 +867,7 @@ namespace DADataManager
                     throw new TimeOutException();
                 }
 
-                var spl = sql.Split(' ');
-                throw new PleaseDropTablesException(spl[3]);
+                return false;
             }
         }
         private static bool DoSqlBar(string sql)
@@ -902,9 +893,8 @@ namespace DADataManager
                 {
                     throw new TimeOutException();
                 }
-
-                var spl = sql.Split(' ');
-                throw new PleaseDropTablesException(spl[3]);
+                return false;
+                                
             }
         }
         /// <summary>
@@ -1210,6 +1200,8 @@ namespace DADataManager
         }*/
         #endregion
 
+        #region BACKUP
+
         public static void CreateBackupDirectory(string path)
         {
             try
@@ -1236,16 +1228,16 @@ namespace DADataManager
         {
 
             string time = DateTime.Now.ToString();
-            time=time.Replace('/', '_');
+            time = time.Replace('/', '_');
             time = time.Replace(':', '-');
-            var file = BackUpFilePath+"\\" + time;
-    
+            var file = BackUpFilePath + "\\" + time;
+
             using (var cmd = new MySqlCommand())
             {
                 using (var mb = new MySqlBackup(cmd))
                 {
-                    cmd.Connection = _connectionSystem;   
-                    mb.ExportToFile(file);                   
+                    cmd.Connection = _connectionSystem;
+                    mb.ExportToFile(file);
                 }
             }
             time = time.Replace('_', '/');
@@ -1255,10 +1247,10 @@ namespace DADataManager
 
         public static List<string> ReturnBackUpFilesName()
         {
-            List<string> list=System.IO.Directory.GetFiles(BackUpFilePath+@"\").ToList();
+            List<string> list = System.IO.Directory.GetFiles(BackUpFilePath + @"\").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                list[i] = list[i].Replace(BackUpFilePath+"\\", "");
+                list[i] = list[i].Replace(BackUpFilePath + "\\", "");
                 list[i] = list[i].Replace('_', '/');
                 list[i] = list[i].Replace('-', ':');
             }
@@ -1271,20 +1263,21 @@ namespace DADataManager
         {
 
 
-                fileName = fileName.Replace('/', '_');
-                fileName = fileName.Replace(':', '-');
+            fileName = fileName.Replace('/', '_');
+            fileName = fileName.Replace(':', '-');
 
-                using (var cmd = new MySqlCommand())
+            using (var cmd = new MySqlCommand())
+            {
+                using (var mb = new MySqlBackup(cmd))
                 {
-                    using (var mb = new MySqlBackup(cmd))
-                    {
-                        cmd.Connection = _connectionSystem;
-                        mb.ImportFromFile(BackUpFilePath+"\\"+fileName);
+                    cmd.Connection = _connectionSystem;
+                    mb.ImportFromFile(BackUpFilePath + "\\" + fileName);
 
-                    }
                 }
+            }
 
-            
-        }
+
+        } 
+        #endregion
     }
 }

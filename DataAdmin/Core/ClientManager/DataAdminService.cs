@@ -135,7 +135,7 @@ namespace DataAdmin.Core.ClientManager
             string serverMessage = "";
             string msgfail = "";
 
-            var users = DataManager.GetUsers();
+            var users = AdminDatabaseManager.GetUsers();
 
             if (users.Exists(a => a.Name == usr)) // if user in DB
             {

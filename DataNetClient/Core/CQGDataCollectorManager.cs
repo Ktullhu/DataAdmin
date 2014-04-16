@@ -235,14 +235,10 @@ namespace DataNetClient.CQGDataCollector
             ChangeTimeoutState(false, false);
 
             if (_isStoped) return;
-
             
             var symbol = cqgTimedBars.Request.Symbol;
-
             BarsAdd(cqgTimedBars, cqgError, _userName);
-            FinishCollectingSymbol(symbol, true);
-
-            
+                        
         }
 
         static void _cel_DataError(object cqgError, string errorDescription)
@@ -345,18 +341,6 @@ namespace DataNetClient.CQGDataCollector
             }
         }
 
-        private static eTimeSeriesContinuationType ConvertToTsts(string continuationType)
-        {
-            switch (continuationType)
-            {
-                case "tsctStandard":
-                    return eTimeSeriesContinuationType.tsctStandard;
-
-                default: return eTimeSeriesContinuationType.tsctNoContinuation;
-            }
-        }
-
-        
         #endregion
 
         #region SAVING COLLECTED DATA
@@ -388,7 +372,9 @@ namespace DataNetClient.CQGDataCollector
                             }
                         }
                         DatabaseManager.CommitQueueBar();
-                    }                    
+                        
+                    }
+                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, true);
                 }
 
 
@@ -943,13 +929,10 @@ namespace DataNetClient.CQGDataCollector
         private static void FinishCollectingGroup(int index)
         {
             FinishProgress(index);
-            if (!_isStoped)
-            {
-                if (_modeIsAuto)
-                {                    
-                }
-                StartFirst();
-            }
+            if (_isStoped) return;
+            
+            ChangeTimeoutState(false, false);
+            StartFirst();            
         }
         
         private static void StartProgress(int index)
@@ -990,7 +973,7 @@ namespace DataNetClient.CQGDataCollector
             else
             {
                 ChangeTimeoutState(true, _groups[_groupCurrent].GroupModel.CntType.Contains("tsctStandard"));
-                TicksRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
+                if(_groups[_groupCurrent].GroupModel.TimeFrame=="tick") TicksRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
             }
             
 
@@ -1022,85 +1005,6 @@ namespace DataNetClient.CQGDataCollector
         
 
         #endregion
-
-        private static string GetTableType(string historicalPeriod)
-        {
-            switch (historicalPeriod)
-            {
-                case "1 minute":                    
-                    return "1M";                    
-                case "2 minutes":
-                    return "2M";                    
-                case "3 minutes":
-                    return "3M";                    
-                case "5 minutes":
-                    return"5M";                    
-                case "10 minutes":
-                    return "10M";                    
-                case "15 minutes":
-                    return "15M";
-                case "30 minutes":
-                    return "30M";
-                case "60 minutes":
-                    return "60M";
-                case "240 minutes":
-                    return "240M";
-                    
-                case "Daily":
-                    _aHistoricalPeriod = eHistoricalPeriod.hpDaily;
-                    return "D";
-
-                case "Weekly":
-                    _aHistoricalPeriod = eHistoricalPeriod.hpWeekly;
-                    return "W";
-
-                case "Monthly":
-                    _aHistoricalPeriod = eHistoricalPeriod.hpMonthly;
-                    return "M";
-
-                case "Quarterly":
-                    _aHistoricalPeriod = eHistoricalPeriod.hpQuarterly;
-                    return "Q";
-
-                case "Yearly":
-                    _aHistoricalPeriod = eHistoricalPeriod.hpYearly;
-                    return "Y";
-
-                case "Semiannual":
-                    _aHistoricalPeriod = eHistoricalPeriod.hpSemiannual;
-                    return "S";
-                                   
-            }
-            return "1M";
-        }
-
-        private static int GetIntradayPeriod(string historicalPeriod)
-        {
-            switch (historicalPeriod)
-            {
-                case "1 minute":
-                    return 1;
-                case "2 minutes":
-                    return 2;
-                case "3 minutes":
-                    return 3;
-                case "5 minutes":
-                    return 5;
-                case "10 minutes":
-                    return 10;
-                case "15 minutes":
-                    return 15;
-                case "30 minutes":
-                    return 30;
-                case "60 minutes":
-                    return 60;
-                case "240 minutes":
-                    return 240;
-
-
-            }
-            return 1 ;
-        }
 
         #region Scheuler
 
@@ -1214,17 +1118,6 @@ namespace DataNetClient.CQGDataCollector
 
         #endregion
 
-        public static bool IsStarted
-        {
-            get { return _isStarted; }
-            private set
-            {
-                _isStarted = value;
-                OnRunnedStateChanged(value);
-            }
-        }
-        
-
         #region TimeOutLogic
 
 
@@ -1255,6 +1148,111 @@ namespace DataNetClient.CQGDataCollector
 
         
         #endregion
-    
+   
+        #region Other
+
+        public static bool IsStarted
+        {
+            get { return _isStarted; }
+            private set
+            {
+                _isStarted = value;
+                OnRunnedStateChanged(value);
+            }
+        }
+
+        private static eTimeSeriesContinuationType ConvertToTsts(string continuationType)
+        {
+            switch (continuationType)
+            {
+                case "tsctStandard":
+                    return eTimeSeriesContinuationType.tsctStandard;
+
+                default: return eTimeSeriesContinuationType.tsctNoContinuation;
+            }
+        }
+
+        private static string GetTableType(string historicalPeriod)
+        {
+            switch (historicalPeriod)
+            {
+                case "1 minute":
+                    return "1M";
+                case "2 minutes":
+                    return "2M";
+                case "3 minutes":
+                    return "3M";
+                case "5 minutes":
+                    return "5M";
+                case "10 minutes":
+                    return "10M";
+                case "15 minutes":
+                    return "15M";
+                case "30 minutes":
+                    return "30M";
+                case "60 minutes":
+                    return "60M";
+                case "240 minutes":
+                    return "240M";
+
+                case "Daily":
+                    _aHistoricalPeriod = eHistoricalPeriod.hpDaily;
+                    return "D";
+
+                case "Weekly":
+                    _aHistoricalPeriod = eHistoricalPeriod.hpWeekly;
+                    return "W";
+
+                case "Monthly":
+                    _aHistoricalPeriod = eHistoricalPeriod.hpMonthly;
+                    return "M";
+
+                case "Quarterly":
+                    _aHistoricalPeriod = eHistoricalPeriod.hpQuarterly;
+                    return "Q";
+
+                case "Yearly":
+                    _aHistoricalPeriod = eHistoricalPeriod.hpYearly;
+                    return "Y";
+
+                case "Semiannual":
+                    _aHistoricalPeriod = eHistoricalPeriod.hpSemiannual;
+                    return "S";
+
+            }
+            return "1M";
+        }
+
+        private static int GetIntradayPeriod(string historicalPeriod)
+        {
+            switch (historicalPeriod)
+            {
+                case "1 minute":
+                    return 1;
+                case "2 minutes":
+                    return 2;
+                case "3 minutes":
+                    return 3;
+                case "5 minutes":
+                    return 5;
+                case "10 minutes":
+                    return 10;
+                case "15 minutes":
+                    return 15;
+                case "30 minutes":
+                    return 30;
+                case "60 minutes":
+                    return 60;
+                case "240 minutes":
+                    return 240;
+
+
+            }
+            return 1;
+        }
+
+        
+        #endregion
+ 
     }
 }
