@@ -760,9 +760,10 @@ namespace DataNetClient.Forms
 
       
         
-        public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, string timeFrame, bool started, bool finished)
+        public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, string timeFrame, bool started, bool finished, bool failed =false)
         {
             var status = started ? DataAdminMessageFactory.LogMessage.Status.Started : DataAdminMessageFactory.LogMessage.Status.Finished;
+            
             if (symbols.Count > 0)
             {
                 var logMsg = new DataAdminMessageFactory.LogMessage(_client.UserID, DateTime.Now, "",
@@ -774,6 +775,8 @@ namespace DataNetClient.Forms
                     TimeFrame = timeFrame
 
                 };
+                if (failed) logMsg.OperationStatus = DataAdminMessageFactory.LogMessage.Status.Aborted;
+
                 var symb = symbols.Aggregate("", (current, symbol) => current + (symbol + ","));
                 var index = symb.Count() - 1;
                 symb = symb.Remove(index);
@@ -1762,7 +1765,7 @@ namespace DataNetClient.Forms
                 if (count != 0)
                 {
 //                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
+                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect)).Wait();
                     _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "]", isCorrect ? Category.Information : Category.Warning);
                 }
                 styledListControl1.ChangeCollectedCount(index, count, totalCount);
@@ -1785,7 +1788,7 @@ namespace DataNetClient.Forms
                         Category.Information);
                     Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
                                                                     _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-
+                    if (_groupItems[index].AllSymbols.Count!=0)
                     Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
                 }
                 if (state == GroupState.Finished)

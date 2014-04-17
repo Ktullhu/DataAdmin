@@ -195,7 +195,7 @@ namespace DADataManager
 
             var resultList = new List<LogModel>();
 
-            string sql = "SELECT * FROM " + TblLogs + " WHERE Date BETWEEN '" + dateStart + "' AND '" + dateEnd + "' ORDER BY `Date` ASC  , `ID` ASC;";
+            string sql = "SELECT * FROM " + TblLogs + " WHERE Date BETWEEN '" + dateStart + "' AND '" + dateEnd + "' ORDER BY `Date` DESC  , `ID` DESC;";
             lock (LockReader)
             {
                 var reader = GetReader(sql);

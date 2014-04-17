@@ -490,6 +490,12 @@ namespace DataAdmin.Forms
         }
         private void AbortedOperationLog(object sender, DataAdminMessageFactory.LogMessage msg)
         {
+            if (msg.IsDataNetClient&& msg.LogType == DataAdminMessageFactory.LogMessage.Log.CollectSymbol)
+            {
+                Task.Factory.StartNew(() => DataNetCollectingSymbolFinished(msg));
+                return;
+            }
+
             var logmodel = new LogModel
             {
                 Date = msg.Time,

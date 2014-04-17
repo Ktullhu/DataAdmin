@@ -45,7 +45,7 @@ namespace DataNetClient.CQGDataCollector
         private static List<MonthCharYearModel> monthCharYearlList = new List<MonthCharYearModel>(); 
 
         private static Timer _timerScheduler = new Timer{Interval = 3000};
-        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.MaxTimeOutMinutes *60* 1000 };// 5 minutes
+        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.MaxTimeOutMinutes *60* 1000, Enabled = false };// 5 minutes
         private static bool _isStarted;
         private static object _lockHistInsert = new object();
 
@@ -902,9 +902,19 @@ namespace DataNetClient.CQGDataCollector
         {
 
             var group = _groups[index];
-            
+
             StartProgress(index);
-            OnCollectedSymbolCountChanged(_groupCurrent,"", 0, _groups[index].AllSymbols.Count, true);
+            OnCollectedSymbolCountChanged(_groupCurrent, "", 0, _groups[index].AllSymbols.Count, true);
+
+            if (group.AllSymbols.Count == 0)
+            {
+                FinishCollectingGroup(index);
+            }
+            else
+            {
+                ChangeTimeoutState(true, group.GroupModel.CntType.Contains("tsctStandard"));
+            }
+
 
             if (group.GroupModel.TimeFrame != "tick")
             {
@@ -916,14 +926,6 @@ namespace DataNetClient.CQGDataCollector
                 TicksRequest(group.AllSymbols.First());
             }
 
-            if (group.AllSymbols.Count == 0)
-            { 
-                FinishCollectingGroup(index); 
-            }
-            else
-            {
-                ChangeTimeoutState(true, group.GroupModel.CntType.Contains("tsctStandard"));
-            }
         }
 
         private static void FinishCollectingGroup(int index)
