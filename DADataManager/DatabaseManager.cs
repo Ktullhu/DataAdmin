@@ -73,6 +73,8 @@ namespace DADataManager
         public delegate void ConnectionStatusChangedHandler(bool connected, bool isShared);
         public static event ConnectionStatusChangedHandler ConnectionStatusChanged;
 
+        static string lastCreatedTableName = "";
+
         #endregion
 
 
@@ -1718,66 +1720,6 @@ namespace DADataManager
             return time;
         }
 
-        public static void CreateTickTable(string symbol)
-        {
-            var str = symbol.Trim().Split('.');
-            var sql = "CREATE TABLE IF NOT EXISTS `T_" + str[str.Length - 1].ToUpper() + "` (";
-            sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
-            sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`Price` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`Volume` INT(25) NULL DEFAULT NULL,";
-            sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
-            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
-            sql += "`ContinuationType` VARCHAR(50) NULL DEFAULT NULL,";
-            sql += "`PriceType` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`GroupId` INT(12) NULL DEFAULT NULL,";
-            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
-            sql += "PRIMARY KEY (`Id`),";
-            sql += "UNIQUE INDEX `UNQ_DATA_INDEX` ( `TickTime`, `Id`)";
-            sql += ")";
-            sql += "COLLATE='latin1_swedish_ci'";
-            sql += "ENGINE=InnoDB;";
-            DoSqlHistorical(sql);
-        }
-
-        public static void CreateBarsTable(string symbol, string tableType)
-        {
-            var str = symbol.Trim().Split('.');
-            var sql = "CREATE TABLE IF NOT EXISTS `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` (";
-            sql += "`Id` INT(11) NOT NULL AUTO_INCREMENT,";
-            sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`OpenValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`HighValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`LowValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`CloseValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`TickVol` INT(25) NULL DEFAULT NULL,";
-            sql += "`ActualVol` INT(25) NULL DEFAULT NULL,";
-            sql += "`AskVol` INT(25) NULL DEFAULT NULL,";
-            sql += "`BidVol` INT(25) NULL DEFAULT NULL,";
-            //sql += "`Avg` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "BarTime DATETIME NULL DEFAULT NULL,";
-            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
-            //sql += "`DateNum` DATETIME NULL DEFAULT NULL,";
-            sql += "`ContinuationType` VARCHAR(25) NULL DEFAULT NULL,";
-            //sql += "`cdHLC3` FLOAT(9,5) NULL DEFAULT NULL,";
-            //sql += "`cdMid` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`OpenInterest` INT(11) NULL DEFAULT NULL,";
-            //sql += "`cdRange` CHAR(30) NULL DEFAULT NULL,";
-            //sql += "`cdTrueHigh` FLOAT(9,5) NULL DEFAULT NULL,";
-            //sql += "`cdTrueLow` FLOAT(9,5) NULL DEFAULT NULL,";
-            // sql += "`cdTrueRange` FLOAT(9,5) NULL DEFAULT NULL,";
-            //sql += "`cdTimeInterval` DATETIME NULL DEFAULT NULL,";
-            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
-            sql += "`MonthChar` VARCHAR(50) NULL DEFAULT NULL,";//NEW!!!!!!!!!!!!!
-            sql += "`Year` VARCHAR(50) NULL DEFAULT NULL,";//NEW!!!!!!!!!!!!!!!!!
-            sql += "PRIMARY KEY (`Id`),";
-            sql += "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`,`BarTime`)";
-            sql += ")";
-            sql += "COLLATE='latin1_swedish_ci'";
-            sql += "ENGINE=InnoDB;";
-            DoSqlBar(sql);
-        }
-
         public static void CreateMissingBarExceptionTable()
         {
 
@@ -2481,5 +2423,170 @@ namespace DADataManager
             DoSqlLive(sql);
         }
 
+
+        public static void CreateBarsTable(string symbol, string tableType)
+        {
+            var str = symbol.Trim().Split('.');
+            var sql = "CREATE TABLE IF NOT EXISTS `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` (";
+            sql += "`Id` INT(11) NOT NULL AUTO_INCREMENT,";
+            sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
+            sql += "`OpenValue` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`HighValue` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`LowValue` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`CloseValue` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`TickVol` INT(25) NULL DEFAULT NULL,";
+            sql += "`ActualVol` INT(25) NULL DEFAULT NULL,";
+            sql += "`AskVol` INT(25) NULL DEFAULT NULL,";
+            sql += "`BidVol` INT(25) NULL DEFAULT NULL,";            
+            sql += "BarTime DATETIME NULL DEFAULT NULL,";
+            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";            
+            sql += "`ContinuationType` VARCHAR(25) NULL DEFAULT NULL,";                        
+            sql += "`OpenInterest` INT(11) NULL DEFAULT NULL,";            
+            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
+            sql += "`MonthChar` VARCHAR(50) NULL DEFAULT NULL,";//NEW!!!!!!!!!!!!!
+            sql += "`Year` VARCHAR(50) NULL DEFAULT NULL,";//NEW!!!!!!!!!!!!!!!!!
+            sql += "PRIMARY KEY (`Id`),";
+            sql += "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`,`BarTime`)";
+            sql += ")";
+            sql += "COLLATE='latin1_swedish_ci'";
+            sql += "ENGINE=InnoDB;";
+            DoSqlBar(sql);
+        }
+
+        public static int GetIso8601WeekOfYear(DateTime time)
+        {
+            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
+            // be the same week# as whatever Thursday, Friday or Saturday are,
+            // and we always get those right
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day == DayOfWeek.Sunday)
+                time = time.AddDays(1);
+            day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+            
+            // Return the week of our adjusted day
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        /*public static void CreateTickTable(string symbol)
+        {
+            var str = symbol.Trim().Split('.');
+            var sql = "CREATE TABLE IF NOT EXISTS `T_" + str[str.Length - 1].ToUpper() + "` (";
+            sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
+            sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
+            sql += "`Price` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`Volume` INT(25) NULL DEFAULT NULL,";
+            sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
+            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
+            sql += "`ContinuationType` VARCHAR(50) NULL DEFAULT NULL,";
+            sql += "`PriceType` VARCHAR(30) NULL DEFAULT NULL,";
+            sql += "`GroupId` INT(12) NULL DEFAULT NULL,";
+            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
+            sql += "PRIMARY KEY (`Id`),";
+            sql += "UNIQUE INDEX `UNQ_DATA_INDEX` ( `TickTime`, `Id`)";
+            sql += ")";
+            sql += "COLLATE='latin1_swedish_ci'";
+            sql += "ENGINE=InnoDB;";
+            DoSqlHistorical(sql);
+        }
+
+        */
+        public static void CreateTickTable(string symbol, DateTime dateTime)
+        {                        
+            var str = symbol.Trim().Split('.');
+            var tableName = "T_" + str[str.Length - 1].ToUpper()+"_"+GetIso8601WeekOfYear(dateTime);
+            if (lastCreatedTableName == tableName) return;
+            
+
+            var sql = "CREATE TABLE IF NOT EXISTS `"+tableName+"` (";
+            sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
+            sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
+            sql += "`Price` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`Volume` INT(25) NULL DEFAULT NULL,";
+            sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
+            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
+            sql += "`ContinuationType` VARCHAR(50) NULL DEFAULT NULL,";
+            sql += "`PriceType` VARCHAR(30) NULL DEFAULT NULL,";
+            sql += "`GroupId` INT(12) NULL DEFAULT NULL,";
+            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
+            sql += "PRIMARY KEY (`Id`),";
+            sql += "UNIQUE INDEX `UNQ_DATA_INDEX` ( `TickTime`, `Id`)";
+            sql += ")";
+            sql += "COLLATE='latin1_swedish_ci'";
+            sql += "ENGINE=InnoDB;";
+            DoSqlHistorical(sql);
+            lastCreatedTableName = tableName;
+        }
+
+        static string _thLastTable = "";                
+        static int _thDay;
+        static int _thHour;
+        static int _thMinutes;
+        static bool _thResult;
+        
+        public static bool IsThisHourExistsInTable(string symbol, DateTime dateTime)
+        {
+            var str = symbol.Trim().Split('.');
+            var tableName = "T_" + str[str.Length - 1].ToUpper() + "_" + GetIso8601WeekOfYear(dateTime);
+
+            if (tableName == _thLastTable && _thDay == dateTime.Day && _thHour == dateTime.TimeOfDay.Hours&& _thMinutes == dateTime.TimeOfDay.Minutes) { return _thResult; }
+
+            _thResult = IsExistsDataForHour(tableName, dateTime);
+            _thMinutes = dateTime.TimeOfDay.Minutes;
+            _thHour = dateTime.TimeOfDay.Hours;
+            _thDay = dateTime.Day;
+            _thLastTable = tableName;
+
+            return _thResult;
+        }
+
+        public static bool IsExistsDataForHour(string tableName, DateTime dt)
+        {
+            MySqlDataReader reader = null;
+
+            var dt_left = dt;
+            var dt_right = dt.AddMinutes(1);
+
+            var sql = "SELECT `TickTime` FROM `" + tableName +
+                      "` WHERE TickTime >='" + dt_left.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                      + "' AND TickTime <'" + dt_right.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'  limit 1;";
+            reader = GetReaderHistorical(sql);
+            if (reader != null)
+            {
+                if (reader.Read())
+                {
+                    reader.Close();
+                    return true;
+                }
+                reader.Close();
+            }
+            return false;
+        }
+
+        public static bool IsExistsDataForHour111(string tableName, DateTime dt)
+        {
+            MySqlDataReader reader = null;
+
+            var dt_left = dt.AddMinutes(-dt.TimeOfDay.Minutes);
+            var dt_right = dt.AddMinutes(-dt.TimeOfDay.Minutes).AddHours(1);
+            
+            var sql = "SELECT `TickTime` FROM `"+tableName+
+                      "` WHERE TickTime >='" + dt_left.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                      + "' AND TickTime <'" + dt_right.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'  limit 1;";
+            reader = GetReaderHistorical(sql);
+            if (reader != null)
+            {
+                if (reader.Read())
+                {
+                    reader.Close();
+                    return true;  
+                }
+                reader.Close();
+            }
+            return false;
+        }
     }
 }

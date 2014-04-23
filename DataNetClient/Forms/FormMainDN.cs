@@ -1747,15 +1747,17 @@ namespace DataNetClient.Forms
 
         #region CQG COLLECTING GROUPS
 
-        private void CQGDataCollectorManager_CollectedSymbolCountChanged(int index,string symbol,  int count, int totalCount, bool isCorrect)
+        DateTime _timeLastCollecting;
+
+        private void CQGDataCollectorManager_CollectedSymbolCountChanged(int index,string symbol,  int count, int totalCount, bool isCorrect, int realyInsertedRowsCount)
         {
             Invoke((Action) (() =>
             {
                 if (index == -1)
                 {                                       
                     ui__status_labelItem_status.Text = "Collecting:  [" + count + "/" + totalCount + "]";
-                    
-                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected ["+(isCorrect?"Success":"Unsuccessful")+"]", isCorrect?Category.Information:Category.Warning);
+
+                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] InsertedRows=" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                     
                     
                     if (count == totalCount)
@@ -1765,9 +1767,10 @@ namespace DataNetClient.Forms
                 if (count != 0)
                 {
 //                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect)).Wait();
-                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "]", isCorrect ? Category.Information : Category.Warning);
+                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "RowsInserted = " + realyInsertedRowsCount + "  [" + (DateTime.Now-_timeLastCollecting).ToString() + "]", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect)).Wait();
+                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] InsertedRows=" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                 }
+                _timeLastCollecting = DateTime.Now;
                 styledListControl1.ChangeCollectedCount(index, count, totalCount);
                 ui__status_labelItem_status.Text = "Collecting: "+_groupItems[index].GroupModel.GroupName+" ["+count+"/"+totalCount+"]";
 
