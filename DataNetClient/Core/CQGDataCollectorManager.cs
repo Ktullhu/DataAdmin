@@ -346,8 +346,8 @@ namespace DataNetClient.CQGDataCollector
         #region SAVING COLLECTED DATA
         public static  void BarsAdd(CQGTimedBars mCurTimedBars, CQGError cqgError, string userName)
         {            
-            try
-            {
+            //try
+            //{
               
                 if (cqgError != null && cqgError.Code != 0)
                 {
@@ -380,11 +380,11 @@ namespace DataNetClient.CQGDataCollector
 
 
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);            
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("BarsAdd."+ex.Message);            
+            //}
         }
 
         private static void AddBar(CQGTimedBar timedBar, string symbol, DateTime runDateTime, string tType, string userName)

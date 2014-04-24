@@ -240,6 +240,16 @@
     <None Include="Resources\TableWhite.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DADataManager\DADataManager.csproj">
+      <Project>{18a692c5-e628-459f-b896-b5218f63fb6f}</Project>
+      <Name>DADataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAdminCommonLib\DataAdminCommonLib.csproj">
+      <Project>{bce344e1-3526-456f-9533-dd9df090d9cc}</Project>
+      <Name>DataAdminCommonLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <COMReference Include="CQG">
       <Guid>{51F35562-AEB4-4AB3-99E8-AC9666344B64}</Guid>
       <VersionMajor>4</VersionMajor>
@@ -249,16 +259,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DADataManager\DADataManager.csproj">
-      <Project>{18a692c5-e628-459f-b896-b5218f63fb6f}</Project>
-      <Name>DADataManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAdminCommonLib\DataAdminCommonLib.csproj">
-      <Project>{bce344e1-3526-456f-9533-dd9df090d9cc}</Project>
-      <Name>DataAdminCommonLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

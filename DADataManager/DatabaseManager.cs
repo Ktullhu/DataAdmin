@@ -2591,17 +2591,26 @@ namespace DADataManager
 
 
         public static int GetRowsCount(string tableName)
-        {                       
-            var sql = "SELECT COUNT(*) FROM " + tableName;
-            int cnt = 0;
-            if (tableName[0] == 'B')
+        {
+            try
             {
-                _sqlCommandToDbBar.CommandText = (sql);
+                var sql = "SELECT COUNT(*) FROM " + tableName;
+                int cnt = 0;
+                if (tableName[0] == 'B')
+                {
+                    _sqlCommandToDbBar.CommandText = (sql);
 
-                cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());
-            }           
-
-            return cnt;
+                    cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());
+                   // cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());                    
+                }                
+                return cnt;
+            }
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine("GetRowsCount." + ex.Message);
+                return 0;
+            }
         }
     }
 }
