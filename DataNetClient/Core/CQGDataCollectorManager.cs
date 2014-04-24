@@ -358,11 +358,12 @@ namespace DataNetClient.CQGDataCollector
                     var str5 = mCurTimedBars.Request.Symbol.Trim();
                 var str = str5.Split('.');
                 str5 = str[str.Length - 1];
+                var beforeRowsCount = DatabaseManager.GetRowsCount("B_" + str5 + "_" + GetTableType(_historicalPeriod));
 
                     if (mCurTimedBars.Status == eRequestStatus.rsSuccess)
                     {
                         DatabaseManager.DeleteLastBar("B_" + str5 + "_" + GetTableType(_historicalPeriod));
-
+                        
                         DateTime runDateTime = DateTime.Now;
                         if (mCurTimedBars.Count != 0)
                         {
@@ -374,7 +375,7 @@ namespace DataNetClient.CQGDataCollector
                         DatabaseManager.CommitQueueBar();
                         
                     }
-                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, true, mCurTimedBars.Count);
+                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, true, DatabaseManager.GetRowsCount("B_" + str5 + "_" + GetTableType(_historicalPeriod)) - beforeRowsCount);
                 }
 
 

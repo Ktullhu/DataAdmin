@@ -2588,5 +2588,20 @@ namespace DADataManager
             }
             return false;
         }
+
+
+        public static int GetRowsCount(string tableName)
+        {                       
+            var sql = "SELECT COUNT(*) FROM " + tableName;
+            int cnt = 0;
+            if (tableName[0] == 'B')
+            {
+                _sqlCommandToDbBar.CommandText = (sql);
+
+                cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());
+            }           
+
+            return cnt;
+        }
     }
 }
