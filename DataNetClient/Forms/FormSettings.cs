@@ -16,6 +16,7 @@ namespace DataNetClient.Forms
             nudEndBar.Value = Properties.Settings.Default.valFinish;
             numericUpDown1.Value = Properties.Settings.Default.MaxTimeOutMinutes;
             numericUpDown2.Value = Properties.Settings.Default.MaxTimeOutMinutesStandard;
+            textBox_emails.Text = Properties.Settings.Default.Emails;
         }
 
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -25,6 +26,7 @@ namespace DataNetClient.Forms
 
             Properties.Settings.Default.MaxTimeOutMinutes = (int)numericUpDown1.Value;
             Properties.Settings.Default.MaxTimeOutMinutesStandard = (int)numericUpDown2.Value;
+            Properties.Settings.Default.Emails= textBox_emails.Text;
 
             Properties.Settings.Default.Save();
         }

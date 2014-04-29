@@ -31,6 +31,8 @@ namespace DataNetClient.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
             this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
@@ -41,16 +43,16 @@ namespace DataNetClient.Forms
             this.superTabControlPanel9 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.superTabControlPanel8 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.textBox_emails = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxTick)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEndBar)).BeginInit();
             this.superTabControlPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // superTabControl1
@@ -93,6 +95,8 @@ namespace DataNetClient.Forms
             // 
             // superTabControlPanel2
             // 
+            this.superTabControlPanel2.Controls.Add(this.textBox_emails);
+            this.superTabControlPanel2.Controls.Add(this.labelX4);
             this.superTabControlPanel2.Controls.Add(this.labelX3);
             this.superTabControlPanel2.Controls.Add(this.numericUpDown2);
             this.superTabControlPanel2.Controls.Add(this.labelX2);
@@ -107,6 +111,46 @@ namespace DataNetClient.Forms
             this.superTabControlPanel2.Size = new System.Drawing.Size(315, 305);
             this.superTabControlPanel2.TabIndex = 1;
             this.superTabControlPanel2.TabItem = this.superTabItem2;
+            // 
+            // labelX3
+            // 
+            this.labelX3.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.ForeColor = System.Drawing.Color.Black;
+            this.labelX3.Location = new System.Drawing.Point(3, 130);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(229, 36);
+            this.labelX3.TabIndex = 49;
+            this.labelX3.Text = "Max time to waiting data from CQG For Standard [m]";
+            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX3.WordWrap = true;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.BackColor = System.Drawing.Color.White;
+            this.numericUpDown2.ForeColor = System.Drawing.Color.Black;
+            this.numericUpDown2.Location = new System.Drawing.Point(238, 139);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(65, 22);
+            this.numericUpDown2.TabIndex = 48;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // labelX2
             // 
@@ -264,45 +308,27 @@ namespace DataNetClient.Forms
             this.superTabControlPanel8.Size = new System.Drawing.Size(315, 305);
             this.superTabControlPanel8.TabIndex = 2;
             // 
-            // labelX3
+            // labelX4
             // 
-            this.labelX3.BackColor = System.Drawing.Color.White;
+            this.labelX4.BackColor = System.Drawing.Color.White;
             // 
             // 
             // 
-            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.ForeColor = System.Drawing.Color.Black;
-            this.labelX3.Location = new System.Drawing.Point(3, 130);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(229, 36);
-            this.labelX3.TabIndex = 49;
-            this.labelX3.Text = "Max time to waiting data from CQG For Standard [m]";
-            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
-            this.labelX3.WordWrap = true;
+            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX4.ForeColor = System.Drawing.Color.Black;
+            this.labelX4.Location = new System.Drawing.Point(22, 182);
+            this.labelX4.Name = "labelX4";
+            this.labelX4.Size = new System.Drawing.Size(61, 23);
+            this.labelX4.TabIndex = 51;
+            this.labelX4.Text = "Emails";
+            this.labelX4.TextAlignment = System.Drawing.StringAlignment.Far;
             // 
-            // numericUpDown2
+            // textBox_emails
             // 
-            this.numericUpDown2.BackColor = System.Drawing.Color.White;
-            this.numericUpDown2.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown2.Location = new System.Drawing.Point(238, 139);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(65, 22);
-            this.numericUpDown2.TabIndex = 48;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
+            this.textBox_emails.Location = new System.Drawing.Point(102, 184);
+            this.textBox_emails.Name = "textBox_emails";
+            this.textBox_emails.Size = new System.Drawing.Size(201, 22);
+            this.textBox_emails.TabIndex = 52;
             // 
             // FormSettings
             // 
@@ -323,11 +349,12 @@ namespace DataNetClient.Forms
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).EndInit();
             this.superTabControl1.ResumeLayout(false);
             this.superTabControlPanel2.ResumeLayout(false);
+            this.superTabControlPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxTick)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEndBar)).EndInit();
             this.superTabControlPanel9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -348,6 +375,8 @@ namespace DataNetClient.Forms
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private DevComponents.DotNetBar.LabelX labelX3;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.TextBox textBox_emails;
+        private DevComponents.DotNetBar.LabelX labelX4;
 
     }
 }
