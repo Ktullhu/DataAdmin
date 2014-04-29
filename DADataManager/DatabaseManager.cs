@@ -83,34 +83,72 @@ namespace DADataManager
         #region BarTableFix
         public static bool MonthCharYearExist(string symbol, string tableType)
         {
+            MySqlDataReader reader = null;
             try
             {
+
                 var str = symbol.Trim().Split('.');
+
                 var sql = "Select `MonthChar`, `YearChar` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
-                return DoSqlBar(sql);
+                reader = GetReaderBar(sql);
+                
+
+                if (reader != null && reader.Read())
+                {
+                    reader.Close();
+                    return true;
+                }
+                else
+                {
+                    if (reader != null) reader.Close();
+                    return false;
+                }
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
+                if (reader != null) reader.Close();
                 return false;
+                //throw;
             }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }
+
+
         }
         public static bool BarTableExist(string symbol, string tableType)
         {
+            MySqlDataReader reader = null;
             try
             {
+
                 var str = symbol.Trim().Split('.');
-                var sql = "SELECT * FROM B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
-                return DoSqlBar(sql);
+
+                var sql = "SELECT * FROM B_" + str[str.Length - 1].ToUpper() + "_" + tableType + " LIMIT 1;";
+                reader  = GetReaderBar(sql);
                 //sql = "Select `MonthChar`, `Year` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
                 //DoSqlBar(sql);
+                if (reader != null && reader.Read())
+                {
+                    reader.Close();
+                    return true;
+                }
+                else
+                {
+                    if (reader != null) reader.Close();
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                if (reader != null) reader.Close();
                 return false;
                 //throw;
+            }finally{
+                if(reader!=null)reader.Close();
             }
 
         }
@@ -386,6 +424,7 @@ namespace DADataManager
                 }
                 _sqlCommandToDbBar.CommandText = sql;
                 _sqlCommandToDbBar.ExecuteNonQuery();
+                Console.WriteLine("DoSqlBar." +sql.Substring(0, Math.Min(sql.Length, 100)));
                 return true;
 
             }
@@ -408,7 +447,7 @@ namespace DADataManager
                 var command = _connectionToDbBar.CreateCommand();
 
                 command.CommandText = sql;
-                Console.WriteLine("=++=" + sql);
+                Console.WriteLine("GetReaderBar." + sql.Substring(0, Math.Min(sql.Length, 100)));
                 var reader = command.ExecuteReader();
 
                 return reader;

@@ -229,6 +229,7 @@ namespace DataNetClient.Forms
 
         private void ui_buttonX_join_Click(object sender, EventArgs e)
         {
+            var message = "";
             var symbCount = ui_listBox_symbols.SelectedItems.Count;
             var groupCount = ui_listBox_groups.SelectedItems.Count;
 
@@ -250,13 +251,18 @@ namespace DataNetClient.Forms
 
                 for (int j = 0; j < groupCount; j++)
                 {                    
-                    var currGroup = ui_listBox_groups.SelectedItems[j].ToString();
-                    var currGroupId = _groups.Find(a => a.GroupName == currGroup).GroupId;
+                    var currGroupName = ui_listBox_groups.SelectedItems[j].ToString();
+                    var currGrp = _groups.Find(a => a.GroupName == currGroupName);
+                    var currGroupId = currGrp.GroupId;
                     var currGroupSymbols = DatabaseManager.GetSymbolsInGroup(currGroupId);
                     if (!currGroupSymbols.Exists(a => a.SymbolName == currSmb))
                     {
                         var sModel = new SymbolModel { SymbolId = currSmbId, SymbolName = currSmb };
-                        DatabaseManager.AddSymbolIntoGroup(currGroupId, sModel);
+
+                        if (GetCntTypeOfSymbol(currSmb) == currGrp.CntType)
+                            DatabaseManager.AddSymbolIntoGroup(currGroupId, sModel);
+                        else
+                            message += " Symbol: '" + currSmb + "' can't be added to '" + currGroupName + "' group";   
                     }
                 }
 
@@ -272,9 +278,24 @@ namespace DataNetClient.Forms
                     }
                 }
             }
-            ToastNotification.Show(this, "Joined");
+            ToastNotification.Show(this, "Joined.");
+            if (!String.IsNullOrEmpty(message))
+                ToastNotification.Show(this, message);
             OnUpdateGroupsEvent();
         }
+
+
+        private string GetCntTypeOfSymbol(string currSmb)
+        {
+            var isNoCont = false;
+            var lastIndex = currSmb.Length - 1;
+            var month = new List<char> { 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'Q', 'U', 'V', 'X', 'Z' };
+
+            if (Char.IsDigit(currSmb[lastIndex]) && char.IsDigit(currSmb[lastIndex - 1]) && month.Contains(currSmb.ToUpper()[lastIndex - 2]))
+                isNoCont = true;
+            return isNoCont ? "tsctNoContinuation" : "tsctStandard";
+        }
+
 
 
         private void ui_buttonX_delGroup_Click(object sender, EventArgs e)

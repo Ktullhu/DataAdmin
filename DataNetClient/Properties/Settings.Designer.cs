@@ -298,5 +298,53 @@ namespace DataNetClient.Properties {
                 this["Emails"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int DaysToExpiration {
+            get {
+                return ((int)(this["DaysToExpiration"]));
+            }
+            set {
+                this["DaysToExpiration"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsCrashed {
+            get {
+                return ((bool)(this["IsCrashed"]));
+            }
+            set {
+                this["IsCrashed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WasConnectedToShared {
+            get {
+                return ((bool)(this["WasConnectedToShared"]));
+            }
+            set {
+                this["WasConnectedToShared"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WasConnected {
+            get {
+                return ((bool)(this["WasConnected"]));
+            }
+            set {
+                this["WasConnected"] = value;
+            }
+        }
     }
 }

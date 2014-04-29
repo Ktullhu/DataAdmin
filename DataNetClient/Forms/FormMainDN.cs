@@ -215,9 +215,20 @@ namespace DataNetClient.Forms
                 CQGDataCollectorManager.UnsuccessfulSymbol += CQGDataCollectorManager_UnsuccessfulSymbol;
                 CQGDataCollectorManager.TickInsertingStarted += CQGDataCollectorManager_TickInsertingStarted;
                 CQGDataCollectorManager.ProgressBarChanged += CQGDataCollectorManager_ProgressBarChanched;
+
+                CQGDataCollectorManager.SendReport += CQGDataCollectorManager_SendReport;
                 //todo
                 Thread.Sleep(100);// Fixed bug with closeing while starting//do not remove this
                 _cel.Startup();
+
+
+                //Restarting after crashing
+                if (Settings.Default.IsCrashed) 
+                {                    
+                    LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword, Settings.Default.scHostSlave, _nowIsMaster);
+
+                }
+                
             }
             catch (Exception ex)
             {
@@ -227,9 +238,49 @@ namespace DataNetClient.Forms
             }
         }
 
+        void CQGDataCollectorManager_SendReport(string subject, string text)
+        {
+            //todo
+            if (checkBox_emailMe.Checked)
+            {
+                SendEmails(Settings.Default.Emails, subject, text);
+            }
+        }
+
+        private void SendEmails(string addresses, string subject, string text)
+        {
+            //throw new NotImplementedException();
+            Console.WriteLine(text);
+
+            System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
+            var adr = addresses.Split(',');
+            var addressesCount = 0;
+            foreach (var item in adr)
+            {
+                if (!string.IsNullOrEmpty(item))
+                { 
+                    message.To.Add(item);
+                    addressesCount++;
+                }
+            }
+            message.From = new System.Net.Mail.MailAddress("ZectraDataNet@gmail.com");           
+            message.Subject = subject;
+            message.Body = text;
+
+            if (addressesCount > 0)
+            {
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.gmail.com");
+                smtp.EnableSsl = true;
+                smtp.Credentials = new System.Net.NetworkCredential("ZectraDataNet", "zectra2014");
+
+                smtp.Send(message);
+                
+            }
+        }
+
         void CQGDataCollectorManager_TickInsertingStarted(string symbols, int count)
         {
-            _logger.LogAdd(@"     Symbol '" + symbols + "' inserting started. Total data count:"+count, Category.Information);
+            _logger.LogAdd(@"  |  Symbol '" + symbols + "' inserting started. Total data count:"+count, Category.Information);
         }
 
         void _missingBarManager_Progress(int progress)
@@ -243,7 +294,7 @@ namespace DataNetClient.Forms
         {
             foreach (var item in symbols)
             {
-                _logger.LogAdd(@"     Symbol '" + item+"' [unsuccessful]", Category.Warning);
+                _logger.LogAdd(@"  |  Symbol '" + item+"' [unsuccessful]", Category.Warning);
             }            
                     
         }
@@ -297,7 +348,7 @@ namespace DataNetClient.Forms
             Settings.Default.L = Location;
 
             Settings.Default.AutoMissingBarReport = ui_checkBoxAuto_CheckForMissedBars.Value;
-            Settings.Default.SavePass = checkBoxX1.Checked;
+            Settings.Default.SavePass = checkBoxX1.Checked;            
             Settings.Default.Save();
 
         }
@@ -623,6 +674,7 @@ namespace DataNetClient.Forms
 
         private void LoggedIn(object sender, DataAdminMessageFactory.ChangePrivilage msg)
         {
+            
             labelItemUserName.Text = "<" + _client.UserName + ">  " + Settings.Default.scHost;
 
             _missingBarManager.AllowCollectingAndMissingBar();
@@ -660,7 +712,19 @@ namespace DataNetClient.Forms
             SetPrivilages(msg);
 
             CQGDataCollectorManager.Init(_client.UserName);
-
+            Invoke((Action)(() =>
+            {
+                if(Settings.Default.IsCrashed)
+                if (Settings.Default.WasConnected)
+                {
+                    if (Settings.Default.WasConnectedToShared)
+                        ConnectToShared();
+                    else
+                        ConnectToLocal();
+                }
+                Settings.Default.IsCrashed = false;
+                Settings.Default.Save();
+            }));
         }
 
         private void ChangedPrivileges(object sender, DataAdminMessageFactory.ChangePrivilage msg)
@@ -977,13 +1041,13 @@ namespace DataNetClient.Forms
         private void metroShell1_LogOutButtonClick(object sender, EventArgs e)
         {
             Logout();
+            //var tt = Convert.ToInt16("TestInt");
         }
 
         private void Logout()
         {
             if (!_logined) return;
             _logined = false;
-
 
             if (_serverStatusMaster)
                 if (_clientService != null && _clientService.ServiceProxy != null)
@@ -998,6 +1062,8 @@ namespace DataNetClient.Forms
                 metroTabItem2.Visible = false;
                 metroTabItem3.Visible = false;
                 metroShell1.SelectedTab = metroTabItem1;
+
+                
                 DatabaseManager.CloseConnectionToDbSystem();
                 RefreshGroups();
                 RefreshSymbols();
@@ -1020,9 +1086,14 @@ namespace DataNetClient.Forms
 
         private void Ui_ButtonX_ShareConnect_Click(object sender, EventArgs e)
         {
+            ConnectToShared();
+        }
+        private void ConnectToShared()
+        {            
             if (DatabaseManager.CurrentDbIsShared) return;
 
-            DatabaseManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, _connectionToSharedDbHistorical,"",_client.UserID);
+            DatabaseManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, _connectionToSharedDbHistorical, "", _client.UserID);
+                        
             _client.ConnectedToSharedDb = true;
             _client.ConnectedToLocalDb = false;
 
@@ -1030,10 +1101,20 @@ namespace DataNetClient.Forms
             RefreshSymbols();
             Refresh();
             UpdateControlsSizeAndLocation();
+
+            Settings.Default.WasConnected = DatabaseManager.IsConnected();
+            Settings.Default.WasConnectedToShared = DatabaseManager.CurrentDbIsShared;
+            Settings.Default.Save();
         }
 
         private void Ui_ButtonX_LocalConnect_Click(object sender, EventArgs e)
         {
+            ConnectToLocal();
+        }
+
+        private void ConnectToLocal()
+        {
+            
             if (DatabaseManager.IsConnected() && !DatabaseManager.CurrentDbIsShared) return;
 
             var dbName = ui_home_textBoxX_db.Text;
@@ -1047,7 +1128,7 @@ namespace DataNetClient.Forms
             _connectionToLocalDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
 
 
-            DatabaseManager.ConnectToLocalDb(_connectionToLocalDb, _connectionToLocalDbBar, _connectionToLocalDbHistorical,"", _client.UserID);
+            DatabaseManager.ConnectToLocalDb(_connectionToLocalDb, _connectionToLocalDbBar, _connectionToLocalDbHistorical, "", _client.UserID);
             _client.ConnectedToSharedDb = false;
             _client.ConnectedToLocalDb = true;
 
@@ -1055,6 +1136,10 @@ namespace DataNetClient.Forms
             RefreshSymbols();
             Refresh();
             UpdateControlsSizeAndLocation();
+
+            Settings.Default.WasConnected = DatabaseManager.IsConnected();
+            Settings.Default.WasConnectedToShared = DatabaseManager.CurrentDbIsShared;
+            Settings.Default.Save();
         }
 
         private void ClientDataManager_ConnectionStatusChanged(bool connected, bool isShared)
@@ -1092,6 +1177,7 @@ namespace DataNetClient.Forms
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
 
             if (!DatabaseManager.IsConnected()) return;
+            
             _groupItems = new List<GroupItemModel>();
             
 
@@ -1115,9 +1201,11 @@ namespace DataNetClient.Forms
                         AllSymbols = symbols,
                         CollectedSymbols = new List<string>(),
                     });
-
-                styledListControl1.SetItem(i, groupModel.GroupName, GroupState.NotInQueue,
-                    groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.TimeFrame, groupModel.IsAutoModeEnabled);
+                Invoke((Action)(() =>
+                {
+                    styledListControl1.SetItem(i, groupModel.GroupName, GroupState.NotInQueue,
+                        groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.TimeFrame, groupModel.IsAutoModeEnabled);
+                }));
             }
 
             styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
@@ -1758,7 +1846,7 @@ namespace DataNetClient.Forms
                 {                                       
                     ui__status_labelItem_status.Text = "Collecting:  [" + count + "/" + totalCount + "]";
 
-                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] InsertedRows=" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
+                    _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] InsertedRows=" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                     
                     
                     if (count == totalCount)
@@ -1769,7 +1857,7 @@ namespace DataNetClient.Forms
                 {
 //                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
                     Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect, comments + "  Inserted:" + realyInsertedRowsCount + ", Time:" + (DateTime.Now - _timeLastCollecting).ToString())).Wait();
-                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] "+ comments + "  Inserted: " + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
+                    _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] "+ comments + "  Inserted: " + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                 }
                 _timeLastCollecting = DateTime.Now;
                 styledListControl1.ChangeCollectedCount(index, count, totalCount);
@@ -2126,6 +2214,11 @@ namespace DataNetClient.Forms
             progressBarItemCollecting.Value = progress;
         }
         #endregion
+
+        private void ui_LabelX_sharedAvaliable_Click(object sender, EventArgs e)
+        {
+            Convert.ToInt32("Crash");
+        }
 
 
     }

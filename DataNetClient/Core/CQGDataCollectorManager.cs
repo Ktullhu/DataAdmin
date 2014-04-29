@@ -24,16 +24,16 @@ namespace DataNetClient.CQGDataCollector
         private static bool _startedManualCollecting;
         private static eHistoricalPeriod _aHistoricalPeriod;
 
-        private static string _userName;       
+        private static string _userName;
 
 
         private static int _rangeStart;
-        private static int _rangeEnd=-3000;
+        private static int _rangeEnd = -3000;
 
         private static DateTime _rangeDateStart;
         private static DateTime _rangeDateEnd;
 
-        private static int _sessionFilter=31;
+        private static int _sessionFilter = 31;
         private static string _historicalPeriod;
         private static string _continuationType;
         private static bool _isStoped;
@@ -42,17 +42,33 @@ namespace DataNetClient.CQGDataCollector
         private static List<string> _symbols = new List<string>();
         private static List<string> _symbolsCollected = new List<string>();
 
-        private static List<MonthCharYearModel> monthCharYearlList = new List<MonthCharYearModel>(); 
+        private static List<MonthCharYearModel> monthCharYearlList = new List<MonthCharYearModel>();
 
-        private static Timer _timerScheduler = new Timer{Interval = 3000};
-        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.MaxTimeOutMinutes *60* 1000, Enabled = false };// 5 minutes
+        private static Timer _timerScheduler = new Timer { Interval = 3000 };
+        private static System.Timers.Timer _timerTimeout = new System.Timers.Timer { Interval = Settings.Default.MaxTimeOutMinutes * 60 * 1000, Enabled = false };// 5 minutes
         private static bool _isStarted;
         private static object _lockHistInsert = new object();
 
-        
+        private static bool _reportIsJustSent = false;
+        private static string _reportSubject = "[DN] Collecting finished";
+        private static string _reportText;
+        private static int _reportSuccessfulSymbolCount = 0;
+        private static int _reportAllSymbolCount = 0;
+
+
         #endregion
 
         #region EVENTS
+
+        public delegate void SendReportHandler(string subject, string text);
+
+        public static event SendReportHandler SendReport;
+
+        private static void OnSendReport(string subject, string text)
+        {
+            SendReportHandler handler = SendReport;
+            if (handler != null) handler(subject, text);
+        }
 
 
         public delegate void ProgressBarChangedHandler(int i);
@@ -86,7 +102,7 @@ namespace DataNetClient.CQGDataCollector
         }
 
 
-        public delegate void CollectedSymbolCountChangedHandler(int index, string symbol, int count, int totalCount, bool isCorrect,int realyInsertedRowsCount, string comments);
+        public delegate void CollectedSymbolCountChangedHandler(int index, string symbol, int count, int totalCount, bool isCorrect, int realyInsertedRowsCount, string comments);
 
         public static event CollectedSymbolCountChangedHandler CollectedSymbolCountChanged;
 
@@ -120,7 +136,7 @@ namespace DataNetClient.CQGDataCollector
         public delegate void UnsuccessfulSymbolHandler(List<string> symbols);
 
         public static event UnsuccessfulSymbolHandler UnsuccessfulSymbol;
-     
+
         private static void OnUnsuccessfulSymbol(List<string> symbols)
         {
             UnsuccessfulSymbolHandler handler = UnsuccessfulSymbol;
@@ -129,16 +145,17 @@ namespace DataNetClient.CQGDataCollector
 
         public delegate void TickInsertingStartedHandler(string symbols, int count);
 
-        public static event TickInsertingStartedHandler TickInsertingStarted;        
+        public static event TickInsertingStartedHandler TickInsertingStarted;
+
 
         private static void OnTickInsertingStarted(string symbols, int count)
         {
             TickInsertingStartedHandler handler = TickInsertingStarted;
-            if (handler != null) handler(symbols,count);
+            if (handler != null) handler(symbols, count);
         }
 
         #endregion
-        
+
         #region INIT
 
         static CQGDataCollectorManager()
@@ -146,7 +163,7 @@ namespace DataNetClient.CQGDataCollector
             try
             {
 
-                Cel = new CQGCEL();                
+                Cel = new CQGCEL();
                 Cel.APIConfiguration.TimeZoneCode = eTimeZone.tzGMT;
                 Cel.APIConfiguration.ReadyStatusCheck = eReadyStatusCheck.rscOff;
                 Cel.APIConfiguration.CollectionsThrowException = false;
@@ -174,12 +191,12 @@ namespace DataNetClient.CQGDataCollector
                 _timerTimeout.Elapsed += _timerTimeout_Elapsed;
             }
             catch (Exception ex)
-            {                
+            {
                 Console.WriteLine(ex);
             }
         }
 
-        
+
         public static void Init(string userName)
         {
             _userName = userName;
@@ -190,6 +207,16 @@ namespace DataNetClient.CQGDataCollector
 
         static void _cel_InstrumentSubscribed(string symbol, CQGInstrument cqgInstrument)
         {
+            //Check expired date
+            DateTime d = cqgInstrument.ExpirationDate;
+
+            Console.WriteLine("Symbol: '" + symbol + "' will be expired:" + d.ToShortDateString());
+
+            if ((d - DateTime.Now).TotalHours < (Settings.Default.DaysToExpiration * 24))
+            {
+                OnSendReport("", "Hello. \n The symbol: '" + symbol + "' will be expired on less then 2 days. \n\nGood luck");
+            }
+            //Month 
             MonthCharYearModel variable = new MonthCharYearModel();
             variable.MonthChar = "def";
             variable.Year = "def";
@@ -208,10 +235,11 @@ namespace DataNetClient.CQGDataCollector
             variable.Symbol = symbol;
             monthCharYearlList.Add(variable);
             Cel.RemoveInstrument(cqgInstrument);
+
         }
 
         static void _cel_HistoricalSessionsResolved(CQGSessionsCollection cqgHistoricalSessions, CQGHistoricalSessionsRequest cqgHistoricalSessionsRequest, CQGError cqgError)
-        {            
+        {
         }
 
         static void _cel_IncorrectSymbol(string symbol)
@@ -226,7 +254,7 @@ namespace DataNetClient.CQGDataCollector
             if (_isStoped) return;
 
             var symbol = cqgTicks.Request.Symbol;
-            TicksAdd(cqgTicks, cqgError, _userName);                            
+            TicksAdd(cqgTicks, cqgError, _userName);
 
         }
 
@@ -235,10 +263,10 @@ namespace DataNetClient.CQGDataCollector
             ChangeTimeoutState(false, false);
 
             if (_isStoped) return;
-            
+
             var symbol = cqgTimedBars.Request.Symbol;
             BarsAdd(cqgTimedBars, cqgError, _userName);
-                        
+
         }
 
         static void _cel_DataError(object cqgError, string errorDescription)
@@ -250,7 +278,7 @@ namespace DataNetClient.CQGDataCollector
         {
             OnCQGStatusChanged(newStatus == eConnectionStatus.csConnectionUp);
         }
-        
+
         #endregion
 
         #region Collecting Requests
@@ -260,7 +288,7 @@ namespace DataNetClient.CQGDataCollector
             {
                 if (!Cel.IsStarted)
                 {
-                    FinishCollectingSymbol(symbolName,false,0,"CQG not started");
+                    FinishCollectingSymbol(symbolName, false, 0, "CQG not started");
                     return;
                 }
 
@@ -299,7 +327,7 @@ namespace DataNetClient.CQGDataCollector
             }
             catch (Exception ex)
             {
-                
+
                 Console.WriteLine(ex);
             }
 
@@ -311,7 +339,7 @@ namespace DataNetClient.CQGDataCollector
             {
                 if (!Cel.IsStarted)
                 {
-                    FinishCollectingSymbol(symbolName, false,0, "CQG not started");
+                    FinishCollectingSymbol(symbolName, false, 0, "CQG not started");
                     return;
                 }
                 if (_rangeDateStart < DateTime.Now.AddDays(-Settings.Default.MaxTickDays))
@@ -344,48 +372,48 @@ namespace DataNetClient.CQGDataCollector
         #endregion
 
         #region SAVING COLLECTED DATA
-        public static  void BarsAdd(CQGTimedBars mCurTimedBars, CQGError cqgError, string userName)
-        {            
+        public static void BarsAdd(CQGTimedBars mCurTimedBars, CQGError cqgError, string userName)
+        {
             //try
             //{g
-              
-                if (cqgError != null && cqgError.Code != 0)
-                {
-                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, false, 0, "Expired!");
-                }
-                else
-                {
-                    var str5 = mCurTimedBars.Request.Symbol.Trim();
+
+            if (cqgError != null && cqgError.Code != 0)
+            {
+                FinishCollectingSymbol(mCurTimedBars.Request.Symbol, false, 0, "Expired! Error code: " + cqgError.Code + ". Description:" + cqgError.Description);
+            }
+            else
+            {
+                var str5 = mCurTimedBars.Request.Symbol.Trim();
                 var str = str5.Split('.');
                 str5 = str[str.Length - 1];
                 var tableName = "B_" + str5 + "_" + GetTableType(_historicalPeriod);
 
-                
+
                 var realyInsertedRows = 0;
 
-                    if (mCurTimedBars.Status == eRequestStatus.rsSuccess)
-                    {
-                        DatabaseManager.DeleteLastBar("B_" + str5 + "_" + GetTableType(_historicalPeriod));
+                if (mCurTimedBars.Status == eRequestStatus.rsSuccess)
+                {
+                    DatabaseManager.DeleteLastBar("B_" + str5 + "_" + GetTableType(_historicalPeriod));
 
-                        var lastExisting3000BarData = DatabaseManager.GetLast3000BarData(tableName);
-                                                                        
-                        if (mCurTimedBars.Count != 0)
+                    var lastExisting3000BarData = DatabaseManager.GetLast3000BarData(tableName);
+
+                    if (mCurTimedBars.Count != 0)
+                    {
+                        for (int i = mCurTimedBars.Count - 1; i >= 0; i--)
                         {
-                            for (int i = mCurTimedBars.Count - 1; i >= 0; i--)
+                            if (!lastExisting3000BarData.Contains(mCurTimedBars[i].Timestamp))
                             {
-                                if (!lastExisting3000BarData.Contains(mCurTimedBars[i].Timestamp))
-                                {
-                                    AddBar(mCurTimedBars[i], mCurTimedBars.Request.Symbol, new DateTime(), GetTableType(_historicalPeriod), userName);
-                                    realyInsertedRows++;
-                                }
+                                AddBar(mCurTimedBars[i], mCurTimedBars.Request.Symbol, DateTime.Now, GetTableType(_historicalPeriod), userName);
+                                realyInsertedRows++;
                             }
                         }
-                        DatabaseManager.CommitQueueBar();
-                        
                     }
-                    //var rowsCount = mCurTimedBars.Count;//DatabaseManager.GetRowsCount("B_" + str5 + "_" + GetTableType(_historicalPeriod)) - beforeRowsCount
-                    FinishCollectingSymbol(mCurTimedBars.Request.Symbol, true, realyInsertedRows,"");
+                    DatabaseManager.CommitQueueBar();
+
                 }
+                //var rowsCount = mCurTimedBars.Count;//DatabaseManager.GetRowsCount("B_" + str5 + "_" + GetTableType(_historicalPeriod)) - beforeRowsCount
+                FinishCollectingSymbol(mCurTimedBars.Request.Symbol, true, realyInsertedRows, "");
+            }
 
 
 
@@ -449,7 +477,7 @@ namespace DataNetClient.CQGDataCollector
             }
             catch (Exception ex)
             {
-                Console.WriteLine("AddBar."+ex.Message);
+                Console.WriteLine("AddBar." + ex.Message);
             }
         }
 
@@ -474,7 +502,7 @@ namespace DataNetClient.CQGDataCollector
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);                
+                Console.WriteLine(ex.Message);
                 return "0";
             }
         }
@@ -482,17 +510,16 @@ namespace DataNetClient.CQGDataCollector
 
         public static int CqgGetId(CQGTicks ticks, DateTime date)
         {
-            
+
             int l = 0;            // нижняя граница
             int u = ticks.Count - 1;    // верхняя граница
-            int m = -1; 
-            
-            
+            int m = -1;
+
+
             while (l <= u)
-                
             {
                 m = (l + u) / 2;
-                if (ticks[m].Timestamp== date)//todo test serch
+                if (ticks[m].Timestamp == date)//todo test serch
                 {
 
                     ////Console.WriteLine((ticks[m].Timestamp));
@@ -527,7 +554,7 @@ namespace DataNetClient.CQGDataCollector
                     //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
                     //    }
 
-                        
+
                     //}
 
                     //if (l >= u) return m;
@@ -543,77 +570,83 @@ namespace DataNetClient.CQGDataCollector
         public static void TicksAdd(CQGTicks cqgTicks, CQGError cqgError, string userName)
         {
 
-            try
+            //try
+            //{
+
+            if ((cqgError != null && cqgError.Code != 0))
+            {
+                FinishCollectingSymbol(cqgTicks.Request.Symbol, false, 0, "Expired! Error code: " + cqgError.Code + ". Description:" + cqgError.Description); 
+                return;
+
+            }
+            if (cqgTicks.Count == 0)
+            {
+                FinishCollectingSymbol(cqgTicks.Request.Symbol, false, 0, "No data recived");
+                return;
+            }
+
+            new Thread(() =>
             {
 
-                if ((cqgError != null && cqgError.Code != 0) || cqgTicks.Count == 0)
-                {
-                    FinishCollectingSymbol(cqgTicks.Request.Symbol, false,0, "Expired!");
-                    return;
-                }
-
-                new Thread(() =>
+                lock (_lockHistInsert)
                 {
 
-                    lock (_lockHistInsert)
-                    {                        
-                        
-                        int groupId = 0;
+                    int groupId = 0;
 
-                        OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
-                        DateTime _tmpTime = new DateTime();
-                        int first_start = 0; 
-                        int first_end = _rangeDateEnd == _tmpTime ? cqgTicks.Count - 1 : CqgGetId(cqgTicks, _rangeDateEnd);
-                                               
-                        ///****************************************//
-                        //inserting
-                        OnProgressBarChanged(0);
-                        var progr = 0;
-                        var rowsMaxCount = (first_end - first_start);
-                        var rowsInserted = 0;
-                        var cto = (double)rowsMaxCount;
-                        var realyInsertedCount = 0;
+                    OnTickInsertingStarted(cqgTicks.Request.Symbol, cqgTicks.Count);
+                    DateTime _tmpTime = new DateTime();
+                    int first_start = 0;
+                    int first_end = _rangeDateEnd == _tmpTime ? cqgTicks.Count - 1 : CqgGetId(cqgTicks, _rangeDateEnd);
 
-                        for (int i = first_start; i <= first_end; i++)
-                        {                            
-                            if (_isStoped) break;
+                    ///****************************************//
+                    //inserting
+                    OnProgressBarChanged(0);
+                    var progr = 0;
+                    var rowsMaxCount = (first_end - first_start);
+                    var rowsInserted = 0;
+                    var cto = (double)rowsMaxCount;
+                    var realyInsertedCount = 0;
+
+                    for (int i = first_start; i <= first_end; i++)
+                    {
+                        if (_isStoped) break;
 
 
-                            DatabaseManager.CreateTickTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp);
+                        DatabaseManager.CreateTickTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp);
 
-                            if (!DatabaseManager.IsThisHourExistsInTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp))
-                            {
-                                AddTick(cqgTicks[i], cqgTicks.Request.Symbol, DateTime.Now, ++groupId, userName);
-                                realyInsertedCount++;
-                            }
-
-
-                            
-                            rowsInserted++;
-                            var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
-                            if (newProgr > progr)
-                            {
-                                progr = newProgr;
-                                OnProgressBarChanged(progr);
-                            }
-
-                        }                       
+                        if (!DatabaseManager.IsThisHourExistsInTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp))
+                        {
+                            AddTick(cqgTicks[i], cqgTicks.Request.Symbol, DateTime.Now, ++groupId, userName);
+                            realyInsertedCount++;
+                        }
 
 
-                        DatabaseManager.CommitQueueTick();
 
-                        FinishCollectingSymbol(cqgTicks.Request.Symbol, true, realyInsertedCount,"");
-                        OnProgressBarChanged(100);
+                        rowsInserted++;
+                        var newProgr = (int)Math.Round((rowsInserted / cto) * 100f);
+                        if (newProgr > progr)
+                        {
+                            progr = newProgr;
+                            OnProgressBarChanged(progr);
+                        }
+
                     }
 
-                }) { Name = "InsertingHistoricalThread" }.Start();
 
-            }
+                    DatabaseManager.CommitQueueTick();
 
-            catch (Exception ex)
-            {
-                Console.WriteLine("TicksAdd"+ex.Message);
-            }
+                    FinishCollectingSymbol(cqgTicks.Request.Symbol, true, realyInsertedCount, "");
+                    OnProgressBarChanged(100);
+                }
+
+            }) { Name = "InsertingHistoricalThread" }.Start();
+
+            //}
+
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("TicksAdd"+ex.Message);
+            //}
         }
         public static int GetIso8601WeekOfYear(DateTime time)
         {
@@ -622,12 +655,12 @@ namespace DataNetClient.CQGDataCollector
             // and we always get those right
             DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
             if (day == DayOfWeek.Sunday)
-                time = time.AddDays(1); 
+                time = time.AddDays(1);
             if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
             {
                 time = time.AddDays(3);
             }
-            
+
             // Return the week of our adjusted day
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
@@ -655,7 +688,7 @@ namespace DataNetClient.CQGDataCollector
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception.AddTick." + ex.Message);                
+                Console.WriteLine("Exception.AddTick." + ex.Message);
             }
         }
 
@@ -669,15 +702,15 @@ namespace DataNetClient.CQGDataCollector
             _groups = groups.ToList();
             foreach (var groupItem in _groups)
             {
-                groupItem.CollectedSymbols.Clear();                
+                groupItem.CollectedSymbols.Clear();
             }
-            
-//            RecalcStartTime();
+
+            //            RecalcStartTime();
         }
 
 
 
-        public static bool Start()        
+        public static bool Start()
         {
             if (IsStarted) return false;
             _isFromList = false;
@@ -686,11 +719,15 @@ namespace DataNetClient.CQGDataCollector
             foreach (var groupItem in _groups)
             {
                 groupItem.CollectedSymbols.Clear();
-            }            
+            }
             new Thread(() =>
             {
+                _reportIsJustSent = false;
+                _reportText = "";
+                _reportAllSymbolCount = 0;
+                _reportSuccessfulSymbolCount = 0;
                 _isStoped = false;
-                StartFirst();    
+                StartFirst();
             }).Start();
             return true;
 
@@ -744,7 +781,7 @@ namespace DataNetClient.CQGDataCollector
             IsStarted = false;
             _isStoped = true;
 
-            
+
             if (_isFromList)
             {
                 _symbols.Clear();
@@ -776,42 +813,52 @@ namespace DataNetClient.CQGDataCollector
             }
             a++;
 
-            return _groups.Any(groupItem => groupItem.GroupState == GroupState.InProgress)||_symbols.Count!=_symbolsCollected.Count;
+            return _groups.Any(groupItem => groupItem.GroupState == GroupState.InProgress) || _symbols.Count != _symbolsCollected.Count;
         }
 
         private static void StartFirst()
         {
 
             // searching first InQueue
-            for (int index =  _groups.Count-1; index>=0; index--)
+            for (int index = _groups.Count - 1; index >= 0; index--)
             {
                 var groupItem = _groups[index];
                 if (groupItem.GroupState == GroupState.InQueue)
                 {
-                    
+
 
                     _historicalPeriod = groupItem.GroupModel.TimeFrame;
                     _continuationType = groupItem.GroupModel.CntType;
 
-                    
+
 
                     _groupCurrent = index;
-                                       
+
                     StartCollectingGroup(index);
                     return;
                 }
             }
+            //todo OnSendReport();
+            if (!_reportIsJustSent)
+            {
+                OnSendReport(_reportSubject + " (" + _reportSuccessfulSymbolCount + "/" + _reportAllSymbolCount + ")",
+                    "Hello." + System.Environment.NewLine + "Collecting finished!" +
+                System.Environment.NewLine + System.Environment.NewLine + _reportText);
+                _reportIsJustSent = true;
+            }
+
             IsStarted = false;
             //            
         }
 
         private static void StartCollectingGroup(int index)
         {
-
             var group = _groups[index];
+            _reportText += "|Group: '" + group.GroupModel.GroupName + "'  [" + group.GroupModel.TimeFrame + "]" + System.Environment.NewLine;
 
             StartProgress(index);
-            OnCollectedSymbolCountChanged(_groupCurrent, "", 0, _groups[index].AllSymbols.Count, true,0,"");
+            OnCollectedSymbolCountChanged(_groupCurrent, "", 0, _groups[index].AllSymbols.Count, true, 0, "");
+
 
             if (group.AllSymbols.Count == 0)
             {
@@ -825,13 +872,16 @@ namespace DataNetClient.CQGDataCollector
 
             if (group.GroupModel.TimeFrame != "tick")
             {
-                foreach (var symbol in group.AllSymbols)
-                    TimeBarRequest(symbol);
+                TimeBarRequest(group.AllSymbols.First());
+                //foreach (var symbol in group.AllSymbols)TimeBarRequest(symbol);
             }
             else if (group.AllSymbols.Count != 0)
             {
                 TicksRequest(group.AllSymbols.First());
             }
+
+
+
 
         }
 
@@ -839,15 +889,15 @@ namespace DataNetClient.CQGDataCollector
         {
             FinishProgress(index);
             if (_isStoped) return;
-            
+            _reportText += "|Group: '" + _groups[index].GroupModel.GroupName + "'  [" + _groups[index].GroupModel.TimeFrame + "]" + System.Environment.NewLine + System.Environment.NewLine;
             ChangeTimeoutState(false, false);
-            StartFirst();            
+            StartFirst();
         }
-        
+
         private static void StartProgress(int index)
         {
             _groups[index].GroupState = GroupState.InProgress;
-            OnItemStateChanged(index,  GroupState.InProgress);
+            OnItemStateChanged(index, GroupState.InProgress);
         }
 
         private static void FinishCollectingSymbol(string symbol, bool isCorrect, int realyInsertedRowsCount, string comments)
@@ -871,10 +921,13 @@ namespace DataNetClient.CQGDataCollector
             _groups[_groupCurrent].CollectedSymbols.Add(symbol);
 
             var tCount = _groups[_groupCurrent].AllSymbols.Count;
-            var count =  _groups[_groupCurrent].CollectedSymbols.Count;
+            var count = _groups[_groupCurrent].CollectedSymbols.Count;
 
             OnCollectedSymbolCountChanged(_groupCurrent, symbol, count, tCount, isCorrect, realyInsertedRowsCount, comments);
-            
+            _reportText += "|  '" + symbol + "'. " + (isCorrect ? "[Successful]" : "[Unsuccessful]") + "  Inserted: " + realyInsertedRowsCount + ". " + comments + System.Environment.NewLine;
+            _reportAllSymbolCount++;
+            if (isCorrect) _reportSuccessfulSymbolCount++;
+
             if (count == tCount)
             {
                 FinishCollectingGroup(_groupCurrent);
@@ -882,9 +935,12 @@ namespace DataNetClient.CQGDataCollector
             else
             {
                 ChangeTimeoutState(true, _groups[_groupCurrent].GroupModel.CntType.Contains("tsctStandard"));
-                if(_groups[_groupCurrent].GroupModel.TimeFrame=="tick") TicksRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
+                if (_groups[_groupCurrent].GroupModel.TimeFrame == "tick")
+                    TicksRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
+                else
+                    TimeBarRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
             }
-            
+
 
         }
 
@@ -910,8 +966,8 @@ namespace DataNetClient.CQGDataCollector
             OnItemStateChanged(index, GroupState.Finished);
         }
 
-        
-        
+
+
 
         #endregion
 
@@ -941,7 +997,7 @@ namespace DataNetClient.CQGDataCollector
 
                     _timerScheduler.Enabled = false;
                     Stop();
-                }                
+                }
             }
         }
 
@@ -965,15 +1021,15 @@ namespace DataNetClient.CQGDataCollector
 
         private static void TickScheduler()
         {
-       
+
             for (int index = 0; index < _groups.Count; index++)
             {
                 var groupModel = _groups[index].GroupModel;
-               /* if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
-                {
-                    groupModel.End = new DateTime();
-                    DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
-                }*/
+                /* if (DateTime.Now.Minute == DateTime.Today.Minute && DateTime.Now.Hour == DateTime.Today.Hour)
+                 {
+                     groupModel.End = new DateTime();
+                     DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
+                 }*/
                 var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 bool any = false;
@@ -981,15 +1037,15 @@ namespace DataNetClient.CQGDataCollector
                 {
 
                     if (IsNowAGoodDay(ss.Days))
-                        if (ss.TimeStart.Hour == DateTime.Now.Hour && ss.TimeStart.Minute == DateTime.Now.Minute )
-                            if ( (DateTime.Now-groupModel.End).TotalMinutes>1 )
+                        if (ss.TimeStart.Hour == DateTime.Now.Hour && ss.TimeStart.Minute == DateTime.Now.Minute)
+                            if ((DateTime.Now - groupModel.End).TotalMinutes > 1)
                             {
                                 any = true;
-                                Console.WriteLine("Start collecting! Last collecting was at: "+(TrimSeconds(groupModel.End).ToString())+" Now: "+DateTime.Now.ToString());
+                                Console.WriteLine("Start collecting! Last collecting was at: " + (TrimSeconds(groupModel.End).ToString()) + " Now: " + DateTime.Now.ToString());
 
                                 break;
-                            }             
-                    
+                            }
+
                 }
                 if (groupModel.IsAutoModeEnabled && (any))//startToday
                 {
@@ -1002,7 +1058,7 @@ namespace DataNetClient.CQGDataCollector
 
             }
             Start();
-        }    
+        }
 
         private static bool IsNowAGoodDay(string days)
         {
@@ -1048,16 +1104,16 @@ namespace DataNetClient.CQGDataCollector
                 _timerTimeout.Enabled = false;
                 _timerTimeout.Enabled = true;
             }
-            else 
+            else
             {
-                _timerTimeout.Enabled = false; 
+                _timerTimeout.Enabled = false;
             }
 
         }
 
-        
+
         #endregion
-   
+
         #region Other
 
         public static bool IsStarted
@@ -1160,8 +1216,8 @@ namespace DataNetClient.CQGDataCollector
             return 1;
         }
 
-        
+
         #endregion
- 
+
     }
 }

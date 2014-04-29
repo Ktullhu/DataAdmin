@@ -223,6 +223,7 @@
             this.cmbContinuationType.DisplayMember = "Text";
             this.cmbContinuationType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbContinuationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbContinuationType.Enabled = false;
             this.cmbContinuationType.FormattingEnabled = true;
             this.cmbContinuationType.ItemHeight = 17;
             this.cmbContinuationType.Location = new System.Drawing.Point(8, 69);
@@ -236,6 +237,7 @@
             this.cmbHistoricalPeriod.DisplayMember = "Text";
             this.cmbHistoricalPeriod.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbHistoricalPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbHistoricalPeriod.Enabled = false;
             this.cmbHistoricalPeriod.FormattingEnabled = true;
             this.cmbHistoricalPeriod.ItemHeight = 17;
             this.cmbHistoricalPeriod.Items.AddRange(new object[] {

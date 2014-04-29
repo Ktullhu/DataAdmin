@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using TickNetClient.Core;
 using TickNetClient.Forms;
@@ -14,26 +15,32 @@ namespace TickNetClient
         [STAThread]
         static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+
             try
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new FormMainTN());
-
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                ErrorMonitor.AddError(new ErrorInfo
-                                          {
-                                              AdditionalInformation = "ApplicationCrashed",
-                                              InvokeTime = DateTime.Now,
-                                              MethodName = "Program-Main",
-                                              ErrorText = ex.Message
-                                          });
-                Application.Exit();
+                RestartApplication(ex);
             }
+
+        }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            RestartApplication(e.Exception);
+        }
+
+        private static void RestartApplication(Exception ex)
+        {
+            // log exception somewhere, EventLog is one option
+            //MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            Process.Start(Application.ExecutablePath);
+            Application.Exit();
         }
     }
 }
