@@ -174,7 +174,7 @@ namespace DADataManager
             string dateStr = Convert.ToDateTime(log.Date).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             String query = "INSERT IGNORE INTO " + TblLogs;
-            query += " (`UserID`, `Date`, `MsgType`, `Symbol`, `Group`, `Status`,`Timeframe`,`Application`) VALUES";
+            query += " (`UserID`, `Date`, `MsgType`, `Symbol`, `Group`, `Status`,`Timeframe`,`Application`,`Comments`) VALUES";
             query += "(";
             query += log.UserId + ",";
             query += "'" + dateStr + "',";
@@ -183,7 +183,8 @@ namespace DADataManager
             query += "'" + log.Group + "',";
             query += "'" + log.Status + "',";
             query += "'" + log.Timeframe + "',";
-            query += "'" + log.Application + "'" + ");COMMIT;";
+            query += "'" + log.Application + "',";
+            query += "'" + log.Comments + "'" + ");COMMIT;";
 
             return DoSql(query);
         }
@@ -214,6 +215,7 @@ namespace DADataManager
                             Status = reader.GetInt32(6),
                             Timeframe = reader.GetString(7),
                             Application = reader.GetString(8),
+                            Comments = reader.GetString(9),
                         };
 
                         resultList.Add(log);
@@ -861,7 +863,7 @@ namespace DADataManager
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine("DoSQl."+ex);
                 if (ex.Message.ToLower().Contains("timeout"))
                 {
                     throw new TimeOutException();
@@ -1017,11 +1019,14 @@ namespace DADataManager
                                      + "`Status` INT(10) NULL,"
                                      + "`Timeframe` VARCHAR(50) NULL,"
                                      + "`Application` VARCHAR(50) NULL,"
+                                     + "`Comments` VARCHAR(200) '',"
                                      + "PRIMARY KEY (`ID`)"
                                      + ")"
                                      + "COLLATE='latin1_swedish_ci'"
                                      + "ENGINE=InnoDB;";
             DoSql(createLogsSql);
+            DoSql("ALTER TABLE `tbl_logs`	ADD COLUMN `Comments` VARCHAR(200) NULL DEFAULT '' AFTER `Application`;");
+
 
             const string createSymbolsGroups = "CREATE TABLE  IF NOT EXISTS `" + TblSymbolsGroups + "` ("
                                              + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"

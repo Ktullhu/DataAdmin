@@ -760,7 +760,7 @@ namespace DataNetClient.Forms
 
       
         
-        public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, string timeFrame, bool started, bool finished, bool failed =false)
+        public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, string timeFrame, bool started, bool finished, bool failed =false, string comments = "")
         {
             var status = started ? DataAdminMessageFactory.LogMessage.Status.Started : DataAdminMessageFactory.LogMessage.Status.Finished;
             
@@ -772,7 +772,8 @@ namespace DataNetClient.Forms
                     IsByDataNetBusy = true,
                     IsDataNetClient = true,
                     IsTickNetClient = false,
-                    TimeFrame = timeFrame
+                    TimeFrame = timeFrame,
+                    Comments = comments
 
                 };
                 if (failed) logMsg.OperationStatus = DataAdminMessageFactory.LogMessage.Status.Aborted;
@@ -1749,7 +1750,7 @@ namespace DataNetClient.Forms
 
         DateTime _timeLastCollecting;
 
-        private void CQGDataCollectorManager_CollectedSymbolCountChanged(int index,string symbol,  int count, int totalCount, bool isCorrect, int realyInsertedRowsCount)
+        private void CQGDataCollectorManager_CollectedSymbolCountChanged(int index,string symbol,  int count, int totalCount, bool isCorrect, int realyInsertedRowsCount, string comments)
         {
             Invoke((Action) (() =>
             {
@@ -1767,8 +1768,8 @@ namespace DataNetClient.Forms
                 if (count != 0)
                 {
 //                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "RowsInserted = " + realyInsertedRowsCount + "  [" + (DateTime.Now-_timeLastCollecting).ToString() + "]", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect)).Wait();
-                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] InsertedRows=" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
+                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect, comments + "  Inserted:" + realyInsertedRowsCount + ", Time:" + (DateTime.Now - _timeLastCollecting).ToString())).Wait();
+                    _logger.LogAdd(@"     Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] "+ comments + "  Inserted: " + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                 }
                 _timeLastCollecting = DateTime.Now;
                 styledListControl1.ChangeCollectedCount(index, count, totalCount);

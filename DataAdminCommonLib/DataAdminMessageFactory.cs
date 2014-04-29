@@ -319,6 +319,7 @@ namespace DataAdminCommonLib
             }
 
             public string TimeFrame;
+            public string Comments;
 
             public Log LogType { get; set; }
             public Status OperationStatus { get; set; }

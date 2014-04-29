@@ -174,7 +174,7 @@ namespace DataNormalizer.Core
             string dateStr = Convert.ToDateTime(log.Date).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             String query = "INSERT IGNORE INTO " + TblLogs;
-            query += " (`UserID`, `Date`, `MsgType`, `Symbol`, `Group`, `Status`,`Timeframe`,`Application`) VALUES";
+            query += " (`UserID`, `Date`, `MsgType`, `Symbol`, `Group`, `Status`,`Timeframe`,`Application`,`Comments`) VALUES";
             query += "(";
             query += log.UserId + ",";
             query += "'" + dateStr + "',";
@@ -183,7 +183,8 @@ namespace DataNormalizer.Core
             query += "'" + log.Group + "',";
             query += "'" + log.Status + "',";
             query += "'" + log.Timeframe + "',";
-            query += "'" + log.Application + "'" + ");COMMIT;";
+            query += "'" + log.Application + "',";
+            query += "'" + log.Comments + "'" + ");COMMIT;";
 
             return DoSql(query);
         }
@@ -216,6 +217,7 @@ namespace DataNormalizer.Core
                                           Status = reader.GetInt32(6),
                                           Timeframe = reader.GetString(7),
                                           Application = reader.GetString(8),
+                                          Comments = reader.GetString(9),
                                       };
 
                         resultList.Add(log);
@@ -991,6 +993,7 @@ namespace DataNormalizer.Core
                                      + "`Status` INT(10) NULL,"
                                      + "`Timeframe` VARCHAR(50) NULL,"
                                      + "`Application` VARCHAR(50) NULL,"
+                                     + "`Comments` VARCHAR(200) NULL,"
                                      + "PRIMARY KEY (`ID`)"
                                      + ")"
                                      + "COLLATE='latin1_swedish_ci'"

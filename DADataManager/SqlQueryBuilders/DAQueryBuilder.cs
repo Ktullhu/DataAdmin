@@ -27,6 +27,7 @@ namespace DADataManager.SqlQueryBuilders
         private const string Tblfullreport = "tblfullreport";
         private const string TblSessions = "tbl_sessions";
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
+        private const string TblLogs = "tbl_logs";
         private const string TblDailyValue = "tbl_daily_value";
         
         #endregion
@@ -156,10 +157,25 @@ namespace DADataManager.SqlQueryBuilders
                                              + ")"
                                              + "COLLATE='latin1_swedish_ci'"
                                              + "ENGINE=InnoDB;";
+            const string createLogsSql = "CREATE TABLE  IF NOT EXISTS `" + TblLogs + "` ("
+                                     + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
+                                     + "`UserID` INT(10) NULL,"
+                                     + "`Date` DateTime NULL, "
+                                     + "`MsgType` INT(10) NULL,"
+                                     + "`Symbol` VARCHAR(50) NULL,"
+                                     + "`Group` VARCHAR(50) NULL,"
+                                     + "`Status` INT(10) NULL,"
+                                     + "`Timeframe` VARCHAR(50) NULL,"
+                                     + "`Application` VARCHAR(50) NULL,"
+                                     + "`Comments` VARCHAR(200) NULL,"
+                                     + "PRIMARY KEY (`ID`)"
+                                     + ")"
+                                     + "COLLATE='latin1_swedish_ci'"
+                                     + "ENGINE=InnoDB;";
             
 
             return createGroupsForUsers + createSymbolsForUsers + createSymbolsGroups +
-                createSymbolsInGroups + createSymbolsSql + createUsersSql + createSessions+createSessionsForGroups +createDailyTable;
+                createSymbolsInGroups + createSymbolsSql + createUsersSql + createSessions+createSessionsForGroups +createDailyTable + createLogsSql;
         }
 
         public static string GetAddGroupSql(GroupModel group)

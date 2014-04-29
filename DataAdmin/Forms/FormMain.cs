@@ -504,7 +504,8 @@ namespace DataAdmin.Forms
                 MsgType = Convert.ToInt32(msg.LogType),
                 Status = Convert.ToInt32(msg.OperationStatus),
                 Symbol = msg.Symbol,
-                Timeframe = msg.TimeFrame
+                Timeframe = msg.TimeFrame,
+                Comments = msg.Comments
             };
 
             AdminDatabaseManager.AddNewLog(logmodel);
@@ -733,7 +734,8 @@ namespace DataAdmin.Forms
                                 Status = Convert.ToInt32(msg.OperationStatus),
                                 Symbol = msg.Symbol,
                                 Timeframe = msg.TimeFrame,
-                                Application = ApplicationType.DataNet.ToString()
+                                Application = ApplicationType.DataNet.ToString(),
+                                Comments = msg.Comments
                             };
                             AdminDatabaseManager.AddNewLog(logmodelLow);
                         }
@@ -1352,7 +1354,7 @@ namespace DataAdmin.Forms
                             break;
                     }
                     var currentLog = log;
-                    ui_logs_dGridX_Logs.Invoke((Action)(() => ui_logs_dGridX_Logs.Rows.Add(currentLog.Date, userName, type, currentLog.Symbol, currentLog.Group, currentLog.Timeframe, status, currentLog.Application)));
+                    ui_logs_dGridX_Logs.Invoke((Action)(() => ui_logs_dGridX_Logs.Rows.Add(currentLog.Date, userName, type, currentLog.Symbol, currentLog.Group, currentLog.Timeframe, status, currentLog.Application, currentLog.Comments)));
                 }
             }
            
@@ -2785,7 +2787,7 @@ namespace DataAdmin.Forms
                         continue;
 
 
-                    ui_logs_dGridX_Logs.Rows.Add(log.Date, userName, type, log.Symbol, log.Group, log.Timeframe, status, log.Application);
+                    ui_logs_dGridX_Logs.Rows.Add(log.Date, userName, type, log.Symbol, log.Group, log.Timeframe, status, log.Application,log.Comments);
                 }
             }
             else

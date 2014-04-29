@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -53,11 +56,27 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.metroShellMain = new DevComponents.DotNetBar.Metro.MetroShell();
+            this.metroTabPanel_logs = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.tableLayoutPanel_logs = new System.Windows.Forms.TableLayoutPanel();
+            this.ui_logs_panelEx_main = new DevComponents.DotNetBar.PanelEx();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelEx2 = new DevComponents.DotNetBar.PanelEx();
+            this.labelX5 = new DevComponents.DotNetBar.LabelX();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.uiLogEventFilter = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.uiLogSymbolFilter = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.uiLogUserFilter = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.ui_logs_buttonX_Find = new DevComponents.DotNetBar.ButtonX();
+            this.ui_logs_DTime_EndFilter = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
+            this.ui_logs_DTime_StartFilter = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.ui_logs_labelX_logs = new DevComponents.DotNetBar.LabelX();
+            this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
+            this.ui_logs_dGridX_Logs = new DevComponents.DotNetBar.Controls.DataGridViewX();
             this.metroTabPanel1 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.circularProgress1 = new DevComponents.DotNetBar.Controls.CircularProgress();
@@ -193,33 +212,6 @@
             this.ui_Symbols_ButtonX_EditList = new DevComponents.DotNetBar.ButtonX();
             this.ui_Symbols_ButtonX_AddList = new DevComponents.DotNetBar.ButtonX();
             this.ui_groups_labelX_SymbolLists = new DevComponents.DotNetBar.LabelX();
-            this.metroTabPanel_logs = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.tableLayoutPanel_logs = new System.Windows.Forms.TableLayoutPanel();
-            this.ui_logs_panelEx_main = new DevComponents.DotNetBar.PanelEx();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelEx2 = new DevComponents.DotNetBar.PanelEx();
-            this.labelX5 = new DevComponents.DotNetBar.LabelX();
-            this.labelX4 = new DevComponents.DotNetBar.LabelX();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.uiLogEventFilter = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.uiLogSymbolFilter = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.uiLogUserFilter = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.ui_logs_buttonX_Find = new DevComponents.DotNetBar.ButtonX();
-            this.ui_logs_DTime_EndFilter = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
-            this.ui_logs_DTime_StartFilter = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.ui_logs_labelX_logs = new DevComponents.DotNetBar.LabelX();
-            this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
-            this.ui_logs_dGridX_Logs = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.ui_logColumn_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ui_logColumn_UserLogin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ui_logColumn_MsgType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ui_logColumn_Symbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ui_logColumn_group = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ui_logColumn_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ui_logColumn_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.metroTabItem_users = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem_symbols = new DevComponents.DotNetBar.Metro.MetroTabItem();
             this.metroTabItem_GROUPS = new DevComponents.DotNetBar.Metro.MetroTabItem();
@@ -234,7 +226,25 @@
             this.dataAdminToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerLogon = new System.Windows.Forms.Timer(this.components);
+            this.ui_logColumn_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ui_logColumn_UserLogin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ui_logColumn_MsgType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ui_logColumn_Symbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ui_logColumn_group = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ui_logColumn_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ui_logColumn_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.metroShellMain.SuspendLayout();
+            this.metroTabPanel_logs.SuspendLayout();
+            this.tableLayoutPanel_logs.SuspendLayout();
+            this.ui_logs_panelEx_main.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panelEx2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_EndFilter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_StartFilter)).BeginInit();
+            this.panelEx3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_dGridX_Logs)).BeginInit();
             this.metroTabPanel1.SuspendLayout();
             this.metroTabPanel_symbols.SuspendLayout();
             this.tableLayoutPanel_symbols.SuspendLayout();
@@ -269,15 +279,6 @@
             this.ui_symbols_panelEx_symbolsLists.SuspendLayout();
             this.ui_symbols_panelEx_docking2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ui_groups_dataGridViewX_groupsList)).BeginInit();
-            this.metroTabPanel_logs.SuspendLayout();
-            this.tableLayoutPanel_logs.SuspendLayout();
-            this.ui_logs_panelEx_main.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.panelEx2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_EndFilter)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_StartFilter)).BeginInit();
-            this.panelEx3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_dGridX_Logs)).BeginInit();
             this.contextMenuStripNotify.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -333,6 +334,435 @@
             this.metroShellMain.SettingsButtonClick += new System.EventHandler(this.metroShell1_SettingsButtonClick);
             this.metroShellMain.HelpButtonClick += new System.EventHandler(this.metroShell1_LogOutButtonClick);
             this.metroShellMain.Resize += new System.EventHandler(this.metroShell1_Resize);
+            // 
+            // metroTabPanel_logs
+            // 
+            this.metroTabPanel_logs.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.metroTabPanel_logs.Controls.Add(this.tableLayoutPanel_logs);
+            this.metroTabPanel_logs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel_logs.Location = new System.Drawing.Point(0, 51);
+            this.metroTabPanel_logs.Name = "metroTabPanel_logs";
+            this.metroTabPanel_logs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.metroTabPanel_logs.Size = new System.Drawing.Size(849, 428);
+            // 
+            // 
+            // 
+            this.metroTabPanel_logs.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel_logs.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel_logs.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel_logs.TabIndex = 5;
+            // 
+            // tableLayoutPanel_logs
+            // 
+            this.tableLayoutPanel_logs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            this.tableLayoutPanel_logs.ColumnCount = 1;
+            this.tableLayoutPanel_logs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_logs.Controls.Add(this.ui_logs_panelEx_main, 0, 0);
+            this.tableLayoutPanel_logs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_logs.ForeColor = System.Drawing.Color.Black;
+            this.tableLayoutPanel_logs.Location = new System.Drawing.Point(3, 0);
+            this.tableLayoutPanel_logs.Name = "tableLayoutPanel_logs";
+            this.tableLayoutPanel_logs.RowCount = 1;
+            this.tableLayoutPanel_logs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.84182F));
+            this.tableLayoutPanel_logs.Size = new System.Drawing.Size(843, 425);
+            this.tableLayoutPanel_logs.TabIndex = 0;
+            // 
+            // ui_logs_panelEx_main
+            // 
+            this.ui_logs_panelEx_main.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_logs_panelEx_main.Controls.Add(this.tableLayoutPanel1);
+            this.ui_logs_panelEx_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_logs_panelEx_main.Location = new System.Drawing.Point(3, 3);
+            this.ui_logs_panelEx_main.Name = "ui_logs_panelEx_main";
+            this.ui_logs_panelEx_main.Size = new System.Drawing.Size(837, 419);
+            this.ui_logs_panelEx_main.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.ui_logs_panelEx_main.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.ui_logs_panelEx_main.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.ui_logs_panelEx_main.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.ui_logs_panelEx_main.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.ui_logs_panelEx_main.Style.GradientAngle = 90;
+            this.ui_logs_panelEx_main.TabIndex = 2;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.panelEx2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panelEx3, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.ForeColor = System.Drawing.Color.Black;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(837, 419);
+            this.tableLayoutPanel1.TabIndex = 2;
+            // 
+            // panelEx2
+            // 
+            this.panelEx2.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx2.Controls.Add(this.labelX5);
+            this.panelEx2.Controls.Add(this.labelX4);
+            this.panelEx2.Controls.Add(this.labelX3);
+            this.panelEx2.Controls.Add(this.uiLogEventFilter);
+            this.panelEx2.Controls.Add(this.uiLogSymbolFilter);
+            this.panelEx2.Controls.Add(this.uiLogUserFilter);
+            this.panelEx2.Controls.Add(this.ui_logs_buttonX_Find);
+            this.panelEx2.Controls.Add(this.ui_logs_DTime_EndFilter);
+            this.panelEx2.Controls.Add(this.ui_logs_DTime_StartFilter);
+            this.panelEx2.Controls.Add(this.labelX2);
+            this.panelEx2.Controls.Add(this.labelX1);
+            this.panelEx2.Controls.Add(this.ui_logs_labelX_logs);
+            this.panelEx2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx2.Location = new System.Drawing.Point(3, 3);
+            this.panelEx2.Name = "panelEx2";
+            this.panelEx2.Size = new System.Drawing.Size(831, 82);
+            this.panelEx2.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx2.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx2.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx2.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx2.Style.GradientAngle = 90;
+            this.panelEx2.TabIndex = 0;
+            // 
+            // labelX5
+            // 
+            this.labelX5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX5.ForeColor = System.Drawing.Color.Black;
+            this.labelX5.Location = new System.Drawing.Point(633, 23);
+            this.labelX5.Name = "labelX5";
+            this.labelX5.Size = new System.Drawing.Size(47, 23);
+            this.labelX5.TabIndex = 12;
+            this.labelX5.Text = "Event";
+            this.labelX5.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX5.TextLineAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX4
+            // 
+            this.labelX4.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX4.ForeColor = System.Drawing.Color.Black;
+            this.labelX4.Location = new System.Drawing.Point(448, 23);
+            this.labelX4.Name = "labelX4";
+            this.labelX4.Size = new System.Drawing.Size(62, 23);
+            this.labelX4.TabIndex = 11;
+            this.labelX4.Text = "Symbol";
+            this.labelX4.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX4.TextLineAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX3
+            // 
+            this.labelX3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX3.ForeColor = System.Drawing.Color.Black;
+            this.labelX3.Location = new System.Drawing.Point(290, 23);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(34, 23);
+            this.labelX3.TabIndex = 10;
+            this.labelX3.Text = "User";
+            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX3.TextLineAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // uiLogEventFilter
+            // 
+            this.uiLogEventFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.uiLogEventFilter.DisplayMember = "Text";
+            this.uiLogEventFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.uiLogEventFilter.ForeColor = System.Drawing.Color.Black;
+            this.uiLogEventFilter.FormattingEnabled = true;
+            this.uiLogEventFilter.ItemHeight = 16;
+            this.uiLogEventFilter.Location = new System.Drawing.Point(686, 26);
+            this.uiLogEventFilter.Name = "uiLogEventFilter";
+            this.uiLogEventFilter.Size = new System.Drawing.Size(121, 22);
+            this.uiLogEventFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.uiLogEventFilter.TabIndex = 9;
+            // 
+            // uiLogSymbolFilter
+            // 
+            this.uiLogSymbolFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.uiLogSymbolFilter.DisplayMember = "Text";
+            this.uiLogSymbolFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.uiLogSymbolFilter.ForeColor = System.Drawing.Color.Black;
+            this.uiLogSymbolFilter.FormattingEnabled = true;
+            this.uiLogSymbolFilter.ItemHeight = 16;
+            this.uiLogSymbolFilter.Location = new System.Drawing.Point(516, 26);
+            this.uiLogSymbolFilter.Name = "uiLogSymbolFilter";
+            this.uiLogSymbolFilter.Size = new System.Drawing.Size(111, 22);
+            this.uiLogSymbolFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.uiLogSymbolFilter.TabIndex = 8;
+            // 
+            // uiLogUserFilter
+            // 
+            this.uiLogUserFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.uiLogUserFilter.DisplayMember = "Text";
+            this.uiLogUserFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.uiLogUserFilter.ForeColor = System.Drawing.Color.Black;
+            this.uiLogUserFilter.FormattingEnabled = true;
+            this.uiLogUserFilter.ItemHeight = 16;
+            this.uiLogUserFilter.Location = new System.Drawing.Point(330, 26);
+            this.uiLogUserFilter.Name = "uiLogUserFilter";
+            this.uiLogUserFilter.Size = new System.Drawing.Size(112, 22);
+            this.uiLogUserFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.uiLogUserFilter.TabIndex = 7;
+            // 
+            // ui_logs_buttonX_Find
+            // 
+            this.ui_logs_buttonX_Find.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.ui_logs_buttonX_Find.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.ui_logs_buttonX_Find.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.ui_logs_buttonX_Find.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ui_logs_buttonX_Find.Location = new System.Drawing.Point(312, 52);
+            this.ui_logs_buttonX_Find.Name = "ui_logs_buttonX_Find";
+            this.ui_logs_buttonX_Find.Size = new System.Drawing.Size(148, 27);
+            this.ui_logs_buttonX_Find.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_logs_buttonX_Find.TabIndex = 6;
+            this.ui_logs_buttonX_Find.Text = "Find";
+            this.ui_logs_buttonX_Find.Tooltip = "Filter logs";
+            this.ui_logs_buttonX_Find.Click += new System.EventHandler(this.ui_logs_buttonX_Find_Click);
+            // 
+            // ui_logs_DTime_EndFilter
+            // 
+            this.ui_logs_DTime_EndFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_EndFilter.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.ui_logs_DTime_EndFilter.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_EndFilter.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown;
+            this.ui_logs_DTime_EndFilter.ButtonDropDown.Visible = true;
+            this.ui_logs_DTime_EndFilter.ForeColor = System.Drawing.Color.Black;
+            this.ui_logs_DTime_EndFilter.IsPopupCalendarOpen = false;
+            this.ui_logs_DTime_EndFilter.Location = new System.Drawing.Point(190, 26);
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_EndFilter.MonthCalendar.AnnuallyMarkedDates = new System.DateTime[0];
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_EndFilter.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CalendarDimensions = new System.Drawing.Size(1, 1);
+            this.ui_logs_DTime_EndFilter.MonthCalendar.ClearButtonVisible = true;
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.DisplayMonth = new System.DateTime(2013, 7, 1, 0, 0, 0, 0);
+            this.ui_logs_DTime_EndFilter.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.MarkedDates = new System.DateTime[0];
+            this.ui_logs_DTime_EndFilter.MonthCalendar.MonthlyMarkedDates = new System.DateTime[0];
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.TodayButtonVisible = true;
+            this.ui_logs_DTime_EndFilter.MonthCalendar.WeeklyMarkedDays = new System.DayOfWeek[0];
+            this.ui_logs_DTime_EndFilter.Name = "ui_logs_DTime_EndFilter";
+            this.ui_logs_DTime_EndFilter.Size = new System.Drawing.Size(94, 22);
+            this.ui_logs_DTime_EndFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_logs_DTime_EndFilter.TabIndex = 5;
+            this.ui_logs_DTime_EndFilter.Value = new System.DateTime(2013, 7, 29, 0, 0, 0, 0);
+            // 
+            // ui_logs_DTime_StartFilter
+            // 
+            this.ui_logs_DTime_StartFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_StartFilter.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.ui_logs_DTime_StartFilter.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_StartFilter.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown;
+            this.ui_logs_DTime_StartFilter.ButtonDropDown.Visible = true;
+            this.ui_logs_DTime_StartFilter.ForeColor = System.Drawing.Color.Black;
+            this.ui_logs_DTime_StartFilter.IsPopupCalendarOpen = false;
+            this.ui_logs_DTime_StartFilter.Location = new System.Drawing.Point(52, 26);
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_StartFilter.MonthCalendar.AnnuallyMarkedDates = new System.DateTime[0];
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_StartFilter.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CalendarDimensions = new System.Drawing.Size(1, 1);
+            this.ui_logs_DTime_StartFilter.MonthCalendar.ClearButtonVisible = true;
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.DisplayMonth = new System.DateTime(2013, 7, 1, 0, 0, 0, 0);
+            this.ui_logs_DTime_StartFilter.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.MarkedDates = new System.DateTime[0];
+            this.ui_logs_DTime_StartFilter.MonthCalendar.MonthlyMarkedDates = new System.DateTime[0];
+            // 
+            // 
+            // 
+            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.TodayButtonVisible = true;
+            this.ui_logs_DTime_StartFilter.MonthCalendar.WeeklyMarkedDays = new System.DayOfWeek[0];
+            this.ui_logs_DTime_StartFilter.Name = "ui_logs_DTime_StartFilter";
+            this.ui_logs_DTime_StartFilter.Size = new System.Drawing.Size(89, 22);
+            this.ui_logs_DTime_StartFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ui_logs_DTime_StartFilter.TabIndex = 4;
+            this.ui_logs_DTime_StartFilter.Value = new System.DateTime(2013, 7, 28, 0, 0, 0, 0);
+            // 
+            // labelX2
+            // 
+            this.labelX2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX2.ForeColor = System.Drawing.Color.Black;
+            this.labelX2.Location = new System.Drawing.Point(150, 23);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(34, 23);
+            this.labelX2.TabIndex = 3;
+            this.labelX2.Text = "End";
+            this.labelX2.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX2.TextLineAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // labelX1
+            // 
+            this.labelX1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelX1.ForeColor = System.Drawing.Color.Black;
+            this.labelX1.Location = new System.Drawing.Point(11, 23);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(35, 23);
+            this.labelX1.TabIndex = 2;
+            this.labelX1.Text = "Start";
+            this.labelX1.TextAlignment = System.Drawing.StringAlignment.Far;
+            // 
+            // ui_logs_labelX_logs
+            // 
+            // 
+            // 
+            // 
+            this.ui_logs_labelX_logs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ui_logs_labelX_logs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.ui_logs_labelX_logs.ForeColor = System.Drawing.Color.Black;
+            this.ui_logs_labelX_logs.Location = new System.Drawing.Point(0, 0);
+            this.ui_logs_labelX_logs.Name = "ui_logs_labelX_logs";
+            this.ui_logs_labelX_logs.PaddingLeft = 6;
+            this.ui_logs_labelX_logs.Size = new System.Drawing.Size(50, 23);
+            this.ui_logs_labelX_logs.TabIndex = 1;
+            this.ui_logs_labelX_logs.Text = "LOGS";
+            // 
+            // panelEx3
+            // 
+            this.panelEx3.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx3.Controls.Add(this.ui_logs_dGridX_Logs);
+            this.panelEx3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx3.Location = new System.Drawing.Point(3, 91);
+            this.panelEx3.Name = "panelEx3";
+            this.panelEx3.Size = new System.Drawing.Size(831, 325);
+            this.panelEx3.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx3.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx3.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx3.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx3.Style.GradientAngle = 90;
+            this.panelEx3.TabIndex = 1;
+            // 
+            // ui_logs_dGridX_Logs
+            // 
+            this.ui_logs_dGridX_Logs.AllowUserToAddRows = false;
+            this.ui_logs_dGridX_Logs.AllowUserToDeleteRows = false;
+            this.ui_logs_dGridX_Logs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.ui_logs_dGridX_Logs.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ui_logs_dGridX_Logs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.ui_logs_dGridX_Logs.ColumnHeadersHeight = 30;
+            this.ui_logs_dGridX_Logs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.ui_logs_dGridX_Logs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ui_logColumn_Date,
+            this.ui_logColumn_UserLogin,
+            this.ui_logColumn_MsgType,
+            this.ui_logColumn_Symbol,
+            this.ui_logColumn_group,
+            this.ui_logColumn_Description,
+            this.ui_logColumn_Status,
+            this.Column6,
+            this.Comm});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ui_logs_dGridX_Logs.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ui_logs_dGridX_Logs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ui_logs_dGridX_Logs.EnableHeadersVisualStyles = false;
+            this.ui_logs_dGridX_Logs.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ui_logs_dGridX_Logs.Location = new System.Drawing.Point(0, 0);
+            this.ui_logs_dGridX_Logs.Name = "ui_logs_dGridX_Logs";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ui_logs_dGridX_Logs.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.ui_logs_dGridX_Logs.RowHeadersVisible = false;
+            this.ui_logs_dGridX_Logs.RowTemplate.Height = 24;
+            this.ui_logs_dGridX_Logs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ui_logs_dGridX_Logs.Size = new System.Drawing.Size(831, 325);
+            this.ui_logs_dGridX_Logs.TabIndex = 0;
             // 
             // metroTabPanel1
             // 
@@ -2418,489 +2848,6 @@
             this.ui_groups_labelX_SymbolLists.TabIndex = 1;
             this.ui_groups_labelX_SymbolLists.Text = "GROUPS LISTS";
             // 
-            // metroTabPanel_logs
-            // 
-            this.metroTabPanel_logs.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.metroTabPanel_logs.Controls.Add(this.tableLayoutPanel_logs);
-            this.metroTabPanel_logs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel_logs.Location = new System.Drawing.Point(0, 51);
-            this.metroTabPanel_logs.Name = "metroTabPanel_logs";
-            this.metroTabPanel_logs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel_logs.Size = new System.Drawing.Size(849, 428);
-            // 
-            // 
-            // 
-            this.metroTabPanel_logs.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel_logs.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel_logs.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel_logs.TabIndex = 5;
-            // 
-            // tableLayoutPanel_logs
-            // 
-            this.tableLayoutPanel_logs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
-            this.tableLayoutPanel_logs.ColumnCount = 1;
-            this.tableLayoutPanel_logs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_logs.Controls.Add(this.ui_logs_panelEx_main, 0, 0);
-            this.tableLayoutPanel_logs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_logs.ForeColor = System.Drawing.Color.Black;
-            this.tableLayoutPanel_logs.Location = new System.Drawing.Point(3, 0);
-            this.tableLayoutPanel_logs.Name = "tableLayoutPanel_logs";
-            this.tableLayoutPanel_logs.RowCount = 1;
-            this.tableLayoutPanel_logs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.84182F));
-            this.tableLayoutPanel_logs.Size = new System.Drawing.Size(843, 425);
-            this.tableLayoutPanel_logs.TabIndex = 0;
-            // 
-            // ui_logs_panelEx_main
-            // 
-            this.ui_logs_panelEx_main.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_logs_panelEx_main.Controls.Add(this.tableLayoutPanel1);
-            this.ui_logs_panelEx_main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_logs_panelEx_main.Location = new System.Drawing.Point(3, 3);
-            this.ui_logs_panelEx_main.Name = "ui_logs_panelEx_main";
-            this.ui_logs_panelEx_main.Size = new System.Drawing.Size(837, 419);
-            this.ui_logs_panelEx_main.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.ui_logs_panelEx_main.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.ui_logs_panelEx_main.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.ui_logs_panelEx_main.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.ui_logs_panelEx_main.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.ui_logs_panelEx_main.Style.GradientAngle = 90;
-            this.ui_logs_panelEx_main.TabIndex = 2;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.panelEx2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panelEx3, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.ForeColor = System.Drawing.Color.Black;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(837, 419);
-            this.tableLayoutPanel1.TabIndex = 2;
-            // 
-            // panelEx2
-            // 
-            this.panelEx2.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx2.Controls.Add(this.labelX5);
-            this.panelEx2.Controls.Add(this.labelX4);
-            this.panelEx2.Controls.Add(this.labelX3);
-            this.panelEx2.Controls.Add(this.uiLogEventFilter);
-            this.panelEx2.Controls.Add(this.uiLogSymbolFilter);
-            this.panelEx2.Controls.Add(this.uiLogUserFilter);
-            this.panelEx2.Controls.Add(this.ui_logs_buttonX_Find);
-            this.panelEx2.Controls.Add(this.ui_logs_DTime_EndFilter);
-            this.panelEx2.Controls.Add(this.ui_logs_DTime_StartFilter);
-            this.panelEx2.Controls.Add(this.labelX2);
-            this.panelEx2.Controls.Add(this.labelX1);
-            this.panelEx2.Controls.Add(this.ui_logs_labelX_logs);
-            this.panelEx2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx2.Location = new System.Drawing.Point(3, 3);
-            this.panelEx2.Name = "panelEx2";
-            this.panelEx2.Size = new System.Drawing.Size(831, 82);
-            this.panelEx2.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx2.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx2.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx2.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx2.Style.GradientAngle = 90;
-            this.panelEx2.TabIndex = 0;
-            // 
-            // labelX5
-            // 
-            this.labelX5.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX5.ForeColor = System.Drawing.Color.Black;
-            this.labelX5.Location = new System.Drawing.Point(633, 23);
-            this.labelX5.Name = "labelX5";
-            this.labelX5.Size = new System.Drawing.Size(47, 23);
-            this.labelX5.TabIndex = 12;
-            this.labelX5.Text = "Event";
-            this.labelX5.TextAlignment = System.Drawing.StringAlignment.Far;
-            this.labelX5.TextLineAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX4
-            // 
-            this.labelX4.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX4.ForeColor = System.Drawing.Color.Black;
-            this.labelX4.Location = new System.Drawing.Point(448, 23);
-            this.labelX4.Name = "labelX4";
-            this.labelX4.Size = new System.Drawing.Size(62, 23);
-            this.labelX4.TabIndex = 11;
-            this.labelX4.Text = "Symbol";
-            this.labelX4.TextAlignment = System.Drawing.StringAlignment.Far;
-            this.labelX4.TextLineAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX3
-            // 
-            this.labelX3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX3.ForeColor = System.Drawing.Color.Black;
-            this.labelX3.Location = new System.Drawing.Point(290, 23);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(34, 23);
-            this.labelX3.TabIndex = 10;
-            this.labelX3.Text = "User";
-            this.labelX3.TextAlignment = System.Drawing.StringAlignment.Far;
-            this.labelX3.TextLineAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // uiLogEventFilter
-            // 
-            this.uiLogEventFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.uiLogEventFilter.DisplayMember = "Text";
-            this.uiLogEventFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.uiLogEventFilter.ForeColor = System.Drawing.Color.Black;
-            this.uiLogEventFilter.FormattingEnabled = true;
-            this.uiLogEventFilter.ItemHeight = 16;
-            this.uiLogEventFilter.Location = new System.Drawing.Point(686, 26);
-            this.uiLogEventFilter.Name = "uiLogEventFilter";
-            this.uiLogEventFilter.Size = new System.Drawing.Size(121, 22);
-            this.uiLogEventFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.uiLogEventFilter.TabIndex = 9;
-            // 
-            // uiLogSymbolFilter
-            // 
-            this.uiLogSymbolFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.uiLogSymbolFilter.DisplayMember = "Text";
-            this.uiLogSymbolFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.uiLogSymbolFilter.ForeColor = System.Drawing.Color.Black;
-            this.uiLogSymbolFilter.FormattingEnabled = true;
-            this.uiLogSymbolFilter.ItemHeight = 16;
-            this.uiLogSymbolFilter.Location = new System.Drawing.Point(516, 26);
-            this.uiLogSymbolFilter.Name = "uiLogSymbolFilter";
-            this.uiLogSymbolFilter.Size = new System.Drawing.Size(111, 22);
-            this.uiLogSymbolFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.uiLogSymbolFilter.TabIndex = 8;
-            // 
-            // uiLogUserFilter
-            // 
-            this.uiLogUserFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.uiLogUserFilter.DisplayMember = "Text";
-            this.uiLogUserFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.uiLogUserFilter.ForeColor = System.Drawing.Color.Black;
-            this.uiLogUserFilter.FormattingEnabled = true;
-            this.uiLogUserFilter.ItemHeight = 16;
-            this.uiLogUserFilter.Location = new System.Drawing.Point(330, 26);
-            this.uiLogUserFilter.Name = "uiLogUserFilter";
-            this.uiLogUserFilter.Size = new System.Drawing.Size(112, 22);
-            this.uiLogUserFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.uiLogUserFilter.TabIndex = 7;
-            // 
-            // ui_logs_buttonX_Find
-            // 
-            this.ui_logs_buttonX_Find.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.ui_logs_buttonX_Find.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.ui_logs_buttonX_Find.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.ui_logs_buttonX_Find.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ui_logs_buttonX_Find.Location = new System.Drawing.Point(312, 52);
-            this.ui_logs_buttonX_Find.Name = "ui_logs_buttonX_Find";
-            this.ui_logs_buttonX_Find.Size = new System.Drawing.Size(148, 27);
-            this.ui_logs_buttonX_Find.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_logs_buttonX_Find.TabIndex = 6;
-            this.ui_logs_buttonX_Find.Text = "Find";
-            this.ui_logs_buttonX_Find.Tooltip = "Filter logs";
-            this.ui_logs_buttonX_Find.Click += new System.EventHandler(this.ui_logs_buttonX_Find_Click);
-            // 
-            // ui_logs_DTime_EndFilter
-            // 
-            this.ui_logs_DTime_EndFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_EndFilter.BackgroundStyle.Class = "DateTimeInputBackground";
-            this.ui_logs_DTime_EndFilter.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_EndFilter.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown;
-            this.ui_logs_DTime_EndFilter.ButtonDropDown.Visible = true;
-            this.ui_logs_DTime_EndFilter.ForeColor = System.Drawing.Color.Black;
-            this.ui_logs_DTime_EndFilter.IsPopupCalendarOpen = false;
-            this.ui_logs_DTime_EndFilter.Location = new System.Drawing.Point(190, 26);
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_EndFilter.MonthCalendar.AnnuallyMarkedDates = new System.DateTime[0];
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_EndFilter.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CalendarDimensions = new System.Drawing.Size(1, 1);
-            this.ui_logs_DTime_EndFilter.MonthCalendar.ClearButtonVisible = true;
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.DisplayMonth = new System.DateTime(2013, 7, 1, 0, 0, 0, 0);
-            this.ui_logs_DTime_EndFilter.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.MarkedDates = new System.DateTime[0];
-            this.ui_logs_DTime_EndFilter.MonthCalendar.MonthlyMarkedDates = new System.DateTime[0];
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.TodayButtonVisible = true;
-            this.ui_logs_DTime_EndFilter.MonthCalendar.WeeklyMarkedDays = new System.DayOfWeek[0];
-            this.ui_logs_DTime_EndFilter.Name = "ui_logs_DTime_EndFilter";
-            this.ui_logs_DTime_EndFilter.Size = new System.Drawing.Size(94, 22);
-            this.ui_logs_DTime_EndFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_logs_DTime_EndFilter.TabIndex = 5;
-            this.ui_logs_DTime_EndFilter.Value = new System.DateTime(2013, 7, 29, 0, 0, 0, 0);
-            // 
-            // ui_logs_DTime_StartFilter
-            // 
-            this.ui_logs_DTime_StartFilter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_StartFilter.BackgroundStyle.Class = "DateTimeInputBackground";
-            this.ui_logs_DTime_StartFilter.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_StartFilter.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown;
-            this.ui_logs_DTime_StartFilter.ButtonDropDown.Visible = true;
-            this.ui_logs_DTime_StartFilter.ForeColor = System.Drawing.Color.Black;
-            this.ui_logs_DTime_StartFilter.IsPopupCalendarOpen = false;
-            this.ui_logs_DTime_StartFilter.Location = new System.Drawing.Point(52, 26);
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_StartFilter.MonthCalendar.AnnuallyMarkedDates = new System.DateTime[0];
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_StartFilter.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CalendarDimensions = new System.Drawing.Size(1, 1);
-            this.ui_logs_DTime_StartFilter.MonthCalendar.ClearButtonVisible = true;
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.DisplayMonth = new System.DateTime(2013, 7, 1, 0, 0, 0, 0);
-            this.ui_logs_DTime_StartFilter.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.MarkedDates = new System.DateTime[0];
-            this.ui_logs_DTime_StartFilter.MonthCalendar.MonthlyMarkedDates = new System.DateTime[0];
-            // 
-            // 
-            // 
-            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.TodayButtonVisible = true;
-            this.ui_logs_DTime_StartFilter.MonthCalendar.WeeklyMarkedDays = new System.DayOfWeek[0];
-            this.ui_logs_DTime_StartFilter.Name = "ui_logs_DTime_StartFilter";
-            this.ui_logs_DTime_StartFilter.Size = new System.Drawing.Size(89, 22);
-            this.ui_logs_DTime_StartFilter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.ui_logs_DTime_StartFilter.TabIndex = 4;
-            this.ui_logs_DTime_StartFilter.Value = new System.DateTime(2013, 7, 28, 0, 0, 0, 0);
-            // 
-            // labelX2
-            // 
-            this.labelX2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX2.ForeColor = System.Drawing.Color.Black;
-            this.labelX2.Location = new System.Drawing.Point(150, 23);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(34, 23);
-            this.labelX2.TabIndex = 3;
-            this.labelX2.Text = "End";
-            this.labelX2.TextAlignment = System.Drawing.StringAlignment.Far;
-            this.labelX2.TextLineAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // labelX1
-            // 
-            this.labelX1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            // 
-            // 
-            // 
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelX1.ForeColor = System.Drawing.Color.Black;
-            this.labelX1.Location = new System.Drawing.Point(11, 23);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(35, 23);
-            this.labelX1.TabIndex = 2;
-            this.labelX1.Text = "Start";
-            this.labelX1.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // ui_logs_labelX_logs
-            // 
-            // 
-            // 
-            // 
-            this.ui_logs_labelX_logs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ui_logs_labelX_logs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.ui_logs_labelX_logs.ForeColor = System.Drawing.Color.Black;
-            this.ui_logs_labelX_logs.Location = new System.Drawing.Point(0, 0);
-            this.ui_logs_labelX_logs.Name = "ui_logs_labelX_logs";
-            this.ui_logs_labelX_logs.PaddingLeft = 6;
-            this.ui_logs_labelX_logs.Size = new System.Drawing.Size(50, 23);
-            this.ui_logs_labelX_logs.TabIndex = 1;
-            this.ui_logs_labelX_logs.Text = "LOGS";
-            // 
-            // panelEx3
-            // 
-            this.panelEx3.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx3.Controls.Add(this.ui_logs_dGridX_Logs);
-            this.panelEx3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx3.Location = new System.Drawing.Point(3, 91);
-            this.panelEx3.Name = "panelEx3";
-            this.panelEx3.Size = new System.Drawing.Size(831, 325);
-            this.panelEx3.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx3.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx3.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx3.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx3.Style.GradientAngle = 90;
-            this.panelEx3.TabIndex = 1;
-            // 
-            // ui_logs_dGridX_Logs
-            // 
-            this.ui_logs_dGridX_Logs.AllowUserToAddRows = false;
-            this.ui_logs_dGridX_Logs.AllowUserToDeleteRows = false;
-            this.ui_logs_dGridX_Logs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.ui_logs_dGridX_Logs.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ui_logs_dGridX_Logs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.ui_logs_dGridX_Logs.ColumnHeadersHeight = 30;
-            this.ui_logs_dGridX_Logs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.ui_logs_dGridX_Logs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ui_logColumn_Date,
-            this.ui_logColumn_UserLogin,
-            this.ui_logColumn_MsgType,
-            this.ui_logColumn_Symbol,
-            this.ui_logColumn_group,
-            this.ui_logColumn_Description,
-            this.ui_logColumn_Status,
-            this.Column6});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ui_logs_dGridX_Logs.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ui_logs_dGridX_Logs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ui_logs_dGridX_Logs.EnableHeadersVisualStyles = false;
-            this.ui_logs_dGridX_Logs.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.ui_logs_dGridX_Logs.Location = new System.Drawing.Point(0, 0);
-            this.ui_logs_dGridX_Logs.Name = "ui_logs_dGridX_Logs";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ui_logs_dGridX_Logs.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.ui_logs_dGridX_Logs.RowHeadersVisible = false;
-            this.ui_logs_dGridX_Logs.RowTemplate.Height = 24;
-            this.ui_logs_dGridX_Logs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ui_logs_dGridX_Logs.Size = new System.Drawing.Size(831, 325);
-            this.ui_logs_dGridX_Logs.TabIndex = 0;
-            // 
-            // ui_logColumn_Date
-            // 
-            this.ui_logColumn_Date.HeaderText = "Date";
-            this.ui_logColumn_Date.Name = "ui_logColumn_Date";
-            this.ui_logColumn_Date.ReadOnly = true;
-            this.ui_logColumn_Date.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // ui_logColumn_UserLogin
-            // 
-            this.ui_logColumn_UserLogin.FillWeight = 70F;
-            this.ui_logColumn_UserLogin.HeaderText = "User";
-            this.ui_logColumn_UserLogin.Name = "ui_logColumn_UserLogin";
-            this.ui_logColumn_UserLogin.ReadOnly = true;
-            // 
-            // ui_logColumn_MsgType
-            // 
-            this.ui_logColumn_MsgType.FillWeight = 48.44585F;
-            this.ui_logColumn_MsgType.HeaderText = "Event";
-            this.ui_logColumn_MsgType.Name = "ui_logColumn_MsgType";
-            this.ui_logColumn_MsgType.ReadOnly = true;
-            // 
-            // ui_logColumn_Symbol
-            // 
-            this.ui_logColumn_Symbol.FillWeight = 62.19339F;
-            this.ui_logColumn_Symbol.HeaderText = "Symbol";
-            this.ui_logColumn_Symbol.Name = "ui_logColumn_Symbol";
-            this.ui_logColumn_Symbol.ReadOnly = true;
-            // 
-            // ui_logColumn_group
-            // 
-            this.ui_logColumn_group.FillWeight = 75.87428F;
-            this.ui_logColumn_group.HeaderText = "Group";
-            this.ui_logColumn_group.Name = "ui_logColumn_group";
-            this.ui_logColumn_group.ReadOnly = true;
-            // 
-            // ui_logColumn_Description
-            // 
-            this.ui_logColumn_Description.FillWeight = 80F;
-            this.ui_logColumn_Description.HeaderText = "Time frame";
-            this.ui_logColumn_Description.Name = "ui_logColumn_Description";
-            this.ui_logColumn_Description.ReadOnly = true;
-            // 
-            // ui_logColumn_Status
-            // 
-            this.ui_logColumn_Status.FillWeight = 60F;
-            this.ui_logColumn_Status.HeaderText = "Status";
-            this.ui_logColumn_Status.Name = "ui_logColumn_Status";
-            this.ui_logColumn_Status.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.FillWeight = 60F;
-            this.Column6.HeaderText = "App";
-            this.Column6.Name = "Column6";
-            // 
             // metroTabItem_users
             // 
             this.metroTabItem_users.Name = "metroTabItem_users";
@@ -3007,6 +2954,66 @@
             // 
             this.timerLogon.Tick += new System.EventHandler(this.timerLogon_Tick);
             // 
+            // ui_logColumn_Date
+            // 
+            this.ui_logColumn_Date.HeaderText = "Date";
+            this.ui_logColumn_Date.Name = "ui_logColumn_Date";
+            this.ui_logColumn_Date.ReadOnly = true;
+            this.ui_logColumn_Date.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ui_logColumn_UserLogin
+            // 
+            this.ui_logColumn_UserLogin.FillWeight = 70F;
+            this.ui_logColumn_UserLogin.HeaderText = "User";
+            this.ui_logColumn_UserLogin.Name = "ui_logColumn_UserLogin";
+            this.ui_logColumn_UserLogin.ReadOnly = true;
+            // 
+            // ui_logColumn_MsgType
+            // 
+            this.ui_logColumn_MsgType.FillWeight = 48.44585F;
+            this.ui_logColumn_MsgType.HeaderText = "Event";
+            this.ui_logColumn_MsgType.Name = "ui_logColumn_MsgType";
+            this.ui_logColumn_MsgType.ReadOnly = true;
+            // 
+            // ui_logColumn_Symbol
+            // 
+            this.ui_logColumn_Symbol.FillWeight = 62.19339F;
+            this.ui_logColumn_Symbol.HeaderText = "Symbol";
+            this.ui_logColumn_Symbol.Name = "ui_logColumn_Symbol";
+            this.ui_logColumn_Symbol.ReadOnly = true;
+            // 
+            // ui_logColumn_group
+            // 
+            this.ui_logColumn_group.FillWeight = 75.87428F;
+            this.ui_logColumn_group.HeaderText = "Group";
+            this.ui_logColumn_group.Name = "ui_logColumn_group";
+            this.ui_logColumn_group.ReadOnly = true;
+            // 
+            // ui_logColumn_Description
+            // 
+            this.ui_logColumn_Description.FillWeight = 80F;
+            this.ui_logColumn_Description.HeaderText = "Time frame";
+            this.ui_logColumn_Description.Name = "ui_logColumn_Description";
+            this.ui_logColumn_Description.ReadOnly = true;
+            // 
+            // ui_logColumn_Status
+            // 
+            this.ui_logColumn_Status.FillWeight = 60F;
+            this.ui_logColumn_Status.HeaderText = "Status";
+            this.ui_logColumn_Status.Name = "ui_logColumn_Status";
+            this.ui_logColumn_Status.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.FillWeight = 60F;
+            this.Column6.HeaderText = "App";
+            this.Column6.Name = "Column6";
+            // 
+            // Comm
+            // 
+            this.Comm.HeaderText = "Comments";
+            this.Comm.Name = "Comm";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3025,6 +3032,15 @@
             this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.metroShellMain.ResumeLayout(false);
             this.metroShellMain.PerformLayout();
+            this.metroTabPanel_logs.ResumeLayout(false);
+            this.tableLayoutPanel_logs.ResumeLayout(false);
+            this.ui_logs_panelEx_main.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panelEx2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_EndFilter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_StartFilter)).EndInit();
+            this.panelEx3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_dGridX_Logs)).EndInit();
             this.metroTabPanel1.ResumeLayout(false);
             this.metroTabPanel_symbols.ResumeLayout(false);
             this.tableLayoutPanel_symbols.ResumeLayout(false);
@@ -3059,15 +3075,6 @@
             this.ui_symbols_panelEx_symbolsLists.ResumeLayout(false);
             this.ui_symbols_panelEx_docking2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ui_groups_dataGridViewX_groupsList)).EndInit();
-            this.metroTabPanel_logs.ResumeLayout(false);
-            this.tableLayoutPanel_logs.ResumeLayout(false);
-            this.ui_logs_panelEx_main.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.panelEx2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_EndFilter)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_DTime_StartFilter)).EndInit();
-            this.panelEx3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ui_logs_dGridX_Logs)).EndInit();
             this.contextMenuStripNotify.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -3233,14 +3240,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_UserLogin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_MsgType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Symbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_group;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private DevComponents.DotNetBar.Metro.MetroTabPanel metroTabPanel1;
         private DevComponents.DotNetBar.Metro.MetroTabItem metroTabItem1;
         private DevComponents.DotNetBar.LabelX labelX16;
@@ -3252,6 +3251,15 @@
         private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
         private DevComponents.DotNetBar.Controls.CircularProgress circularProgress1;
         private DevComponents.DotNetBar.LabelX labelX15;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_UserLogin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_MsgType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Symbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_group;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ui_logColumn_Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Comm;
 
     }
 }

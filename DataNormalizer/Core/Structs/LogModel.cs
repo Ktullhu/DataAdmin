@@ -13,5 +13,6 @@ namespace DataNormalizer.Core.Structs
         public int Status;
         public string Timeframe;
         public string Application;
+        public string Comments;
     }
 }

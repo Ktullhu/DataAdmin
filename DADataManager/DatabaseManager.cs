@@ -45,6 +45,7 @@ namespace DADataManager
         private static MySqlConnection _connectionToDbHistorical;
         private static MySqlCommand _sqlCommandToDbHistorical;
 
+        private const string TblLogs = "tbl_logs";
         private const string TblUsers = "tbl_users";
         private const string TblSymbols = "tbl_symbols";
         private const string TblGroups = "tbl_groups";
@@ -390,7 +391,7 @@ namespace DADataManager
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("DoSqlBar."+ex.Message);
                 return false;
             }
         }
@@ -2611,6 +2612,11 @@ namespace DADataManager
                 Console.WriteLine("GetRowsCount." + ex.Message);
                 return 0;
             }
+        }
+
+        public static List<DateTime> GetLast3000BarData(string tableName)
+        {
+            return GetAllDateTimes(tableName, 3000);
         }
     }
 }

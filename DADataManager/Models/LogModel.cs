@@ -13,5 +13,6 @@ namespace DADataManager.Models
         public int Status;
         public string Timeframe;
         public string Application;
+        public string Comments;
     }
 }
