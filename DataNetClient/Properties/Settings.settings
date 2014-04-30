@@ -89,5 +89,11 @@
     <Setting Name="IsSendReports" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="AdditionalText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">,60C</Value>
+    </Setting>
+    <Setting Name="IsAdditionalTextReuired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

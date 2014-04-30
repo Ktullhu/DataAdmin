@@ -4,6 +4,7 @@ using System.Linq;
 using CQG;
 using DADataManager;
 using DADataManager.Models;
+using DataNetClient.Properties;
 
 namespace DataNetClient.Core
 {
@@ -51,10 +52,25 @@ namespace DataNetClient.Core
                 if (!DatabaseManager.IfTodayWeHadSettingDailyValue(symbol) && !SubscribedSymbol.Contains(symbol))
                 {
                    // _subscribedSymbol.Add(symbol);
-                    _cqgVar.NewInstrument(symbol);       
+                    if(IsNoCont(symbol))
+                        _cqgVar.NewInstrument(symbol);       
+                    else
+                        _cqgVar.NewInstrument(symbol+(Settings.Default.IsAdditionalTextReuired?Settings.Default.AdditionalText:""));       
                 }
             }
             
+        }
+
+        private static bool IsNoCont(string currSmb)
+        {                   
+            var isNoCont = false;
+            var lastIndex = currSmb.Length - 1;
+            var month = new List<char> { 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'Q', 'U', 'V', 'X', 'Z' };
+
+            if (Char.IsDigit(currSmb[lastIndex]) && char.IsDigit(currSmb[lastIndex - 1]) && month.Contains(currSmb.ToUpper()[lastIndex - 2]))
+                isNoCont = true;
+            return isNoCont;       
+
         }
 
 

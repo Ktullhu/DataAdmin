@@ -31,6 +31,8 @@ namespace DataNetClient.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
             this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.numericUpDown_days = new System.Windows.Forms.NumericUpDown();
             this.textBox_emails = new System.Windows.Forms.TextBox();
             this.labelX4 = new DevComponents.DotNetBar.LabelX();
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
@@ -45,17 +47,18 @@ namespace DataNetClient.Forms
             this.superTabControlPanel9 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.superTabControlPanel8 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.numericUpDown_days = new System.Windows.Forms.NumericUpDown();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
+            this.checkBox_add_text = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_days)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxTick)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEndBar)).BeginInit();
             this.superTabControlPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_days)).BeginInit();
             this.SuspendLayout();
             // 
             // superTabControl1
@@ -87,7 +90,7 @@ namespace DataNetClient.Forms
             this.superTabControl1.ReorderTabsEnabled = true;
             this.superTabControl1.SelectedTabFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.superTabControl1.SelectedTabIndex = 0;
-            this.superTabControl1.Size = new System.Drawing.Size(407, 305);
+            this.superTabControl1.Size = new System.Drawing.Size(416, 305);
             this.superTabControl1.TabAlignment = DevComponents.DotNetBar.eTabStripAlignment.Left;
             this.superTabControl1.TabFont = new System.Drawing.Font("Segoe UI", 9F);
             this.superTabControl1.TabIndex = 2;
@@ -98,6 +101,9 @@ namespace DataNetClient.Forms
             // 
             // superTabControlPanel2
             // 
+            this.superTabControlPanel2.Controls.Add(this.checkBox_add_text);
+            this.superTabControlPanel2.Controls.Add(this.textBox1);
+            this.superTabControlPanel2.Controls.Add(this.labelX7);
             this.superTabControlPanel2.Controls.Add(this.labelX6);
             this.superTabControlPanel2.Controls.Add(this.numericUpDown_days);
             this.superTabControlPanel2.Controls.Add(this.textBox_emails);
@@ -113,15 +119,57 @@ namespace DataNetClient.Forms
             this.superTabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.superTabControlPanel2.Location = new System.Drawing.Point(92, 0);
             this.superTabControlPanel2.Name = "superTabControlPanel2";
-            this.superTabControlPanel2.Size = new System.Drawing.Size(315, 305);
+            this.superTabControlPanel2.Size = new System.Drawing.Size(324, 305);
             this.superTabControlPanel2.TabIndex = 1;
             this.superTabControlPanel2.TabItem = this.superTabItem2;
             // 
+            // labelX6
+            // 
+            this.labelX6.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.ForeColor = System.Drawing.Color.Black;
+            this.labelX6.Location = new System.Drawing.Point(153, 172);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(86, 18);
+            this.labelX6.TabIndex = 54;
+            this.labelX6.Text = "Expiration (days)";
+            this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX6.WordWrap = true;
+            // 
+            // numericUpDown_days
+            // 
+            this.numericUpDown_days.BackColor = System.Drawing.Color.White;
+            this.numericUpDown_days.ForeColor = System.Drawing.Color.Black;
+            this.numericUpDown_days.Location = new System.Drawing.Point(245, 172);
+            this.numericUpDown_days.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown_days.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_days.Name = "numericUpDown_days";
+            this.numericUpDown_days.Size = new System.Drawing.Size(65, 22);
+            this.numericUpDown_days.TabIndex = 53;
+            this.numericUpDown_days.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
             // textBox_emails
             // 
-            this.textBox_emails.Location = new System.Drawing.Point(102, 184);
+            this.textBox_emails.BackColor = System.Drawing.Color.White;
+            this.textBox_emails.ForeColor = System.Drawing.Color.Black;
+            this.textBox_emails.Location = new System.Drawing.Point(81, 199);
             this.textBox_emails.Name = "textBox_emails";
-            this.textBox_emails.Size = new System.Drawing.Size(201, 22);
+            this.textBox_emails.Size = new System.Drawing.Size(229, 22);
             this.textBox_emails.TabIndex = 52;
             // 
             // labelX4
@@ -132,7 +180,7 @@ namespace DataNetClient.Forms
             // 
             this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX4.ForeColor = System.Drawing.Color.Black;
-            this.labelX4.Location = new System.Drawing.Point(22, 182);
+            this.labelX4.Location = new System.Drawing.Point(7, 198);
             this.labelX4.Name = "labelX4";
             this.labelX4.Size = new System.Drawing.Size(61, 23);
             this.labelX4.TabIndex = 51;
@@ -147,7 +195,7 @@ namespace DataNetClient.Forms
             // 
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX3.ForeColor = System.Drawing.Color.Black;
-            this.labelX3.Location = new System.Drawing.Point(3, 130);
+            this.labelX3.Location = new System.Drawing.Point(10, 130);
             this.labelX3.Name = "labelX3";
             this.labelX3.Size = new System.Drawing.Size(229, 36);
             this.labelX3.TabIndex = 49;
@@ -159,7 +207,7 @@ namespace DataNetClient.Forms
             // 
             this.numericUpDown2.BackColor = System.Drawing.Color.White;
             this.numericUpDown2.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown2.Location = new System.Drawing.Point(238, 139);
+            this.numericUpDown2.Location = new System.Drawing.Point(245, 139);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -187,7 +235,7 @@ namespace DataNetClient.Forms
             // 
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX2.ForeColor = System.Drawing.Color.Black;
-            this.labelX2.Location = new System.Drawing.Point(3, 102);
+            this.labelX2.Location = new System.Drawing.Point(10, 102);
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(229, 23);
             this.labelX2.TabIndex = 47;
@@ -198,7 +246,7 @@ namespace DataNetClient.Forms
             // 
             this.numericUpDown1.BackColor = System.Drawing.Color.White;
             this.numericUpDown1.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown1.Location = new System.Drawing.Point(238, 102);
+            this.numericUpDown1.Location = new System.Drawing.Point(245, 102);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -226,7 +274,7 @@ namespace DataNetClient.Forms
             // 
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX1.ForeColor = System.Drawing.Color.Black;
-            this.labelX1.Location = new System.Drawing.Point(22, 64);
+            this.labelX1.Location = new System.Drawing.Point(29, 64);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(151, 23);
             this.labelX1.TabIndex = 45;
@@ -237,7 +285,7 @@ namespace DataNetClient.Forms
             // 
             this.numericUpDown_maxTick.BackColor = System.Drawing.Color.White;
             this.numericUpDown_maxTick.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown_maxTick.Location = new System.Drawing.Point(179, 64);
+            this.numericUpDown_maxTick.Location = new System.Drawing.Point(186, 64);
             this.numericUpDown_maxTick.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -265,7 +313,7 @@ namespace DataNetClient.Forms
             // 
             this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX14.ForeColor = System.Drawing.Color.Black;
-            this.labelX14.Location = new System.Drawing.Point(22, 26);
+            this.labelX14.Location = new System.Drawing.Point(29, 26);
             this.labelX14.Name = "labelX14";
             this.labelX14.Size = new System.Drawing.Size(151, 23);
             this.labelX14.TabIndex = 43;
@@ -276,7 +324,7 @@ namespace DataNetClient.Forms
             // 
             this.nudEndBar.BackColor = System.Drawing.Color.White;
             this.nudEndBar.ForeColor = System.Drawing.Color.Black;
-            this.nudEndBar.Location = new System.Drawing.Point(179, 26);
+            this.nudEndBar.Location = new System.Drawing.Point(186, 26);
             this.nudEndBar.Maximum = new decimal(new int[] {
             0,
             0,
@@ -309,7 +357,7 @@ namespace DataNetClient.Forms
             this.superTabControlPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.superTabControlPanel9.Location = new System.Drawing.Point(92, 0);
             this.superTabControlPanel9.Name = "superTabControlPanel9";
-            this.superTabControlPanel9.Size = new System.Drawing.Size(315, 305);
+            this.superTabControlPanel9.Size = new System.Drawing.Size(324, 305);
             this.superTabControlPanel9.TabIndex = 3;
             // 
             // labelX5
@@ -323,7 +371,7 @@ namespace DataNetClient.Forms
             this.labelX5.ForeColor = System.Drawing.Color.Black;
             this.labelX5.Location = new System.Drawing.Point(0, 0);
             this.labelX5.Name = "labelX5";
-            this.labelX5.Size = new System.Drawing.Size(315, 305);
+            this.labelX5.Size = new System.Drawing.Size(324, 305);
             this.labelX5.TabIndex = 7;
             this.labelX5.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
@@ -332,54 +380,48 @@ namespace DataNetClient.Forms
             this.superTabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.superTabControlPanel8.Location = new System.Drawing.Point(92, 0);
             this.superTabControlPanel8.Name = "superTabControlPanel8";
-            this.superTabControlPanel8.Size = new System.Drawing.Size(315, 305);
+            this.superTabControlPanel8.Size = new System.Drawing.Size(324, 305);
             this.superTabControlPanel8.TabIndex = 2;
             // 
-            // labelX6
+            // textBox1
             // 
-            this.labelX6.BackColor = System.Drawing.Color.White;
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
+            this.textBox1.Location = new System.Drawing.Point(231, 227);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(79, 22);
+            this.textBox1.TabIndex = 56;
+            // 
+            // labelX7
+            // 
+            this.labelX7.BackColor = System.Drawing.Color.White;
             // 
             // 
             // 
-            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX6.ForeColor = System.Drawing.Color.Black;
-            this.labelX6.Location = new System.Drawing.Point(13, 220);
-            this.labelX6.Name = "labelX6";
-            this.labelX6.Size = new System.Drawing.Size(219, 18);
-            this.labelX6.TabIndex = 54;
-            this.labelX6.Text = "Expiration (day)";
-            this.labelX6.TextAlignment = System.Drawing.StringAlignment.Far;
-            this.labelX6.WordWrap = true;
+            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX7.ForeColor = System.Drawing.Color.Black;
+            this.labelX7.Location = new System.Drawing.Point(14, 226);
+            this.labelX7.Name = "labelX7";
+            this.labelX7.Size = new System.Drawing.Size(207, 23);
+            this.labelX7.TabIndex = 55;
+            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
             // 
-            // numericUpDown_days
+            // checkBox_add_text
             // 
-            this.numericUpDown_days.BackColor = System.Drawing.Color.White;
-            this.numericUpDown_days.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown_days.Location = new System.Drawing.Point(238, 220);
-            this.numericUpDown_days.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDown_days.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown_days.Name = "numericUpDown_days";
-            this.numericUpDown_days.Size = new System.Drawing.Size(65, 22);
-            this.numericUpDown_days.TabIndex = 53;
-            this.numericUpDown_days.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
+            this.checkBox_add_text.AutoSize = true;
+            this.checkBox_add_text.BackColor = System.Drawing.Color.White;
+            this.checkBox_add_text.Location = new System.Drawing.Point(10, 229);
+            this.checkBox_add_text.Name = "checkBox_add_text";
+            this.checkBox_add_text.Size = new System.Drawing.Size(215, 17);
+            this.checkBox_add_text.TabIndex = 57;
+            this.checkBox_add_text.Text = "Additional text to standard contracts";
+            this.checkBox_add_text.UseVisualStyleBackColor = false;
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(407, 305);
+            this.ClientSize = new System.Drawing.Size(416, 305);
             this.Controls.Add(this.superTabControl1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -395,12 +437,12 @@ namespace DataNetClient.Forms
             this.superTabControl1.ResumeLayout(false);
             this.superTabControlPanel2.ResumeLayout(false);
             this.superTabControlPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_days)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxTick)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEndBar)).EndInit();
             this.superTabControlPanel9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_days)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -425,6 +467,9 @@ namespace DataNetClient.Forms
         private DevComponents.DotNetBar.LabelX labelX4;
         private DevComponents.DotNetBar.LabelX labelX6;
         private System.Windows.Forms.NumericUpDown numericUpDown_days;
+        private System.Windows.Forms.TextBox textBox1;
+        private DevComponents.DotNetBar.LabelX labelX7;
+        private System.Windows.Forms.CheckBox checkBox_add_text;
 
     }
 }
