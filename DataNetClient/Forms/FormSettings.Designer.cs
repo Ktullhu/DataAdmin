@@ -410,6 +410,7 @@ namespace DataNetClient.Forms
             // 
             this.checkBox_add_text.AutoSize = true;
             this.checkBox_add_text.BackColor = System.Drawing.Color.White;
+            this.checkBox_add_text.ForeColor = System.Drawing.Color.Black;
             this.checkBox_add_text.Location = new System.Drawing.Point(10, 229);
             this.checkBox_add_text.Name = "checkBox_add_text";
             this.checkBox_add_text.Size = new System.Drawing.Size(215, 17);
