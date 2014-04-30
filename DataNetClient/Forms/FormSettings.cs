@@ -17,6 +17,7 @@ namespace DataNetClient.Forms
             numericUpDown1.Value = Properties.Settings.Default.MaxTimeOutMinutes;
             numericUpDown2.Value = Properties.Settings.Default.MaxTimeOutMinutesStandard;
             textBox_emails.Text = Properties.Settings.Default.Emails;
+            numericUpDown_days.Value = Properties.Settings.Default.DaysToExpiration;
         }
 
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -27,6 +28,8 @@ namespace DataNetClient.Forms
             Properties.Settings.Default.MaxTimeOutMinutes = (int)numericUpDown1.Value;
             Properties.Settings.Default.MaxTimeOutMinutesStandard = (int)numericUpDown2.Value;
             Properties.Settings.Default.Emails= textBox_emails.Text;
+
+            Properties.Settings.Default.DaysToExpiration = (int)numericUpDown_days.Value;
 
             Properties.Settings.Default.Save();
         }

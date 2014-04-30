@@ -134,7 +134,7 @@ namespace DataNetClient.Forms
 
                 Size = Settings.Default.S;
                 Location = Settings.Default.L;
-
+                checkBox_emailMe.Checked = Settings.Default.IsSendReports;
                 UpdateControlsSizeAndLocation();
 
                 _logger = Logger.GetInstance(listViewLogger);
@@ -243,6 +243,7 @@ namespace DataNetClient.Forms
             //todo
             if (checkBox_emailMe.Checked)
             {
+                _logger.LogAdd(" Message sent to " + Settings.Default.Emails+". With subject: "+subject, Category.Information);
                 SendEmails(Settings.Default.Emails, subject, text);
             }
         }
@@ -1846,7 +1847,7 @@ namespace DataNetClient.Forms
                 {                                       
                     ui__status_labelItem_status.Text = "Collecting:  [" + count + "/" + totalCount + "]";
 
-                    _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] InsertedRows=" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
+                    _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] Inserted:" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                     
                     
                     if (count == totalCount)
@@ -1856,7 +1857,7 @@ namespace DataNetClient.Forms
                 if (count != 0)
                 {
 //                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect, comments + "  Inserted:" + realyInsertedRowsCount + ", Time:" + (DateTime.Now - _timeLastCollecting).ToString())).Wait();
+                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect, " Inserted:" + realyInsertedRowsCount + ". Time:" + GetStringTime(DateTime.Now - _timeLastCollecting) + ". " + comments)).Wait();
                     _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] "+ comments + "  Inserted: " + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
                 }
                 _timeLastCollecting = DateTime.Now;
@@ -1864,6 +1865,11 @@ namespace DataNetClient.Forms
                 ui__status_labelItem_status.Text = "Collecting: "+_groupItems[index].GroupModel.GroupName+" ["+count+"/"+totalCount+"]";
 
             }));
+        }
+
+        private string GetStringTime(TimeSpan ts) 
+        {
+            return ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
         }
 
         private void CQGDataCollectorManager_ItemStateChanged(int index, GroupState state)
@@ -2218,6 +2224,12 @@ namespace DataNetClient.Forms
         private void ui_LabelX_sharedAvaliable_Click(object sender, EventArgs e)
         {
             Convert.ToInt32("Crash");
+        }
+
+        private void checkBox_emailMe_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.IsSendReports = checkBox_emailMe.Checked;
+            Settings.Default.Save();
         }
 
 

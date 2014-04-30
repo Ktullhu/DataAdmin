@@ -54,6 +54,7 @@ namespace DataNetClient.CQGDataCollector
         private static string _reportText;
         private static int _reportSuccessfulSymbolCount = 0;
         private static int _reportAllSymbolCount = 0;
+        private static DateTime _reportStartTime;
 
 
         #endregion
@@ -145,7 +146,7 @@ namespace DataNetClient.CQGDataCollector
 
         public delegate void TickInsertingStartedHandler(string symbols, int count);
 
-        public static event TickInsertingStartedHandler TickInsertingStarted;
+        public static event TickInsertingStartedHandler TickInsertingStarted;        
 
 
         private static void OnTickInsertingStarted(string symbols, int count)
@@ -214,7 +215,11 @@ namespace DataNetClient.CQGDataCollector
 
             if ((d - DateTime.Now).TotalHours < (Settings.Default.DaysToExpiration * 24))
             {
-                OnSendReport("", "Hello. \n The symbol: '" + symbol + "' will be expired on less then 2 days. \n\nGood luck");
+                if (!Settings.Default.EmailedSymbols.Contains(symbol))
+                {
+                    OnSendReport("", "Hello. \n The symbol: '" + symbol + "' will be expired on less then 2 days. \n\nGood luck");
+                    Settings.Default.EmailedSymbols += symbol;
+                }
             }
             //Month 
             MonthCharYearModel variable = new MonthCharYearModel();
@@ -286,12 +291,13 @@ namespace DataNetClient.CQGDataCollector
         {
             try
             {
+
                 if (!Cel.IsStarted)
                 {
                     FinishCollectingSymbol(symbolName, false, 0, "CQG not started");
                     return;
                 }
-
+                Cel.NewInstrument(symbolName);
                 _aHistoricalPeriod = eHistoricalPeriod.hpUndefined;
                 if (DatabaseManager.BarTableExist(symbolName, GetTableType(_historicalPeriod)))
                 {
@@ -324,6 +330,8 @@ namespace DataNetClient.CQGDataCollector
                 if (curTimedBars.Status == eRequestStatus.rsInProgress)
                 {
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -854,7 +862,8 @@ namespace DataNetClient.CQGDataCollector
         private static void StartCollectingGroup(int index)
         {
             var group = _groups[index];
-            _reportText += "|Group: '" + group.GroupModel.GroupName + "'  [" + group.GroupModel.TimeFrame + "]" + System.Environment.NewLine;
+            _reportStartTime = DateTime.Now;
+            _reportText += "Group: '" + group.GroupModel.GroupName + "'  [" + group.GroupModel.TimeFrame + "]" + System.Environment.NewLine;
 
             StartProgress(index);
             OnCollectedSymbolCountChanged(_groupCurrent, "", 0, _groups[index].AllSymbols.Count, true, 0, "");
@@ -870,14 +879,13 @@ namespace DataNetClient.CQGDataCollector
             }
 
 
-            if (group.GroupModel.TimeFrame != "tick")
+            
+            if (group.AllSymbols.Count != 0)
             {
-                TimeBarRequest(group.AllSymbols.First());
-                //foreach (var symbol in group.AllSymbols)TimeBarRequest(symbol);
-            }
-            else if (group.AllSymbols.Count != 0)
-            {
-                TicksRequest(group.AllSymbols.First());
+                if (group.GroupModel.TimeFrame != "tick")                
+                    TimeBarRequest(group.AllSymbols.First());                    
+                else
+                    TicksRequest(group.AllSymbols.First());
             }
 
 
@@ -889,7 +897,7 @@ namespace DataNetClient.CQGDataCollector
         {
             FinishProgress(index);
             if (_isStoped) return;
-            _reportText += "|Group: '" + _groups[index].GroupModel.GroupName + "'  [" + _groups[index].GroupModel.TimeFrame + "]" + System.Environment.NewLine + System.Environment.NewLine;
+            _reportText += "Group: '" + _groups[index].GroupModel.GroupName + "'  [" + _groups[index].GroupModel.TimeFrame + "]" + System.Environment.NewLine + System.Environment.NewLine;
             ChangeTimeoutState(false, false);
             StartFirst();
         }
@@ -924,7 +932,9 @@ namespace DataNetClient.CQGDataCollector
             var count = _groups[_groupCurrent].CollectedSymbols.Count;
 
             OnCollectedSymbolCountChanged(_groupCurrent, symbol, count, tCount, isCorrect, realyInsertedRowsCount, comments);
-            _reportText += "|  '" + symbol + "'. " + (isCorrect ? "[Successful]" : "[Unsuccessful]") + "  Inserted: " + realyInsertedRowsCount + ". " + comments + System.Environment.NewLine;
+            _reportText += "|  '" + symbol + "'. " + (isCorrect ? "[Successful]" : "[Unsuccessful]") + "  Inserted: " + realyInsertedRowsCount + ". Time: " + (DateTime.Now - _reportStartTime).Hours + ":" + (DateTime.Now - _reportStartTime).Minutes + ":" + (DateTime.Now - _reportStartTime).Seconds + ". " + comments + System.Environment.NewLine;
+            _reportStartTime = DateTime.Now;
+
             _reportAllSymbolCount++;
             if (isCorrect) _reportSuccessfulSymbolCount++;
 

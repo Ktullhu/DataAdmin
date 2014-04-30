@@ -346,5 +346,29 @@ namespace DataNetClient.Properties {
                 this["WasConnected"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EmailedSymbols {
+            get {
+                return ((string)(this["EmailedSymbols"]));
+            }
+            set {
+                this["EmailedSymbols"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsSendReports {
+            get {
+                return ((bool)(this["IsSendReports"]));
+            }
+            set {
+                this["IsSendReports"] = value;
+            }
+        }
     }
 }
