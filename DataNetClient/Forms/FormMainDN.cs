@@ -1,3 +1,15 @@
+using CQG;
+using DADataManager;
+using DADataManager.Models;
+using DataAdminCommonLib;
+using DataNetClient.Core;
+using DataNetClient.Core.ClientManager;
+using DataNetClient.CQGDataCollector;
+using DataNetClient.Properties;
+using DevComponents.DotNetBar;
+using DevComponents.DotNetBar.Metro.ColorTables;
+using Hik.Communication.Scs.Communication.EndPoints.Tcp;
+using Hik.Communication.ScsServices.Client;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -5,24 +17,12 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-using CQG;
-using System.Threading;
-using DataAdminCommonLib;
-using DADataManager;
-using DADataManager.Models;
-using DataNetClient.Core;
-using DataNetClient.Core.ClientManager;
-using DataNetClient.Properties;
-using DevComponents.DotNetBar;
-using Hik.Communication.Scs.Communication.EndPoints.Tcp;
-using Hik.Communication.ScsServices.Client;
 using Timer = System.Windows.Forms.Timer;
-using DevComponents.DotNetBar.Metro.ColorTables;
-using DataNetClient.CQGDataCollector;
- 
+
 
 namespace DataNetClient.Forms
 {
@@ -2233,6 +2233,99 @@ namespace DataNetClient.Forms
             Settings.Default.Save();
         }
 
+
+        #region Expiration Dates BAR DATA
+
+        private void buttonX_ac_update_Click(object sender, EventArgs e)
+        {
+            var selectedSymbols  = new List<string>();
+            foreach (string str in listBox_daily_symbols.SelectedItems)
+            {
+                selectedSymbols.Add(str);
+            }
+            CQGDataCollectorManager.UpdateMonthAndYearForSymbols(selectedSymbols);
+
+        }
+
+        private void button_ac_add_Click(object sender, EventArgs e)
+        {
+            var symbol = textBox_ac_symbol.Text;
+            var endDate = dateTimePicker_ac_enddate.Value;
+            var monthChar = textBox_ac_monthchar.Text;
+            var year = numericUpDown_ac_year.Value;
+
+            if(string.IsNullOrEmpty( textBox_ac_symbol.Text)){
+                ToastNotification.Show(panelEx14, "Please selcet symbol");
+                return;
+            }
+            //todo insert into DB
+
+            DatabaseManager.AddExpirationDatesForSymbol(symbol, endDate, monthChar, year);
+
+            ToastNotification.Show(panelEx14, "Data added for symbol "+symbol);
+
+            LoadExpirationDatesForSymbols();
+            
+        }
+
+        private void button_ac_delete_Click(object sender, EventArgs e)
+        {
+            if (listView_ac_list.SelectedItems.Count == 0)
+            {
+                ToastNotification.Show(panelEx14, "Please selcet row to delete");
+                return;
+            }
+            foreach (var item in listView_ac_list.SelectedIndices)
+            {
+                var symbol = listView_ac_list.Items[(int)item].SubItems[0].Text.ToString();
+                var endDate = (DateTime.Parse(listView_ac_list.Items[(int)item].SubItems[1].Text.ToString()));
+
+                DatabaseManager.RemoveExpirationDatesForSymbol(symbol, endDate);
+
+            }
+
+            ToastNotification.Show(panelEx14, "Data removed from table");
+
+            LoadExpirationDatesForSymbols();
+        }
+
+        private void LoadExpirationDatesForSymbols()
+        {
+            listView_ac_list.Items.Clear();
+            if (listBox_daily_symbols.SelectedItems.Count == 0)
+            {                
+                return;
+            }
+            var symbol = listBox_daily_symbols.SelectedItems[0].ToString();
+
+            var res = DatabaseManager.GetExpirationDatesForSymbol(symbol);
+
+            listView_ac_list.Items.Clear();
+            for (int i = 0; i < res.Count; i++)
+            {
+                var rrr = listView_ac_list.Items.Add(""+i);
+                rrr.SubItems.Add(res[i].Symbol);
+                rrr.SubItems.Add(res[i].EndDate.ToShortDateString());
+                rrr.SubItems.Add(res[i].MonthChar);
+                rrr.SubItems.Add(res[i].Year.ToString());
+            }
+
+            //todo display info 
+        }
+
+        
+        private void listBox_daily_symbols_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox_daily_symbols.SelectedIndex != -1)
+                textBox_ac_symbol.Text = listBox_daily_symbols.Items[listBox_daily_symbols.SelectedIndex].ToString();
+            else
+                textBox_ac_symbol.Text = string.Empty;
+
+            LoadExpirationDatesForSymbols();
+        }
+
+
+        #endregion
 
     }
 }

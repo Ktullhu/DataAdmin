@@ -9,6 +9,7 @@ using System.Linq;
 using System.Transactions;
 using MySql.Data.MySqlClient;
 using DADataManager.SqlQueryBuilders;
+using System.Threading;
 
 namespace DADataManager
 {
@@ -60,6 +61,7 @@ namespace DADataManager
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
+        private const string TblExpirationDates = "TblExpirationDates";
 
 
         private static Dictionary<string, List<InsertQueryModel>> _tickBuffer;
@@ -2470,10 +2472,10 @@ namespace DADataManager
             var sql = "CREATE TABLE IF NOT EXISTS `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` (";
             sql += "`Id` INT(11) NOT NULL AUTO_INCREMENT,";
             sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`OpenValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`HighValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`LowValue` FLOAT(9,5) NULL DEFAULT NULL,";
-            sql += "`CloseValue` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`OpenValue` FLOAT(9,6) NULL DEFAULT NULL,";
+            sql += "`HighValue` FLOAT(9,6) NULL DEFAULT NULL,";
+            sql += "`LowValue` FLOAT(9,6) NULL DEFAULT NULL,";
+            sql += "`CloseValue` FLOAT(9,6) NULL DEFAULT NULL,";
             sql += "`TickVol` INT(25) NULL DEFAULT NULL,";
             sql += "`ActualVol` INT(25) NULL DEFAULT NULL,";
             sql += "`AskVol` INT(25) NULL DEFAULT NULL,";
@@ -2517,7 +2519,7 @@ namespace DADataManager
             var sql = "CREATE TABLE IF NOT EXISTS `T_" + str[str.Length - 1].ToUpper() + "` (";
             sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
             sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`Price` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`Price` FLOAT(9,6) NULL DEFAULT NULL,";
             sql += "`Volume` INT(25) NULL DEFAULT NULL,";
             sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
             sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
@@ -2544,7 +2546,7 @@ namespace DADataManager
             var sql = "CREATE TABLE IF NOT EXISTS `"+tableName+"` (";
             sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
             sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`Price` FLOAT(9,5) NULL DEFAULT NULL,";
+            sql += "`Price` FLOAT(9,6) NULL DEFAULT NULL,";
             sql += "`Volume` INT(25) NULL DEFAULT NULL,";
             sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
             sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
@@ -2656,6 +2658,115 @@ namespace DADataManager
         public static List<DateTime> GetLast3000BarData(string tableName)
         {
             return GetAllDateTimes(tableName, 3000);
+        }
+
+
+
+        #region Additional Info
+
+        public static void AddExpirationDatesForSymbol(string symbol, DateTime endDate, string monthChar, decimal year)
+        {
+            CreateExpirationDatesTable();
+
+            var sql = "INSERT IGNORE INTO " + TblExpirationDates
+                   + " (`Symbol`, `EndDate`,`MonthChar`,`Year`)"
+                   + "VALUES("+
+                   "'" + symbol + "',"+
+                   "'" + endDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'," +
+                   "'" + monthChar + "'," +
+                    year +
+                   ");COMMIT;";            
+            DoSql(sql);
+        }
+
+        public static void RemoveExpirationDatesForSymbol(string symbol, DateTime endDate)
+        {
+            var sql = "DELETE FROM `" + TblExpirationDates + "`  WHERE `Symbol`='" + symbol + "' AND `EndDate`='" + endDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "';COMMIT;";
+            DoSql(sql);
+        }
+
+        private static void CreateExpirationDatesTable()
+        {            
+            const string createExpirationDatesTable = "CREATE TABLE  IF NOT EXISTS `" + TblExpirationDates + "`("
+                                                 + "`Id` int(12) unsigned not null auto_increment,"
+                                                 + "`Symbol` varchar(50) not null,"
+                                                 + "`EndDate` DATETIME NOT NULL,"
+                                                 + "`MonthChar` varchar(1) not null,"
+                                                 + "`Year` int not null,"                                                 
+                                                 + "PRIMARY KEY (`Id`)"
+                                                 + ")"
+                                                 + "COLLATE='latin1_swedish_ci'"
+                                                 + "ENGINE=InnoDB;";
+
+            DoSql(createExpirationDatesTable);
+        }
+
+        #endregion
+
+        public static List<ExpirationModel> GetExpirationDatesForSymbol(string symbol)
+        {
+            var resList = new List<ExpirationModel>();
+            MySqlDataReader reader = null;
+            try
+            {
+
+                var str = symbol.Trim().Split('.');
+
+                var sql = "Select * from "+TblExpirationDates+" WHERE Symbol = '"+symbol+"'";
+                reader = GetReader(sql);
+
+
+                if (reader != null )
+                {
+                    while (reader.Read())
+                    {
+                        var re= new ExpirationModel(){
+                            Symbol = reader.GetString(1),
+                        EndDate = reader.GetDateTime(2),
+                        MonthChar = reader.GetString(3),
+                        Year = reader.GetInt32(4)
+                        };
+                        resList.Add(re);
+                    }
+                }                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("GetExpirationDatesForSymbol.Error: "+ex.Message);
+                if (reader != null) reader.Close();                                
+            }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }
+            return resList;
+            
+        }
+
+
+        public static void MakeBarTableBigger(string symbol, string tableType)
+        {
+            var str = symbol.Trim().Split('.');
+            var sss = "ALTER TABLE `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "`";
+            var sql1 = "";
+            
+            sql1 += (sss+ " MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");            
+            sql1 += (sss+" MODIFY HighValue FLOAT(9,6) NULL DEFAULT NULL;");            
+            sql1 += (sss+" MODIFY LowValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss+" MODIFY CloseValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss+" MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss+" MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
+
+            DoSqlBar(sql1);
+        }
+        /// <summary>
+        /// Change MonthChar and Year fields in Bar data tables
+        /// </summary>
+        /// <param name="selectedSymbols"></param>
+        public static void UpdateMonthAndYearForSymbol(string symbol)
+        {
+   
+
         }
     }
 }

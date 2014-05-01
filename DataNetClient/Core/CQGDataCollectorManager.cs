@@ -290,8 +290,7 @@ namespace DataNetClient.CQGDataCollector
         public static void TimeBarRequest(string symbolName)
         {
             try
-            {
-
+            {                
                 if (!Cel.IsStarted)
                 {
                     FinishCollectingSymbol(symbolName, false, 0, "CQG not started");
@@ -304,6 +303,9 @@ namespace DataNetClient.CQGDataCollector
 
                     if (!DatabaseManager.MonthCharYearExist(symbolName, GetTableType(_historicalPeriod)))
                         DatabaseManager.AddColumsTable(symbolName, GetTableType(_historicalPeriod));
+
+                    DatabaseManager.MakeBarTableBigger(symbolName, GetTableType(_historicalPeriod));
+                    
                 }
                 else
                 {
@@ -1228,5 +1230,36 @@ namespace DataNetClient.CQGDataCollector
 
         #endregion
 
+
+        internal static void UpdateMonthAndYearForSymbols(List<string> selectedSymbols)
+        {
+            var progr = 0;
+            var rowsMaxCount = selectedSymbols.Count;            
+            var cto = (double)rowsMaxCount;
+
+            new Thread(
+            () =>
+            {
+                OnProgressBarChanged(2);
+                for (int i = 0; i < selectedSymbols.Count; i++)
+                {
+
+
+
+
+                    var newProgr = (int)Math.Round((i / cto) * 100f);
+                    if (newProgr > progr)
+                    {
+                        progr = newProgr;
+                        OnProgressBarChanged(progr);
+                    }
+
+
+
+                }
+
+                OnProgressBarChanged(100);
+            }) { Name = "UpdateMonthAndYearForSymbols" }.Start();
+        }
     }
 }

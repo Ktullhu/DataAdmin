@@ -52,6 +52,7 @@
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataExportClientDataManager.cs" />
     <Compile Include="Models\DomDataModel.cs" />
+    <Compile Include="Models\ExpirationModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\MonthCharYearModel.cs" />
     <Compile Include="Models\ReportItem.cs" />
