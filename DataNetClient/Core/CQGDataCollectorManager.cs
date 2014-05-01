@@ -217,7 +217,7 @@ namespace DataNetClient.CQGDataCollector
             {
                 if (!Settings.Default.EmailedSymbols.Contains(symbol))
                 {
-                    OnSendReport("", "Hello. \n The symbol: '" + symbol + "' will be expired on less then 2 days. \n\nGood luck");
+                    OnSendReport("Symbol: '" + symbol + "' will expired soon", "Hello. \n The symbol: '" + symbol + "' will be expired on less then " + Settings.Default.DaysToExpiration + " days. \nExpiration date: " + d.ToShortDateString() + "\n\nGood luck");
                     Settings.Default.EmailedSymbols += symbol;
                 }
             }
@@ -266,7 +266,7 @@ namespace DataNetClient.CQGDataCollector
         static void _cel_TimedBarsResolved(CQGTimedBars cqgTimedBars, CQGError cqgError)
         {
             ChangeTimeoutState(false, false);
-
+            if (!IsStarted) return;
             if (_isStoped) return;
 
             var symbol = cqgTimedBars.Request.Symbol;
@@ -643,7 +643,7 @@ namespace DataNetClient.CQGDataCollector
 
                     DatabaseManager.CommitQueueTick();
 
-                    FinishCollectingSymbol(cqgTicks.Request.Symbol, true, realyInsertedCount, "");
+                    if (!_isStoped) FinishCollectingSymbol(cqgTicks.Request.Symbol, true, realyInsertedCount, "");
                     OnProgressBarChanged(100);
                 }
 
@@ -788,14 +788,12 @@ namespace DataNetClient.CQGDataCollector
 
             IsStarted = false;
             _isStoped = true;
-
-
+            
             if (_isFromList)
             {
                 _symbols.Clear();
                 _symbolsCollected.Clear();
             }
-
             else
                 FinishCollectingGroup(_groupCurrent);
         }
@@ -826,7 +824,7 @@ namespace DataNetClient.CQGDataCollector
 
         private static void StartFirst()
         {
-
+            if (_isStoped) return;
             // searching first InQueue
             for (int index = _groups.Count - 1; index >= 0; index--)
             {
@@ -899,6 +897,7 @@ namespace DataNetClient.CQGDataCollector
             if (_isStoped) return;
             _reportText += "Group: '" + _groups[index].GroupModel.GroupName + "'  [" + _groups[index].GroupModel.TimeFrame + "]" + System.Environment.NewLine + System.Environment.NewLine;
             ChangeTimeoutState(false, false);
+            if (_isStoped) return;
             StartFirst();
         }
 

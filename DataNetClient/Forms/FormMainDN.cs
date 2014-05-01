@@ -1993,7 +1993,8 @@ namespace DataNetClient.Forms
         }        
 
         private void buttonX_stopCollecting_Click(object sender, EventArgs e)
-        {            
+        {
+            _logger.LogAdd(" Stoped by user.", Category.Warning);
             CQGDataCollectorManager.Stop();
 
         }
