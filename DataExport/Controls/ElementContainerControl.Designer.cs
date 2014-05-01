@@ -53,8 +53,8 @@
             // 
             // panelExElementsContainer
             // 
-            this.panelExElementsContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelExElementsContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelExElementsContainer.AutoScroll = true;
             this.panelExElementsContainer.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -68,7 +68,7 @@
             this.panelExElementsContainer.Style.BorderWidth = 0;
             this.panelExElementsContainer.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
             this.panelExElementsContainer.Style.GradientAngle = 90;
-            this.panelExElementsContainer.TabIndex = 2;            
+            this.panelExElementsContainer.TabIndex = 2;
             // 
             // panelExBack
             // 
@@ -85,7 +85,7 @@
             this.panelExBack.Style.BorderColor.Color = System.Drawing.Color.Silver;
             this.panelExBack.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
             this.panelExBack.Style.GradientAngle = 90;
-            this.panelExBack.TabIndex = 3;            
+            this.panelExBack.TabIndex = 3;
             // 
             // ElementContainerControl
             // 
