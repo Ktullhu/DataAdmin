@@ -70,7 +70,7 @@
             // 
             // ui_panelEx_formula
             // 
-            this.ui_panelEx_formula.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ui_panelEx_formula.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ui_panelEx_formula.CanvasColor = System.Drawing.SystemColors.Control;
             this.ui_panelEx_formula.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;

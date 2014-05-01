@@ -38,16 +38,17 @@ namespace DataExport.Controls
         private Color _elementsColor;
         public Color ElementsColor
         {
-            get { return _elementsColor; }  
+            get { return _elementsColor; }
             set
             {
                 _elementsColor = value;
-                ChangeColors(value);}
+                ChangeColors(value);
+            }
         }
         public int SelectedIndex
         {
             get { return _selectedIndex; }
-            private set { _selectedIndex = value; OnSelectedIndexChanged(this, new ElementEventArgs{Index = value}); }
+            private set { _selectedIndex = value; OnSelectedIndexChanged(this, new ElementEventArgs { Index = value }); }
         }
 
         private void ChangeColors(Color newColor)
@@ -67,7 +68,7 @@ namespace DataExport.Controls
             {
                 item.SetSelected(item.Index == e.Index);
             }
-            if(SelectedIndexChanged!=null)
+            if (SelectedIndexChanged != null)
             {
                 SelectedIndexChanged(sender, e);
             }
@@ -79,13 +80,13 @@ namespace DataExport.Controls
         }
 
         public void AddElement(string text)
-        {            
+        {
             var index = _elements.Count;
             var el = new ElementControl
             {
                 Index = index,
                 LabeledText = text,
-                Dock = DockStyle.Top,                
+                Dock = DockStyle.Top,
                 ElementColor = ElementsColor,
                 Height = ElementHeight
             };
@@ -108,17 +109,17 @@ namespace DataExport.Controls
             {
                 _elements[i].Index = i;
             }
-            SelectedIndex = Count-1;
+            SelectedIndex = Count - 1;
         }
 
         public void ClearElements()
         {
-            while(_elements.Count>0)
+            while (_elements.Count > 0)
             {
                 var item = _elements[0];
                 _elements.Remove(item);
                 panelExElementsContainer.Controls.Remove(item);
-                if(item!=null) item.Dispose();
+                if (item != null) item.Dispose();
             }
         }
 
