@@ -39,18 +39,18 @@ namespace TickNetClient.Controls
         private int _selectedItem;
         private bool _stateChangingEnabled;
 
-    
+
         public int SelectedItem
         {
             get { return _selectedItem; }
             set
             {
                 if (value < panelEx_container.Controls.Count)
-                _selectedItem = value;
-                
+                    _selectedItem = value;
+
             }
         }
- 
+
 
 
         public GroupList()
@@ -59,17 +59,17 @@ namespace TickNetClient.Controls
             SelectedItem = -1;
         }
 
-    
 
-        void cntrl_ItemSelectedChanged( int itemIndex, GroupState state)
-        {                        
+
+        void cntrl_ItemSelectedChanged(int itemIndex, GroupState state)
+        {
             OnItemStateChanged(itemIndex, state);
         }
 
         public void AddItem(string text, int depth, GroupState state, DateTime datetime, string count, List<string> symbols, List<SessionModel> sessions, bool isAutoCollect)
         {
             var ind = panelEx_container.Controls.Count;
-            var cntrl = new GroupItem(text, ind, depth, state, datetime, count,isAutoCollect );
+            var cntrl = new GroupItem(text, ind, depth, state, datetime, count, isAutoCollect);
             cntrl.ItemSelectedChanged += cntrl_ItemSelectedChanged;
             cntrl.ItemEditGroupClick += cntrl_ItemEditGroupClick;
             panelEx_container.Controls.Add(cntrl);
@@ -86,7 +86,7 @@ namespace TickNetClient.Controls
         public void RemoveItem(int index)
         {
             SelectedItem = -1;
-            bool removed=false;
+            bool removed = false;
             for (int i = 0; i < panelEx_container.Controls.Count; i++)
             {
                 var item = panelEx_container.Controls[i];
@@ -104,7 +104,7 @@ namespace TickNetClient.Controls
                         i--;
                     }
                 }
-            }            
+            }
         }
 
         public void RenameSelectedItem(string p)
@@ -130,7 +130,7 @@ namespace TickNetClient.Controls
         {
             var styledListItemControl = panelEx_container.Controls[index] as GroupItem;
             if (styledListItemControl != null)
-                styledListItemControl.ItemCount = "["+count+"/"+totalCount+"]";
+                styledListItemControl.ItemCount = "[" + count + "/" + totalCount + "]";
         }
 
         public void ChangeDateTime(int index, DateTime end)
@@ -163,7 +163,7 @@ namespace TickNetClient.Controls
                     {
                         styledListItemControl.ItemStateChangingEnabled = value;
                     }
-                }     
+                }
             }
         }
 
@@ -178,7 +178,7 @@ namespace TickNetClient.Controls
         {
             for (int i = 0; i < panelEx_container.Controls.Count; i++)
             {
-               
+
                 var styledListItemControl = panelEx_container.Controls[i] as GroupItem;
                 if (styledListItemControl != null)
                 {
@@ -189,7 +189,7 @@ namespace TickNetClient.Controls
                         OnItemStateChanged(i, GroupState.NotInQueue);
                     }
                 }
-            }     
+            }
         }
 
         internal void SelectedAll()
@@ -207,7 +207,7 @@ namespace TickNetClient.Controls
                         OnItemStateChanged(i, GroupState.InQueue);
                     }
                 }
-            }     
+            }
         }
 
         public List<string> GetGroups()
@@ -223,7 +223,7 @@ namespace TickNetClient.Controls
         }
 
 
-        public void SetItem(int ind, string text, int depth,GroupState groupState, DateTime dateTime, string count, List<string> symbols, List<SessionModel> sessions, bool isAutoCollect)
+        public void SetItem(int ind, string text, int depth, GroupState groupState, DateTime dateTime, string count, List<string> symbols, List<SessionModel> sessions, bool isAutoCollect)
         {
             if (ind < panelEx_container.Controls.Count)
             {
@@ -234,7 +234,7 @@ namespace TickNetClient.Controls
                 cntrl.ItemDateTime = dateTime;
                 cntrl.Symbols = symbols;
                 cntrl.Sessions = sessions;
-                cntrl.ItemCount = count;                
+                cntrl.ItemCount = count;
                 cntrl.ItemIsAutoCollect = isAutoCollect;
                 cntrl.ItemDepth = depth;
             }
