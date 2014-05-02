@@ -163,8 +163,8 @@ namespace DataNetClient.Core
                     expiration = properties.Value;
                 properties = props[eInstrumentProperty.ipTickValue];
                 if (props != null && _cqgVar.IsValid(properties.Value))
-                    tickValue = properties.Value;                                
-                
+                    tickValue = properties.Value;
+
                 DatabaseManager.AddNotChangedValue(symbol, tickSize, curency, expiration, tickValue);
             }
 

@@ -118,7 +118,7 @@ namespace DataNetClient.Forms
             _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
             ResumeLayout(false);
             _busySymbolList = new DNetBusySymbolList();
-            ///
+            
             Daily_NotChanchedValuesManager.Init(); 
         }
 
@@ -126,7 +126,7 @@ namespace DataNetClient.Forms
         private void Form1_Load(object sender, EventArgs e)
         {
             try
-            {
+            {                
                 DatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
 
                 if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0, 0);
@@ -680,7 +680,8 @@ namespace DataNetClient.Forms
 
             _missingBarManager.AllowCollectingAndMissingBar();
             _logined = true;
-            _shouldStop = true;
+            _shouldStop = true;            
+
             var xml = new XmlDocument();
             xml.LoadXml(msg.ServerMessage);
 
@@ -713,19 +714,78 @@ namespace DataNetClient.Forms
             SetPrivilages(msg);
 
             CQGDataCollectorManager.Init(_client.UserName);
+
+            //#Crashing
             Invoke((Action)(() =>
             {
-                if(Settings.Default.IsCrashed)
-                if (Settings.Default.WasConnected)
+                if(Settings.Default.IsCrashed && Settings.Default.WasConnected)
                 {
                     if (Settings.Default.WasConnectedToShared)
                         ConnectToShared();
                     else
                         ConnectToLocal();
-                }
-                Settings.Default.IsCrashed = false;
-                Settings.Default.Save();
+                    
+
+                    ContinueCollectingData();
+                    
+                }                
+                
+               
             }));
+        }
+
+        private void ContinueCollectingData()//#Crash
+        {
+            //#Crashing
+
+            new Thread(() =>
+                {
+                    Thread.Sleep(3000);
+                    var listIndex = GetInQueueGroups(Settings.Default.InQueueGroups);
+                    var groups = "";
+                    foreach (var index in listIndex)
+                    {
+                        var state = GroupState.InQueue;
+                        if (index >= _groupItems.Count) return;
+
+                        _groupItems[index].GroupState = state;
+                        Invoke(
+                                            (Action)delegate
+                        {
+                            styledListControl1.ChangeState(index, state);
+                        });
+
+                        groups += _groupItems[index].GroupModel.GroupName+", ";
+
+                        CQGDataCollectorManager.ChangeState(index, state);                        
+                    }
+                    var lll = GetInQueueGroups(Settings.Default.InProgressGroup);
+                    if(lll.Count!=0)
+                        _logger.LogAdd(" Application was crashes when collected group: " + _groupItems[lll[0]].GroupModel.GroupName, Category.Warning);
+                    if (!string.IsNullOrEmpty(groups))
+                        _logger.LogAdd(" Continue collecting groups: "+groups, Category.Information);
+                    CQGDataCollectorManager.Start();
+
+
+                    Settings.Default.IsCrashed = false;
+                    Settings.Default.Save();
+                }).Start();
+        }
+
+        private List<int> GetInQueueGroups(string str)
+        {
+            var res = new List<int>();
+            var list = str;
+            while (!string.IsNullOrEmpty(list))
+            {
+                var s = list.IndexOf("[")+1;
+                var e = list.IndexOf("]");
+                var l = e - s;
+
+                res.Add(Convert.ToInt32(list.Substring(s,l)));
+                list = list.Substring(e + 1, list.Length - e - 1);
+            }
+            return res;
         }
 
         private void ChangedPrivileges(object sender, DataAdminMessageFactory.ChangePrivilage msg)
@@ -1876,6 +1936,7 @@ namespace DataNetClient.Forms
         {
             Invoke((Action) (() =>
             {
+                StoreGroupStatus(index, state);   
                 _groupItems[index].GroupState = state;
                 styledListControl1.ChangeState(index, state);
 
@@ -1907,6 +1968,39 @@ namespace DataNetClient.Forms
 
         }
 
+        private void StoreGroupStatus(int index, GroupState state)
+        {
+            var strIndex = "[" + index + "]";
+            
+            if (state == GroupState.Finished || state == GroupState.NotInQueue || state == GroupState.InProgress)
+            {
+                
+                if (Settings.Default.InQueueGroups.Contains(strIndex))
+                {
+                    var ind = Settings.Default.InQueueGroups.IndexOf(strIndex);
+                    Settings.Default.InQueueGroups = Settings.Default.InQueueGroups.Remove(ind, strIndex.Length); 
+                }
+            }
+            if (state == GroupState.InQueue)
+            {
+                if (!Settings.Default.InQueueGroups.Contains(strIndex))
+                    Settings.Default.InQueueGroups += strIndex;
+            }
+            if (state == GroupState.Finished)
+            {
+                Settings.Default.InProgressGroup = "";
+            }
+            if (state == GroupState.InProgress)
+            {                
+                Settings.Default.InProgressGroup = strIndex;
+            }
+
+            //Console.WriteLine("#InQueue:" + Settings.Default.InQueueGroups);
+            //Console.WriteLine("#InProgress:" + Settings.Default.InProgressGroup);
+            Settings.Default.Save();
+
+        }
+
 
 
         private void CQGDataCollectorManager_RunnedStateChanged(bool state)
@@ -1927,6 +2021,8 @@ namespace DataNetClient.Forms
 
         void styledListControl1_ItemStateChanged(int index, GroupState state)
         {
+            StoreGroupStatus(index, state);
+
             _groupItems[index].GroupState = state;
             CQGDataCollectorManager.ChangeState(index,state);
         }

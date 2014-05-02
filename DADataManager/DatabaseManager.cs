@@ -2872,5 +2872,11 @@ namespace DADataManager
             " WHERE BarTime >= '" + expirationModel1.EndDate.AddDays(1).Date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' AND BarTime < '" + expirationModel2.EndDate.AddDays(1).Date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' ;COMMIT;";
             DoSqlBar(sql);
         }
+
+        public static void UpdateMonthAndYearForStandardSymbol(string table, string month, string year)
+        {
+            var sql = "UPDATE `" + table + "` SET `MonthChar`='" + month+ "', `Year`=" + year+";COMMIT;";
+            DoSqlBar(sql);
+        }
     }
 }

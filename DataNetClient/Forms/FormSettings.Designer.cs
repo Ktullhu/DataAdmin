@@ -31,6 +31,9 @@ namespace DataNetClient.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
             this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.checkBox_add_text = new System.Windows.Forms.CheckBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
             this.numericUpDown_days = new System.Windows.Forms.NumericUpDown();
             this.textBox_emails = new System.Windows.Forms.TextBox();
@@ -47,9 +50,6 @@ namespace DataNetClient.Forms
             this.superTabControlPanel9 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.superTabControlPanel8 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.labelX7 = new DevComponents.DotNetBar.LabelX();
-            this.checkBox_add_text = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
@@ -122,6 +122,44 @@ namespace DataNetClient.Forms
             this.superTabControlPanel2.Size = new System.Drawing.Size(324, 305);
             this.superTabControlPanel2.TabIndex = 1;
             this.superTabControlPanel2.TabItem = this.superTabItem2;
+            // 
+            // checkBox_add_text
+            // 
+            this.checkBox_add_text.AutoSize = true;
+            this.checkBox_add_text.BackColor = System.Drawing.Color.White;
+            this.checkBox_add_text.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_add_text.Location = new System.Drawing.Point(10, 229);
+            this.checkBox_add_text.Name = "checkBox_add_text";
+            this.checkBox_add_text.Size = new System.Drawing.Size(215, 17);
+            this.checkBox_add_text.TabIndex = 57;
+            this.checkBox_add_text.Text = "Additional text to standard contracts";
+            this.checkBox_add_text.UseVisualStyleBackColor = false;
+            this.checkBox_add_text.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
+            this.textBox1.Location = new System.Drawing.Point(231, 227);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(79, 22);
+            this.textBox1.TabIndex = 56;
+            this.textBox1.Visible = false;
+            // 
+            // labelX7
+            // 
+            this.labelX7.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX7.ForeColor = System.Drawing.Color.Black;
+            this.labelX7.Location = new System.Drawing.Point(14, 226);
+            this.labelX7.Name = "labelX7";
+            this.labelX7.Size = new System.Drawing.Size(207, 23);
+            this.labelX7.TabIndex = 55;
+            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
+            this.labelX7.Visible = false;
             // 
             // labelX6
             // 
@@ -382,41 +420,6 @@ namespace DataNetClient.Forms
             this.superTabControlPanel8.Name = "superTabControlPanel8";
             this.superTabControlPanel8.Size = new System.Drawing.Size(324, 305);
             this.superTabControlPanel8.TabIndex = 2;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(231, 227);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(79, 22);
-            this.textBox1.TabIndex = 56;
-            // 
-            // labelX7
-            // 
-            this.labelX7.BackColor = System.Drawing.Color.White;
-            // 
-            // 
-            // 
-            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX7.ForeColor = System.Drawing.Color.Black;
-            this.labelX7.Location = new System.Drawing.Point(14, 226);
-            this.labelX7.Name = "labelX7";
-            this.labelX7.Size = new System.Drawing.Size(207, 23);
-            this.labelX7.TabIndex = 55;
-            this.labelX7.TextAlignment = System.Drawing.StringAlignment.Far;
-            // 
-            // checkBox_add_text
-            // 
-            this.checkBox_add_text.AutoSize = true;
-            this.checkBox_add_text.BackColor = System.Drawing.Color.White;
-            this.checkBox_add_text.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_add_text.Location = new System.Drawing.Point(10, 229);
-            this.checkBox_add_text.Name = "checkBox_add_text";
-            this.checkBox_add_text.Size = new System.Drawing.Size(215, 17);
-            this.checkBox_add_text.TabIndex = 57;
-            this.checkBox_add_text.Text = "Additional text to standard contracts";
-            this.checkBox_add_text.UseVisualStyleBackColor = false;
             // 
             // FormSettings
             // 

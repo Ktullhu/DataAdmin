@@ -1245,17 +1245,20 @@ namespace DataNetClient.CQGDataCollector
 
         internal static void UpdateMonthAndYearForSymbols(List<string> selectedSymbols)
         {
-            var progr = 0;
-            var rowsMaxCount = selectedSymbols.Count;            
-            var cto = (double)rowsMaxCount;
+            
 
             new Thread(
             () =>
             {
-                OnProgressBarChanged(2);
+                
                 for (int i = 0; i < selectedSymbols.Count; i++)
                 {
                     var listOfTables = DatabaseManager.GetListOfBarTables(selectedSymbols[i]);
+                    int k = 0;
+                    var progr = 0;
+                    var rowsMaxCount = listOfTables.Count;
+                    var cto = (double)rowsMaxCount;
+                    OnProgressBarChanged(2);
 
                     foreach (var table in listOfTables)
                     {
@@ -1264,11 +1267,26 @@ namespace DataNetClient.CQGDataCollector
 
                         var listOfExpirations = DatabaseManager.GetExpirationDatesForSymbol(selectedSymbols[i]);
 
-                        //Update table: item                        
-                        UpdateTableMonthChar(table, listOfExpirations);
-                    }
+                        string  month, year;
 
-                    var newProgr = (int)Math.Round((i / cto) * 100f);
+                        if (!DatabaseManager.MonthCharYearExist(table))
+                            DatabaseManager.AddMonthCharYearColumnsToBarTable(table);
+                        if (DatabaseManager.YearCharExist(table))
+                            DatabaseManager.DeleteWrongColumnsFromTable(table);
+
+
+                        //Update table: item                        
+                        if (IsNoCont(table, out month, out year))
+                        {
+                            DatabaseManager.UpdateMonthAndYearForStandardSymbol(table, month, year);
+                        }
+                        else
+                        {
+                            UpdateTableMonthChar(table, listOfExpirations);
+                        }
+                    }
+                    k++;
+                    var newProgr = (int)Math.Round((k / cto) * 100f);
                     if (newProgr > progr)
                     {
                         progr = newProgr;
@@ -1279,6 +1297,28 @@ namespace DataNetClient.CQGDataCollector
                 OnProgressBarChanged(100);
             }) { Name = "UpdateMonthAndYearForSymbols" }.Start();
         }
+        
+        private static bool IsNoCont(string currSmb,out string month, out string year)
+        {
+            var isNoCont = false;
+            var lastIndex = currSmb.LastIndexOf('_')-1;
+            var months = new List<char> { 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'Q', 'U', 'V', 'X', 'Z' };
+
+            if (Char.IsDigit(currSmb[lastIndex]) && char.IsDigit(currSmb[lastIndex - 1]) && months.Contains(currSmb.ToUpper()[lastIndex - 2]))
+                isNoCont = true;
+            if (!isNoCont)
+            {
+                month = "";
+                year = "";
+                return isNoCont;
+            }
+
+            month = currSmb[lastIndex - 2].ToString();
+            year = (2000 + Convert.ToInt32(currSmb[lastIndex-1]+""+currSmb[lastIndex])).ToString();
+            return isNoCont;
+
+        }
+
 
         private static void UpdateTableMonthChar(string table, List<ExpirationModel> listOfExpirations)
         {
@@ -1286,8 +1326,6 @@ namespace DataNetClient.CQGDataCollector
 
             listOfExpirations.OrderBy(oo => oo.EndDate);
 
-            if (!DatabaseManager.MonthCharYearExist(table))
-                DatabaseManager.AddMonthCharYearColumnsToBarTable(table);
 
             DatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[0]);
 

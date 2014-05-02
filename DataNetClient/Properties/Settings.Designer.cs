@@ -373,7 +373,7 @@ namespace DataNetClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(",60C")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string AdditionalText {
             get {
                 return ((string)(this["AdditionalText"]));
@@ -385,13 +385,37 @@ namespace DataNetClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool IsAdditionalTextReuired {
             get {
                 return ((bool)(this["IsAdditionalTextReuired"]));
             }
             set {
                 this["IsAdditionalTextReuired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string InProgressGroup {
+            get {
+                return ((string)(this["InProgressGroup"]));
+            }
+            set {
+                this["InProgressGroup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string InQueueGroups {
+            get {
+                return ((string)(this["InQueueGroups"]));
+            }
+            set {
+                this["InQueueGroups"] = value;
             }
         }
     }
