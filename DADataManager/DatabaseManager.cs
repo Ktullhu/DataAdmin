@@ -20,8 +20,8 @@ namespace DADataManager
 
         public static bool CurrentDbIsShared;
         public static List<string> DeniedSymbols;
-        public static int MaxBufferSize=5000;
-        public static int MaxQueueSize =500;
+        public static int MaxBufferSize = 5000;
+        public static int MaxQueueSize = 500;
         public static bool SortingModeIsAsc = true;
 
         private static string _connectionStringToShareDb;
@@ -83,18 +83,68 @@ namespace DADataManager
 
 
         #region BarTableFix
-        public static bool MonthCharYearExist(string symbol, string tableType)
+        public static bool MonthCharYearExist(string tableName)
         {
             MySqlDataReader reader = null;
             try
             {
 
-                var str = symbol.Trim().Split('.');
-
-                var sql = "Select `MonthChar`, `Year` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
+                var sql = "Select `MonthChar`, `Year` from  " + tableName + ";";
                 reader = GetReaderBar(sql);
-                
 
+
+                if (reader != null && reader.Read())
+                {
+                    reader.Close();
+                    return true;
+                }
+                else
+                {
+                    if (reader != null) reader.Close();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MonthCharYearExist.Error:" + ex.Message);
+                if (reader != null) reader.Close();
+                return false;
+                //throw;
+            }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }
+
+
+        }
+        public static void AddMonthCharYearColumnsToBarTable(string tableName)
+        {
+            try
+            {
+                var sql = "ALTER TABLE `" + tableName + "` ADD COLUMN"
+                    + "`MonthChar` VARCHAR(50) NOT NULL DEFAULT 'empty' after `userName`";
+                DoSqlBar(sql);
+                sql = "ALTER TABLE `" + tableName + "` ADD COLUMN"
+                + "`Year` VARCHAR(50) NOT NULL DEFAULT 'empty' after `MonthChar`";
+                DoSqlBar(sql);
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("AddColumsTable.Error:" + ex.Message);
+            }
+        }
+        public static bool BarTableExist(string tableName)
+        {
+            MySqlDataReader reader = null;
+            try
+            {
+                var sql = "SELECT * FROM " + tableName + " LIMIT 1;";
+                reader = GetReaderBar(sql);
+                //sql = "Select `MonthChar`, `Year` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
+                //DoSqlBar(sql);
                 if (reader != null && reader.Read())
                 {
                     reader.Close();
@@ -118,61 +168,8 @@ namespace DADataManager
                 if (reader != null) reader.Close();
             }
 
-
         }
-        public static bool BarTableExist(string symbol, string tableType)
-        {
-            MySqlDataReader reader = null;
-            try
-            {
-
-                var str = symbol.Trim().Split('.');
-
-                var sql = "SELECT * FROM B_" + str[str.Length - 1].ToUpper() + "_" + tableType + " LIMIT 1;";
-                reader  = GetReaderBar(sql);
-                //sql = "Select `MonthChar`, `Year` from  B_" + str[str.Length - 1].ToUpper() + "_" + tableType + ";";
-                //DoSqlBar(sql);
-                if (reader != null && reader.Read())
-                {
-                    reader.Close();
-                    return true;
-                }
-                else
-                {
-                    if (reader != null) reader.Close();
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                if (reader != null) reader.Close();
-                return false;
-                //throw;
-            }finally{
-                if(reader!=null)reader.Close();
-            }
-
-        }
-        public static void AddColumsTable(string symbol, string tableType)
-        {
-            try
-            {
-                var str = symbol.Trim().Split('.');
-                var sql = "ALTER TABLE `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` ADD COLUMN"
-                    + "`MonthChar` VARCHAR(50) NOT NULL DEFAULT 'empty' after `userName`";
-                DoSqlBar(sql);
-                sql = "ALTER TABLE `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` ADD COLUMN"
-                + "`Year` VARCHAR(50) NOT NULL DEFAULT 'empty' after `MonthChar`";
-                DoSqlBar(sql);
-
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine(ex.Message);
-            }
-        }
+        
         #endregion
 
         #region MAIN FUNCTIONS (Connect, IsOpen, DoSql, GetReader, AddToQueue)
@@ -426,13 +423,13 @@ namespace DADataManager
                 }
                 _sqlCommandToDbBar.CommandText = sql;
                 _sqlCommandToDbBar.ExecuteNonQuery();
-                Console.WriteLine("DoSqlBar." +sql.Substring(0, Math.Min(sql.Length, 100)));
+                Console.WriteLine("DoSqlBar." + sql.Substring(0, Math.Min(sql.Length, 100)));
                 return true;
 
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine("DoSqlBar."+ex.Message);
+                Console.WriteLine("DoSqlBar." + ex.Message);
                 return false;
             }
         }
@@ -1040,13 +1037,13 @@ namespace DADataManager
 
         public static bool EditSymbol(string oldSymbolName, string newSymbolName, int userId, ApplicationType appType)
         {
-            var othersHaveOldSymbol = OtherUsersHaveThisSymbol(oldSymbolName, userId,  appType);
+            var othersHaveOldSymbol = OtherUsersHaveThisSymbol(oldSymbolName, userId, appType);
 
             if (othersHaveOldSymbol || GetAllSymbols().Exists(a => a.SymbolName == oldSymbolName))
             {
                 Console.WriteLine("[o] OtherUsersHaveThisSymbol(" + oldSymbolName + "," + userId + ")");
 
-                var othersHaveNewSymbol = OtherUsersHaveThisSymbol(newSymbolName, userId,  appType);
+                var othersHaveNewSymbol = OtherUsersHaveThisSymbol(newSymbolName, userId, appType);
 
                 if (!othersHaveNewSymbol && !GetAllSymbols().Exists(a => a.SymbolName == newSymbolName))
                 {
@@ -1062,7 +1059,7 @@ namespace DADataManager
 
                 var oldSymbolId = GetSymbolIdFromName(oldSymbolName);
                 DeleteSymbolForUser(userId, oldSymbolId, appType);
-                
+
 
                 var myGroups = GetMyGroupsIds(userId, appType);
                 foreach (var gId in myGroups)
@@ -1167,7 +1164,7 @@ namespace DADataManager
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
                         + " ON " + TblSymbolsForUsers + ".SymbolID = "
-                        + TblSymbols + ".ID" + " WHERE " + TblSymbols + ".SymbolName= '" + oldName + "' AND NOT(" + TblSymbolsForUsers + ".UserID = " + userId + " AND " + TblSymbolsForUsers + ".TNorDN = " + (appType== ApplicationType.TickNet) + ") ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC");
+                        + TblSymbols + ".ID" + " WHERE " + TblSymbols + ".SymbolName= '" + oldName + "' AND NOT(" + TblSymbolsForUsers + ".UserID = " + userId + " AND " + TblSymbolsForUsers + ".TNorDN = " + (appType == ApplicationType.TickNet) + ") ORDER BY SymbolName " + (SortingModeIsAsc ? "ASC" : "DESC");
 
             MySqlDataReader reader = GetReader(sql);
             if (reader != null)
@@ -1288,7 +1285,7 @@ namespace DADataManager
                         + " SET GroupName = '" + group.GroupName
                         + "', TimeFrame = '" + group.TimeFrame
                         + "', Start = '" + startDateStr
-                       // + "', End = '" + endDateStr
+                // + "', End = '" + endDateStr
                         + "', CntType = '" + group.CntType
                         + "' WHERE ID = '" + groupId + "' ; COMMIT;";
 
@@ -1298,7 +1295,7 @@ namespace DADataManager
                     + " SET GroupName = '" + group.GroupName
                     + "', TimeFrame = '" + group.TimeFrame
                     + "', Start = '" + startDateStr
-                   // + "', End = '" + endDateStr
+                    // + "', End = '" + endDateStr
                     + "', CntType = '" + group.CntType
                     + "', Depth =  " + group.Depth
                     + ", IsAutoModeEnabled =  " + (group.IsAutoModeEnabled ? "1" : "0")
@@ -1408,7 +1405,7 @@ namespace DADataManager
         }
 
 
-        
+
 
         public static bool IsGroupOnlyForThisUser(int groupId)
         {
@@ -1444,7 +1441,7 @@ namespace DADataManager
             }
         }
 
-       
+
 
         #endregion
 
@@ -1617,7 +1614,7 @@ namespace DADataManager
 
         #region SYMBOLS FOR USERS
         public static List<SymbolModel> GetSymbolsForUser(int userId, bool isTickNet)
-        {            
+        {
             var symbolsList = new List<SymbolModel>();
             string sql = "SELECT * FROM " + TblSymbolsForUsers
                         + " LEFT JOIN " + TblSymbols
@@ -1629,10 +1626,12 @@ namespace DADataManager
             {
                 while (reader.Read())
                 {
-                    try { 
-                    var symbol = new SymbolModel { SymbolId = reader.GetInt32(4), SymbolName = reader.GetString(5) };
-                    symbolsList.Add(symbol);}
-                    catch(Exception ex)
+                    try
+                    {
+                        var symbol = new SymbolModel { SymbolId = reader.GetInt32(4), SymbolName = reader.GetString(5) };
+                        symbolsList.Add(symbol);
+                    }
+                    catch (Exception ex)
                     {
                         Console.WriteLine("Exception.DatabaseManager.GetSymbolsForUser Msg: " + ex.Message);
                     }
@@ -1716,8 +1715,8 @@ namespace DADataManager
         public static DateTime GetMinTime(string tblname)
         {
             MySqlDataReader reader = null;
-            
-            DateTime time=new DateTime();
+
+            DateTime time = new DateTime();
             var str = tblname.Trim().Split('.');
             var sql = "select `TickTime` from `T_" + str[str.Length - 1].ToUpper() +
                       "` order by  `TickTime` asc  limit 1;";
@@ -1727,7 +1726,7 @@ namespace DADataManager
                 while (reader.Read())
                 {
                     time = Convert.ToDateTime(reader.GetValue(0));
-                   // int id = Convert.ToInt32(reader.GetValue(1));
+                    // int id = Convert.ToInt32(reader.GetValue(1));
                 }
                 reader.Close();
             }
@@ -1737,7 +1736,7 @@ namespace DADataManager
         }
 
 
-  
+
 
         public static DateTime GetMaxTime(string tblname)
         {
@@ -2352,7 +2351,7 @@ namespace DADataManager
         #region SESSIONS
 
 
-        
+
 
         public static List<SessionModel> GetSessions()
         {
@@ -2405,7 +2404,7 @@ namespace DADataManager
         }
 
 
-        
+
 
 
 
@@ -2479,11 +2478,11 @@ namespace DADataManager
             sql += "`TickVol` INT(25) NULL DEFAULT NULL,";
             sql += "`ActualVol` INT(25) NULL DEFAULT NULL,";
             sql += "`AskVol` INT(25) NULL DEFAULT NULL,";
-            sql += "`BidVol` INT(25) NULL DEFAULT NULL,";            
+            sql += "`BidVol` INT(25) NULL DEFAULT NULL,";
             sql += "BarTime DATETIME NULL DEFAULT NULL,";
-            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";            
-            sql += "`ContinuationType` VARCHAR(25) NULL DEFAULT NULL,";                        
-            sql += "`OpenInterest` INT(11) NULL DEFAULT NULL,";            
+            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
+            sql += "`ContinuationType` VARCHAR(25) NULL DEFAULT NULL,";
+            sql += "`OpenInterest` INT(11) NULL DEFAULT NULL,";
             sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
             sql += "`MonthChar` VARCHAR(50) NULL DEFAULT NULL,";//NEW!!!!!!!!!!!!!
             sql += "`Year` VARCHAR(50) NULL DEFAULT NULL,";//NEW!!!!!!!!!!!!!!!!!
@@ -2508,7 +2507,7 @@ namespace DADataManager
             {
                 time = time.AddDays(3);
             }
-            
+
             // Return the week of our adjusted day
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
@@ -2537,13 +2536,13 @@ namespace DADataManager
 
         */
         public static void CreateTickTable(string symbol, DateTime dateTime)
-        {                        
+        {
             var str = symbol.Trim().Split('.');
-            var tableName = "T_" + str[str.Length - 1].ToUpper()+"_"+GetIso8601WeekOfYear(dateTime);
+            var tableName = "T_" + str[str.Length - 1].ToUpper() + "_" + GetIso8601WeekOfYear(dateTime);
             if (lastCreatedTableName == tableName) return;
-            
 
-            var sql = "CREATE TABLE IF NOT EXISTS `"+tableName+"` (";
+
+            var sql = "CREATE TABLE IF NOT EXISTS `" + tableName + "` (";
             sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
             sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
             sql += "`Price` FLOAT(9,6) NULL DEFAULT NULL,";
@@ -2563,18 +2562,18 @@ namespace DADataManager
             lastCreatedTableName = tableName;
         }
 
-        static string _thLastTable = "";                
+        static string _thLastTable = "";
         static int _thDay;
         static int _thHour;
         static int _thMinutes;
         static bool _thResult;
-        
+
         public static bool IsThisHourExistsInTable(string symbol, DateTime dateTime)
         {
             var str = symbol.Trim().Split('.');
             var tableName = "T_" + str[str.Length - 1].ToUpper() + "_" + GetIso8601WeekOfYear(dateTime);
 
-            if (tableName == _thLastTable && _thDay == dateTime.Day && _thHour == dateTime.TimeOfDay.Hours&& _thMinutes == dateTime.TimeOfDay.Minutes) { return _thResult; }
+            if (tableName == _thLastTable && _thDay == dateTime.Day && _thHour == dateTime.TimeOfDay.Hours && _thMinutes == dateTime.TimeOfDay.Minutes) { return _thResult; }
 
             _thResult = IsExistsDataForHour(tableName, dateTime);
             _thMinutes = dateTime.TimeOfDay.Minutes;
@@ -2614,8 +2613,8 @@ namespace DADataManager
 
             var dt_left = dt.AddMinutes(-dt.TimeOfDay.Minutes);
             var dt_right = dt.AddMinutes(-dt.TimeOfDay.Minutes).AddHours(1);
-            
-            var sql = "SELECT `TickTime` FROM `"+tableName+
+
+            var sql = "SELECT `TickTime` FROM `" + tableName +
                       "` WHERE TickTime >='" + dt_left.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
                       + "' AND TickTime <'" + dt_right.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'  limit 1;";
             reader = GetReaderHistorical(sql);
@@ -2624,7 +2623,7 @@ namespace DADataManager
                 if (reader.Read())
                 {
                     reader.Close();
-                    return true;  
+                    return true;
                 }
                 reader.Close();
             }
@@ -2643,13 +2642,13 @@ namespace DADataManager
                     _sqlCommandToDbBar.CommandText = (sql);
 
                     cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());
-                   // cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());                    
-                }                
+                    // cnt = Convert.ToInt32(_sqlCommandToDbBar.ExecuteScalar());                    
+                }
                 return cnt;
             }
             catch (Exception ex)
             {
-                
+
                 Console.WriteLine("GetRowsCount." + ex.Message);
                 return 0;
             }
@@ -2662,7 +2661,7 @@ namespace DADataManager
 
 
 
-        #region Additional Info
+        #region Expiration Info
 
         public static void AddExpirationDatesForSymbol(string symbol, DateTime endDate, string monthChar, decimal year)
         {
@@ -2670,12 +2669,12 @@ namespace DADataManager
 
             var sql = "INSERT IGNORE INTO " + TblExpirationDates
                    + " (`Symbol`, `EndDate`,`MonthChar`,`Year`)"
-                   + "VALUES("+
-                   "'" + symbol + "',"+
+                   + "VALUES(" +
+                   "'" + symbol + "'," +
                    "'" + endDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'," +
                    "'" + monthChar + "'," +
                     year +
-                   ");COMMIT;";            
+                   ");COMMIT;";
             DoSql(sql);
         }
 
@@ -2686,13 +2685,13 @@ namespace DADataManager
         }
 
         private static void CreateExpirationDatesTable()
-        {            
+        {
             const string createExpirationDatesTable = "CREATE TABLE  IF NOT EXISTS `" + TblExpirationDates + "`("
                                                  + "`Id` int(12) unsigned not null auto_increment,"
                                                  + "`Symbol` varchar(50) not null,"
                                                  + "`EndDate` DATETIME NOT NULL,"
                                                  + "`MonthChar` varchar(1) not null,"
-                                                 + "`Year` int not null,"                                                 
+                                                 + "`Year` int not null,"
                                                  + "PRIMARY KEY (`Id`)"
                                                  + ")"
                                                  + "COLLATE='latin1_swedish_ci'"
@@ -2700,8 +2699,6 @@ namespace DADataManager
 
             DoSql(createExpirationDatesTable);
         }
-
-        #endregion
 
         public static List<ExpirationModel> GetExpirationDatesForSymbol(string symbol)
         {
@@ -2712,35 +2709,87 @@ namespace DADataManager
 
                 var str = symbol.Trim().Split('.');
 
-                var sql = "Select * from "+TblExpirationDates+" WHERE Symbol = '"+symbol+"'";
+                var sql = "Select * from " + TblExpirationDates + " WHERE Symbol = '" + symbol + "'";
                 reader = GetReader(sql);
 
 
-                if (reader != null )
+                if (reader != null)
                 {
                     while (reader.Read())
                     {
-                        var re= new ExpirationModel(){
+                        var re = new ExpirationModel()
+                        {
                             Symbol = reader.GetString(1),
-                        EndDate = reader.GetDateTime(2),
-                        MonthChar = reader.GetString(3),
-                        Year = reader.GetInt32(4)
+                            EndDate = reader.GetDateTime(2),
+                            MonthChar = reader.GetString(3),
+                            Year = reader.GetInt32(4)
                         };
                         resList.Add(re);
                     }
-                }                
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("GetExpirationDatesForSymbol.Error: "+ex.Message);
-                if (reader != null) reader.Close();                                
+                Console.WriteLine("GetExpirationDatesForSymbol.Error: " + ex.Message);
+                if (reader != null) reader.Close();
             }
             finally
             {
                 if (reader != null) reader.Close();
             }
             return resList;
-            
+
+        }
+
+        public static void DeleteWrongColumnsFromTable(string tableName)
+        {
+            try
+            {
+                var sql = "ALTER TABLE `" + tableName + "` DROP COLUMN " + "`YearChar`";
+                DoSqlBar(sql);
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("AddColumsTable.Error:" + ex.Message);
+            }
+        }
+
+        public static bool YearCharExist(string tableName)
+        {
+
+            MySqlDataReader reader = null;
+            try
+            {
+
+                var sql = "Select `YearChar` from  " + tableName + ";";
+                reader = GetReaderBar(sql);
+
+
+                if (reader != null)
+                {
+                    reader.Close();
+                    return true;
+                }
+                else
+                {
+                    if (reader != null) reader.Close();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("YearCharExist.Error:" + ex.Message);
+                if (reader != null) reader.Close();
+                return false;
+                //throw;
+            }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }
+
+
         }
 
 
@@ -2749,13 +2798,13 @@ namespace DADataManager
             var str = symbol.Trim().Split('.');
             var sss = "ALTER TABLE `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "`";
             var sql1 = "";
-            
-            sql1 += (sss+ " MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");            
-            sql1 += (sss+" MODIFY HighValue FLOAT(9,6) NULL DEFAULT NULL;");            
-            sql1 += (sss+" MODIFY LowValue FLOAT(9,6) NULL DEFAULT NULL;");
-            sql1 += (sss+" MODIFY CloseValue FLOAT(9,6) NULL DEFAULT NULL;");
-            sql1 += (sss+" MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
-            sql1 += (sss+" MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
+
+            sql1 += (sss + " MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss + " MODIFY HighValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss + " MODIFY LowValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss + " MODIFY CloseValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss + " MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
+            sql1 += (sss + " MODIFY OpenValue FLOAT(9,6) NULL DEFAULT NULL;");
 
             DoSqlBar(sql1);
         }
@@ -2765,8 +2814,18 @@ namespace DADataManager
         /// <param name="selectedSymbols"></param>
         public static void UpdateMonthAndYearForSymbol(string symbol)
         {
-   
+
 
         }
+
+        public static string GetBarTableFromSymbol(string symbolName, string tableType)
+        {
+            var str = symbolName.Trim().Split('.');
+            return "B_" + str[str.Length - 1].ToUpper() + "_" + tableType;
+        }
+
+        #endregion
+
+
     }
 }

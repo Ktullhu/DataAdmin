@@ -259,7 +259,7 @@ namespace DataNetClient.CQGDataCollector
             if (_isStoped) return;
 
             var symbol = cqgTicks.Request.Symbol;
-            TicksAdd(cqgTicks, cqgError, _userName);
+            StoreTickData(cqgTicks, cqgError, _userName);
 
         }
 
@@ -270,7 +270,7 @@ namespace DataNetClient.CQGDataCollector
             if (_isStoped) return;
 
             var symbol = cqgTimedBars.Request.Symbol;
-            BarsAdd(cqgTimedBars, cqgError, _userName);
+            StoreBarData(cqgTimedBars, cqgError, _userName);
 
         }
 
@@ -287,22 +287,32 @@ namespace DataNetClient.CQGDataCollector
         #endregion
 
         #region Collecting Requests
-        public static void TimeBarRequest(string symbolName)
+
+        public static void BarRequest(string symbolName)
         {
             try
-            {                
+            {
+
+               
                 if (!Cel.IsStarted)
                 {
                     FinishCollectingSymbol(symbolName, false, 0, "CQG not started");
                     return;
                 }
                 Cel.NewInstrument(symbolName);
+                
+                
+                var tableName =  DatabaseManager.GetBarTableFromSymbol(symbolName, GetTableType(_historicalPeriod));
+
                 _aHistoricalPeriod = eHistoricalPeriod.hpUndefined;
-                if (DatabaseManager.BarTableExist(symbolName, GetTableType(_historicalPeriod)))
+                if (DatabaseManager.BarTableExist(tableName))
                 {
 
-                    if (!DatabaseManager.MonthCharYearExist(symbolName, GetTableType(_historicalPeriod)))
-                        DatabaseManager.AddColumsTable(symbolName, GetTableType(_historicalPeriod));
+                    if (!DatabaseManager.MonthCharYearExist(tableName))
+                        DatabaseManager.AddMonthCharYearColumnsToBarTable(tableName);
+                    if (DatabaseManager.YearCharExist(tableName))
+                        DatabaseManager.DeleteWrongColumnsFromTable(tableName);
+
 
                     DatabaseManager.MakeBarTableBigger(symbolName, GetTableType(_historicalPeriod));
                     
@@ -343,7 +353,7 @@ namespace DataNetClient.CQGDataCollector
 
         }
 
-        private static void TicksRequest(string symbolName)
+        private static void TickRequest(string symbolName)
         {
             try
             {
@@ -381,8 +391,9 @@ namespace DataNetClient.CQGDataCollector
 
         #endregion
 
-        #region SAVING COLLECTED DATA
-        public static void BarsAdd(CQGTimedBars mCurTimedBars, CQGError cqgError, string userName)
+        #region SORING COLLECTED DATA
+
+        public static void StoreBarData(CQGTimedBars mCurTimedBars, CQGError cqgError, string userName)
         {
             //try
             //{g
@@ -438,8 +449,8 @@ namespace DataNetClient.CQGDataCollector
         {
             try
             {
-                string MonthChar = "def";
-                string Year = "def";
+                string MonthChar = "";
+                string Year = "";
                 foreach (var monthCharYearModel in monthCharYearlList)
                 {
                     if (symbol == monthCharYearModel.Symbol)
@@ -491,93 +502,9 @@ namespace DataNetClient.CQGDataCollector
             }
         }
 
-        private static string GetValueAsString(object val)
-        {
-            try
-            {
-                if ((val is Double) || (val is float))
-                {
-                    var v = (Double)val;
-                    if (v == 0.0)
-                        return "0.0";
-                    return v.ToString("G", CultureInfo.InvariantCulture);
-                }
-                if (val is int)
-                {
-                    return Convert.ToString(val);
-                }
-                if (val is DateTime)
-                    return "'" + Convert.ToDateTime(val).ToString("yyyy/MM/dd HH:mm:ss") + "'";
-                return "NULL";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return "0";
-            }
-        }
+        //**
 
-
-        public static int CqgGetId(CQGTicks ticks, DateTime date)
-        {
-
-            int l = 0;            // нижняя граница
-            int u = ticks.Count - 1;    // верхняя граница
-            int m = -1;
-
-
-            while (l <= u)
-            {
-                m = (l + u) / 2;
-                if (ticks[m].Timestamp == date)//todo test serch
-                {
-
-                    ////Console.WriteLine((ticks[m].Timestamp));
-                    //if (ticks[m].Timestamp > date)
-                    //{
-                    //    l = 0;
-                    //    u = m;
-                    //    while (l <= u)
-                    //    {
-                    //        m = (l + u) / 2;
-                    //        if (ticks[m].Timestamp.Hour==date.Hour)
-                    //            return m;
-                    //        //Console.WriteLine(ticks[m].Timestamp);
-                    //        if (ticks[m].Timestamp.Hour < date.Hour) l = m + 1;
-                    //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
-                    //    }
-                    //}
-                    //if (ticks[m].Timestamp < date)
-                    //{
-                    //    l = m;
-                    //    u = ticks.Count-1;
-                    //    while (l <= u)
-                    //    {
-                    //        int tmp = m;
-                    //        m = (l + u) / 2;
-                    //        if (ticks[m].Timestamp.Hour==date.Hour)
-                    //            return m;
-                    //        if (ticks[m].Timestamp.Day > date.Day)
-                    //            return tmp;
-                    //        //Console.WriteLine(ticks[m].Timestamp);
-                    //        if (ticks[m].Timestamp.Hour < date.Hour) l = m + 1;
-                    //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
-                    //    }
-
-
-                    //}
-
-                    //if (l >= u) return m;
-                    return m;
-                }
-                if (ticks[m].Timestamp < date) l = m + 1;
-                if (ticks[m].Timestamp > date) u = m - 1;
-            }
-            return m;
-        }
-
-
-        public static void TicksAdd(CQGTicks cqgTicks, CQGError cqgError, string userName)
+        public static void StoreTickData(CQGTicks cqgTicks, CQGError cqgError, string userName)
         {
 
             //try
@@ -658,23 +585,7 @@ namespace DataNetClient.CQGDataCollector
             //    Console.WriteLine("TicksAdd"+ex.Message);
             //}
         }
-        public static int GetIso8601WeekOfYear(DateTime time)
-        {
-            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
-            // be the same week# as whatever Thursday, Friday or Saturday are,
-            // and we always get those right
-            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
-            if (day == DayOfWeek.Sunday)
-                time = time.AddDays(1);
-            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
-            {
-                time = time.AddDays(3);
-            }
-
-            // Return the week of our adjusted day
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-        }
-
+        
         private static void AddTick(CQGTick tick, string symbol, DateTime runDateTime, int groupId, string userName)
         {
             try
@@ -702,7 +613,108 @@ namespace DataNetClient.CQGDataCollector
             }
         }
 
+        //**
 
+        private static string GetValueAsString(object val)
+        {
+            try
+            {
+                if ((val is Double) || (val is float))
+                {
+                    var v = (Double)val;
+                    if (v == 0.0)
+                        return "0.0";
+                    return v.ToString("G", CultureInfo.InvariantCulture);
+                }
+                if (val is int)
+                {
+                    return Convert.ToString(val);
+                }
+                if (val is DateTime)
+                    return "'" + Convert.ToDateTime(val).ToString("yyyy/MM/dd HH:mm:ss") + "'";
+                return "NULL";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "0";
+            }
+        }
+
+        public static int CqgGetId(CQGTicks ticks, DateTime date)
+        {
+
+            int l = 0;            // нижняя граница
+            int u = ticks.Count - 1;    // верхняя граница
+            int m = -1;
+
+
+            while (l <= u)
+            {
+                m = (l + u) / 2;
+                if (ticks[m].Timestamp == date)//todo test serch
+                {
+
+                    ////Console.WriteLine((ticks[m].Timestamp));
+                    //if (ticks[m].Timestamp > date)
+                    //{
+                    //    l = 0;
+                    //    u = m;
+                    //    while (l <= u)
+                    //    {
+                    //        m = (l + u) / 2;
+                    //        if (ticks[m].Timestamp.Hour==date.Hour)
+                    //            return m;
+                    //        //Console.WriteLine(ticks[m].Timestamp);
+                    //        if (ticks[m].Timestamp.Hour < date.Hour) l = m + 1;
+                    //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
+                    //    }
+                    //}
+                    //if (ticks[m].Timestamp < date)
+                    //{
+                    //    l = m;
+                    //    u = ticks.Count-1;
+                    //    while (l <= u)
+                    //    {
+                    //        int tmp = m;
+                    //        m = (l + u) / 2;
+                    //        if (ticks[m].Timestamp.Hour==date.Hour)
+                    //            return m;
+                    //        if (ticks[m].Timestamp.Day > date.Day)
+                    //            return tmp;
+                    //        //Console.WriteLine(ticks[m].Timestamp);
+                    //        if (ticks[m].Timestamp.Hour < date.Hour) l = m + 1;
+                    //        if (ticks[m].Timestamp.Hour > date.Hour) u = m - 1;
+                    //    }
+
+
+                    //}
+
+                    //if (l >= u) return m;
+                    return m;
+                }
+                if (ticks[m].Timestamp < date) l = m + 1;
+                if (ticks[m].Timestamp > date) u = m - 1;
+            }
+            return m;
+        }
+
+        public static int GetIso8601WeekOfYear(DateTime time)
+        {
+            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
+            // be the same week# as whatever Thursday, Friday or Saturday are,
+            // and we always get those right
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day == DayOfWeek.Sunday)
+                time = time.AddDays(1);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+
+            // Return the week of our adjusted day
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
 
         #endregion
 
@@ -774,9 +786,9 @@ namespace DataNetClient.CQGDataCollector
                 {
 
                     if (isTick)
-                        TicksRequest(symbol);
+                        TickRequest(symbol);
                     else
-                        TimeBarRequest(symbol);
+                        BarRequest(symbol);
 
                 }
 
@@ -883,9 +895,9 @@ namespace DataNetClient.CQGDataCollector
             if (group.AllSymbols.Count != 0)
             {
                 if (group.GroupModel.TimeFrame != "tick")                
-                    TimeBarRequest(group.AllSymbols.First());                    
+                    BarRequest(group.AllSymbols.First());                    
                 else
-                    TicksRequest(group.AllSymbols.First());
+                    TickRequest(group.AllSymbols.First());
             }
 
 
@@ -947,9 +959,9 @@ namespace DataNetClient.CQGDataCollector
             {
                 ChangeTimeoutState(true, _groups[_groupCurrent].GroupModel.CntType.Contains("tsctStandard"));
                 if (_groups[_groupCurrent].GroupModel.TimeFrame == "tick")
-                    TicksRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
+                    TickRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
                 else
-                    TimeBarRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
+                    BarRequest(GetFirstSymbol(_groups[_groupCurrent].AllSymbols, _groups[_groupCurrent].CollectedSymbols));
             }
 
 
@@ -1253,9 +1265,6 @@ namespace DataNetClient.CQGDataCollector
                         progr = newProgr;
                         OnProgressBarChanged(progr);
                     }
-
-
-
                 }
 
                 OnProgressBarChanged(100);
