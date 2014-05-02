@@ -61,7 +61,7 @@ namespace DADataManager
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
-        private const string TblExpirationDates = "TblExpirationDates";
+        private const string TblExpirationDates = "tbl_expiration_dates";
 
 
         private static Dictionary<string, List<InsertQueryModel>> _tickBuffer;
@@ -123,10 +123,10 @@ namespace DADataManager
             try
             {
                 var sql = "ALTER TABLE `" + tableName + "` ADD COLUMN"
-                    + "`MonthChar` VARCHAR(50) NOT NULL DEFAULT 'empty' after `userName`";
+                    + "`MonthChar` VARCHAR(50) NOT NULL DEFAULT '' after `userName`";
                 DoSqlBar(sql);
                 sql = "ALTER TABLE `" + tableName + "` ADD COLUMN"
-                + "`Year` VARCHAR(50) NOT NULL DEFAULT 'empty' after `MonthChar`";
+                + "`Year` VARCHAR(50) NOT NULL DEFAULT '' after `MonthChar`";
                 DoSqlBar(sql);
 
             }
@@ -2292,12 +2292,12 @@ namespace DADataManager
 
 
 
-        public static void AddNotChangedValue(string symbol, double TickSize, string Currency, DateTime date)
+        public static void AddNotChangedValue(string symbol, double TickSize, string Currency, DateTime date, double tickValue)
         {
             try
             {
-                var query = "Insert ignore into " + TblNotChangedValues + "(`Symbol`, `TickSize`, `Currency`, `Expiration`) " +
-                "VALUES('" + symbol + "', '" + TickSize + "', '" + Currency + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
+                var query = "Insert ignore into " + TblNotChangedValues + "(`Symbol`, `TickSize`, `Currency`, `Expiration`,`TickValue`) " +
+                "VALUES('" + symbol + "', '" + TickSize + "', '" + Currency + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' ,"+tickValue+" );COMMIT;";
                 DoSql(query);
             }
             catch (Exception ex)
@@ -2335,7 +2335,8 @@ namespace DADataManager
                         Symbol = reader.GetValue(1).ToString(),
                         TickSize = Convert.ToDouble(reader.GetValue(2)),
                         Currency = reader.GetValue(3).ToString(),
-                        Expiration = Convert.ToDateTime(reader.GetValue(4).ToString())
+                        Expiration = Convert.ToDateTime(reader.GetValue(4).ToString()),
+                        TickValue = reader.GetDouble(5)
                     };
                     ValuelList.Add(variable);
                 }
@@ -2671,16 +2672,16 @@ namespace DADataManager
                    + " (`Symbol`, `EndDate`,`MonthChar`,`Year`)"
                    + "VALUES(" +
                    "'" + symbol + "'," +
-                   "'" + endDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'," +
+                   "'" + endDate.Date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "'," +
                    "'" + monthChar + "'," +
                     year +
                    ");COMMIT;";
             DoSql(sql);
         }
 
-        public static void RemoveExpirationDatesForSymbol(string symbol, DateTime endDate)
+        public static void RemoveExpirationDatesForSymbol(string symbol, string monthChar, string year)
         {
-            var sql = "DELETE FROM `" + TblExpirationDates + "`  WHERE `Symbol`='" + symbol + "' AND `EndDate`='" + endDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "';COMMIT;";
+            var sql = "DELETE FROM `" + TblExpirationDates + "`  WHERE `Symbol`='" + symbol + "' AND `MonthChar`='" + monthChar+ "' AND Year = "+year+";COMMIT;";
             DoSql(sql);
         }
 
@@ -2709,7 +2710,7 @@ namespace DADataManager
 
                 var str = symbol.Trim().Split('.');
 
-                var sql = "Select * from " + TblExpirationDates + " WHERE Symbol = '" + symbol + "'";
+                var sql = "Select * from " + TblExpirationDates + " WHERE Symbol = '" + symbol + "' ORDER BY EndDate ASC";
                 reader = GetReader(sql);
 
 
@@ -2812,11 +2813,8 @@ namespace DADataManager
         /// Change MonthChar and Year fields in Bar data tables
         /// </summary>
         /// <param name="selectedSymbols"></param>
-        public static void UpdateMonthAndYearForSymbol(string symbol)
-        {
-
-
-        }
+        
+        #endregion
 
         public static string GetBarTableFromSymbol(string symbolName, string tableType)
         {
@@ -2824,8 +2822,55 @@ namespace DADataManager
             return "B_" + str[str.Length - 1].ToUpper() + "_" + tableType;
         }
 
-        #endregion
+        public static List<string> GetListOfBarTables(string symbolName)
+        {
+            var str1 = symbolName.Trim().Split('.');
+            var shortSymbol = str1[str1.Length - 1].ToUpper();
+            var databaseName = GetDatabaseName();
 
+            var tablesList = new List<string>();
+            var reader = GetReaderBar("SHOW TABLES FROM " + databaseName);
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    var str = reader.GetString(0).ToUpper();
+                    if ((str[0] == 'b' && str[1] == '_') || (str[0] == 'B' && str[1] == '_'))
+                        if (str.Contains(shortSymbol))
+                        tablesList.Add(str);
+                }
+                reader.Close();
+            }
+            return tablesList;
+        }
 
+        private static string GetDatabaseName()
+        {
+            
+            var connection = CurrentDbIsShared ? _connectionStringToShareDbBar : _connectionStringToLocalDbBar;
+            
+            var indS = connection.IndexOf("DATABASE=") + ("DATABASE=".Length);
+            var indE = connection.IndexOf("; UID");
+            var length = indE - indS;
+
+            Console.WriteLine("GetDatabaseName: " + connection.Substring(indS, length));
+
+            return connection.Substring(indS, length);
+
+        }
+
+        public static void UpdateMonthAndYearForSymbol(string table, ExpirationModel expirationModel)
+        {
+            var sql = "UPDATE `" + table + "` SET `MonthChar`='" + expirationModel.MonthChar+ "', `Year`=" + expirationModel.Year+
+            " WHERE BarTime < '" + expirationModel.EndDate.AddDays(1).Date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' ;COMMIT;";
+            DoSqlBar(sql);
+        }
+
+        public static void UpdateMonthAndYearForSymbol(string table, ExpirationModel expirationModel1, ExpirationModel expirationModel2)
+        {
+            var sql = "UPDATE `" + table + "` SET `MonthChar`='" + expirationModel2.MonthChar + "', `Year`=" + expirationModel2.Year +
+            " WHERE BarTime >= '" + expirationModel1.EndDate.AddDays(1).Date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' AND BarTime < '" + expirationModel2.EndDate.AddDays(1).Date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' ;COMMIT;";
+            DoSqlBar(sql);
+        }
     }
 }

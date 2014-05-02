@@ -1255,9 +1255,18 @@ namespace DataNetClient.CQGDataCollector
                 OnProgressBarChanged(2);
                 for (int i = 0; i < selectedSymbols.Count; i++)
                 {
+                    var listOfTables = DatabaseManager.GetListOfBarTables(selectedSymbols[i]);
 
+                    foreach (var table in listOfTables)
+                    {
+                        Console.WriteLine("table: " + table);
+                        //try load data from TblExpiration
 
+                        var listOfExpirations = DatabaseManager.GetExpirationDatesForSymbol(selectedSymbols[i]);
 
+                        //Update table: item                        
+                        UpdateTableMonthChar(table, listOfExpirations);
+                    }
 
                     var newProgr = (int)Math.Round((i / cto) * 100f);
                     if (newProgr > progr)
@@ -1270,5 +1279,25 @@ namespace DataNetClient.CQGDataCollector
                 OnProgressBarChanged(100);
             }) { Name = "UpdateMonthAndYearForSymbols" }.Start();
         }
+
+        private static void UpdateTableMonthChar(string table, List<ExpirationModel> listOfExpirations)
+        {
+            if(listOfExpirations.Count==0)return;
+
+            listOfExpirations.OrderBy(oo => oo.EndDate);
+
+            if (!DatabaseManager.MonthCharYearExist(table))
+                DatabaseManager.AddMonthCharYearColumnsToBarTable(table);
+
+            DatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[0]);
+
+            for (int i = 1; i < listOfExpirations.Count; i++)
+            {
+                DatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[i - 1], listOfExpirations[i]);    
+            }
+            
+        }
+
+      
     }
 }

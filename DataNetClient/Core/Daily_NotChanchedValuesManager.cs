@@ -149,6 +149,7 @@ namespace DataNetClient.Core
                // CQGInstrument instrument = _cqgVar.Instruments[symbol];
                 CQGInstrumentProperties props = cqgInstrument.Properties;
                 double tickSize = -1;
+                double tickValue = -1;
                 string curency = " ";
                 DateTime expiration = DateTime.Today;
                 var properties = props[eInstrumentProperty.ipTickSize];
@@ -160,7 +161,11 @@ namespace DataNetClient.Core
                 properties = props[eInstrumentProperty.ipExpirationDate];
                 if (props != null && _cqgVar.IsValid(properties.Value))
                     expiration = properties.Value;
-                DatabaseManager.AddNotChangedValue(symbol, tickSize, curency, expiration);
+                properties = props[eInstrumentProperty.ipTickValue];
+                if (props != null && _cqgVar.IsValid(properties.Value))
+                    tickValue = properties.Value;                                
+                
+                DatabaseManager.AddNotChangedValue(symbol, tickSize, curency, expiration, tickValue);
             }
 
         }

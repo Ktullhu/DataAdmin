@@ -955,6 +955,7 @@ namespace DADataManager
                                                     + "`TickSize` double not null,"
                                                     + "`Currency` varchar(50) not null,"
                                                     + "`Expiration` DateTime null DEFAULT '" + s + "', "
+                                                    + "`TickValue` double not null,"
                                                     + "PRIMARY KEY (`Id`),"
                                                     + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"
                                                     + ")"

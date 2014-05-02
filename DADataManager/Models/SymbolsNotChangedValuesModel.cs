@@ -10,6 +10,7 @@ namespace DADataManager.Models
         public int ID;
         public string Symbol;
         public double TickSize;
+        public double TickValue;
         public string Currency;
         public DateTime Expiration;
 

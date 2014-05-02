@@ -54,6 +54,45 @@ namespace DataNetClient.Forms
             this.labelItemUserName = new DevComponents.DotNetBar.LabelItem();
             this.labelItem_server = new DevComponents.DotNetBar.LabelItem();
             this.metroShell1 = new DevComponents.DotNetBar.Metro.MetroShell();
+            this.metroTabPanel5 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelEx14 = new DevComponents.DotNetBar.PanelEx();
+            this.button_ac_delete = new System.Windows.Forms.Button();
+            this.textBox_ac_symbol = new System.Windows.Forms.TextBox();
+            this.button_ac_add = new System.Windows.Forms.Button();
+            this.numericUpDown_ac_year = new System.Windows.Forms.NumericUpDown();
+            this.dateTimePicker_ac_enddate = new System.Windows.Forms.DateTimePicker();
+            this.textBox_ac_monthchar = new System.Windows.Forms.TextBox();
+            this.listView_ac_list = new System.Windows.Forms.ListView();
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader19 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader20 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panelEx13 = new DevComponents.DotNetBar.PanelEx();
+            this.buttonX_ac_update = new DevComponents.DotNetBar.ButtonX();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panelEx11 = new DevComponents.DotNetBar.PanelEx();
+            this.panelEx12 = new DevComponents.DotNetBar.PanelEx();
+            this.buttonX_daily_updateValues = new DevComponents.DotNetBar.ButtonX();
+            this.buttonX_daily_getValues = new DevComponents.DotNetBar.ButtonX();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panelEx9 = new DevComponents.DotNetBar.PanelEx();
+            this.panelEx10 = new DevComponents.DotNetBar.PanelEx();
+            this.listBox_daily_symbols = new System.Windows.Forms.ListBox();
+            this.labelX20 = new DevComponents.DotNetBar.LabelX();
             this.metroTabPanel2 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
@@ -106,45 +145,6 @@ namespace DataNetClient.Forms
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ui_ToolStripMenuItem_EditSymbols = new System.Windows.Forms.ToolStripMenuItem();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.metroTabPanel5 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelEx14 = new DevComponents.DotNetBar.PanelEx();
-            this.button_ac_delete = new System.Windows.Forms.Button();
-            this.textBox_ac_symbol = new System.Windows.Forms.TextBox();
-            this.button_ac_add = new System.Windows.Forms.Button();
-            this.numericUpDown_ac_year = new System.Windows.Forms.NumericUpDown();
-            this.dateTimePicker_ac_enddate = new System.Windows.Forms.DateTimePicker();
-            this.textBox_ac_monthchar = new System.Windows.Forms.TextBox();
-            this.listView_ac_list = new System.Windows.Forms.ListView();
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader19 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader20 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panelEx13 = new DevComponents.DotNetBar.PanelEx();
-            this.buttonX_ac_update = new DevComponents.DotNetBar.ButtonX();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panelEx11 = new DevComponents.DotNetBar.PanelEx();
-            this.panelEx12 = new DevComponents.DotNetBar.PanelEx();
-            this.buttonX_daily_updateValues = new DevComponents.DotNetBar.ButtonX();
-            this.buttonX_daily_getValues = new DevComponents.DotNetBar.ButtonX();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panelEx9 = new DevComponents.DotNetBar.PanelEx();
-            this.panelEx10 = new DevComponents.DotNetBar.PanelEx();
-            this.listBox_daily_symbols = new System.Windows.Forms.ListBox();
-            this.labelX20 = new DevComponents.DotNetBar.LabelX();
             this.metroTabPanel4 = new DevComponents.DotNetBar.Metro.MetroTabPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewLogger = new System.Windows.Forms.ListView();
@@ -206,7 +206,17 @@ namespace DataNetClient.Forms
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.columnHeader21 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.metroShell1.SuspendLayout();
+            this.metroTabPanel5.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.panelEx14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ac_year)).BeginInit();
+            this.panelEx13.SuspendLayout();
+            this.panelEx11.SuspendLayout();
+            this.panelEx12.SuspendLayout();
+            this.panelEx9.SuspendLayout();
+            this.panelEx10.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelEx3.SuspendLayout();
@@ -223,15 +233,6 @@ namespace DataNetClient.Forms
             this.panelEx2.SuspendLayout();
             this.panelEx8.SuspendLayout();
             this.contextMenuStripSymbols.SuspendLayout();
-            this.metroTabPanel5.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.panelEx14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ac_year)).BeginInit();
-            this.panelEx13.SuspendLayout();
-            this.panelEx11.SuspendLayout();
-            this.panelEx12.SuspendLayout();
-            this.panelEx9.SuspendLayout();
-            this.panelEx10.SuspendLayout();
             this.metroTabPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.metroTabPanel1.SuspendLayout();
@@ -384,6 +385,500 @@ namespace DataNetClient.Forms
             this.metroShell1.Text = "Shell";
             this.metroShell1.SettingsButtonClick += new System.EventHandler(this.metroShell1_SettingsButtonClick);
             this.metroShell1.HelpButtonClick += new System.EventHandler(this.metroShell1_LogOutButtonClick);
+            // 
+            // metroTabPanel5
+            // 
+            this.metroTabPanel5.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.metroTabPanel5.Controls.Add(this.tableLayoutPanel2);
+            this.metroTabPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metroTabPanel5.Location = new System.Drawing.Point(0, 51);
+            this.metroTabPanel5.Name = "metroTabPanel5";
+            this.metroTabPanel5.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.metroTabPanel5.Size = new System.Drawing.Size(799, 447);
+            // 
+            // 
+            // 
+            this.metroTabPanel5.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel5.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.metroTabPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.metroTabPanel5.TabIndex = 5;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.19521F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.80479F));
+            this.tableLayoutPanel2.Controls.Add(this.panelEx14, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.listView_ac_list, 2, 2);
+            this.tableLayoutPanel2.Controls.Add(this.panelEx13, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.listView2, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.panelEx11, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.listView1, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.panelEx9, 0, 0);
+            this.tableLayoutPanel2.ForeColor = System.Drawing.Color.Black;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 420);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // panelEx14
+            // 
+            this.panelEx14.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx14.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx14.Controls.Add(this.button_ac_delete);
+            this.panelEx14.Controls.Add(this.textBox_ac_symbol);
+            this.panelEx14.Controls.Add(this.button_ac_add);
+            this.panelEx14.Controls.Add(this.numericUpDown_ac_year);
+            this.panelEx14.Controls.Add(this.dateTimePicker_ac_enddate);
+            this.panelEx14.Controls.Add(this.textBox_ac_monthchar);
+            this.panelEx14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx14.Location = new System.Drawing.Point(568, 78);
+            this.panelEx14.Name = "panelEx14";
+            this.panelEx14.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx14.Size = new System.Drawing.Size(222, 166);
+            this.panelEx14.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx14.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx14.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx14.Style.BorderWidth = 0;
+            this.panelEx14.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx14.Style.GradientAngle = 90;
+            this.panelEx14.TabIndex = 42;
+            // 
+            // button_ac_delete
+            // 
+            this.button_ac_delete.ForeColor = System.Drawing.Color.Black;
+            this.button_ac_delete.Location = new System.Drawing.Point(138, 126);
+            this.button_ac_delete.Name = "button_ac_delete";
+            this.button_ac_delete.Size = new System.Drawing.Size(69, 23);
+            this.button_ac_delete.TabIndex = 47;
+            this.button_ac_delete.Text = "DELETE";
+            this.button_ac_delete.UseVisualStyleBackColor = true;
+            this.button_ac_delete.Click += new System.EventHandler(this.button_ac_delete_Click);
+            // 
+            // textBox_ac_symbol
+            // 
+            this.textBox_ac_symbol.BackColor = System.Drawing.Color.White;
+            this.textBox_ac_symbol.ForeColor = System.Drawing.Color.Black;
+            this.textBox_ac_symbol.Location = new System.Drawing.Point(15, 14);
+            this.textBox_ac_symbol.MaxLength = 500;
+            this.textBox_ac_symbol.Name = "textBox_ac_symbol";
+            this.textBox_ac_symbol.ReadOnly = true;
+            this.textBox_ac_symbol.Size = new System.Drawing.Size(192, 22);
+            this.textBox_ac_symbol.TabIndex = 46;
+            this.toolTip1.SetToolTip(this.textBox_ac_symbol, "symbol");
+            // 
+            // button_ac_add
+            // 
+            this.button_ac_add.ForeColor = System.Drawing.Color.Black;
+            this.button_ac_add.Location = new System.Drawing.Point(15, 126);
+            this.button_ac_add.Name = "button_ac_add";
+            this.button_ac_add.Size = new System.Drawing.Size(117, 23);
+            this.button_ac_add.TabIndex = 45;
+            this.button_ac_add.Text = "ADD";
+            this.button_ac_add.UseVisualStyleBackColor = true;
+            this.button_ac_add.Click += new System.EventHandler(this.button_ac_add_Click);
+            // 
+            // numericUpDown_ac_year
+            // 
+            this.numericUpDown_ac_year.BackColor = System.Drawing.Color.White;
+            this.numericUpDown_ac_year.ForeColor = System.Drawing.Color.Black;
+            this.numericUpDown_ac_year.Location = new System.Drawing.Point(15, 98);
+            this.numericUpDown_ac_year.Maximum = new decimal(new int[] {
+            2050,
+            0,
+            0,
+            0});
+            this.numericUpDown_ac_year.Minimum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.numericUpDown_ac_year.Name = "numericUpDown_ac_year";
+            this.numericUpDown_ac_year.Size = new System.Drawing.Size(192, 22);
+            this.numericUpDown_ac_year.TabIndex = 44;
+            this.numericUpDown_ac_year.Value = new decimal(new int[] {
+            2014,
+            0,
+            0,
+            0});
+            // 
+            // dateTimePicker_ac_enddate
+            // 
+            this.dateTimePicker_ac_enddate.BackColor = System.Drawing.Color.White;
+            this.dateTimePicker_ac_enddate.ForeColor = System.Drawing.Color.Black;
+            this.dateTimePicker_ac_enddate.Location = new System.Drawing.Point(15, 42);
+            this.dateTimePicker_ac_enddate.Name = "dateTimePicker_ac_enddate";
+            this.dateTimePicker_ac_enddate.Size = new System.Drawing.Size(192, 22);
+            this.dateTimePicker_ac_enddate.TabIndex = 43;
+            this.dateTimePicker_ac_enddate.Value = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
+            // 
+            // textBox_ac_monthchar
+            // 
+            this.textBox_ac_monthchar.BackColor = System.Drawing.Color.White;
+            this.textBox_ac_monthchar.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox_ac_monthchar.ForeColor = System.Drawing.Color.Black;
+            this.textBox_ac_monthchar.Location = new System.Drawing.Point(15, 70);
+            this.textBox_ac_monthchar.MaxLength = 1;
+            this.textBox_ac_monthchar.Name = "textBox_ac_monthchar";
+            this.textBox_ac_monthchar.Size = new System.Drawing.Size(192, 22);
+            this.textBox_ac_monthchar.TabIndex = 42;
+            this.toolTip1.SetToolTip(this.textBox_ac_monthchar, "Month char");
+            // 
+            // listView_ac_list
+            // 
+            this.listView_ac_list.BackColor = System.Drawing.Color.White;
+            this.listView_ac_list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader9,
+            this.columnHeader17,
+            this.columnHeader18,
+            this.columnHeader19,
+            this.columnHeader20});
+            this.listView_ac_list.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView_ac_list.ForeColor = System.Drawing.Color.Black;
+            this.listView_ac_list.FullRowSelect = true;
+            listViewGroup1.Header = "10/12/2013";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "13/12/12";
+            listViewGroup2.Name = "listViewGroup2";
+            listViewGroup3.Header = "14/12/12";
+            listViewGroup3.Name = "listViewGroup3";
+            this.listView_ac_list.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+            this.listView_ac_list.Location = new System.Drawing.Point(568, 250);
+            this.listView_ac_list.Name = "listView_ac_list";
+            this.listView_ac_list.Size = new System.Drawing.Size(222, 167);
+            this.listView_ac_list.TabIndex = 41;
+            this.listView_ac_list.UseCompatibleStateImageBehavior = false;
+            this.listView_ac_list.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Id";
+            this.columnHeader9.Width = 25;
+            // 
+            // columnHeader17
+            // 
+            this.columnHeader17.Text = "Symbol";
+            this.columnHeader17.Width = 65;
+            // 
+            // columnHeader18
+            // 
+            this.columnHeader18.Text = "End date";
+            this.columnHeader18.Width = 90;
+            // 
+            // columnHeader19
+            // 
+            this.columnHeader19.Text = "MonthChar";
+            this.columnHeader19.Width = 110;
+            // 
+            // columnHeader20
+            // 
+            this.columnHeader20.Text = "Year";
+            this.columnHeader20.Width = 80;
+            // 
+            // panelEx13
+            // 
+            this.panelEx13.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx13.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx13.Controls.Add(this.buttonX_ac_update);
+            this.panelEx13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx13.Location = new System.Drawing.Point(568, 3);
+            this.panelEx13.Name = "panelEx13";
+            this.panelEx13.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx13.Size = new System.Drawing.Size(222, 69);
+            this.panelEx13.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx13.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx13.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx13.Style.BorderWidth = 0;
+            this.panelEx13.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx13.Style.GradientAngle = 90;
+            this.panelEx13.TabIndex = 40;
+            // 
+            // buttonX_ac_update
+            // 
+            this.buttonX_ac_update.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX_ac_update.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX_ac_update.Location = new System.Drawing.Point(15, 10);
+            this.buttonX_ac_update.Name = "buttonX_ac_update";
+            this.buttonX_ac_update.Size = new System.Drawing.Size(185, 44);
+            this.buttonX_ac_update.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX_ac_update.TabIndex = 53;
+            this.buttonX_ac_update.Text = "UPDATE VALUES ON DB";
+            this.buttonX_ac_update.Tooltip = "For selected symbols";
+            this.buttonX_ac_update.Click += new System.EventHandler(this.buttonX_ac_update_Click);
+            // 
+            // listView2
+            // 
+            this.listView2.BackColor = System.Drawing.Color.White;
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader21});
+            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView2.ForeColor = System.Drawing.Color.Black;
+            this.listView2.FullRowSelect = true;
+            listViewGroup4.Header = "10/12/2013";
+            listViewGroup4.Name = "listViewGroup1";
+            listViewGroup5.Header = "13/12/12";
+            listViewGroup5.Name = "listViewGroup2";
+            listViewGroup6.Header = "14/12/12";
+            listViewGroup6.Name = "listViewGroup3";
+            this.listView2.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
+            this.listView2.Location = new System.Drawing.Point(253, 250);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(309, 167);
+            this.listView2.TabIndex = 36;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Id";
+            this.columnHeader1.Width = 25;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Symbol";
+            this.columnHeader2.Width = 85;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Tick Size";
+            this.columnHeader6.Width = 90;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Currency";
+            this.columnHeader7.Width = 110;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Expiration";
+            this.columnHeader8.Width = 80;
+            // 
+            // panelEx11
+            // 
+            this.panelEx11.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx11.Controls.Add(this.panelEx12);
+            this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx11.Location = new System.Drawing.Point(253, 3);
+            this.panelEx11.Name = "panelEx11";
+            this.panelEx11.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx11.Size = new System.Drawing.Size(309, 69);
+            this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx11.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx11.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx11.Style.GradientAngle = 90;
+            this.panelEx11.TabIndex = 35;
+            // 
+            // panelEx12
+            // 
+            this.panelEx12.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx12.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx12.Controls.Add(this.buttonX_daily_updateValues);
+            this.panelEx12.Controls.Add(this.buttonX_daily_getValues);
+            this.panelEx12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx12.Location = new System.Drawing.Point(1, 1);
+            this.panelEx12.Name = "panelEx12";
+            this.panelEx12.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx12.Size = new System.Drawing.Size(307, 67);
+            this.panelEx12.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx12.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx12.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx12.Style.BorderWidth = 0;
+            this.panelEx12.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx12.Style.GradientAngle = 90;
+            this.panelEx12.TabIndex = 39;
+            // 
+            // buttonX_daily_updateValues
+            // 
+            this.buttonX_daily_updateValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX_daily_updateValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX_daily_updateValues.Location = new System.Drawing.Point(171, 9);
+            this.buttonX_daily_updateValues.Name = "buttonX_daily_updateValues";
+            this.buttonX_daily_updateValues.Size = new System.Drawing.Size(133, 46);
+            this.buttonX_daily_updateValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX_daily_updateValues.TabIndex = 54;
+            this.buttonX_daily_updateValues.Text = "Update values for selected symbols";
+            this.toolTip1.SetToolTip(this.buttonX_daily_updateValues, "From CQG");
+            this.buttonX_daily_updateValues.Click += new System.EventHandler(this.buttonX_daily_updateValues_Click);
+            // 
+            // buttonX_daily_getValues
+            // 
+            this.buttonX_daily_getValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX_daily_getValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX_daily_getValues.Location = new System.Drawing.Point(4, 10);
+            this.buttonX_daily_getValues.Name = "buttonX_daily_getValues";
+            this.buttonX_daily_getValues.Size = new System.Drawing.Size(161, 45);
+            this.buttonX_daily_getValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX_daily_getValues.TabIndex = 53;
+            this.buttonX_daily_getValues.Text = "Get values for selected symbols";
+            this.toolTip1.SetToolTip(this.buttonX_daily_getValues, "From DB");
+            this.buttonX_daily_getValues.Click += new System.EventHandler(this.buttonX_daily_getValues_Click);
+            // 
+            // listView1
+            // 
+            this.listView1.BackColor = System.Drawing.Color.White;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader10,
+            this.columnHeader11,
+            this.columnHeader12,
+            this.columnHeader13,
+            this.columnHeader14,
+            this.columnHeader15,
+            this.columnHeader16});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.ForeColor = System.Drawing.Color.Black;
+            this.listView1.FullRowSelect = true;
+            listViewGroup7.Header = "10/12/2013";
+            listViewGroup7.Name = "listViewGroup1";
+            listViewGroup8.Header = "13/12/12";
+            listViewGroup8.Name = "listViewGroup2";
+            listViewGroup9.Header = "14/12/12";
+            listViewGroup9.Name = "listViewGroup3";
+            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup7,
+            listViewGroup8,
+            listViewGroup9});
+            this.listView1.Location = new System.Drawing.Point(253, 78);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(309, 166);
+            this.listView1.TabIndex = 2;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "Id";
+            this.columnHeader10.Width = 25;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "Symbol";
+            this.columnHeader11.Width = 65;
+            // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "Date time";
+            this.columnHeader12.Width = 90;
+            // 
+            // columnHeader13
+            // 
+            this.columnHeader13.Text = "Indicative Open";
+            this.columnHeader13.Width = 110;
+            // 
+            // columnHeader14
+            // 
+            this.columnHeader14.Text = "Settlement";
+            this.columnHeader14.Width = 80;
+            // 
+            // columnHeader15
+            // 
+            this.columnHeader15.Text = "Marker";
+            // 
+            // columnHeader16
+            // 
+            this.columnHeader16.Text = "Today Marker";
+            this.columnHeader16.Width = 90;
+            // 
+            // panelEx9
+            // 
+            this.panelEx9.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx9.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx9.Controls.Add(this.panelEx10);
+            this.panelEx9.Controls.Add(this.labelX20);
+            this.panelEx9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx9.Location = new System.Drawing.Point(3, 3);
+            this.panelEx9.Name = "panelEx9";
+            this.panelEx9.Padding = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel2.SetRowSpan(this.panelEx9, 3);
+            this.panelEx9.Size = new System.Drawing.Size(244, 414);
+            this.panelEx9.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx9.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx9.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx9.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx9.Style.GradientAngle = 90;
+            this.panelEx9.TabIndex = 34;
+            // 
+            // panelEx10
+            // 
+            this.panelEx10.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelEx10.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelEx10.Controls.Add(this.listBox_daily_symbols);
+            this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEx10.Location = new System.Drawing.Point(1, 33);
+            this.panelEx10.Name = "panelEx10";
+            this.panelEx10.Padding = new System.Windows.Forms.Padding(1);
+            this.panelEx10.Size = new System.Drawing.Size(242, 380);
+            this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
+            this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelEx10.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelEx10.Style.BorderWidth = 0;
+            this.panelEx10.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelEx10.Style.GradientAngle = 90;
+            this.panelEx10.TabIndex = 39;
+            this.panelEx10.Text = "panelEx7";
+            // 
+            // listBox_daily_symbols
+            // 
+            this.listBox_daily_symbols.BackColor = System.Drawing.Color.White;
+            this.listBox_daily_symbols.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBox_daily_symbols.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox_daily_symbols.ForeColor = System.Drawing.Color.Black;
+            this.listBox_daily_symbols.FormattingEnabled = true;
+            this.listBox_daily_symbols.Location = new System.Drawing.Point(1, 1);
+            this.listBox_daily_symbols.Name = "listBox_daily_symbols";
+            this.listBox_daily_symbols.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBox_daily_symbols.Size = new System.Drawing.Size(240, 378);
+            this.listBox_daily_symbols.TabIndex = 37;
+            this.listBox_daily_symbols.SelectedIndexChanged += new System.EventHandler(this.listBox_daily_symbols_SelectedIndexChanged);
+            // 
+            // labelX20
+            // 
+            // 
+            // 
+            // 
+            this.labelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX20.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelX20.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelX20.ForeColor = System.Drawing.Color.Black;
+            this.labelX20.Location = new System.Drawing.Point(1, 1);
+            this.labelX20.Name = "labelX20";
+            this.labelX20.PaddingLeft = 6;
+            this.labelX20.Size = new System.Drawing.Size(242, 32);
+            this.labelX20.TabIndex = 38;
+            this.labelX20.Text = "SYMBOLS";
             // 
             // metroTabPanel2
             // 
@@ -1262,498 +1757,6 @@ namespace DataNetClient.Forms
             this.labelX6.TabIndex = 20;
             this.labelX6.Text = "SYMBOLS";
             // 
-            // metroTabPanel5
-            // 
-            this.metroTabPanel5.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.metroTabPanel5.Controls.Add(this.tableLayoutPanel2);
-            this.metroTabPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel5.Location = new System.Drawing.Point(0, 51);
-            this.metroTabPanel5.Name = "metroTabPanel5";
-            this.metroTabPanel5.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel5.Size = new System.Drawing.Size(799, 447);
-            // 
-            // 
-            // 
-            this.metroTabPanel5.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel5.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.metroTabPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.metroTabPanel5.TabIndex = 5;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(211)))), ((int)(((byte)(211)))));
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.19521F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.80479F));
-            this.tableLayoutPanel2.Controls.Add(this.panelEx14, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.listView_ac_list, 2, 2);
-            this.tableLayoutPanel2.Controls.Add(this.panelEx13, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.listView2, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.panelEx11, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.listView1, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.panelEx9, 0, 0);
-            this.tableLayoutPanel2.ForeColor = System.Drawing.Color.Black;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 420);
-            this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // panelEx14
-            // 
-            this.panelEx14.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx14.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx14.Controls.Add(this.button_ac_delete);
-            this.panelEx14.Controls.Add(this.textBox_ac_symbol);
-            this.panelEx14.Controls.Add(this.button_ac_add);
-            this.panelEx14.Controls.Add(this.numericUpDown_ac_year);
-            this.panelEx14.Controls.Add(this.dateTimePicker_ac_enddate);
-            this.panelEx14.Controls.Add(this.textBox_ac_monthchar);
-            this.panelEx14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx14.Location = new System.Drawing.Point(568, 78);
-            this.panelEx14.Name = "panelEx14";
-            this.panelEx14.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx14.Size = new System.Drawing.Size(222, 166);
-            this.panelEx14.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx14.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx14.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx14.Style.BorderWidth = 0;
-            this.panelEx14.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx14.Style.GradientAngle = 90;
-            this.panelEx14.TabIndex = 42;
-            // 
-            // button_ac_delete
-            // 
-            this.button_ac_delete.ForeColor = System.Drawing.Color.Black;
-            this.button_ac_delete.Location = new System.Drawing.Point(138, 126);
-            this.button_ac_delete.Name = "button_ac_delete";
-            this.button_ac_delete.Size = new System.Drawing.Size(69, 23);
-            this.button_ac_delete.TabIndex = 47;
-            this.button_ac_delete.Text = "DELETE";
-            this.button_ac_delete.UseVisualStyleBackColor = true;
-            this.button_ac_delete.Click += new System.EventHandler(this.button_ac_delete_Click);
-            // 
-            // textBox_ac_symbol
-            // 
-            this.textBox_ac_symbol.BackColor = System.Drawing.Color.White;
-            this.textBox_ac_symbol.ForeColor = System.Drawing.Color.Black;
-            this.textBox_ac_symbol.Location = new System.Drawing.Point(15, 14);
-            this.textBox_ac_symbol.MaxLength = 500;
-            this.textBox_ac_symbol.Name = "textBox_ac_symbol";
-            this.textBox_ac_symbol.ReadOnly = true;
-            this.textBox_ac_symbol.Size = new System.Drawing.Size(192, 22);
-            this.textBox_ac_symbol.TabIndex = 46;
-            this.toolTip1.SetToolTip(this.textBox_ac_symbol, "symbol");
-            // 
-            // button_ac_add
-            // 
-            this.button_ac_add.ForeColor = System.Drawing.Color.Black;
-            this.button_ac_add.Location = new System.Drawing.Point(15, 126);
-            this.button_ac_add.Name = "button_ac_add";
-            this.button_ac_add.Size = new System.Drawing.Size(117, 23);
-            this.button_ac_add.TabIndex = 45;
-            this.button_ac_add.Text = "ADD";
-            this.button_ac_add.UseVisualStyleBackColor = true;
-            this.button_ac_add.Click += new System.EventHandler(this.button_ac_add_Click);
-            // 
-            // numericUpDown_ac_year
-            // 
-            this.numericUpDown_ac_year.BackColor = System.Drawing.Color.White;
-            this.numericUpDown_ac_year.ForeColor = System.Drawing.Color.Black;
-            this.numericUpDown_ac_year.Location = new System.Drawing.Point(15, 98);
-            this.numericUpDown_ac_year.Maximum = new decimal(new int[] {
-            2050,
-            0,
-            0,
-            0});
-            this.numericUpDown_ac_year.Minimum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.numericUpDown_ac_year.Name = "numericUpDown_ac_year";
-            this.numericUpDown_ac_year.Size = new System.Drawing.Size(192, 22);
-            this.numericUpDown_ac_year.TabIndex = 44;
-            this.numericUpDown_ac_year.Value = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            // 
-            // dateTimePicker_ac_enddate
-            // 
-            this.dateTimePicker_ac_enddate.BackColor = System.Drawing.Color.White;
-            this.dateTimePicker_ac_enddate.ForeColor = System.Drawing.Color.Black;
-            this.dateTimePicker_ac_enddate.Location = new System.Drawing.Point(15, 42);
-            this.dateTimePicker_ac_enddate.Name = "dateTimePicker_ac_enddate";
-            this.dateTimePicker_ac_enddate.Size = new System.Drawing.Size(192, 22);
-            this.dateTimePicker_ac_enddate.TabIndex = 43;
-            // 
-            // textBox_ac_monthchar
-            // 
-            this.textBox_ac_monthchar.BackColor = System.Drawing.Color.White;
-            this.textBox_ac_monthchar.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox_ac_monthchar.ForeColor = System.Drawing.Color.Black;
-            this.textBox_ac_monthchar.Location = new System.Drawing.Point(15, 70);
-            this.textBox_ac_monthchar.MaxLength = 1;
-            this.textBox_ac_monthchar.Name = "textBox_ac_monthchar";
-            this.textBox_ac_monthchar.Size = new System.Drawing.Size(192, 22);
-            this.textBox_ac_monthchar.TabIndex = 42;
-            this.toolTip1.SetToolTip(this.textBox_ac_monthchar, "Month char");
-            // 
-            // listView_ac_list
-            // 
-            this.listView_ac_list.BackColor = System.Drawing.Color.White;
-            this.listView_ac_list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader9,
-            this.columnHeader17,
-            this.columnHeader18,
-            this.columnHeader19,
-            this.columnHeader20});
-            this.listView_ac_list.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView_ac_list.ForeColor = System.Drawing.Color.Black;
-            this.listView_ac_list.FullRowSelect = true;
-            listViewGroup1.Header = "10/12/2013";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "13/12/12";
-            listViewGroup2.Name = "listViewGroup2";
-            listViewGroup3.Header = "14/12/12";
-            listViewGroup3.Name = "listViewGroup3";
-            this.listView_ac_list.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
-            this.listView_ac_list.Location = new System.Drawing.Point(568, 250);
-            this.listView_ac_list.Name = "listView_ac_list";
-            this.listView_ac_list.Size = new System.Drawing.Size(222, 167);
-            this.listView_ac_list.TabIndex = 41;
-            this.listView_ac_list.UseCompatibleStateImageBehavior = false;
-            this.listView_ac_list.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "Id";
-            this.columnHeader9.Width = 25;
-            // 
-            // columnHeader17
-            // 
-            this.columnHeader17.Text = "Symbol";
-            this.columnHeader17.Width = 65;
-            // 
-            // columnHeader18
-            // 
-            this.columnHeader18.Text = "End date";
-            this.columnHeader18.Width = 90;
-            // 
-            // columnHeader19
-            // 
-            this.columnHeader19.Text = "MonthChar";
-            this.columnHeader19.Width = 110;
-            // 
-            // columnHeader20
-            // 
-            this.columnHeader20.Text = "Year";
-            this.columnHeader20.Width = 80;
-            // 
-            // panelEx13
-            // 
-            this.panelEx13.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx13.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx13.Controls.Add(this.buttonX_ac_update);
-            this.panelEx13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx13.Location = new System.Drawing.Point(568, 3);
-            this.panelEx13.Name = "panelEx13";
-            this.panelEx13.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx13.Size = new System.Drawing.Size(222, 69);
-            this.panelEx13.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx13.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx13.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx13.Style.BorderWidth = 0;
-            this.panelEx13.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx13.Style.GradientAngle = 90;
-            this.panelEx13.TabIndex = 40;
-            // 
-            // buttonX_ac_update
-            // 
-            this.buttonX_ac_update.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX_ac_update.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_ac_update.Location = new System.Drawing.Point(15, 10);
-            this.buttonX_ac_update.Name = "buttonX_ac_update";
-            this.buttonX_ac_update.Size = new System.Drawing.Size(185, 44);
-            this.buttonX_ac_update.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX_ac_update.TabIndex = 53;
-            this.buttonX_ac_update.Text = "UPDATE VALUES ON DB";
-            this.buttonX_ac_update.Tooltip = "For selected symbols";
-            this.buttonX_ac_update.Click += new System.EventHandler(this.buttonX_ac_update_Click);
-            // 
-            // listView2
-            // 
-            this.listView2.BackColor = System.Drawing.Color.White;
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8});
-            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.ForeColor = System.Drawing.Color.Black;
-            this.listView2.FullRowSelect = true;
-            listViewGroup4.Header = "10/12/2013";
-            listViewGroup4.Name = "listViewGroup1";
-            listViewGroup5.Header = "13/12/12";
-            listViewGroup5.Name = "listViewGroup2";
-            listViewGroup6.Header = "14/12/12";
-            listViewGroup6.Name = "listViewGroup3";
-            this.listView2.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
-            this.listView2.Location = new System.Drawing.Point(253, 250);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(309, 167);
-            this.listView2.TabIndex = 36;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Id";
-            this.columnHeader1.Width = 25;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Symbol";
-            this.columnHeader2.Width = 85;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Tick Size";
-            this.columnHeader6.Width = 90;
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "Currency";
-            this.columnHeader7.Width = 110;
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Expiration";
-            this.columnHeader8.Width = 80;
-            // 
-            // panelEx11
-            // 
-            this.panelEx11.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx11.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx11.Controls.Add(this.panelEx12);
-            this.panelEx11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx11.Location = new System.Drawing.Point(253, 3);
-            this.panelEx11.Name = "panelEx11";
-            this.panelEx11.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx11.Size = new System.Drawing.Size(309, 69);
-            this.panelEx11.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx11.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx11.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx11.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx11.Style.GradientAngle = 90;
-            this.panelEx11.TabIndex = 35;
-            // 
-            // panelEx12
-            // 
-            this.panelEx12.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx12.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx12.Controls.Add(this.buttonX_daily_updateValues);
-            this.panelEx12.Controls.Add(this.buttonX_daily_getValues);
-            this.panelEx12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx12.Location = new System.Drawing.Point(1, 1);
-            this.panelEx12.Name = "panelEx12";
-            this.panelEx12.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx12.Size = new System.Drawing.Size(307, 67);
-            this.panelEx12.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx12.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx12.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx12.Style.BorderWidth = 0;
-            this.panelEx12.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx12.Style.GradientAngle = 90;
-            this.panelEx12.TabIndex = 39;
-            // 
-            // buttonX_daily_updateValues
-            // 
-            this.buttonX_daily_updateValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX_daily_updateValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_daily_updateValues.Location = new System.Drawing.Point(171, 9);
-            this.buttonX_daily_updateValues.Name = "buttonX_daily_updateValues";
-            this.buttonX_daily_updateValues.Size = new System.Drawing.Size(133, 46);
-            this.buttonX_daily_updateValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX_daily_updateValues.TabIndex = 54;
-            this.buttonX_daily_updateValues.Text = "Update values for selected symbols";
-            this.toolTip1.SetToolTip(this.buttonX_daily_updateValues, "From CQG");
-            this.buttonX_daily_updateValues.Click += new System.EventHandler(this.buttonX_daily_updateValues_Click);
-            // 
-            // buttonX_daily_getValues
-            // 
-            this.buttonX_daily_getValues.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX_daily_getValues.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX_daily_getValues.Location = new System.Drawing.Point(4, 10);
-            this.buttonX_daily_getValues.Name = "buttonX_daily_getValues";
-            this.buttonX_daily_getValues.Size = new System.Drawing.Size(161, 45);
-            this.buttonX_daily_getValues.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX_daily_getValues.TabIndex = 53;
-            this.buttonX_daily_getValues.Text = "Get values for selected symbols";
-            this.toolTip1.SetToolTip(this.buttonX_daily_getValues, "From DB");
-            this.buttonX_daily_getValues.Click += new System.EventHandler(this.buttonX_daily_getValues_Click);
-            // 
-            // listView1
-            // 
-            this.listView1.BackColor = System.Drawing.Color.White;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader10,
-            this.columnHeader11,
-            this.columnHeader12,
-            this.columnHeader13,
-            this.columnHeader14,
-            this.columnHeader15,
-            this.columnHeader16});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.ForeColor = System.Drawing.Color.Black;
-            this.listView1.FullRowSelect = true;
-            listViewGroup7.Header = "10/12/2013";
-            listViewGroup7.Name = "listViewGroup1";
-            listViewGroup8.Header = "13/12/12";
-            listViewGroup8.Name = "listViewGroup2";
-            listViewGroup9.Header = "14/12/12";
-            listViewGroup9.Name = "listViewGroup3";
-            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup7,
-            listViewGroup8,
-            listViewGroup9});
-            this.listView1.Location = new System.Drawing.Point(253, 78);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(309, 166);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.Text = "Id";
-            this.columnHeader10.Width = 25;
-            // 
-            // columnHeader11
-            // 
-            this.columnHeader11.Text = "Symbol";
-            this.columnHeader11.Width = 65;
-            // 
-            // columnHeader12
-            // 
-            this.columnHeader12.Text = "Date time";
-            this.columnHeader12.Width = 90;
-            // 
-            // columnHeader13
-            // 
-            this.columnHeader13.Text = "Indicative Open";
-            this.columnHeader13.Width = 110;
-            // 
-            // columnHeader14
-            // 
-            this.columnHeader14.Text = "Settlement";
-            this.columnHeader14.Width = 80;
-            // 
-            // columnHeader15
-            // 
-            this.columnHeader15.Text = "Marker";
-            // 
-            // columnHeader16
-            // 
-            this.columnHeader16.Text = "Today Marker";
-            this.columnHeader16.Width = 90;
-            // 
-            // panelEx9
-            // 
-            this.panelEx9.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx9.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx9.Controls.Add(this.panelEx10);
-            this.panelEx9.Controls.Add(this.labelX20);
-            this.panelEx9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx9.Location = new System.Drawing.Point(3, 3);
-            this.panelEx9.Name = "panelEx9";
-            this.panelEx9.Padding = new System.Windows.Forms.Padding(1);
-            this.tableLayoutPanel2.SetRowSpan(this.panelEx9, 3);
-            this.panelEx9.Size = new System.Drawing.Size(244, 414);
-            this.panelEx9.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx9.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx9.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx9.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx9.Style.GradientAngle = 90;
-            this.panelEx9.TabIndex = 34;
-            // 
-            // panelEx10
-            // 
-            this.panelEx10.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelEx10.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelEx10.Controls.Add(this.listBox_daily_symbols);
-            this.panelEx10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEx10.Location = new System.Drawing.Point(1, 33);
-            this.panelEx10.Name = "panelEx10";
-            this.panelEx10.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx10.Size = new System.Drawing.Size(242, 380);
-            this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
-            this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelEx10.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelEx10.Style.BorderWidth = 0;
-            this.panelEx10.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelEx10.Style.GradientAngle = 90;
-            this.panelEx10.TabIndex = 39;
-            this.panelEx10.Text = "panelEx7";
-            // 
-            // listBox_daily_symbols
-            // 
-            this.listBox_daily_symbols.BackColor = System.Drawing.Color.White;
-            this.listBox_daily_symbols.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox_daily_symbols.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox_daily_symbols.ForeColor = System.Drawing.Color.Black;
-            this.listBox_daily_symbols.FormattingEnabled = true;
-            this.listBox_daily_symbols.Location = new System.Drawing.Point(1, 1);
-            this.listBox_daily_symbols.Name = "listBox_daily_symbols";
-            this.listBox_daily_symbols.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox_daily_symbols.Size = new System.Drawing.Size(240, 378);
-            this.listBox_daily_symbols.TabIndex = 37;
-            this.listBox_daily_symbols.SelectedIndexChanged += new System.EventHandler(this.listBox_daily_symbols_SelectedIndexChanged);
-            // 
-            // labelX20
-            // 
-            // 
-            // 
-            // 
-            this.labelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX20.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelX20.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX20.ForeColor = System.Drawing.Color.Black;
-            this.labelX20.Location = new System.Drawing.Point(1, 1);
-            this.labelX20.Name = "labelX20";
-            this.labelX20.PaddingLeft = 6;
-            this.labelX20.Size = new System.Drawing.Size(242, 32);
-            this.labelX20.TabIndex = 38;
-            this.labelX20.Text = "SYMBOLS";
-            // 
             // metroTabPanel4
             // 
             this.metroTabPanel4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -2528,6 +2531,10 @@ namespace DataNetClient.Forms
             this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Metro;
             this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.SteelBlue);
             // 
+            // columnHeader21
+            // 
+            this.columnHeader21.Text = "TickValue";
+            // 
             // FormMainDN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2547,6 +2554,16 @@ namespace DataNetClient.Forms
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.metroShell1.ResumeLayout(false);
             this.metroShell1.PerformLayout();
+            this.metroTabPanel5.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.panelEx14.ResumeLayout(false);
+            this.panelEx14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ac_year)).EndInit();
+            this.panelEx13.ResumeLayout(false);
+            this.panelEx11.ResumeLayout(false);
+            this.panelEx12.ResumeLayout(false);
+            this.panelEx9.ResumeLayout(false);
+            this.panelEx10.ResumeLayout(false);
             this.metroTabPanel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panelEx3.ResumeLayout(false);
@@ -2568,16 +2585,6 @@ namespace DataNetClient.Forms
             this.panelEx2.PerformLayout();
             this.panelEx8.ResumeLayout(false);
             this.contextMenuStripSymbols.ResumeLayout(false);
-            this.metroTabPanel5.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.panelEx14.ResumeLayout(false);
-            this.panelEx14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ac_year)).EndInit();
-            this.panelEx13.ResumeLayout(false);
-            this.panelEx11.ResumeLayout(false);
-            this.panelEx12.ResumeLayout(false);
-            this.panelEx9.ResumeLayout(false);
-            this.panelEx10.ResumeLayout(false);
             this.metroTabPanel4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.metroTabPanel1.ResumeLayout(false);
@@ -2757,7 +2764,8 @@ namespace DataNetClient.Forms
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.TextBox textBox_ac_symbol;
-        private System.Windows.Forms.Button button_ac_delete;        
+        private System.Windows.Forms.Button button_ac_delete;
+        private System.Windows.Forms.ColumnHeader columnHeader21;        
     }
 }
 

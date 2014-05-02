@@ -2126,10 +2126,7 @@ namespace DataNetClient.Forms
                 var lastGroupName = "";
                 var gr = new ListViewGroup();
                 foreach (var NotChangedValue in NotChangedList)
-
                 {
-                    
-
                     if (lastGroupName != NotChangedValue.Symbol)
                     {
                         gr = listView2.Groups.Add(NotChangedValue.Symbol, NotChangedValue.Symbol);
@@ -2139,15 +2136,12 @@ namespace DataNetClient.Forms
                     var item = new ListViewItem(NotChangedValue.ID.ToString(CultureInfo.InvariantCulture)) { Group = gr };
                     item.SubItems.Add(NotChangedValue.Symbol);
                     item.SubItems.Add(NotChangedValue.TickSize.ToString());
-
                     item.SubItems.Add(NotChangedValue.Currency.ToString(CultureInfo.InvariantCulture));
-
-
                     item.SubItems.Add(NotChangedValue.Expiration.ToShortDateString());
+                    item.SubItems.Add(NotChangedValue.TickValue.ToString());
 
 
-                        listView2.Items.Add(item);
-                    
+                    listView2.Items.Add(item);                    
                 }
             }
         }
@@ -2249,10 +2243,15 @@ namespace DataNetClient.Forms
 
         private void button_ac_add_Click(object sender, EventArgs e)
         {
+            
             var symbol = textBox_ac_symbol.Text;
             var endDate = dateTimePicker_ac_enddate.Value;
             var monthChar = textBox_ac_monthchar.Text;
             var year = numericUpDown_ac_year.Value;
+
+            if (string.IsNullOrEmpty(monthChar)) {
+                ToastNotification.Show(this, "Please type month char!");
+                return; }
 
             if(string.IsNullOrEmpty( textBox_ac_symbol.Text)){
                 ToastNotification.Show(panelEx14, "Please selcet symbol");
@@ -2277,10 +2276,11 @@ namespace DataNetClient.Forms
             }
             foreach (var item in listView_ac_list.SelectedIndices)
             {
-                var symbol = listView_ac_list.Items[(int)item].SubItems[0].Text.ToString();
-                var endDate = (DateTime.Parse(listView_ac_list.Items[(int)item].SubItems[1].Text.ToString()));
+                var symbol = listView_ac_list.Items[(int)item].SubItems[1].Text.ToString();
+                var monthChar = listView_ac_list.Items[(int)item].SubItems[3].Text.ToString();
+                var year = listView_ac_list.Items[(int)item].SubItems[4].Text.ToString();
 
-                DatabaseManager.RemoveExpirationDatesForSymbol(symbol, endDate);
+                DatabaseManager.RemoveExpirationDatesForSymbol(symbol, monthChar, year);
 
             }
 
