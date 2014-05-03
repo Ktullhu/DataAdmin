@@ -216,11 +216,11 @@ namespace TickNetClient.Core
                 var item = _symbolsInProgress.Find(oo => oo.Name == symbol);
                 item.Description = "Subscribed.";
                 item.CqgInstrument = cqgInstrument;
-                item.TickData = new TickData(DatabaseManager.GetTableTsName(symbol), symbol);
-                item.DomData= new DomDataModel(DatabaseManager.GetTableTsName(symbol),symbol);
+                item.TickData = new TickData(ClientDatabaseManager.GetTableTsName(symbol), symbol);
+                item.DomData= new DomDataModel(ClientDatabaseManager.GetTableTsName(symbol),symbol);
 
-                DatabaseManager.CreateLiveTableTs(symbol);
-                DatabaseManager.CreateLiveTableDm(symbol);
+                ClientDatabaseManager.CreateLiveTableTs(symbol);
+                ClientDatabaseManager.CreateLiveTableDm(symbol);
 
                 OnSymbolSubscribed(item.Name, item.Depth);
                 RefreshSubscribedSymbolOnUi();
@@ -302,12 +302,12 @@ namespace TickNetClient.Core
                 };
 
                 
-                    DatabaseManager.AddToBuffer(query, true, tickDomData);
+                    ClientDatabaseManager.AddToBuffer(query, true, tickDomData);
 
-                    if (!DatabaseManager.CurrentDbIsShared || symbolData.CanInsert)
+                    if (!ClientDatabaseManager.CurrentDbIsShared || symbolData.CanInsert)
                     {
                         //if (DatabaseManager.CurrentDbIsShared && serverTimestamp < _allowedSymbols[instrument.FullName])return;
-                        DatabaseManager.RunSQLLive(query, "InsertData", instrument.FullName);
+                        ClientDatabaseManager.RunSQLLive(query, "InsertData", instrument.FullName);
                     }
 
 
@@ -388,11 +388,11 @@ namespace TickNetClient.Core
                     if (tickData.Timestamp < DateTime.Now.AddDays(-1))
                         return;
                         
-                        DatabaseManager.AddToBuffer(query, false, tickData);
-                        if (!DatabaseManager.CurrentDbIsShared || symbolData.CanInsert)
+                        ClientDatabaseManager.AddToBuffer(query, false, tickData);
+                        if (!ClientDatabaseManager.CurrentDbIsShared || symbolData.CanInsert)
                         {
                             //todo if (DatabaseManager.CurrentDbIsShared && tickData.Timestamp < _allowedSymbols[tickData.SymbolName])return;
-                            DatabaseManager.RunSQLLive(query, "InsertData", instrument.FullName);
+                            ClientDatabaseManager.RunSQLLive(query, "InsertData", instrument.FullName);
                         }
 
                 }
@@ -845,7 +845,7 @@ namespace TickNetClient.Core
                 var groupModel = _groups[index].GroupModel;
                 if (!groupModel.IsAutoModeEnabled) continue;
 
-                var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
+                var sess = ClientDatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 var foundedRight = false;
                 foreach (var oneSess in sess)
                 {                    

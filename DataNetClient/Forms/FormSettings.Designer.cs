@@ -50,6 +50,7 @@ namespace DataNetClient.Forms
             this.superTabControlPanel9 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.superTabControlPanel8 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.checkBox_makeBigger = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel2.SuspendLayout();
@@ -101,6 +102,7 @@ namespace DataNetClient.Forms
             // 
             // superTabControlPanel2
             // 
+            this.superTabControlPanel2.Controls.Add(this.checkBox_makeBigger);
             this.superTabControlPanel2.Controls.Add(this.checkBox_add_text);
             this.superTabControlPanel2.Controls.Add(this.textBox1);
             this.superTabControlPanel2.Controls.Add(this.labelX7);
@@ -421,6 +423,18 @@ namespace DataNetClient.Forms
             this.superTabControlPanel8.Size = new System.Drawing.Size(324, 305);
             this.superTabControlPanel8.TabIndex = 2;
             // 
+            // checkBox_makeBigger
+            // 
+            this.checkBox_makeBigger.AutoSize = true;
+            this.checkBox_makeBigger.BackColor = System.Drawing.Color.White;
+            this.checkBox_makeBigger.ForeColor = System.Drawing.Color.Black;
+            this.checkBox_makeBigger.Location = new System.Drawing.Point(10, 252);
+            this.checkBox_makeBigger.Name = "checkBox_makeBigger";
+            this.checkBox_makeBigger.Size = new System.Drawing.Size(145, 17);
+            this.checkBox_makeBigger.TabIndex = 58;
+            this.checkBox_makeBigger.Text = "Make bar tables bigger";
+            this.checkBox_makeBigger.UseVisualStyleBackColor = false;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,6 +488,7 @@ namespace DataNetClient.Forms
         private System.Windows.Forms.TextBox textBox1;
         private DevComponents.DotNetBar.LabelX labelX7;
         private System.Windows.Forms.CheckBox checkBox_add_text;
+        private System.Windows.Forms.CheckBox checkBox_makeBigger;
 
     }
 }

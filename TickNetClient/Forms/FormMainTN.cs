@@ -141,7 +141,7 @@ namespace TickNetClient.Forms
         {
             try
             {                
-                DatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
+                ClientDatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
 
                 if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0, 0);
                 if (Settings.Default.S.Width < 0 || Settings.Default.S.Height < 0) Settings.Default.S = new Size(800, 500);
@@ -196,8 +196,8 @@ namespace TickNetClient.Forms
             {
                 _pingTimer.Enabled = false;
                 Logout(false);
-                DatabaseManager.CloseConnectionToDbSystem();
-                DatabaseManager.CloseConnectionToDbLive();
+                ClientDatabaseManager.CloseConnectionToDbSystem();
+                ClientDatabaseManager.CloseConnectionToDbLive();
 
                 if (checkBoxX1.Checked)
                 {
@@ -806,9 +806,9 @@ namespace TickNetClient.Forms
         {
             if (!LoginToNormalizer(_serverHost))
                 return;
-            if (DatabaseManager.IsConnected() && DatabaseManager.CurrentDbIsShared) return;
+            if (ClientDatabaseManager.IsConnected() && ClientDatabaseManager.CurrentDbIsShared) return;
 
-            DatabaseManager.ConnectToShareDb(_connectionToSharedDb, "", "", _connectionToSharedDbLive, _client.UserID);
+            ClientDatabaseManager.ConnectToShareDb(_connectionToSharedDb, "", "", _connectionToSharedDbLive, _client.UserID);
 
 
 
@@ -824,7 +824,7 @@ namespace TickNetClient.Forms
 
         private void ui_buttonX_localConnect_Click(object sender, EventArgs e)
         {
-            if (DatabaseManager.IsConnected() && !DatabaseManager.CurrentDbIsShared) return;
+            if (ClientDatabaseManager.IsConnected() && !ClientDatabaseManager.CurrentDbIsShared) return;
 
             var dbName = ui_home_textBoxX_db.Text;
             var host = ui_home_textBoxX_host.Text;
@@ -835,7 +835,7 @@ namespace TickNetClient.Forms
             _connectionToLocalDb = "SERVER=" + host + "; Port=3306; DATABASE=" + dbName + "; UID=" + usName + "; PASSWORD=" + passw;
             _connectionToLocalDbLive = "SERVER=" + host + "; Port=3306; DATABASE=" + dbNameLive + "; UID=" + usName + "; PASSWORD=" + passw;
 
-            DatabaseManager.ConnectToLocalDb(_connectionToLocalDb, "","",_connectionToLocalDbLive, _client.UserID);
+            ClientDatabaseManager.ConnectToLocalDb(_connectionToLocalDb, "","",_connectionToLocalDbLive, _client.UserID);
             _client.ConnectedToSharedDb = false;
             _client.ConnectedToLocalDb = true;
 
@@ -871,12 +871,12 @@ namespace TickNetClient.Forms
             
             if (_client == null) return;
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
-            if (!DatabaseManager.IsConnected()) return;
+            if (!ClientDatabaseManager.IsConnected()) return;
 
             _groupItems = new List<GroupItemModel>();
             //styledListControl_groups.ClearItems();
-            var groups = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet);
-            groups = OrderListOfGroups(DatabaseManager.SortingModeIsAsc, groups);
+            var groups = ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet);
+            groups = OrderListOfGroups(ClientDatabaseManager.SortingModeIsAsc, groups);
             Invoke((Action)(() => { 
             
 
@@ -886,9 +886,9 @@ namespace TickNetClient.Forms
             {
                 var groupModel = groups[i];
 
-                var symbols = DatabaseManager.GetSymbolsInGroup(groupModel.GroupId).Select(oo => oo.SymbolName).ToList();
+                var symbols = ClientDatabaseManager.GetSymbolsInGroup(groupModel.GroupId).Select(oo => oo.SymbolName).ToList();
 
-                var sessions = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
+                var sessions = ClientDatabaseManager.GetSessionsInGroup(groupModel.GroupId);
 
                 _groupItems.Add(
                     new GroupItemModel
@@ -927,12 +927,12 @@ namespace TickNetClient.Forms
         {
             if (_client == null) return;
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
-            if (!DatabaseManager.IsConnected()) return;
+            if (!ClientDatabaseManager.IsConnected()) return;
 
             ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Clear()));
             ui_BufferSymbols_comboBox.Invoke((Action)(() => ui_BufferSymbols_comboBox.Items.Clear()));
-            DatabaseManager.Commit();
-            _symbols = DatabaseManager.GetSymbols(_client.UserID, true);
+            ClientDatabaseManager.Commit();
+            _symbols = ClientDatabaseManager.GetSymbols(_client.UserID, true);
             foreach (var item in _symbols)
             {
                 SymbolModel item1 = item;
@@ -972,8 +972,8 @@ namespace TickNetClient.Forms
             {
                 metroTabItem2.Visible = false;
                 metroShell1.SelectedTab = metroTabItem1;
-                DatabaseManager.CloseConnectionToDbLive();
-                DatabaseManager.CloseConnectionToDbSystem();
+                ClientDatabaseManager.CloseConnectionToDbLive();
+                ClientDatabaseManager.CloseConnectionToDbSystem();
                 RefreshGroups();
                 RefreshSymbols();
                 _client = null;
@@ -1047,7 +1047,7 @@ namespace TickNetClient.Forms
 
             var groupName = _symbolsEditControl.ui_listBox_groups.SelectedItem.ToString();
             var oldGroupInfo =
-                DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet).First(oo => oo.GroupName == groupName);
+                ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.TickNet).First(oo => oo.GroupName == groupName);
             //_groups.Find(a => a.GroupName == groupName);
 
             _editListControl = new EditListControl(oldGroupInfo.GroupId,oldGroupInfo)
@@ -1057,7 +1057,7 @@ namespace TickNetClient.Forms
                 OpenSymbolControl = true
             };
 
-            var symbols = DatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
+            var symbols = ClientDatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
 
             foreach (var symbol in symbols)
             {
@@ -1154,13 +1154,13 @@ namespace TickNetClient.Forms
                 Depth = 1
             };
 
-            if (!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && !DatabaseManager.GetAllGroups(ApplicationType.TickNet).Exists(a => a.GroupName == group.GroupName))
+            if (!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && !ClientDatabaseManager.GetAllGroups(ApplicationType.TickNet).Exists(a => a.GroupName == group.GroupName))
             {
-                if (DatabaseManager.AddGroupOfSymbols(group))
+                if (ClientDatabaseManager.AddGroupOfSymbols(group))
                 {
-                    group.GroupId = DatabaseManager.GetGroupIdByName(group.GroupName);
+                    group.GroupId = ClientDatabaseManager.GetGroupIdByName(group.GroupName);
 
-                    DatabaseManager.AddGroupForUser(_client.UserID, group, ApplicationType.TickNet);
+                    ClientDatabaseManager.AddGroupForUser(_client.UserID, group, ApplicationType.TickNet);
                     RefreshGroups();
 
                     _clientService.ServiceProxy.onSymbolGroupListRecieved("");
@@ -1212,20 +1212,20 @@ namespace TickNetClient.Forms
             if ((!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)) || (group.GroupName == oldGroupName && _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)))
             {
                 var groupId = _groupItems.Find(a => a.GroupModel.GroupName == oldGroupName).GroupModel.GroupId;
-                DatabaseManager.EditGroupOfSymbols(groupId, group);
-                var symbolsInGroup = DatabaseManager.GetSymbolsInGroup(groupId);
+                ClientDatabaseManager.EditGroupOfSymbols(groupId, group);
+                var symbolsInGroup = ClientDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var item in _editListControl.lbSelList.Items)
                 {
                     if (!symbolsInGroup.Exists(a => a.SymbolName == item.ToString()) && _symbols.Exists(a => a.SymbolName == item.ToString()))
                     {
                         var symbol = _symbols.Find(a => a.SymbolName == item.ToString());
-                        DatabaseManager.AddSymbolIntoGroup(groupId, symbol);
+                        ClientDatabaseManager.AddSymbolIntoGroup(groupId, symbol);
 
 
                     }
                 }
 
-                symbolsInGroup = DatabaseManager.GetSymbolsInGroup(groupId);
+                symbolsInGroup = ClientDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var symbol in symbolsInGroup)
                 {
                     var exist = false;
@@ -1233,7 +1233,7 @@ namespace TickNetClient.Forms
                     {
                         if (symbol.SymbolName == item.ToString()) exist = true;
                     }
-                    if (!exist) DatabaseManager.DeleteSymbolFromGroup(groupId, symbol.SymbolId);
+                    if (!exist) ClientDatabaseManager.DeleteSymbolFromGroup(groupId, symbol.SymbolId);
                 }
 
                 RefreshGroups();
@@ -1298,7 +1298,7 @@ namespace TickNetClient.Forms
             //}
 
 
-            if (DatabaseManager.CurrentDbIsShared && symbols.Count > 0 && canSendlog && _normalizerStatus)
+            if (ClientDatabaseManager.CurrentDbIsShared && symbols.Count > 0 && canSendlog && _normalizerStatus)
             {
                 Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.AllCollectFinished());
             }
@@ -1312,8 +1312,8 @@ namespace TickNetClient.Forms
                 ui__status_labelItem_status.Text = @"Please, select the instruments.";
                 return;
             }
-            DatabaseManager.MaxQueueSize = (int)ui_SQL_PacketSize.Value;
-            DatabaseManager.MaxBufferSize = (int)ui_BufferSizeValue.Value;
+            ClientDatabaseManager.MaxQueueSize = (int)ui_SQL_PacketSize.Value;
+            ClientDatabaseManager.MaxBufferSize = (int)ui_BufferSizeValue.Value;
 
             var symbols = ui_listBox_symbols.SelectedItems.Cast<object>().Cast<string>().ToList();
 
@@ -1448,7 +1448,7 @@ namespace TickNetClient.Forms
 
         private void CollectStoped(string symbol, bool canSendLog)
         {
-            if (DatabaseManager.CurrentDbIsShared && canSendLog)
+            if (ClientDatabaseManager.CurrentDbIsShared && canSendLog)
             {
                 Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.CollectFinished(symbol));
             }
@@ -1458,7 +1458,7 @@ namespace TickNetClient.Forms
         {
             foreach (var symbol in symbols)
             {
-                if(DatabaseManager.CurrentDbIsShared)
+                if(ClientDatabaseManager.CurrentDbIsShared)
                 Task.Factory.StartNew(() => _dnormClientService.ServiceProxy.TickNetCollectRequest(
                      new DataNormalizatorMessageFactory
                          .TickNetCollectRequest
@@ -1536,8 +1536,8 @@ namespace TickNetClient.Forms
         private void buttonX1_Click(object sender, EventArgs e)
         {
             if (ui_BufferSymbols_comboBox.SelectedIndex < 0) return;
-            var domBuffer = DatabaseManager.GetBufferForSymbol(ui_BufferSymbols_comboBox.SelectedItem.ToString(), true).OrderBy(item=>item.Date).ToList();
-            var tickBuffer = DatabaseManager.GetBufferForSymbol(ui_BufferSymbols_comboBox.SelectedItem.ToString(), false).OrderBy(item=>item.Date).ToList();
+            var domBuffer = ClientDatabaseManager.GetBufferForSymbol(ui_BufferSymbols_comboBox.SelectedItem.ToString(), true).OrderBy(item=>item.Date).ToList();
+            var tickBuffer = ClientDatabaseManager.GetBufferForSymbol(ui_BufferSymbols_comboBox.SelectedItem.ToString(), false).OrderBy(item=>item.Date).ToList();
 
             ui_DomTable_dataGridView.Rows.Clear();
             ui_TickTable_dataGridView.Rows.Clear();
@@ -1768,7 +1768,7 @@ namespace TickNetClient.Forms
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DatabaseManager.SortingModeIsAsc = !DatabaseManager.SortingModeIsAsc;
+            ClientDatabaseManager.SortingModeIsAsc = !ClientDatabaseManager.SortingModeIsAsc;
             RefreshSymbols();
             RefreshGroups();
         }
@@ -1777,7 +1777,7 @@ namespace TickNetClient.Forms
         {
             var newMode = Convert.ToInt32((sender as LinkLabel).Tag);
             if (_sortMode == newMode)
-                DatabaseManager.SortingModeIsAsc = !DatabaseManager.SortingModeIsAsc;
+                ClientDatabaseManager.SortingModeIsAsc = !ClientDatabaseManager.SortingModeIsAsc;
 
             _sortMode = newMode;
             RefreshGroups();

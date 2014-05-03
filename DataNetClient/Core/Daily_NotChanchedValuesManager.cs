@@ -29,7 +29,7 @@ namespace DataNetClient.Core
 
         public static List<string> GetAll()
         {
-            var dailyValueList = DatabaseManager.GetAllDailyValues();
+            var dailyValueList = ClientDatabaseManager.GetAllDailyValues();
             return dailyValueList.Select(item => item.symbol).ToList();
             
         }
@@ -38,7 +38,7 @@ namespace DataNetClient.Core
         public static List<DailyValueModel> GetValues(DateTime date, string symbol, bool allDate = false)
         {
            
-                return DatabaseManager.GetValue(date, symbol, allDate);
+                return ClientDatabaseManager.GetValue(date, symbol, allDate);
            
 
         }
@@ -49,7 +49,7 @@ namespace DataNetClient.Core
 
             foreach (var symbol in symbols)
             {
-                if (!DatabaseManager.IfTodayWeHadSettingDailyValue(symbol) && !SubscribedSymbol.Contains(symbol))
+                if (!ClientDatabaseManager.IfTodayWeHadSettingDailyValue(symbol) && !SubscribedSymbol.Contains(symbol))
                 {
                    // _subscribedSymbol.Add(symbol);
                     if(IsNoCont(symbol))
@@ -126,7 +126,7 @@ namespace DataNetClient.Core
                     qtTodayMarker = quote.Price;
 
 
-                DatabaseManager.AddDailyValue(qtIndicativeOpen, qtMarker, qtSettlement, qtTodayMarker, cqgInstrument.FullName, DateTime.Today);
+                ClientDatabaseManager.AddDailyValue(qtIndicativeOpen, qtMarker, qtSettlement, qtTodayMarker, cqgInstrument.FullName, DateTime.Today);
             _cqgVar.RemoveInstrument(cqgInstrument);
             SubscribedSymbol.Remove(cqgInstrument.FullName);
 
@@ -165,7 +165,7 @@ namespace DataNetClient.Core
                 if (props != null && _cqgVar.IsValid(properties.Value))
                     tickValue = properties.Value;
 
-                DatabaseManager.AddNotChangedValue(symbol, tickSize, curency, expiration, tickValue);
+                ClientDatabaseManager.AddNotChangedValue(symbol, tickSize, curency, expiration, tickValue);
             }
 
         }

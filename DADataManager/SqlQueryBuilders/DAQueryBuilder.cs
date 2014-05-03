@@ -25,11 +25,14 @@ namespace DADataManager.SqlQueryBuilders
         private const string TblMissingBarException = "tblMissingBarException";
         private const string TblSessionHolidayTimes = "tblSessionHolidayTimes";
         private const string Tblfullreport = "tblfullreport";
+
+        private const string TblNotChangedValues = "tbl_not_changed_values";
         private const string TblSessions = "tbl_sessions";
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblLogs = "tbl_logs";
         private const string TblDailyValue = "tbl_daily_value";
-        
+        private const string TblSymbolsFormat = "tbl_symbols_format";
+
         #endregion
 
      
@@ -174,8 +177,36 @@ namespace DADataManager.SqlQueryBuilders
                                      + "ENGINE=InnoDB;";
             
 
+            const string createSymbolsFormatTable = "CREATE TABLE  IF NOT EXISTS `" + TblSymbolsFormat+ "`("
+                                                 + "`Id` int(12) unsigned not null auto_increment,"
+                                                 + "`Symbol` varchar(50) not null  DEFAULT '',"
+                                                 + "`Format`  varchar(50) not null  DEFAULT '9,6',"
+                                                 + "PRIMARY KEY (`Id`),"
+                                                 + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"                                                 
+                                                 + ")"
+                                                 + "COLLATE='latin1_swedish_ci'"
+                                                 + "ENGINE=InnoDB;";
+
+            var alterLogs ="ALTER TABLE `tbl_logs`	ADD COLUMN `Comments` VARCHAR(200) NULL DEFAULT '' AFTER `Application`;";
+
+            string s = Convert.ToDateTime(DateTime.MinValue).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+            string createNotChangedValuesTable = "CREATE TABLE  IF NOT EXISTS `" + TblNotChangedValues + "`("
+                                        + "`Id` int(12) unsigned not null auto_increment,"
+                                        + "`Symbol` varchar(50) not null,"
+                                        + "`TickSize` double not null,"
+                                        + "`Currency` varchar(50) not null,"
+                                        + "`Expiration` DateTime null DEFAULT '" + s + "', "
+                                        + "`TickValue` double not null,"
+                                        + "PRIMARY KEY (`Id`),"
+                                        + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"
+                                        + ")"
+                                        + "COLLATE='latin1_swedish_ci'"
+                                        + "ENGINE=InnoDB;";
+
             return createGroupsForUsers + createSymbolsForUsers + createSymbolsGroups +
-                createSymbolsInGroups + createSymbolsSql + createUsersSql + createSessions+createSessionsForGroups +createDailyTable + createLogsSql;
+                createSymbolsInGroups + createSymbolsSql + createUsersSql + createSessions+createSessionsForGroups
+                + createDailyTable + createLogsSql + createSymbolsFormatTable + createSymbolsGroups + alterLogs + createNotChangedValuesTable;
         }
 
         public static string GetAddGroupSql(GroupModel group)
@@ -228,51 +259,6 @@ namespace DADataManager.SqlQueryBuilders
             string sql = "DELETE FROM " + TblSessions + " WHERE Id = " + sessionId;
             return sql;
         }
-
-        internal static string CreateLiveTableTs(string symbol)
-        {
-            string q = "CREATE TABLE IF NOT EXISTS `" + "TS_" + symbol.Substring(5, symbol.Length - 5).ToUpper() + "` (";
-            q += "`Id` int(10) NOT NULL AUTO_INCREMENT,";
-            q += "`Symbol` varchar(20) DEFAULT NULL,";
-            q += "`Bid` DOUBLE(15,6) DEFAULT NULL,";
-            q += "`Ask` DOUBLE(15,6) DEFAULT NULL,";
-            q += "`BidVol` int(10) DEFAULT NULL,";
-            q += "`AskVol` int(10) DEFAULT NULL,";
-            q += "`Trade` DOUBLE(9,6) DEFAULT NULL,";
-            q += "`TradeVol` int(10) DEFAULT NULL,";
-            q += "`Time` DATETIME(6) DEFAULT NULL,";
-            q += "`TickType` varchar(20) DEFAULT NULL,";
-            q += "`TimeLocal` DATETIME(6) DEFAULT NULL,";
-            q += "`GroupID` int(10),";
-            q += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
-            q += "PRIMARY KEY (`Id`),UNIQUE KEY `UniqRecord_Key` ( `Time`,`Id`));";
-            return q;
-            
-        }
-
-        internal static string CreateLiveTableDm(string symbol)
-        {
-            var newTable = "DM_" + symbol.Substring(5, symbol.Length - 5).ToUpper();
-
-            String q = "CREATE TABLE IF NOT EXISTS `" + newTable + "` (";
-            q += "`Id` int(10) NOT NULL AUTO_INCREMENT,";
-            q += "`Symbol` varchar(20) DEFAULT NULL,";
-            q += "`Depth` int(10) DEFAULT 0,";
-            q += "`DOMBid` DOUBLE(15,6) DEFAULT NULL,";
-            q += "`DOMAsk` DOUBLE(15,6) DEFAULT NULL,";
-            q += "`DOMBidVol` int(10) DEFAULT NULL,";
-            q += "`DOMAskVol` int(10) DEFAULT NULL,";
-            q += "`Trade` DOUBLE(9,6) DEFAULT NULL,";
-            q += "`TradeVol` int(10) DEFAULT NULL,";
-            q += "`Time` DATETIME(6) DEFAULT NULL,";
-            q += "`TimeLocal` DATETIME(6) DEFAULT NULL,";
-            q += "`GroupID` int(10),";
-            q += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
-
-            q += "PRIMARY KEY (`Id`),UNIQUE KEY `UniqRecord_Key` (`Time`, `Id`));";
-            return q;
-        }
-
 
         public static String InsertData_dom(String tableName, CQGInstrument instrument, int depth, uint groupID, bool isNew, string userName, out double askPrice, out int askVol, out double bidPrice, out int bidVol, DateTime serverTime)
         {
@@ -342,6 +328,6 @@ namespace DADataManager.SqlQueryBuilders
             runQuery += "'" + userName + "');";
             return runQuery;
         }
-
+        
     }
 }

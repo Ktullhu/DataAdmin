@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminDatabaseManager.cs" />
-    <Compile Include="DatabaseManager.cs" />
+    <Compile Include="ClientDatabaseManager.cs" />
     <Compile Include="DataExportClientDataManager.cs" />
     <Compile Include="Models\DomDataModel.cs" />
     <Compile Include="Models\ExpirationModel.cs" />

@@ -100,8 +100,8 @@ namespace DataNetClient.Forms
         {
             ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Clear()));
 
-            _symbols = DatabaseManager.GetSymbols(_userID,false);
-            _allSymbols = DatabaseManager.GetAllSymbols();
+            _symbols = ClientDatabaseManager.GetSymbols(_userID,false);
+            _allSymbols = ClientDatabaseManager.GetAllSymbols();
             foreach (var item in _symbols)
             {
                 SymbolModel item1 = item;
@@ -111,9 +111,9 @@ namespace DataNetClient.Forms
         
         private void RefreshGroups()
         {
-            _groups = DatabaseManager.GetGroups(_userID, ApplicationType.DataNet);
+            _groups = ClientDatabaseManager.GetGroups(_userID, ApplicationType.DataNet);
             ui_listBox_groups.Invoke((Action)(() => ui_listBox_groups.Items.Clear()));
-            if (DatabaseManager.CurrentDbIsShared) _allGroups = DatabaseManager.GetAllGroups(ApplicationType.DataNet);
+            if (ClientDatabaseManager.CurrentDbIsShared) _allGroups = ClientDatabaseManager.GetAllGroups(ApplicationType.DataNet);
             foreach (var item in _groups)
             {
                 var item1 = item;
@@ -134,13 +134,13 @@ namespace DataNetClient.Forms
                 return;
             }
             var newSymbol = ui_textBoxXSymbolName.Text;
-            if (!DatabaseManager.CurrentDbIsShared) DatabaseManager.AddNewSymbol(newSymbol);
-            if (DatabaseManager.CurrentDbIsShared)
+            if (!ClientDatabaseManager.CurrentDbIsShared) ClientDatabaseManager.AddNewSymbol(newSymbol);
+            if (ClientDatabaseManager.CurrentDbIsShared)
             {
-                if (!_allSymbols.Exists(a => a.SymbolName == newSymbol)) DatabaseManager.AddNewSymbol(newSymbol);
-                DatabaseManager.Commit();
-                var symbolId = DatabaseManager.GetAllSymbols().Find(a => a.SymbolName == newSymbol).SymbolId;
-                DatabaseManager.AddSymbolForUser(_userID, symbolId, ApplicationType.DataNet);
+                if (!_allSymbols.Exists(a => a.SymbolName == newSymbol)) ClientDatabaseManager.AddNewSymbol(newSymbol);
+                ClientDatabaseManager.Commit();
+                var symbolId = ClientDatabaseManager.GetAllSymbols().Find(a => a.SymbolName == newSymbol).SymbolId;
+                ClientDatabaseManager.AddSymbolForUser(_userID, symbolId, ApplicationType.DataNet);
             }
             RefreshSymbols();
             ToastNotification.Show(this, "Symbol '" + newSymbol + "' added");
@@ -171,16 +171,16 @@ namespace DataNetClient.Forms
 
                 foreach (var item in listSymbols)
                 {
-                    if (!DatabaseManager.CurrentDbIsShared)
-                        DatabaseManager.DeleteSymbol(_symbols.Find(a => a.SymbolName == item).SymbolId);
-                    if (DatabaseManager.CurrentDbIsShared)
+                    if (!ClientDatabaseManager.CurrentDbIsShared)
+                        ClientDatabaseManager.DeleteSymbol(_symbols.Find(a => a.SymbolName == item).SymbolId);
+                    if (ClientDatabaseManager.CurrentDbIsShared)
                     {
                         var symbolId = _allSymbols.Find(a => a.SymbolName == item).SymbolId;
-                        if (DatabaseManager.IsSymbolOnlyForThisUser(symbolId))
+                        if (ClientDatabaseManager.IsSymbolOnlyForThisUser(symbolId))
                         {
-                            DatabaseManager.DeleteSymbol(symbolId);
+                            ClientDatabaseManager.DeleteSymbol(symbolId);
                         }
-                        DatabaseManager.DeleteSymbolForUser(_userID, symbolId, ApplicationType.DataNet);
+                        ClientDatabaseManager.DeleteSymbolForUser(_userID, symbolId, ApplicationType.DataNet);
                     }
                 }
 
@@ -203,7 +203,7 @@ namespace DataNetClient.Forms
                 ToastNotification.Show(this, "Please, enter new symbol name");
                 return;
             }
-            if (_symbols.Exists(symbol => symbol.SymbolName == ui_textBoxXSymbolName.Text) || (!DatabaseManager.CurrentDbIsShared && _allSymbols.Exists(a => a.SymbolName == ui_textBoxXSymbolName.Text)))
+            if (_symbols.Exists(symbol => symbol.SymbolName == ui_textBoxXSymbolName.Text) || (!ClientDatabaseManager.CurrentDbIsShared && _allSymbols.Exists(a => a.SymbolName == ui_textBoxXSymbolName.Text)))
             {
                 ToastNotification.Show(this, "Symbol with this name already exists");
                 return;
@@ -218,7 +218,7 @@ namespace DataNetClient.Forms
             {
 
 
-                DatabaseManager.EditSymbol(oldName, newName, _userID, ApplicationType.DataNet);
+                ClientDatabaseManager.EditSymbol(oldName, newName, _userID, ApplicationType.DataNet);
                 RefreshSymbols();
                 ui_listBox_symbols.SelectedIndex = ind;
                 ToastNotification.Show(this, "The symbol '" + oldName + "' replaaced by '" + newName + "'");
@@ -254,13 +254,13 @@ namespace DataNetClient.Forms
                     var currGroupName = ui_listBox_groups.SelectedItems[j].ToString();
                     var currGrp = _groups.Find(a => a.GroupName == currGroupName);
                     var currGroupId = currGrp.GroupId;
-                    var currGroupSymbols = DatabaseManager.GetSymbolsInGroup(currGroupId);
+                    var currGroupSymbols = ClientDatabaseManager.GetSymbolsInGroup(currGroupId);
                     if (!currGroupSymbols.Exists(a => a.SymbolName == currSmb))
                     {
                         var sModel = new SymbolModel { SymbolId = currSmbId, SymbolName = currSmb };
 
                         if (GetCntTypeOfSymbol(currSmb) == currGrp.CntType)
-                            DatabaseManager.AddSymbolIntoGroup(currGroupId, sModel);
+                            ClientDatabaseManager.AddSymbolIntoGroup(currGroupId, sModel);
                         else
                             message += " Symbol: '" + currSmb + "' can't be added to '" + currGroupName + "' group";   
                     }
@@ -270,7 +270,7 @@ namespace DataNetClient.Forms
                 var currentGroup = _groups.Find(a => a.GroupName == ui_listBox_groups.SelectedItems[0].ToString());
                 if (ui_listBox_groups.SelectedItems.Count == 1 && currentGroup.Privilege != GroupPrivilege.UseGroup)
                 {
-                    var symbolsForCurrGroup = DatabaseManager.GetSymbolsInGroup(currentGroup.GroupId);
+                    var symbolsForCurrGroup = ClientDatabaseManager.GetSymbolsInGroup(currentGroup.GroupId);
 
                     foreach (var symbolModel in symbolsForCurrGroup)
                     {
@@ -321,18 +321,18 @@ namespace DataNetClient.Forms
             {
                 foreach (var item in listSymbols)
                 {
-                    if (!DatabaseManager.CurrentDbIsShared)
-                        DatabaseManager.DeleteGroupForUser(_userID,
+                    if (!ClientDatabaseManager.CurrentDbIsShared)
+                        ClientDatabaseManager.DeleteGroupForUser(_userID,
                         _groups.Find(a => a.GroupName == item).GroupId, ApplicationType.DataNet.ToString());
 
-                    if (DatabaseManager.CurrentDbIsShared)
+                    if (ClientDatabaseManager.CurrentDbIsShared)
                     {
                         var groupId = _allGroups.Find(a => a.GroupName == item).GroupId;
-                        if (DatabaseManager.IsGroupOnlyForThisUser(groupId))
+                        if (ClientDatabaseManager.IsGroupOnlyForThisUser(groupId))
                         {
-                            DatabaseManager.DeleteGroupOfSymbols(groupId);
+                            ClientDatabaseManager.DeleteGroupOfSymbols(groupId);
                         }
-                        DatabaseManager.DeleteGroupForUser(_userID, groupId, ApplicationType.DataNet.ToString());
+                        ClientDatabaseManager.DeleteGroupForUser(_userID, groupId, ApplicationType.DataNet.ToString());
                     }
                 }
 
@@ -358,7 +358,7 @@ namespace DataNetClient.Forms
                 var groupName = ui_listBox_groups.SelectedItems[i].ToString();
 
                 groupId = _groups.Find(a => a.GroupName == groupName).GroupId;
-                privilege = DatabaseManager.GetUserPrivilegeForGroup(groupId, _userID, ApplicationType.DataNet.ToString());
+                privilege = ClientDatabaseManager.GetUserPrivilegeForGroup(groupId, _userID, ApplicationType.DataNet.ToString());
 
                 if (privilege != GroupPrivilege.Creator)
                 {
@@ -370,7 +370,7 @@ namespace DataNetClient.Forms
 
             if (ui_listBox_groups.SelectedItems.Count == 1 && privilege != GroupPrivilege.UseGroup)
             {
-                var symbolsForCurrGroup = DatabaseManager.GetSymbolsInGroup(groupId);
+                var symbolsForCurrGroup = ClientDatabaseManager.GetSymbolsInGroup(groupId);
 
                 foreach (var symbolModel in symbolsForCurrGroup)
                 {
@@ -381,7 +381,7 @@ namespace DataNetClient.Forms
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DatabaseManager.SortingModeIsAsc = !DatabaseManager.SortingModeIsAsc;
+            ClientDatabaseManager.SortingModeIsAsc = !ClientDatabaseManager.SortingModeIsAsc;
             RefreshSymbols();
             RefreshGroups();
         }

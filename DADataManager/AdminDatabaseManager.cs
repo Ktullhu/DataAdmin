@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using MySql.Data.MySqlClient;
 using DADataManager.Models;
+using DADataManager.SqlQueryBuilders;
 
 namespace DADataManager
 {
@@ -42,6 +43,7 @@ namespace DADataManager
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
+        private const string TblSymbolsFormat = "tbl_symbols_format";
         public const string BackUpFilePath = @"\BACKUP";
         public static Semaphore sem=new Semaphore(0,1);
 
@@ -947,169 +949,9 @@ namespace DADataManager
         /// </summary>
         private static void CreateTables()
         {
-            string s = Convert.ToDateTime(DateTime.MinValue)
-                            .ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-            string createNotChangedValuesTable = "CREATE TABLE  IF NOT EXISTS `" + TblNotChangedValues + "`("
-                                                    + "`Id` int(12) unsigned not null auto_increment,"
-                                                    + "`Symbol` varchar(50) not null,"
-                                                    + "`TickSize` double not null,"
-                                                    + "`Currency` varchar(50) not null,"
-                                                    + "`Expiration` DateTime null DEFAULT '" + s + "', "
-                                                    + "`TickValue` double not null,"
-                                                    + "PRIMARY KEY (`Id`),"
-                                                    + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"
-                                                    + ")"
-                                                    + "COLLATE='latin1_swedish_ci'"
-                                                    + "ENGINE=InnoDB;";
-            DoSql(createNotChangedValuesTable);
-            string createDailyTable = "CREATE TABLE  IF NOT EXISTS `" + TblDailyValue + "`("
-                                            + "`Id` int(12) unsigned not null auto_increment,"
-                                            + "`Symbol` varchar(50) not null,"
-                                            + "`IndicativeOpen` double not null,"
-                                            + "`Settlement` double not null,"
-                                            + "`Marker` double not null,"
-                                            + "`TodayMarker` double not null,"
-                                            + "`Date` DateTime null DEFAULT '" + s + "', "
-                                            + "PRIMARY KEY (`Id`),"
-                                            + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`,`Date`)"
-                                            + ")"
-                                            + "COLLATE='latin1_swedish_ci'"
-                                            + "ENGINE=InnoDB;";
-            DoSql(createDailyTable);
 
-
-            const string createUsersSql = "CREATE TABLE  IF NOT EXISTS `" + TblUsers + "` ("
-                                     + "`ID` INT(12) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                     + "`UserName` VARCHAR(50) NOT NULL,"
-                                     + "`UserPassword` VARCHAR(50) NOT NULL,"
-                                     + "`UserFullName` VARCHAR(100) NULL,"
-                                     + "`UserEmail` VARCHAR(50) NULL,"
-                                     + "`UserPhone` VARCHAR(50) NULL,"
-                                     + "`UserIpAddress` VARCHAR(50) NULL,"
-                                     + "`UserBlocked` BOOLEAN NULL,"
-                                     + "`UserAllowDataNet` BOOLEAN NULL,"
-                                     + "`UserAllowTickNet` BOOLEAN NULL,"
-                                     + "`UserAllowLocal` BOOLEAN NULL,"
-                                     + "`UserAllowRemote` BOOLEAN NULL,"
-                                     + "`UserAllowAnyIP` BOOLEAN NULL,"
-                                     + "`UserAllowMissBars` BOOLEAN NULL,"
-                                     + "`UserAllowCollectFrCQG` BOOLEAN NULL,"
-                                     + "`UserAllowDexport` BOOLEAN NULL,"
-                                     + "PRIMARY KEY (`ID`,`UserName`)"
-                                     + ")"
-                                     + "COLLATE='latin1_swedish_ci'"
-                                     + "ENGINE=InnoDB;";
-            DoSql(createUsersSql);
-
-            const string createSymbolsSql = "CREATE TABLE  IF NOT EXISTS `" + TblSymbols + "` ("
-                                     + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                     + "`SymbolName` VARCHAR(50) NULL,"
-                                     + "PRIMARY KEY (`ID`,`SymbolName`)"
-                                     + ")"
-                                     + "COLLATE='latin1_swedish_ci'"
-                                     + "ENGINE=InnoDB;";
-            DoSql(createSymbolsSql);
-
-            const string createLogsSql = "CREATE TABLE  IF NOT EXISTS `" + TblLogs + "` ("
-                                     + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                     + "`UserID` INT(10) NULL,"
-                                     + "`Date` DateTime NULL, "
-                                     + "`MsgType` INT(10) NULL,"
-                                     + "`Symbol` VARCHAR(50) NULL,"
-                                     + "`Group` VARCHAR(50) NULL,"
-                                     + "`Status` INT(10) NULL,"
-                                     + "`Timeframe` VARCHAR(50) NULL,"
-                                     + "`Application` VARCHAR(50) NULL,"
-                                     + "`Comments` VARCHAR(200) '',"
-                                     + "PRIMARY KEY (`ID`)"
-                                     + ")"
-                                     + "COLLATE='latin1_swedish_ci'"
-                                     + "ENGINE=InnoDB;";
-            DoSql(createLogsSql);
-            DoSql("ALTER TABLE `tbl_logs`	ADD COLUMN `Comments` VARCHAR(200) NULL DEFAULT '' AFTER `Application`;");
-
-
-            const string createSymbolsGroups = "CREATE TABLE  IF NOT EXISTS `" + TblSymbolsGroups + "` ("
-                                             + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                             + "`GroupName` VARCHAR(100) NULL,"
-                                             + "`TimeFrame` VARCHAR(30) NULL,"
-                                             + "`Start` DateTime NULL, "
-                                             + "`End` DateTime NULL, "
-                                             + "`CntType` VARCHAR(40) NULL,"
-                                             + "PRIMARY KEY (`ID`,`GroupName`)"
-                                             + ")"
-                                             + "COLLATE='latin1_swedish_ci'"
-                                             + "ENGINE=InnoDB;";
-            DoSql(createSymbolsGroups);
-
-            const string createSymbolsInGroups = "CREATE TABLE  IF NOT EXISTS `" + TblSymbolsInGroups + "` ("
-                                             + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                             + "`GroupID` INT(10) NULL,"
-                                             + "`SymbolID` INT(10) NULL,"
-                                             + "`SymbolName` VARCHAR(50) NOT NULL,"
-                                             + "PRIMARY KEY (`ID`, `GroupID`, `SymbolID`)"
-                                             + ")"
-                                             + "COLLATE='latin1_swedish_ci'"
-                                             + "ENGINE=InnoDB;";
-            DoSql(createSymbolsInGroups);
-
-            const string createGroupsForUsers = "CREATE TABLE  IF NOT EXISTS `" + TblGroupsForUsers + "` ("
-                                             + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                             + "`UserID` INT(10) NULL,"
-                                             + "`GroupID` INT(10) NULL,"
-                                             + "`GroupName` VARCHAR(100) NOT NULL,"
-                                             + "`TimeFrame` VARCHAR(30) NULL,"
-                                             + "`Start` DateTime NULL, "
-                                             + "`End` DateTime NULL, "
-                                             + "`CntType` VARCHAR(40) NULL,"
-                                             + "`Privilege` VARCHAR(40) NULL,"
-                                             + "`AppType` VARCHAR(40) NULL,"
-
-                                             + "`IsAutoModeEnabled` BOOLEAN NULL, "
-                                             + "`Depth` INT(10) NULL,"
-
-                                             + "PRIMARY KEY (`ID`)"
-                                             + ")"
-                                             + "COLLATE='latin1_swedish_ci'"
-                                             + "ENGINE=InnoDB;";
-            DoSql(createGroupsForUsers);
-
-
-            const string createSymbolsForUsers = "CREATE TABLE  IF NOT EXISTS `" + TblSymbolsForUsers + "` ("
-                                             + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                             + "`UserID` INT(10) NULL,"
-                                             + "`SymbolID` INT(10) NULL,"
-                                             + "`TNorDN` BOOLEAN NULL,"
-                                             + "PRIMARY KEY (`ID`)"
-                                             + ")"
-                                             + "COLLATE='latin1_swedish_ci'"
-                                             + "ENGINE=InnoDB;";
-            DoSql(createSymbolsForUsers);
-
-            const string createSessions = "CREATE TABLE  IF NOT EXISTS `" + TblSessions + "` ("
-                                 + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                 + "`Name` VARCHAR(100) NOT NULL,"
-                                 + "`StartTime` DateTime NULL, "
-                                 + "`EndTime` DateTime NULL, "
-                                 + "`IsStartYesterday` BOOLEAN NULL,"
-                                 + "`Days` VARCHAR(30) NULL,"
-                                 + "PRIMARY KEY (`ID`)"
-                                 + ")"
-                                 + "COLLATE='latin1_swedish_ci'"
-                                 + "ENGINE=InnoDB;";
-            DoSql(createSessions);
-
-            const string createSessionsForGroups = "CREATE TABLE  IF NOT EXISTS `" + TblSessionsForGroups + "` ("
-                                             + "`ID` INT(10) UNSIGNED  NOT NULL AUTO_INCREMENT,"
-                                             + "`GroupId` INT(10) NULL,"
-                                             + "`SessionId` INT(10) NULL,"
-                                             + "PRIMARY KEY (`ID`)"
-                                             + ")"
-                                             + "COLLATE='latin1_swedish_ci'"
-                                             + "ENGINE=InnoDB;";
-
-
-            DoSql(createSessionsForGroups);
+            DoSql(DAQueryBuilder.GetCreateTablesSql());
+            
         }
 
         public static void Commit()

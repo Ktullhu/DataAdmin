@@ -127,7 +127,7 @@ namespace DataNetClient.Forms
         {
             try
             {                
-                DatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
+                ClientDatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
 
                 if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0, 0);
                 if (Settings.Default.S.Width < 0 || Settings.Default.S.Height < 0) Settings.Default.S = new Size(800, 500);
@@ -218,7 +218,7 @@ namespace DataNetClient.Forms
 
                 CQGDataCollectorManager.SendReport += CQGDataCollectorManager_SendReport;
                 //todo
-                Thread.Sleep(100);// Fixed bug with closeing while starting//do not remove this
+                Thread.Sleep(1000);// Fixed bug with closeing while starting//do not remove this
                 _cel.Startup();
 
 
@@ -323,7 +323,7 @@ namespace DataNetClient.Forms
         {
             Logout();
             _pingTimer.Enabled = false;
-            DatabaseManager.CloseConnectionToDbSystem();
+            ClientDatabaseManager.CloseConnectionToDbSystem();
 
             if (checkBoxX1.Checked)
             {
@@ -1116,7 +1116,7 @@ namespace DataNetClient.Forms
 
             if (_logonThread != null) _logonThread.Abort();
 
-            DatabaseManager.CloseConnectionToDbSystem();
+            ClientDatabaseManager.CloseConnectionToDbSystem();
 
             Invoke((Action)delegate
             {
@@ -1125,7 +1125,7 @@ namespace DataNetClient.Forms
                 metroShell1.SelectedTab = metroTabItem1;
 
                 
-                DatabaseManager.CloseConnectionToDbSystem();
+                ClientDatabaseManager.CloseConnectionToDbSystem();
                 RefreshGroups();
                 RefreshSymbols();
                 _client = null;
@@ -1151,9 +1151,9 @@ namespace DataNetClient.Forms
         }
         private void ConnectToShared()
         {            
-            if (DatabaseManager.CurrentDbIsShared) return;
+            if (ClientDatabaseManager.CurrentDbIsShared) return;
 
-            DatabaseManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, _connectionToSharedDbHistorical, "", _client.UserID);
+            ClientDatabaseManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, _connectionToSharedDbHistorical, "", _client.UserID);
                         
             _client.ConnectedToSharedDb = true;
             _client.ConnectedToLocalDb = false;
@@ -1163,8 +1163,8 @@ namespace DataNetClient.Forms
             Refresh();
             UpdateControlsSizeAndLocation();
 
-            Settings.Default.WasConnected = DatabaseManager.IsConnected();
-            Settings.Default.WasConnectedToShared = DatabaseManager.CurrentDbIsShared;
+            Settings.Default.WasConnected = ClientDatabaseManager.IsConnected();
+            Settings.Default.WasConnectedToShared = ClientDatabaseManager.CurrentDbIsShared;
             Settings.Default.Save();
         }
 
@@ -1176,7 +1176,7 @@ namespace DataNetClient.Forms
         private void ConnectToLocal()
         {
             
-            if (DatabaseManager.IsConnected() && !DatabaseManager.CurrentDbIsShared) return;
+            if (ClientDatabaseManager.IsConnected() && !ClientDatabaseManager.CurrentDbIsShared) return;
 
             var dbName = ui_home_textBoxX_db.Text;
             var dbNameBar = ui_home_textBoxX_db_bar.Text;
@@ -1189,7 +1189,7 @@ namespace DataNetClient.Forms
             _connectionToLocalDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
 
 
-            DatabaseManager.ConnectToLocalDb(_connectionToLocalDb, _connectionToLocalDbBar, _connectionToLocalDbHistorical, "", _client.UserID);
+            ClientDatabaseManager.ConnectToLocalDb(_connectionToLocalDb, _connectionToLocalDbBar, _connectionToLocalDbHistorical, "", _client.UserID);
             _client.ConnectedToSharedDb = false;
             _client.ConnectedToLocalDb = true;
 
@@ -1198,8 +1198,8 @@ namespace DataNetClient.Forms
             Refresh();
             UpdateControlsSizeAndLocation();
 
-            Settings.Default.WasConnected = DatabaseManager.IsConnected();
-            Settings.Default.WasConnectedToShared = DatabaseManager.CurrentDbIsShared;
+            Settings.Default.WasConnected = ClientDatabaseManager.IsConnected();
+            Settings.Default.WasConnectedToShared = ClientDatabaseManager.CurrentDbIsShared;
             Settings.Default.Save();
         }
 
@@ -1237,22 +1237,22 @@ namespace DataNetClient.Forms
             if (_client == null) return;
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
 
-            if (!DatabaseManager.IsConnected()) return;
+            if (!ClientDatabaseManager.IsConnected()) return;
             
             _groupItems = new List<GroupItemModel>();
             
 
-            var groups = DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet);
+            var groups = ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet);
 
             //display
-            groups = OrderListOfGroups(DatabaseManager.SortingModeIsAsc, groups);
+            groups = OrderListOfGroups(ClientDatabaseManager.SortingModeIsAsc, groups);
 
             styledListControl1.SetItemsCount(groups.Count);
             for (int i = 0; i < groups.Count; i++)             
             {
                 var groupModel = groups[i];
-                var symbols = DatabaseManager.GetSymbolsInGroup(groupModel.GroupId).Select(oo => oo.SymbolName).ToList();
-                var sessions = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
+                var symbols = ClientDatabaseManager.GetSymbolsInGroup(groupModel.GroupId).Select(oo => oo.SymbolName).ToList();
+                var sessions = ClientDatabaseManager.GetSessionsInGroup(groupModel.GroupId);
 
                 _groupItems.Add(
                     new GroupItemModel
@@ -1298,10 +1298,10 @@ namespace DataNetClient.Forms
             {
                 if (_client == null) return;
                 if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
-                if (!DatabaseManager.IsConnected()) return;
+                if (!ClientDatabaseManager.IsConnected()) return;
 
-                DatabaseManager.Commit();
-                _symbols = DatabaseManager.GetSymbols(_client.UserID, false);
+                ClientDatabaseManager.Commit();
+                _symbols = ClientDatabaseManager.GetSymbols(_client.UserID, false);
 
                 ui_listBox_symbols.Invoke((Action)(() => listBox_daily_symbols.Items.Clear()));
                 ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Clear()));
@@ -1376,7 +1376,7 @@ namespace DataNetClient.Forms
 
             var groupName = _symbolsEditControl.ui_listBox_groups.SelectedItem.ToString();
             var oldGroupInfo =
-                DatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet).First(oo => oo.GroupName == groupName);
+                ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet).First(oo => oo.GroupName == groupName);
             
             _editListControl = new EditListControl(oldGroupInfo.GroupId, oldGroupInfo)
             {
@@ -1403,7 +1403,7 @@ namespace DataNetClient.Forms
                 }
             }
 
-            var symbols = DatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
+            var symbols = ClientDatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
 
             foreach (var symbol in symbols)
             {
@@ -1432,13 +1432,13 @@ namespace DataNetClient.Forms
                 CntType = _addListControl.cmbContinuationType.SelectedItem.ToString()
             };
 
-            if (!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && !DatabaseManager.GetAllGroups(ApplicationType.DataNet).Exists(a => a.GroupName == group.GroupName))
+            if (!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && !ClientDatabaseManager.GetAllGroups(ApplicationType.DataNet).Exists(a => a.GroupName == group.GroupName))
             {
-                if (DatabaseManager.AddGroupOfSymbols(group))
+                if (ClientDatabaseManager.AddGroupOfSymbols(group))
                 {
-                    group.GroupId = DatabaseManager.GetGroupIdByName(group.GroupName);
+                    group.GroupId = ClientDatabaseManager.GetGroupIdByName(group.GroupName);
 
-                    DatabaseManager.AddGroupForUser(_client.UserID, group, ApplicationType.DataNet);
+                    ClientDatabaseManager.AddGroupForUser(_client.UserID, group, ApplicationType.DataNet);
                     RefreshGroups();
 
                     _clientService.ServiceProxy.onSymbolGroupListRecieved("");
@@ -1491,20 +1491,20 @@ namespace DataNetClient.Forms
                 _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)) || (group.GroupName == oldGroupName && _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)))
             {
                 var groupId = _groupItems.Find(a => a.GroupModel.GroupName == oldGroupName).GroupModel.GroupId;
-                DatabaseManager.EditGroupOfSymbols(groupId, group);
-                var symbolsInGroup = DatabaseManager.GetSymbolsInGroup(groupId);
+                ClientDatabaseManager.EditGroupOfSymbols(groupId, group);
+                var symbolsInGroup = ClientDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var item in _editListControl.lbSelList.Items)
                 {
                     if (!symbolsInGroup.Exists(a => a.SymbolName == item.ToString()) && _symbols.Exists(a => a.SymbolName == item.ToString()))
                     {
                         var symbol = _symbols.Find(a => a.SymbolName == item.ToString());
-                        DatabaseManager.AddSymbolIntoGroup(groupId, symbol);
+                        ClientDatabaseManager.AddSymbolIntoGroup(groupId, symbol);
 
 
                     }
                 }
 
-                symbolsInGroup = DatabaseManager.GetSymbolsInGroup(groupId);
+                symbolsInGroup = ClientDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var symbol in symbolsInGroup)
                 {
                     var exist = false;
@@ -1512,7 +1512,7 @@ namespace DataNetClient.Forms
                     {
                         if (symbol.SymbolName == item.ToString()) exist = true;
                     }
-                    if (!exist) DatabaseManager.DeleteSymbolFromGroup(groupId, symbol.SymbolId);
+                    if (!exist) ClientDatabaseManager.DeleteSymbolFromGroup(groupId, symbol.SymbolId);
                 }
 
                 RefreshGroups();
@@ -1577,7 +1577,7 @@ namespace DataNetClient.Forms
                 }
             }
 
-            var symbols = DatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
+            var symbols = ClientDatabaseManager.GetSymbolsInGroup(oldGroupInfo.GroupId);
             foreach (var symbol in symbols)
             {
                 _editListControl.lbSelList.Items.Add(symbol.SymbolName);
@@ -1956,7 +1956,7 @@ namespace DataNetClient.Forms
                         Category.Information);
                     _groupItems[index].GroupModel.End = DateTime.Now;
                     styledListControl1.ChangeDateTime(index, _groupItems[index].GroupModel.End);
-                    DatabaseManager.SetGroupEndDatetime(_groupItems[index].GroupModel.GroupId, _groupItems[index].GroupModel.End);
+                    ClientDatabaseManager.SetGroupEndDatetime(_groupItems[index].GroupModel.GroupId, _groupItems[index].GroupModel.End);
                     ui__status_labelItem_status.Text = "Collecting finished for group: " + _groupItems[index].GroupModel.GroupName;
 
                    // Task.Factory.StartNew(() => SendLog(_groupItems[index].CollectedSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
@@ -2144,7 +2144,7 @@ namespace DataNetClient.Forms
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DatabaseManager.SortingModeIsAsc = !DatabaseManager.SortingModeIsAsc;
+            ClientDatabaseManager.SortingModeIsAsc = !ClientDatabaseManager.SortingModeIsAsc;
             RefreshSymbols();
             RefreshGroups();
         }
@@ -2153,7 +2153,7 @@ namespace DataNetClient.Forms
         {
             var newMode = Convert.ToInt32((sender as LinkLabel).Tag);
             if(_sortMode==newMode)
-                DatabaseManager.SortingModeIsAsc = !DatabaseManager.SortingModeIsAsc;
+                ClientDatabaseManager.SortingModeIsAsc = !ClientDatabaseManager.SortingModeIsAsc;
 
             _sortMode = newMode;
 
@@ -2183,7 +2183,7 @@ namespace DataNetClient.Forms
             listView1.View = View.Details;
             listView1.Groups.Clear();
             
-            List<DailyValueModel> dailyList = DatabaseManager.GetAllDailyValues();
+            List<DailyValueModel> dailyList = ClientDatabaseManager.GetAllDailyValues();
 
             var lastGroupName = "";
             foreach (var dailyValueModel in dailyList)
@@ -2218,7 +2218,7 @@ namespace DataNetClient.Forms
             foreach (var variable in symbol)
             {
 
-                List<SymbolsNotChangedValuesModel> NotChangedList = DatabaseManager.GetNotChangedValuesModels(variable);
+                List<SymbolsNotChangedValuesModel> NotChangedList = ClientDatabaseManager.GetNotChangedValuesModels(variable);
                 var lastGroupName = "";
                 var gr = new ListViewGroup();
                 foreach (var NotChangedValue in NotChangedList)
@@ -2252,7 +2252,7 @@ namespace DataNetClient.Forms
             foreach (var variable in symbol)
             {
                 
-                List<DailyValueModel> dailyList = DatabaseManager.GetDailyValueModels(variable);
+                List<DailyValueModel> dailyList = ClientDatabaseManager.GetDailyValueModels(variable);
              
                 var lastGroupName = "";
                 var gr = new ListViewGroup();
@@ -2355,7 +2355,7 @@ namespace DataNetClient.Forms
             }
             //todo insert into DB
 
-            DatabaseManager.AddExpirationDatesForSymbol(symbol, endDate, monthChar, year);
+            ClientDatabaseManager.AddExpirationDatesForSymbol(symbol, endDate, monthChar, year);
 
             ToastNotification.Show(panelEx14, "Data added for symbol "+symbol);
 
@@ -2376,7 +2376,7 @@ namespace DataNetClient.Forms
                 var monthChar = listView_ac_list.Items[(int)item].SubItems[3].Text.ToString();
                 var year = listView_ac_list.Items[(int)item].SubItems[4].Text.ToString();
 
-                DatabaseManager.RemoveExpirationDatesForSymbol(symbol, monthChar, year);
+                ClientDatabaseManager.RemoveExpirationDatesForSymbol(symbol, monthChar, year);
 
             }
 
@@ -2394,7 +2394,7 @@ namespace DataNetClient.Forms
             }
             var symbol = listBox_daily_symbols.SelectedItems[0].ToString();
 
-            var res = DatabaseManager.GetExpirationDatesForSymbol(symbol);
+            var res = ClientDatabaseManager.GetExpirationDatesForSymbol(symbol);
 
             listView_ac_list.Items.Clear();
             for (int i = 0; i < res.Count; i++)

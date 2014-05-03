@@ -302,24 +302,25 @@ namespace DataNetClient.CQGDataCollector
                 Cel.NewInstrument(symbolName);
                 
                 
-                var tableName =  DatabaseManager.GetBarTableFromSymbol(symbolName, GetTableType(_historicalPeriod));
+                var tableName =  ClientDatabaseManager.GetBarTableFromSymbol(symbolName, GetTableType(_historicalPeriod));
 
                 _aHistoricalPeriod = eHistoricalPeriod.hpUndefined;
-                if (DatabaseManager.BarTableExist(tableName))
+                if (ClientDatabaseManager.BarTableExist(tableName))
                 {
 
-                    if (!DatabaseManager.MonthCharYearExist(tableName))
-                        DatabaseManager.AddMonthCharYearColumnsToBarTable(tableName);
-                    if (DatabaseManager.YearCharExist(tableName))
-                        DatabaseManager.DeleteWrongColumnsFromTable(tableName);
+                    if (!ClientDatabaseManager.MonthCharYearExist(tableName))
+                        ClientDatabaseManager.AddMonthCharYearColumnsToBarTable(tableName);
+                    if (ClientDatabaseManager.YearCharExist(tableName))
+                        ClientDatabaseManager.DeleteWrongColumnsFromTable(tableName);
 
 
-                    DatabaseManager.MakeBarTableBigger(symbolName, GetTableType(_historicalPeriod));
+                    if(Settings.Default.MakeBigger) 
+                        ClientDatabaseManager.MakeBarTableBigger(symbolName, GetTableType(_historicalPeriod));
                     
                 }
                 else
                 {
-                    DatabaseManager.CreateBarsTable(symbolName, GetTableType(_historicalPeriod));
+                    ClientDatabaseManager.CreateBarsTable(symbolName, GetTableType(_historicalPeriod));
                 }
                 //DatabaseManager.CreateBarsTable(symbolName, GetTableType(_historicalPeriod));
 
@@ -414,9 +415,9 @@ namespace DataNetClient.CQGDataCollector
 
                 if (mCurTimedBars.Status == eRequestStatus.rsSuccess)
                 {
-                    DatabaseManager.DeleteLastBar("B_" + str5 + "_" + GetTableType(_historicalPeriod));
+                    ClientDatabaseManager.DeleteLastBar("B_" + str5 + "_" + GetTableType(_historicalPeriod));
 
-                    var lastExisting3000BarData = DatabaseManager.GetLast3000BarData(tableName);
+                    var lastExisting3000BarData = ClientDatabaseManager.GetLast3000BarData(tableName);
 
                     if (mCurTimedBars.Count != 0)
                     {
@@ -429,7 +430,7 @@ namespace DataNetClient.CQGDataCollector
                             }
                         }
                     }
-                    DatabaseManager.CommitQueueBar();
+                    ClientDatabaseManager.CommitQueueBar();
 
                 }
                 //var rowsCount = mCurTimedBars.Count;//DatabaseManager.GetRowsCount("B_" + str5 + "_" + GetTableType(_historicalPeriod)) - beforeRowsCount
@@ -494,7 +495,7 @@ namespace DataNetClient.CQGDataCollector
                     " TickVol, ActualVol, AskVol, BidVol, OpenInterest," +
                              "BarTime, SystemTime, ContinuationType, UserName, MonthChar, Year) VALUES (" + str3 + ");";
 
-                DatabaseManager.AddToQueue(sql, 5);
+                ClientDatabaseManager.AddToQueue(sql, 5);
             }
             catch (Exception ex)
             {
@@ -549,9 +550,9 @@ namespace DataNetClient.CQGDataCollector
                         if (_isStoped) break;
 
 
-                        DatabaseManager.CreateTickTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp);
+                        ClientDatabaseManager.CreateTickTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp);
 
-                        if (!DatabaseManager.IsThisHourExistsInTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp))
+                        if (!ClientDatabaseManager.IsThisHourExistsInTable(cqgTicks.Request.Symbol, cqgTicks[i].Timestamp))
                         {
                             AddTick(cqgTicks[i], cqgTicks.Request.Symbol, DateTime.Now, ++groupId, userName);
                             realyInsertedCount++;
@@ -570,7 +571,7 @@ namespace DataNetClient.CQGDataCollector
                     }
 
 
-                    DatabaseManager.CommitQueueTick();
+                    ClientDatabaseManager.CommitQueueTick();
 
                     if (!_isStoped) FinishCollectingSymbol(cqgTicks.Request.Symbol, true, realyInsertedCount, "");
                     OnProgressBarChanged(100);
@@ -605,7 +606,7 @@ namespace DataNetClient.CQGDataCollector
                 query += GetValueAsString(groupId) + ",";
                 query += "'" + userName + "');";
 
-                DatabaseManager.AddToQueue(query, 2);
+                ClientDatabaseManager.AddToQueue(query, 2);
             }
             catch (Exception ex)
             {
@@ -1053,7 +1054,7 @@ namespace DataNetClient.CQGDataCollector
                      groupModel.End = new DateTime();
                      DatabaseManager.SetGroupEndDatetime(groupModel.GroupId, new DateTime());
                  }*/
-                var sess = DatabaseManager.GetSessionsInGroup(groupModel.GroupId);
+                var sess = ClientDatabaseManager.GetSessionsInGroup(groupModel.GroupId);
                 //
                 bool any = false;
                 foreach (SessionModel ss in sess)
@@ -1253,7 +1254,7 @@ namespace DataNetClient.CQGDataCollector
                 
                 for (int i = 0; i < selectedSymbols.Count; i++)
                 {
-                    var listOfTables = DatabaseManager.GetListOfBarTables(selectedSymbols[i]);
+                    var listOfTables = ClientDatabaseManager.GetListOfBarTables(selectedSymbols[i]);
                     int k = 0;
                     var progr = 0;
                     var rowsMaxCount = listOfTables.Count;
@@ -1265,20 +1266,20 @@ namespace DataNetClient.CQGDataCollector
                         Console.WriteLine("table: " + table);
                         //try load data from TblExpiration
 
-                        var listOfExpirations = DatabaseManager.GetExpirationDatesForSymbol(selectedSymbols[i]);
+                        var listOfExpirations = ClientDatabaseManager.GetExpirationDatesForSymbol(selectedSymbols[i]);
 
                         string  month, year;
 
-                        if (!DatabaseManager.MonthCharYearExist(table))
-                            DatabaseManager.AddMonthCharYearColumnsToBarTable(table);
-                        if (DatabaseManager.YearCharExist(table))
-                            DatabaseManager.DeleteWrongColumnsFromTable(table);
+                        if (!ClientDatabaseManager.MonthCharYearExist(table))
+                            ClientDatabaseManager.AddMonthCharYearColumnsToBarTable(table);
+                        if (ClientDatabaseManager.YearCharExist(table))
+                            ClientDatabaseManager.DeleteWrongColumnsFromTable(table);
 
 
                         //Update table: item                        
                         if (IsNoCont(table, out month, out year))
                         {
-                            DatabaseManager.UpdateMonthAndYearForStandardSymbol(table, month, year);
+                            ClientDatabaseManager.UpdateMonthAndYearForStandardSymbol(table, month, year);
                         }
                         else
                         {
@@ -1327,11 +1328,11 @@ namespace DataNetClient.CQGDataCollector
             listOfExpirations.OrderBy(oo => oo.EndDate);
 
 
-            DatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[0]);
+            ClientDatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[0]);
 
             for (int i = 1; i < listOfExpirations.Count; i++)
             {
-                DatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[i - 1], listOfExpirations[i]);    
+                ClientDatabaseManager.UpdateMonthAndYearForSymbol(table, listOfExpirations[i - 1], listOfExpirations[i]);    
             }
             
         }

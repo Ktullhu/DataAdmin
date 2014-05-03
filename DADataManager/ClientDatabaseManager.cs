@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace DADataManager
 {
-    public static class DatabaseManager
+    public static class ClientDatabaseManager
     {
 
         #region VARIABLES
@@ -62,6 +62,8 @@ namespace DADataManager
         private const string TblDailyValue = "tbl_daily_values";
         private const string TblNotChangedValues = "tbl_not_changed_values";
         private const string TblExpirationDates = "tbl_expiration_dates";
+        private const string TblSymbolsFormat = "tbl_symbols_format";
+
 
 
         private static Dictionary<string, List<InsertQueryModel>> _tickBuffer;
@@ -2453,14 +2455,50 @@ namespace DADataManager
 
         public static void CreateLiveTableTs(string symbol)
         {
-            var sql = DAQueryBuilder.CreateLiveTableTs(symbol);
+            var format = GetFormatForSymbol(symbol);
 
+            string sql = "CREATE TABLE IF NOT EXISTS `" + "TS_" + symbol.Substring(5, symbol.Length - 5).ToUpper() + "` (";
+            sql += "`Id` int(10) NOT NULL AUTO_INCREMENT,";
+            sql += "`Symbol` varchar(20) DEFAULT NULL,";
+            sql += "`Bid` DOUBLE("+format+") DEFAULT NULL,";
+            sql += "`Ask` DOUBLE(" + format + ") DEFAULT NULL,";
+            sql += "`BidVol` int(10) DEFAULT NULL,";
+            sql += "`AskVol` int(10) DEFAULT NULL,";
+            sql += "`Trade` DOUBLE(" + format + ") DEFAULT NULL,";
+            sql += "`TradeVol` int(10) DEFAULT NULL,";
+            sql += "`Time` DATETIME(6) DEFAULT NULL,";
+            sql += "`TickType` varchar(20) DEFAULT NULL,";
+            sql += "`TimeLocal` DATETIME(6) DEFAULT NULL,";
+            sql += "`GroupID` int(10),";
+            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
+            sql += "PRIMARY KEY (`Id`),UNIQUE KEY `UniqRecord_Key` ( `Time`,`Id`));";            
             DoSqlLive(sql);
         }
 
         public static void CreateLiveTableDm(string symbol)
         {
-            var sql = DAQueryBuilder.CreateLiveTableDm(symbol);
+            var format = GetFormatForSymbol(symbol);
+
+            var newTable = "DM_" + symbol.Substring(5, symbol.Length - 5).ToUpper();
+
+            String q = "CREATE TABLE IF NOT EXISTS `" + newTable + "` (";
+            q += "`Id` int(10) NOT NULL AUTO_INCREMENT,";
+            q += "`Symbol` varchar(20) DEFAULT NULL,";
+            q += "`Depth` int(10) DEFAULT 0,";
+            q += "`DOMBid` DOUBLE(" + format + ") DEFAULT NULL,";
+            q += "`DOMAsk` DOUBLE(" + format + ") DEFAULT NULL,";
+            q += "`DOMBidVol` int(10) DEFAULT NULL,";
+            q += "`DOMAskVol` int(10) DEFAULT NULL,";
+            q += "`Trade` DOUBLE(" + format + ") DEFAULT NULL,";
+            q += "`TradeVol` int(10) DEFAULT NULL,";
+            q += "`Time` DATETIME(6) DEFAULT NULL,";
+            q += "`TimeLocal` DATETIME(6) DEFAULT NULL,";
+            q += "`GroupID` int(10),";
+            q += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
+
+            q += "PRIMARY KEY (`Id`),UNIQUE KEY `UniqRecord_Key` (`Time`, `Id`));";
+
+            var sql = q;
 
             DoSqlLive(sql);
         }
@@ -2468,14 +2506,17 @@ namespace DADataManager
 
         public static void CreateBarsTable(string symbol, string tableType)
         {
+
+            var format = GetFormatForSymbol(symbol);
+
             var str = symbol.Trim().Split('.');
             var sql = "CREATE TABLE IF NOT EXISTS `B_" + str[str.Length - 1].ToUpper() + "_" + tableType + "` (";
             sql += "`Id` INT(11) NOT NULL AUTO_INCREMENT,";
             sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`OpenValue` FLOAT(9,6) NULL DEFAULT NULL,";
-            sql += "`HighValue` FLOAT(9,6) NULL DEFAULT NULL,";
-            sql += "`LowValue` FLOAT(9,6) NULL DEFAULT NULL,";
-            sql += "`CloseValue` FLOAT(9,6) NULL DEFAULT NULL,";
+            sql += "`OpenValue` FLOAT("+format+") NULL DEFAULT NULL,";
+            sql += "`HighValue` FLOAT(" + format + ") NULL DEFAULT NULL,";
+            sql += "`LowValue` FLOAT(" + format + ") NULL DEFAULT NULL,";
+            sql += "`CloseValue` FLOAT(" + format + ") NULL DEFAULT NULL,";
             sql += "`TickVol` INT(25) NULL DEFAULT NULL,";
             sql += "`ActualVol` INT(25) NULL DEFAULT NULL,";
             sql += "`AskVol` INT(25) NULL DEFAULT NULL,";
@@ -2495,6 +2536,45 @@ namespace DADataManager
             DoSqlBar(sql);
         }
 
+        private static string GetFormatForSymbol(string symbol)
+        {
+            var formatFromDb = "";
+            var default1 ="" ;            
+            MySqlDataReader reader = null;
+            try
+            {
+               
+                var sql = "Select * from " + TblSymbolsFormat;
+                reader = GetReader(sql);
+
+
+                if (reader != null)
+                {
+                    while (reader.Read())
+                    {
+                        var smb = reader.GetString("Symbol").ToUpper();
+                        if (string.IsNullOrEmpty(smb.Trim()))
+                            default1 = reader.GetString("Format");
+                        if (symbol.ToUpper().Contains(smb))
+                            formatFromDb = reader.GetString("Format");                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("GetFormatForSymbol.Error: " + ex.Message);
+                if (reader != null) reader.Close();
+            }
+            finally
+            {
+                if (reader != null) reader.Close();
+            }
+
+            if (string.IsNullOrEmpty(default1)) default1 = "9,6";
+
+            return string.IsNullOrEmpty(formatFromDb)?default1: formatFromDb;
+        }
+
         public static int GetIso8601WeekOfYear(DateTime time)
         {
             // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
@@ -2512,41 +2592,19 @@ namespace DADataManager
             // Return the week of our adjusted day
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
-
-        /*public static void CreateTickTable(string symbol)
-        {
-            var str = symbol.Trim().Split('.');
-            var sql = "CREATE TABLE IF NOT EXISTS `T_" + str[str.Length - 1].ToUpper() + "` (";
-            sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
-            sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`Price` FLOAT(9,6) NULL DEFAULT NULL,";
-            sql += "`Volume` INT(25) NULL DEFAULT NULL,";
-            sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
-            sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";
-            sql += "`ContinuationType` VARCHAR(50) NULL DEFAULT NULL,";
-            sql += "`PriceType` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`GroupId` INT(12) NULL DEFAULT NULL,";
-            sql += "`UserName` VARCHAR(50) NULL DEFAULT NULL,";
-            sql += "PRIMARY KEY (`Id`),";
-            sql += "UNIQUE INDEX `UNQ_DATA_INDEX` ( `TickTime`, `Id`)";
-            sql += ")";
-            sql += "COLLATE='latin1_swedish_ci'";
-            sql += "ENGINE=InnoDB;";
-            DoSqlHistorical(sql);
-        }
-
-        */
+  
         public static void CreateTickTable(string symbol, DateTime dateTime)
         {
             var str = symbol.Trim().Split('.');
             var tableName = "T_" + str[str.Length - 1].ToUpper() + "_" + GetIso8601WeekOfYear(dateTime);
             if (lastCreatedTableName == tableName) return;
+            var format = GetFormatForSymbol(symbol);
 
 
             var sql = "CREATE TABLE IF NOT EXISTS `" + tableName + "` (";
             sql += "`Id` INT(12) NOT NULL AUTO_INCREMENT,";
             sql += "`Symbol` VARCHAR(30) NULL DEFAULT NULL,";
-            sql += "`Price` FLOAT(9,6) NULL DEFAULT NULL,";
+            sql += "`Price` FLOAT("+format+") NULL DEFAULT NULL,";
             sql += "`Volume` INT(25) NULL DEFAULT NULL,";
             sql += "`TickTime` DATETIME NULL DEFAULT NULL,";
             sql += "`SystemTime` DATETIME NULL DEFAULT NULL,";

@@ -21,6 +21,7 @@ namespace DataNetClient.Forms
             numericUpDown_days.Value = Properties.Settings.Default.DaysToExpiration;
             textBox1.Text = Settings.Default.AdditionalText;
             checkBox_add_text.Checked = Settings.Default.IsAdditionalTextReuired;
+            checkBox_makeBigger.Checked = Settings.Default.MakeBigger;
         }
 
         private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -34,7 +35,7 @@ namespace DataNetClient.Forms
             Properties.Settings.Default.DaysToExpiration = (int)numericUpDown_days.Value;
             Settings.Default.AdditionalText = textBox1.Text;
             Settings.Default.IsAdditionalTextReuired = checkBox_add_text.Checked;
-
+            Settings.Default.MakeBigger = checkBox_makeBigger.Checked;
             Properties.Settings.Default.Save();
         }
     }

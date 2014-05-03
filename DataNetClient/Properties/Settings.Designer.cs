@@ -418,5 +418,17 @@ namespace DataNetClient.Properties {
                 this["InQueueGroups"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MakeBigger {
+            get {
+                return ((bool)(this["MakeBigger"]));
+            }
+            set {
+                this["MakeBigger"] = value;
+            }
+        }
     }
 }

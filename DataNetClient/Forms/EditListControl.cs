@@ -96,7 +96,7 @@ namespace DataNetClient.Forms
 
         private void LoadSessions()
         {
-            var sessionsList = DatabaseManager.GetSessionsInGroup(GroupId);
+            var sessionsList = ClientDatabaseManager.GetSessionsInGroup(GroupId);
             foreach (var sessions in sessionsList)
             {
                 var res = listViewEx_times.Items.Add(listViewEx_times.Items.Count.ToString());
@@ -110,7 +110,7 @@ namespace DataNetClient.Forms
         private void LoadSymbols()
         {
 
-            var symbolsList = DatabaseManager.GetSymbolsInGroup(GroupId);
+            var symbolsList = ClientDatabaseManager.GetSymbolsInGroup(GroupId);
             foreach (var symbol in symbolsList)
             {
                 var exist = false;
@@ -126,7 +126,7 @@ namespace DataNetClient.Forms
         private void LoadExistingSessions()
         {
             comboBoxEx_existigsSessions.Items.Clear();
-            var sessionsList = DatabaseManager.GetSessions();
+            var sessionsList = ClientDatabaseManager.GetSessions();
             addedSessions = new List<SessionModel>();
             foreach (var sessions in sessionsList)
             {
@@ -175,9 +175,9 @@ namespace DataNetClient.Forms
             listViewEx_times.Items.RemoveAt(index);
 
 
-            var id = DatabaseManager.GetSessionsInGroup(GroupId).Find(oo => oo.Name.ToUpper() == name.ToUpper()).Id;
+            var id = ClientDatabaseManager.GetSessionsInGroup(GroupId).Find(oo => oo.Name.ToUpper() == name.ToUpper()).Id;
 
-            DatabaseManager.RemoveSession(GroupId, id);
+            ClientDatabaseManager.RemoveSession(GroupId, id);
 
         }
 
@@ -200,7 +200,7 @@ namespace DataNetClient.Forms
             };
 
             AddSessionToList(sess);
-            DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);      
+            ClientDatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);      
         }
 
         private string GetDaysStr()
@@ -244,7 +244,7 @@ namespace DataNetClient.Forms
                 TimeEnd = addedSessions[ind].TimeEnd,
             };
             AddSessionToList(sess);
-            DatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
+            ClientDatabaseManager.AddSessionForGroup(AGroupModel.GroupId, sess);
         }
 
 
