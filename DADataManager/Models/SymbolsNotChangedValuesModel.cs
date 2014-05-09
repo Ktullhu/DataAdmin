@@ -12,7 +12,7 @@ namespace DADataManager.Models
         public double TickSize;
         public double TickValue;
         public string Currency;
-        public DateTime Expiration;
+      //  public DateTime Expiration;
 
     }
 

@@ -2168,6 +2168,8 @@ namespace DataNetClient.Forms
 
         private void buttonX_daily_getValues_Click(object sender, EventArgs e)
         {
+            ClientDatabaseManager.isExpirationColumnExist_ADD();
+            ClientDatabaseManager.isExpirationColumnExist_Delete();
             var symbols = listBox_daily_symbols.SelectedItems.Cast<string>().ToList();
             DailyLoadSelectedSYmbolData(symbols);
             NotChanchedLoadSelectedSYmbolData(symbols);
@@ -2233,7 +2235,7 @@ namespace DataNetClient.Forms
                     item.SubItems.Add(NotChangedValue.Symbol);
                     item.SubItems.Add(NotChangedValue.TickSize.ToString());
                     item.SubItems.Add(NotChangedValue.Currency.ToString(CultureInfo.InvariantCulture));
-                    item.SubItems.Add(NotChangedValue.Expiration.ToShortDateString());
+                    //item.SubItems.Add(NotChangedValue.Expiration.ToShortDateString());
                     item.SubItems.Add(NotChangedValue.TickValue.ToString());
 
 
@@ -2280,7 +2282,7 @@ namespace DataNetClient.Forms
 
                     if (dailyValueModel.TodayMarker == -1) item.SubItems.Add("N/A"); else 
                         item.SubItems.Add(dailyValueModel.TodayMarker.ToString());
-
+                    item.SubItems.Add(dailyValueModel.Expiration.ToString());
                     listView1.Items.Add(item);
                 }
             }
@@ -2422,6 +2424,10 @@ namespace DataNetClient.Forms
 
 
         #endregion
+
+
+
+ 
 
     }
 }

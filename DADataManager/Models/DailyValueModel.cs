@@ -14,6 +14,7 @@ namespace DADataManager.Models
         public double Marker;
         public double TodayMarker;
         public DateTime Date;
+        public DateTime Expiration;
     }
 
 }

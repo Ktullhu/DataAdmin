@@ -2173,13 +2173,54 @@ namespace DADataManager
 
         #region DailyValueRegion
 
-        public static void AddDailyValue(double indicativeOpen, double marker, double settlement, double todayMarker, string symbol, DateTime date)
+
+
+        public static void isExpirationColumnExist_Delete()
+        {
+            string table = TblNotChangedValues;
+            try
+            {
+                var sql = "Select `Expiration` from `" + table + "`";
+                if (DoSql(sql))
+                {
+                    sql = "ALTER TABLE `" + table + "` DROP COLUMN `Expiration`";
+                    DoSql(sql);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void isExpirationColumnExist_ADD()
+        {
+            string table = TblDailyValue;
+            try
+            {
+                var sql = "Select `Expiration` from `" + table + "`";
+                if (!DoSql(sql))
+                {
+                    sql = "ALTER TABLE `" + table + "` ADD `Expiration` DateTime not null ";
+                    DoSql(sql);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+
+
+        public static void AddDailyValue(double indicativeOpen, double marker, double settlement, double todayMarker, string symbol, DateTime date, DateTime expirationDate)
         {
 
             try
             {
-                var query = "INSERT IGNORE INTO " + TblDailyValue + "(`IndicativeOpen`,`Marker`,`Settlement`,`TodayMarker`,`Symbol`,`Date`) " +
-                    "VALUES('" + indicativeOpen + "', '" + marker + "', '" + settlement + "', '" + todayMarker + "', '" + symbol + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
+                var query = "INSERT IGNORE INTO " + TblDailyValue + "(`IndicativeOpen`,`Marker`,`Settlement`,`TodayMarker`,`Symbol`,`Date`,`Expiration`) " +
+                    "VALUES('" + indicativeOpen + "', '" + marker + "', '" + settlement + "', '" + todayMarker + "', '" + symbol + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) +"'  '"+ expirationDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
                 DoSql(query);
 
 
@@ -2219,6 +2260,7 @@ namespace DADataManager
                         variable.Marker = Convert.ToDouble(reader.GetValue(4));
                         variable.TodayMarker = Convert.ToDouble(reader.GetValue(5));
                         variable.Date = Convert.ToDateTime(reader.GetValue(6));
+                        variable.Expiration = Convert.ToDateTime(reader.GetValue(7));
                     }
                     dailyValueModelList.Add(variable);
                 }
@@ -2261,7 +2303,8 @@ namespace DADataManager
                         Settlement = Convert.ToDouble(reader.GetValue(3)),
                         Marker = Convert.ToDouble(reader.GetValue(4)),
                         TodayMarker = Convert.ToDouble(reader.GetValue(5)),
-                        Date = Convert.ToDateTime(reader.GetValue(6).ToString())
+                        Date = Convert.ToDateTime(reader.GetValue(6).ToString()),
+                        Expiration=Convert.ToDateTime(reader.GetValue(7).ToString())
                     };
                     dailyValueModelList.Add(variable);
                 }
@@ -2294,12 +2337,12 @@ namespace DADataManager
 
 
 
-        public static void AddNotChangedValue(string symbol, double TickSize, string Currency, DateTime date, double tickValue)
+        public static void AddNotChangedValue(string symbol, double TickSize, string Currency, double tickValue)
         {
             try
             {
-                var query = "Insert ignore into " + TblNotChangedValues + "(`Symbol`, `TickSize`, `Currency`, `Expiration`,`TickValue`) " +
-                "VALUES('" + symbol + "', '" + TickSize + "', '" + Currency + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "' ,"+tickValue+" );COMMIT;";
+                var query = "Insert ignore into " + TblNotChangedValues + "(`Symbol`, `TickSize`, `Currency`,`TickValue`) " +
+                "VALUES('" + symbol + "', "+tickValue+" );COMMIT;";
                 DoSql(query);
             }
             catch (Exception ex)
@@ -2337,7 +2380,7 @@ namespace DADataManager
                         Symbol = reader.GetValue(1).ToString(),
                         TickSize = Convert.ToDouble(reader.GetValue(2)),
                         Currency = reader.GetValue(3).ToString(),
-                        Expiration = Convert.ToDateTime(reader.GetValue(4).ToString()),
+                        //Expiration = Convert.ToDateTime(reader.GetValue(4).ToString()),
                         TickValue = reader.GetDouble(5)
                     };
                     ValuelList.Add(variable);

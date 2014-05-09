@@ -27,6 +27,9 @@ namespace DataNetClient.Core
         #endregion
 
 
+
+
+
         public static List<string> GetAll()
         {
             var dailyValueList = ClientDatabaseManager.GetAllDailyValues();
@@ -80,6 +83,8 @@ namespace DataNetClient.Core
        
         public static void Init()
         {
+           // ClientDatabaseManager.isExpirationColumnExist_ADD();
+          //  ClientDatabaseManager.isExpirationColumnExist_Delete();
             if (_inited) return;
             _inited = true;
 
@@ -126,7 +131,7 @@ namespace DataNetClient.Core
                     qtTodayMarker = quote.Price;
 
 
-                ClientDatabaseManager.AddDailyValue(qtIndicativeOpen, qtMarker, qtSettlement, qtTodayMarker, cqgInstrument.FullName, DateTime.Today);
+                ClientDatabaseManager.AddDailyValue(qtIndicativeOpen, qtMarker, qtSettlement, qtTodayMarker, cqgInstrument.FullName, DateTime.Today,cqgInstrument.ExpirationDate);
             _cqgVar.RemoveInstrument(cqgInstrument);
             SubscribedSymbol.Remove(cqgInstrument.FullName);
 
@@ -158,14 +163,14 @@ namespace DataNetClient.Core
                 properties = props[eInstrumentProperty.ipCurrency];
                 if (props != null && _cqgVar.IsValid(properties.Value))
                     curency = properties.Value;
-                properties = props[eInstrumentProperty.ipExpirationDate];
-                if (props != null && _cqgVar.IsValid(properties.Value))
-                    expiration = properties.Value;
+               // properties = props[eInstrumentProperty.ipExpirationDate];
+               // if (props != null && _cqgVar.IsValid(properties.Value))
+                //    expiration = properties.Value;
                 properties = props[eInstrumentProperty.ipTickValue];
                 if (props != null && _cqgVar.IsValid(properties.Value))
                     tickValue = properties.Value;
 
-                ClientDatabaseManager.AddNotChangedValue(symbol, tickSize, curency, expiration, tickValue);
+                ClientDatabaseManager.AddNotChangedValue(symbol, tickSize, curency, tickValue);
             }
 
         }

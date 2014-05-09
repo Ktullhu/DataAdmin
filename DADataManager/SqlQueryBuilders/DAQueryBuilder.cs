@@ -39,15 +39,18 @@ namespace DADataManager.SqlQueryBuilders
         public static string GetCreateTablesSql()
         {
         //todo create tables when user connect to local DB
-            
-        const string createDailyTable = "CREATE TABLE  IF NOT EXISTS `"+TblDailyValue+"`("
+
+           
+
+        string createDailyTable = "CREATE TABLE  IF NOT EXISTS `"+TblDailyValue+"`("
                                              +"`Id` int(12) unsigned not null auto_increment,"
                                              +"`Symbol` varchar(50) not null,"
                                              + "`IndicativeOpen` double not null," 
                                              + "`Settlement` double not null,"
                                              + "`Marker` double not null,"
                                              + "`TodayMarker` double not null,"
-                                             + "`Date` DateTime not null," 
+                                             + "`Date` DateTime not null,"
+                                             + "`Expiration` DateTime not null,"
                                              + "PRIMARY KEY (`Id`)"
                                              + ")"
                                              + "COLLATE='latin1_swedish_ci'"
@@ -189,14 +192,14 @@ namespace DADataManager.SqlQueryBuilders
 
             var alterLogs ="ALTER TABLE `tbl_logs`	ADD COLUMN `Comments` VARCHAR(200) NULL DEFAULT '' AFTER `Application`;";
 
-            string s = Convert.ToDateTime(DateTime.MinValue).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            
 
             string createNotChangedValuesTable = "CREATE TABLE  IF NOT EXISTS `" + TblNotChangedValues + "`("
                                         + "`Id` int(12) unsigned not null auto_increment,"
                                         + "`Symbol` varchar(50) not null,"
                                         + "`TickSize` double not null,"
                                         + "`Currency` varchar(50) not null,"
-                                        + "`Expiration` DateTime null DEFAULT '" + s + "', "
+                                       // + "`Expiration` DateTime null DEFAULT '" + s + "', "
                                         + "`TickValue` double not null,"
                                         + "PRIMARY KEY (`Id`),"
                                         + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"
