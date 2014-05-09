@@ -32,6 +32,9 @@ namespace DataNetClient.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
@@ -41,9 +44,6 @@ namespace DataNetClient.Forms
             System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("10/12/2013", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("13/12/12", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("14/12/12", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainDN));
             this.metroStatusBar1 = new DevComponents.DotNetBar.Metro.MetroStatusBar();
             this.ui__status_labelItem_status = new DevComponents.DotNetBar.LabelItem();
@@ -202,13 +202,13 @@ namespace DataNetClient.Forms
             this.deleteListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.styledListControl1 = new DataNetClient.Controls.StyledListControl();
             this.panelEx6 = new DevComponents.DotNetBar.PanelEx();
             this.linkLabel_sort_outcome = new System.Windows.Forms.LinkLabel();
             this.linkLabel_Cort_ContType = new System.Windows.Forms.LinkLabel();
             this.linkLabel_sort_time = new System.Windows.Forms.LinkLabel();
             this.linkLabel_sort_tf = new System.Windows.Forms.LinkLabel();
             this.linkLabel_sort_name = new System.Windows.Forms.LinkLabel();
+            this.styledListControl1 = new DataNetClient.Controls.StyledListControl();
             this.metroShell1.SuspendLayout();
             this.metroTabPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -349,8 +349,8 @@ namespace DataNetClient.Forms
             this.metroShell1.CanCustomize = false;
             this.metroShell1.CaptionVisible = true;
             this.metroShell1.Controls.Add(this.metroTabPanel2);
-            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel5);
+            this.metroShell1.Controls.Add(this.metroTabPanel3);
             this.metroShell1.Controls.Add(this.metroTabPanel1);
             this.metroShell1.Controls.Add(this.metroTabPanel4);
             this.metroShell1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1245,16 +1245,16 @@ namespace DataNetClient.Forms
             this.listViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewResult.ForeColor = System.Drawing.Color.Black;
             this.listViewResult.FullRowSelect = true;
-            listViewGroup1.Header = "10/12/2013";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup2.Header = "13/12/12";
-            listViewGroup2.Name = "listViewGroup2";
-            listViewGroup3.Header = "14/12/12";
-            listViewGroup3.Name = "listViewGroup3";
+            listViewGroup10.Header = "10/12/2013";
+            listViewGroup10.Name = "listViewGroup1";
+            listViewGroup11.Header = "13/12/12";
+            listViewGroup11.Name = "listViewGroup2";
+            listViewGroup12.Header = "14/12/12";
+            listViewGroup12.Name = "listViewGroup3";
             this.listViewResult.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup10,
+            listViewGroup11,
+            listViewGroup12});
             this.listViewResult.Location = new System.Drawing.Point(253, 3);
             this.listViewResult.Name = "listViewResult";
             this.tableLayoutPanel_missingBar.SetRowSpan(this.listViewResult, 2);
@@ -1432,10 +1432,10 @@ namespace DataNetClient.Forms
             this.metroTabPanel5.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.metroTabPanel5.Controls.Add(this.tableLayoutPanel2);
             this.metroTabPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel5.Location = new System.Drawing.Point(0, 0);
+            this.metroTabPanel5.Location = new System.Drawing.Point(0, 51);
             this.metroTabPanel5.Name = "metroTabPanel5";
             this.metroTabPanel5.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel5.Size = new System.Drawing.Size(799, 498);
+            this.metroTabPanel5.Size = new System.Drawing.Size(799, 447);
             // 
             // 
             // 
@@ -1475,7 +1475,7 @@ namespace DataNetClient.Forms
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 471);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 420);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // panelEx14
@@ -1492,7 +1492,7 @@ namespace DataNetClient.Forms
             this.panelEx14.Location = new System.Drawing.Point(569, 78);
             this.panelEx14.Name = "panelEx14";
             this.panelEx14.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx14.Size = new System.Drawing.Size(221, 192);
+            this.panelEx14.Size = new System.Drawing.Size(221, 166);
             this.panelEx14.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx14.Style.BackColor1.Color = System.Drawing.Color.White;
             this.panelEx14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1594,19 +1594,19 @@ namespace DataNetClient.Forms
             this.listView_ac_list.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView_ac_list.ForeColor = System.Drawing.Color.Black;
             this.listView_ac_list.FullRowSelect = true;
-            listViewGroup4.Header = "10/12/2013";
-            listViewGroup4.Name = "listViewGroup1";
-            listViewGroup5.Header = "13/12/12";
-            listViewGroup5.Name = "listViewGroup2";
-            listViewGroup6.Header = "14/12/12";
-            listViewGroup6.Name = "listViewGroup3";
+            listViewGroup1.Header = "10/12/2013";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "13/12/12";
+            listViewGroup2.Name = "listViewGroup2";
+            listViewGroup3.Header = "14/12/12";
+            listViewGroup3.Name = "listViewGroup3";
             this.listView_ac_list.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
-            this.listView_ac_list.Location = new System.Drawing.Point(569, 276);
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+            this.listView_ac_list.Location = new System.Drawing.Point(569, 250);
             this.listView_ac_list.Name = "listView_ac_list";
-            this.listView_ac_list.Size = new System.Drawing.Size(221, 192);
+            this.listView_ac_list.Size = new System.Drawing.Size(221, 167);
             this.listView_ac_list.TabIndex = 41;
             this.listView_ac_list.UseCompatibleStateImageBehavior = false;
             this.listView_ac_list.View = System.Windows.Forms.View.Details;
@@ -1680,19 +1680,19 @@ namespace DataNetClient.Forms
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView2.ForeColor = System.Drawing.Color.Black;
             this.listView2.FullRowSelect = true;
-            listViewGroup7.Header = "10/12/2013";
-            listViewGroup7.Name = "listViewGroup1";
-            listViewGroup8.Header = "13/12/12";
-            listViewGroup8.Name = "listViewGroup2";
-            listViewGroup9.Header = "14/12/12";
-            listViewGroup9.Name = "listViewGroup3";
+            listViewGroup4.Header = "10/12/2013";
+            listViewGroup4.Name = "listViewGroup1";
+            listViewGroup5.Header = "13/12/12";
+            listViewGroup5.Name = "listViewGroup2";
+            listViewGroup6.Header = "14/12/12";
+            listViewGroup6.Name = "listViewGroup3";
             this.listView2.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup7,
-            listViewGroup8,
-            listViewGroup9});
-            this.listView2.Location = new System.Drawing.Point(194, 276);
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
+            this.listView2.Location = new System.Drawing.Point(194, 250);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(369, 192);
+            this.listView2.Size = new System.Drawing.Size(369, 167);
             this.listView2.TabIndex = 36;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -1800,19 +1800,19 @@ namespace DataNetClient.Forms
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.ForeColor = System.Drawing.Color.Black;
             this.listView1.FullRowSelect = true;
-            listViewGroup10.Header = "10/12/2013";
-            listViewGroup10.Name = "listViewGroup1";
-            listViewGroup11.Header = "13/12/12";
-            listViewGroup11.Name = "listViewGroup2";
-            listViewGroup12.Header = "14/12/12";
-            listViewGroup12.Name = "listViewGroup3";
+            listViewGroup7.Header = "10/12/2013";
+            listViewGroup7.Name = "listViewGroup1";
+            listViewGroup8.Header = "13/12/12";
+            listViewGroup8.Name = "listViewGroup2";
+            listViewGroup9.Header = "14/12/12";
+            listViewGroup9.Name = "listViewGroup3";
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup10,
-            listViewGroup11,
-            listViewGroup12});
+            listViewGroup7,
+            listViewGroup8,
+            listViewGroup9});
             this.listView1.Location = new System.Drawing.Point(194, 78);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(369, 192);
+            this.listView1.Size = new System.Drawing.Size(369, 166);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -1867,7 +1867,7 @@ namespace DataNetClient.Forms
             this.panelEx9.Name = "panelEx9";
             this.panelEx9.Padding = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel2.SetRowSpan(this.panelEx9, 3);
-            this.panelEx9.Size = new System.Drawing.Size(185, 465);
+            this.panelEx9.Size = new System.Drawing.Size(185, 414);
             this.panelEx9.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx9.Style.BackColor1.Color = System.Drawing.Color.White;
             this.panelEx9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1885,7 +1885,7 @@ namespace DataNetClient.Forms
             this.panelEx10.Location = new System.Drawing.Point(1, 33);
             this.panelEx10.Name = "panelEx10";
             this.panelEx10.Padding = new System.Windows.Forms.Padding(1);
-            this.panelEx10.Size = new System.Drawing.Size(183, 431);
+            this.panelEx10.Size = new System.Drawing.Size(183, 380);
             this.panelEx10.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx10.Style.BackColor1.Color = System.Drawing.Color.White;
             this.panelEx10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
@@ -1906,7 +1906,7 @@ namespace DataNetClient.Forms
             this.listBox_daily_symbols.Location = new System.Drawing.Point(1, 1);
             this.listBox_daily_symbols.Name = "listBox_daily_symbols";
             this.listBox_daily_symbols.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox_daily_symbols.Size = new System.Drawing.Size(181, 429);
+            this.listBox_daily_symbols.Size = new System.Drawing.Size(181, 378);
             this.listBox_daily_symbols.TabIndex = 37;
             this.listBox_daily_symbols.SelectedIndexChanged += new System.EventHandler(this.listBox_daily_symbols_SelectedIndexChanged);
             // 
@@ -1932,10 +1932,10 @@ namespace DataNetClient.Forms
             this.metroTabPanel1.Controls.Add(this.panelEx5);
             this.metroTabPanel1.Controls.Add(this.panelEx1);
             this.metroTabPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metroTabPanel1.Location = new System.Drawing.Point(0, 51);
+            this.metroTabPanel1.Location = new System.Drawing.Point(0, 0);
             this.metroTabPanel1.Name = "metroTabPanel1";
             this.metroTabPanel1.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.metroTabPanel1.Size = new System.Drawing.Size(799, 447);
+            this.metroTabPanel1.Size = new System.Drawing.Size(799, 498);
             // 
             // 
             // 
@@ -1960,7 +1960,7 @@ namespace DataNetClient.Forms
             this.panelEx5.Controls.Add(this.ui_LabelX_sharedAvaliable);
             this.panelEx5.Controls.Add(this.ui_buttonX_shareConnect);
             this.panelEx5.Controls.Add(this.labelX16);
-            this.panelEx5.Location = new System.Drawing.Point(113, 33);
+            this.panelEx5.Location = new System.Drawing.Point(113, 58);
             this.panelEx5.Name = "panelEx5";
             this.panelEx5.Size = new System.Drawing.Size(272, 313);
             this.panelEx5.Style.Alignment = System.Drawing.StringAlignment.Center;
@@ -2038,7 +2038,7 @@ namespace DataNetClient.Forms
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_db);
             this.panelEx1.Controls.Add(this.labelX1);
             this.panelEx1.Controls.Add(this.ui_home_textBoxX_host);
-            this.panelEx1.Location = new System.Drawing.Point(391, 33);
+            this.panelEx1.Location = new System.Drawing.Point(391, 58);
             this.panelEx1.Name = "panelEx1";
             this.panelEx1.Size = new System.Drawing.Size(272, 313);
             this.panelEx1.Style.Alignment = System.Drawing.StringAlignment.Center;
@@ -2459,17 +2459,6 @@ namespace DataNetClient.Forms
             this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Metro;
             this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.SteelBlue);
             // 
-            // styledListControl1
-            // 
-            this.styledListControl1.BackColor = System.Drawing.Color.White;
-            this.styledListControl1.ForeColor = System.Drawing.Color.Black;
-            this.styledListControl1.Location = new System.Drawing.Point(1, 176);
-            this.styledListControl1.Name = "styledListControl1";
-            this.styledListControl1.SelectedItem = -1;
-            this.styledListControl1.Size = new System.Drawing.Size(344, 206);
-            this.styledListControl1.StateChangingEnabled = false;
-            this.styledListControl1.TabIndex = 23;
-            // 
             // panelEx6
             // 
             this.panelEx6.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -2559,6 +2548,17 @@ namespace DataNetClient.Forms
             this.linkLabel_sort_name.Tag = "1";
             this.linkLabel_sort_name.Text = "Name";
             this.toolTip1.SetToolTip(this.linkLabel_sort_name, "Sort by name");
+            // 
+            // styledListControl1
+            // 
+            this.styledListControl1.BackColor = System.Drawing.Color.White;
+            this.styledListControl1.ForeColor = System.Drawing.Color.Black;
+            this.styledListControl1.Location = new System.Drawing.Point(1, 176);
+            this.styledListControl1.Name = "styledListControl1";
+            this.styledListControl1.SelectedItem = -1;
+            this.styledListControl1.Size = new System.Drawing.Size(344, 206);
+            this.styledListControl1.StateChangingEnabled = false;
+            this.styledListControl1.TabIndex = 23;
             // 
             // FormMainDN
             // 

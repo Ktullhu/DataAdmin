@@ -30,7 +30,7 @@ namespace DADataManager.SqlQueryBuilders
         private const string TblSessions = "tbl_sessions";
         private const string TblSessionsForGroups = "tbl_sesions_for_groups";
         private const string TblLogs = "tbl_logs";
-        private const string TblDailyValue = "tbl_daily_value";
+        private const string TblDailyValue = "tbl_daily_values";
         private const string TblSymbolsFormat = "tbl_symbols_format";
 
         #endregion
@@ -40,7 +40,18 @@ namespace DADataManager.SqlQueryBuilders
         {
         //todo create tables when user connect to local DB
 
-           
+         string createNotChangedValuesTable = "CREATE TABLE  IF NOT EXISTS `" + TblNotChangedValues + "`("
+                               + "`Id` int(12) unsigned not null auto_increment,"
+                               + "`Symbol` varchar(50) not null,"
+                               + "`TickSize` double not null,"
+                               + "`Currency` varchar(50) not null,"
+                // + "`Expiration` DateTime null DEFAULT '" + s + "', "
+                               + "`TickValue` double not null,"
+                               + "PRIMARY KEY (`Id`),"
+                               + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"
+                               + ")"
+                               + "COLLATE='latin1_swedish_ci'"
+                               + "ENGINE=InnoDB;";  
 
         string createDailyTable = "CREATE TABLE  IF NOT EXISTS `"+TblDailyValue+"`("
                                              +"`Id` int(12) unsigned not null auto_increment,"
@@ -194,22 +205,11 @@ namespace DADataManager.SqlQueryBuilders
 
             
 
-            string createNotChangedValuesTable = "CREATE TABLE  IF NOT EXISTS `" + TblNotChangedValues + "`("
-                                        + "`Id` int(12) unsigned not null auto_increment,"
-                                        + "`Symbol` varchar(50) not null,"
-                                        + "`TickSize` double not null,"
-                                        + "`Currency` varchar(50) not null,"
-                                       // + "`Expiration` DateTime null DEFAULT '" + s + "', "
-                                        + "`TickValue` double not null,"
-                                        + "PRIMARY KEY (`Id`),"
-                                        + "UNIQUE INDEX `UNQ_DATA_INDEX` (`Symbol`)"
-                                        + ")"
-                                        + "COLLATE='latin1_swedish_ci'"
-                                        + "ENGINE=InnoDB;";
+
 
             return createGroupsForUsers + createSymbolsForUsers + createSymbolsGroups +
                 createSymbolsInGroups + createSymbolsSql + createUsersSql + createSessions+createSessionsForGroups
-                + createDailyTable + createLogsSql + createSymbolsFormatTable + createSymbolsGroups + alterLogs + createNotChangedValuesTable;
+                + createDailyTable + createLogsSql + createSymbolsFormatTable + createSymbolsGroups + createNotChangedValuesTable + alterLogs;
         }
 
         public static string GetAddGroupSql(GroupModel group)

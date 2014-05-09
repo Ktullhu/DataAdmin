@@ -2294,6 +2294,8 @@ namespace DataNetClient.Forms
 
         private void buttonX_daily_updateValues_Click(object sender, EventArgs e)
         {
+            ClientDatabaseManager.isExpirationColumnExist_ADD();
+            ClientDatabaseManager.isExpirationColumnExist_Delete();
             var symbols = listBox_daily_symbols.SelectedItems.Cast<string>().ToList();
                        
             Daily_NotChanchedValuesManager.UpdateDailyValues(symbols);

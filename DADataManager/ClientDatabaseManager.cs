@@ -2177,11 +2177,14 @@ namespace DADataManager
 
         public static void isExpirationColumnExist_Delete()
         {
+            MySqlDataReader reader = null;
+
             string table = TblNotChangedValues;
             try
             {
                 var sql = "Select `Expiration` from `" + table + "`";
-                if (DoSql(sql))
+                reader = GetReader(sql);
+                if (reader != null && !reader.Read())
                 {
                     sql = "ALTER TABLE `" + table + "` DROP COLUMN `Expiration`";
                     DoSql(sql);
@@ -2191,23 +2194,65 @@ namespace DADataManager
             {
                 Console.WriteLine(ex.Message);
             }
+            finally
+            {
+                if(reader!=null)
+                    reader.Close();
+            }
         }
 
         public static void isExpirationColumnExist_ADD()
         {
+         MySqlDataReader reader = null;
+         //   try
+         //   {
+
+         //       var sql = "Select `MonthChar`, `Year` from  " + tableName + ";";
+         //       reader = GetReaderBar(sql);
+
+
+         //       if (reader != null && reader.Read())
+         //       {
+         //           reader.Close();
+         //           return true;
+         //       }
+         //       else
+         //       {
+         //           if (reader != null) reader.Close();
+         //           return false;
+         //       }
+         //   }
+         //   catch (Exception ex)
+         //   {
+         //       Console.WriteLine("MonthCharYearExist.Error:" + ex.Message);
+         //       if (reader != null) reader.Close();
+         //       return false;
+         //       //throw;
+         //   }
+         //   finally
+         //   {
+         //       if (reader != null) reader.Close();
+         //   }
             string table = TblDailyValue;
             try
             {
                 var sql = "Select `Expiration` from `" + table + "`";
-                if (!DoSql(sql))
+                reader = GetReader(sql);
+                if (reader != null && reader.Read())
                 {
                     sql = "ALTER TABLE `" + table + "` ADD `Expiration` DateTime not null ";
                     DoSql(sql);
                 }
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                if(reader!=null)
+                reader.Close();
             }
         }
 
@@ -2220,7 +2265,7 @@ namespace DADataManager
             try
             {
                 var query = "INSERT IGNORE INTO " + TblDailyValue + "(`IndicativeOpen`,`Marker`,`Settlement`,`TodayMarker`,`Symbol`,`Date`,`Expiration`) " +
-                    "VALUES('" + indicativeOpen + "', '" + marker + "', '" + settlement + "', '" + todayMarker + "', '" + symbol + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) +"'  '"+ expirationDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
+                    "VALUES('" + indicativeOpen + "', '" + marker + "', '" + settlement + "', '" + todayMarker + "', '" + symbol + "', '" + date.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) +"',  '"+ expirationDate.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) + "');COMMIT;";
                 DoSql(query);
 
 
@@ -2342,7 +2387,7 @@ namespace DADataManager
             try
             {
                 var query = "Insert ignore into " + TblNotChangedValues + "(`Symbol`, `TickSize`, `Currency`,`TickValue`) " +
-                "VALUES('" + symbol + "', "+tickValue+" );COMMIT;";
+                "VALUES('" + symbol + "', "+TickSize+", '"+Currency+"', "+tickValue+" );COMMIT;";
                 DoSql(query);
             }
             catch (Exception ex)
@@ -2381,7 +2426,7 @@ namespace DADataManager
                         TickSize = Convert.ToDouble(reader.GetValue(2)),
                         Currency = reader.GetValue(3).ToString(),
                         //Expiration = Convert.ToDateTime(reader.GetValue(4).ToString()),
-                        TickValue = reader.GetDouble(5)
+                        TickValue = reader.GetDouble(4)
                     };
                     ValuelList.Add(variable);
                 }
