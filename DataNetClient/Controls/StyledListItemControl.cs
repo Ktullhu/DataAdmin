@@ -114,8 +114,9 @@ namespace DataNetClient.Controls
             Color.White;
         }
 
-        private void panelEx_back_Click(object sender, EventArgs e)
+        public void panelEx_back_Click(object sender, EventArgs e)
         {
+            /*
             if (!ItemStateChangingEnabled) return;
 
             if (_state == GroupState.NotInQueue)
@@ -141,7 +142,7 @@ namespace DataNetClient.Controls
                 return;
             }
 
-            
+            */
         }
 
         public List<string> Symbols

@@ -104,6 +104,12 @@
     <Compile Include="Controls\StyledTextBox.Designer.cs">
       <DependentUpon>StyledTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SymbolItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SymbolItem.Designer.cs">
+      <DependentUpon>SymbolItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\CQGDataCollectorManager.cs" />
     <Compile Include="Core\Daily_NotChanchedValuesManager.cs" />
     <Compile Include="Core\MissingBarManager.cs" />
@@ -166,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StyledTextBox.resx">
       <DependentUpon>StyledTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SymbolItem.resx">
+      <DependentUpon>SymbolItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddListControl.resx">
       <DependentUpon>AddListControl.cs</DependentUpon>

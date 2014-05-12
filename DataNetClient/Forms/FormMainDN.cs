@@ -2,6 +2,7 @@ using CQG;
 using DADataManager;
 using DADataManager.Models;
 using DataAdminCommonLib;
+using DataNetClient.Controls;
 using DataNetClient.Core;
 using DataNetClient.Core.ClientManager;
 using DataNetClient.CQGDataCollector;
@@ -29,20 +30,21 @@ namespace DataNetClient.Forms
     public partial class FormMainDN : DevComponents.DotNetBar.Metro.MetroAppForm
     {
         #region VARIABES
+
         private readonly MetroBillCommands _commands; // All application commands
         private StartControl _startControl;
         private MissingBarManager _missingBarManager;
         private CQGCEL _cel;
-        private bool _isStartedCqg;        
+        private bool _isStartedCqg;
         private List<Brush> _lbxColors;
         private Logger _logger;
         private SymbolsEditControl _symbolsEditControl;
         private EditListControl _editListControl;
-        private AddListControl _addListControl;        
+        private AddListControl _addListControl;
         private List<SymbolModel> _symbols = new List<SymbolModel>();
         private Thread _logonThread;
         private readonly DNetBusySymbolList _busySymbolList;
-        private string _lastTip;        
+        private string _lastTip;
         private string _connectionToSharedDb;
         private string _connectionToSharedDbBar;
         private string _connectionToSharedDbHistorical;
@@ -53,7 +55,7 @@ namespace DataNetClient.Forms
         private List<GroupItemModel> _groupItems;
 
         private bool _logined;
-        readonly object _lockRefreshSymbols = new object();
+        private readonly object _lockRefreshSymbols = new object();
         private Semaphore _semaphoreWaitEndCollecting = new Semaphore(0, 1);
 
         #endregion
@@ -71,9 +73,9 @@ namespace DataNetClient.Forms
         private object _onlineServerSymbol;
         private bool _shouldStop;
         private readonly object _collectingLock = new object();
-        private int _sortMode=1;
+        private int _sortMode = 1;
         public bool _nowIsMaster = true;
-     
+
         #endregion
 
         #region MAIN FUNCTIONS Constructor, Load, Shown, Resize, Closing
@@ -85,12 +87,12 @@ namespace DataNetClient.Forms
             InitializeComponent();
 
             _commands = new MetroBillCommands
-                            {
-                                StartControlCommands = {Logon = new Command(), Exit = new Command()},
-                                NewSymbolCommands = {NewGroup =  new Command(),Cancel = new Command(), EditGroup = new Command()},
-                                NewListCommands = {Add = new Command(), Cancel = new Command()},
-                                EditListCommands = {Save = new Command(), Cancel = new Command()}
-                            };
+            {
+                StartControlCommands = {Logon = new Command(), Exit = new Command()},
+                NewSymbolCommands = {NewGroup = new Command(), Cancel = new Command(), EditGroup = new Command()},
+                NewListCommands = {Add = new Command(), Cancel = new Command()},
+                EditListCommands = {Save = new Command(), Cancel = new Command()}
+            };
 
             _commands.StartControlCommands.Logon.Executed += StartControl_LogonClick;
             _commands.StartControlCommands.Exit.Executed += StartControl_ExitClick;
@@ -118,19 +120,20 @@ namespace DataNetClient.Forms
             _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
             ResumeLayout(false);
             _busySymbolList = new DNetBusySymbolList();
-            
-            Daily_NotChanchedValuesManager.Init(); 
+            Daily_NotChanchedValuesManager.Init();
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             try
-            {                
+            {
+                slidePanelSymbols.IsOpen = false;
                 ClientDatabaseManager.ConnectionStatusChanged += ClientDataManager_ConnectionStatusChanged;
 
                 if (Settings.Default.L.X < 0 || Settings.Default.L.Y < 0) Settings.Default.L = new Point(0, 0);
-                if (Settings.Default.S.Width < 0 || Settings.Default.S.Height < 0) Settings.Default.S = new Size(800, 500);
+                if (Settings.Default.S.Width < 0 || Settings.Default.S.Height < 0)
+                    Settings.Default.S = new Size(800, 500);
 
                 Size = Settings.Default.S;
                 Location = Settings.Default.L;
@@ -140,14 +143,14 @@ namespace DataNetClient.Forms
                 _logger = Logger.GetInstance(listViewLogger);
                 _logger.LogAdd("Application Start", Category.Information);
                 _missingBarManager = new MissingBarManager(_logger);
-  
+
 
                 _missingBarManager.MissingBarStart += DataCollector_MissingBarStart;
                 _missingBarManager.MissingBarEnd += DataCollector_MissingBarEnd;
 
                 _missingBarManager.Finished += DataCollector_Finished;
                 _missingBarManager.Progress += _missingBarManager_Progress;
-                
+
 
 
                 ui_home_textBoxX_db.Text = Settings.Default.MainDB;
@@ -184,19 +187,19 @@ namespace DataNetClient.Forms
 
                 _cel.DataConnectionStatusChanged += CEL_DataConnectionStatusChanged;
                 CEL_DataConnectionStatusChanged(eConnectionStatus.csConnectionDown);
-                _cel.DataError += CEL_DataError;                
+                _cel.DataError += CEL_DataError;
                 _cel.IncorrectSymbol += CEL_IncorrectSymbol;
-                _cel.HistoricalSessionsResolved += CEL_HistoricalSessionsResolved;                
+                _cel.HistoricalSessionsResolved += CEL_HistoricalSessionsResolved;
                 _cel.InstrumentSubscribed += CEL_InstrumentSubscribed;
 
-                
+
 
                 //todo
 
                 //currStatus = DEFAULT_STATUS;
                 dateTimeInputStart.Value = DateTime.Now.AddDays(-1);
-                dateTimeInputEnd.Value = DateTime.Now;                
-                
+                dateTimeInputEnd.Value = DateTime.Now;
+
                 _pingTimer = new Timer();
                 _pingTimer.Tick += TimerTick;
                 _pingTimer.Interval = 1000;
@@ -207,7 +210,8 @@ namespace DataNetClient.Forms
                 //todo
                 styledListControl1.ItemStateChanged += styledListControl1_ItemStateChanged;
                 CQGDataCollectorManager.ItemStateChanged += CQGDataCollectorManager_ItemStateChanged;
-                CQGDataCollectorManager.CollectedSymbolCountChanged += CQGDataCollectorManager_CollectedSymbolCountChanged;
+                CQGDataCollectorManager.CollectedSymbolCountChanged +=
+                    CQGDataCollectorManager_CollectedSymbolCountChanged;
                 CQGDataCollectorManager.RunnedStateChanged += CQGDataCollectorManager_RunnedStateChanged;
                 CQGDataCollectorManager.StartTimeChanged += CQGDataCollectorManager_StartTimeChanged;
                 CQGDataCollectorManager.CQGStatusChanged += CQGDataCollectorManager_CQGStatusChanged;
@@ -218,17 +222,18 @@ namespace DataNetClient.Forms
 
                 CQGDataCollectorManager.SendReport += CQGDataCollectorManager_SendReport;
                 //todo
-                Thread.Sleep(1000);// Fixed bug with closeing while starting//do not remove this
+                Thread.Sleep(1000); // Fixed bug with closeing while starting//do not remove this
                 _cel.Startup();
 
 
                 //Restarting after crashing
-                if (Settings.Default.IsCrashed) 
-                {                    
-                    LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword, Settings.Default.scHostSlave, _nowIsMaster);
+                if (Settings.Default.IsCrashed)
+                {
+                    LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword, Settings.Default.scHostSlave,
+                        _nowIsMaster);
 
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -238,12 +243,13 @@ namespace DataNetClient.Forms
             }
         }
 
-        void CQGDataCollectorManager_SendReport(string subject, string text)
+        private void CQGDataCollectorManager_SendReport(string subject, string text)
         {
             //todo
             if (checkBox_emailMe.Checked)
             {
-                _logger.LogAdd(" Message sent to " + Settings.Default.Emails+". With subject: "+subject, Category.Information);
+                _logger.LogAdd(" Message sent to " + Settings.Default.Emails + ". With subject: " + subject,
+                    Category.Information);
                 SendEmails(Settings.Default.Emails, subject, text);
             }
         }
@@ -259,12 +265,12 @@ namespace DataNetClient.Forms
             foreach (var item in adr)
             {
                 if (!string.IsNullOrEmpty(item))
-                { 
+                {
                     message.To.Add(item);
                     addressesCount++;
                 }
             }
-            message.From = new System.Net.Mail.MailAddress("ZectraDataNet@gmail.com");           
+            message.From = new System.Net.Mail.MailAddress("ZectraDataNet@gmail.com");
             message.Subject = subject;
             message.Body = text;
 
@@ -275,32 +281,33 @@ namespace DataNetClient.Forms
                 smtp.Credentials = new System.Net.NetworkCredential("ZectraDataNet", "zectra2014");
 
                 smtp.Send(message);
-                
+
             }
         }
 
-        void CQGDataCollectorManager_TickInsertingStarted(string symbols, int count)
+        private void CQGDataCollectorManager_TickInsertingStarted(string symbols, int count)
         {
-            _logger.LogAdd(@"  |  Symbol '" + symbols + "' inserting started. Total data count:"+count, Category.Information);
+            _logger.LogAdd(@"  |  Symbol '" + symbols + "' inserting started. Total data count:" + count,
+                Category.Information);
         }
 
-        void _missingBarManager_Progress(int progress)
+        private void _missingBarManager_Progress(int progress)
         {
-            Invoke((Action) (()=> { 
-                progressBarItemCollecting.Value = progress;
+            Invoke((Action) (() => {
+                                       progressBarItemCollecting.Value = progress;
             }));
         }
 
-        void CQGDataCollectorManager_UnsuccessfulSymbol(List<string> symbols )
+        private void CQGDataCollectorManager_UnsuccessfulSymbol(List<string> symbols)
         {
             foreach (var item in symbols)
             {
-                _logger.LogAdd(@"  |  Symbol '" + item+"' [unsuccessful]", Category.Warning);
-            }            
-                    
+                _logger.LogAdd(@"  |  Symbol '" + item + "' [unsuccessful]", Category.Warning);
+            }
+
         }
 
-        void CQGDataCollectorManager_CQGStatusChanged(bool isConnected)
+        private void CQGDataCollectorManager_CQGStatusChanged(bool isConnected)
         {
             CqgConnectionStatusChanged(isConnected);
         }
@@ -349,7 +356,7 @@ namespace DataNetClient.Forms
             Settings.Default.L = Location;
 
             Settings.Default.AutoMissingBarReport = ui_checkBoxAuto_CheckForMissedBars.Value;
-            Settings.Default.SavePass = checkBoxX1.Checked;            
+            Settings.Default.SavePass = checkBoxX1.Checked;
             Settings.Default.Save();
 
         }
@@ -358,7 +365,8 @@ namespace DataNetClient.Forms
         {
             var captionHeight = metroShell1.MetroTabStrip.GetCaptionHeight() + 2;
             var borderThickness = GetBorderThickness();
-            return new Rectangle((int)borderThickness.Left, captionHeight, Width - (int)borderThickness.Horizontal, Height - captionHeight - 1);
+            return new Rectangle((int) borderThickness.Left, captionHeight, Width - (int) borderThickness.Horizontal,
+                Height - captionHeight - 1);
         }
 
         private void UpdateControlsSizeAndLocation()
@@ -381,14 +389,14 @@ namespace DataNetClient.Forms
 
         private void TimerTick(object sender, EventArgs e)
         {
-            PingServer();            
+            PingServer();
         }
 
         private void PingServer()
         {
 
             IPAddress ipgood1, ipgood2;
-            if (IPAddress.TryParse(_startControl.ui_textBox_ip.Text, out ipgood1) && 
+            if (IPAddress.TryParse(_startControl.ui_textBox_ip.Text, out ipgood1) &&
                 IPAddress.TryParse(_startControl.ui_textBox_ip_slave.Text, out ipgood2))
             {
 
@@ -398,7 +406,7 @@ namespace DataNetClient.Forms
                 if (_serverStatusMaster)
                 {
 
-                    _startControl.Invoke((Action)delegate
+                    _startControl.Invoke((Action) delegate
                     {
                         _startControl.uiServerStatus.Visible = true;
                         _startControl.uiServerStatus.Text = "Server is online";
@@ -412,7 +420,7 @@ namespace DataNetClient.Forms
                 else
                 {
 
-                    _startControl.Invoke((Action)delegate
+                    _startControl.Invoke((Action) delegate
                     {
                         _startControl.uiServerStatus.Visible = true;
                         _startControl.uiServerStatus.Text = "Server is offline";
@@ -420,16 +428,16 @@ namespace DataNetClient.Forms
                         _startControl.uiServerStatus.SymbolColor = Color.Crimson;
                         _startControl.uiServerStatus.Symbol = _offlineServerSymbol.ToString();
 
-            
+
                     }
                         );
 
                 }
                 //8888
 
-                if(_serverStatusSlave)
+                if (_serverStatusSlave)
                 {
-                    _startControl.Invoke((Action)delegate
+                    _startControl.Invoke((Action) delegate
                     {
                         _startControl.uiServerStatus2.Visible = true;
                         _startControl.uiServerStatus2.Text = "Server is online";
@@ -441,7 +449,7 @@ namespace DataNetClient.Forms
                 }
                 else
                 {
-                    _startControl.Invoke((Action)delegate
+                    _startControl.Invoke((Action) delegate
                     {
                         _startControl.uiServerStatus2.Visible = true;
                         _startControl.uiServerStatus2.Text = "Server is offline";
@@ -458,7 +466,7 @@ namespace DataNetClient.Forms
             }
             else
             {
-                _startControl.Invoke((Action)delegate
+                _startControl.Invoke((Action) delegate
                 {
                     _startControl.uiServerStatus.Visible = true;
                     _startControl.uiServerStatus.Text = "Incorrect IP address";
@@ -468,14 +476,14 @@ namespace DataNetClient.Forms
 
                     _startControl.ui_buttonX_logon.Enabled = false;
                 }
-                      );
+                    );
             }
-            _startControl.Invoke((Action)delegate
+            _startControl.Invoke((Action) delegate
             {
                 _startControl.ui_buttonX_logon.Enabled = (_serverStatusMaster && _serverStatusSlave);
                 _startControl.Refresh();
             });
-            
+
         }
 
 
@@ -514,87 +522,97 @@ namespace DataNetClient.Forms
                 _serverStatusSlave = false;
 
             }
-            
+
         }
-      
+
 
 
         private void LoginToServer(string username, string password, string host, bool isMaster)
         {
             _logonThread = new Thread(
-            () =>
-            {
-                _pingTimer.Enabled = false;
-                _client = new DataClientClass(username);
-                _logClient = new DataNetLogService();
-                _logClientService = ScsServiceClientBuilder.CreateClient<IDataNetLogService>(new ScsTcpEndPoint(host, 443), _logClient);
-                _clientService = ScsServiceClientBuilder.CreateClient<IDataAdminService>(new ScsTcpEndPoint(host, 443), _client);
-                _clientService.Connected += ScsClient_Connected;
-
-                try
+                () =>
                 {
-                    _clientService.Connect();
-                    _logClientService.Connect();
+                    _pingTimer.Enabled = false;
+                    _client = new DataClientClass(username);
+                    _logClient = new DataNetLogService();
+                    _logClientService =
+                        ScsServiceClientBuilder.CreateClient<IDataNetLogService>(new ScsTcpEndPoint(host, 443),
+                            _logClient);
+                    _clientService =
+                        ScsServiceClientBuilder.CreateClient<IDataAdminService>(new ScsTcpEndPoint(host, 443), _client);
+                    _clientService.Connected += ScsClient_Connected;
 
-                    _client.login += LoggedIn;
-                    _client.block += BlockedByAdmin;
-                    _client.loginFailed += LoginFailed;
-                    _client.changePrivilages += ChangedPrivileges;
-                    _client.logout += DeletedClient;
-                    _client.symblolListRecieved += GroupSymbolChange;
-                    _client.symbolListChanged += RefreshSymbols;
-                    _client.groupChanged += RefreshGroups;
-                    //_client.logoutServer += ServerStatusChanged;
-                    _client.busySymbolListReceived += BusySymbolChanged;
-                    _client.symbolPermissionChanged += RefreshSymbols;
-                    _clientService.Disconnected += OnServerCrashed;
+                    try
+                    {
+                        _clientService.Connect();
+                        _logClientService.Connect();
 
-                    var logmsg = new DataAdminMessageFactory.LogMessage { Symbol = username, LogType = DataAdminMessageFactory.LogMessage.Log.Login, Group = "" };
+                        _client.login += LoggedIn;
+                        _client.block += BlockedByAdmin;
+                        _client.loginFailed += LoginFailed;
+                        _client.changePrivilages += ChangedPrivileges;
+                        _client.logout += DeletedClient;
+                        _client.symblolListRecieved += GroupSymbolChange;
+                        _client.symbolListChanged += RefreshSymbols;
+                        _client.groupChanged += RefreshGroups;
+                        //_client.logoutServer += ServerStatusChanged;
+                        _client.busySymbolListReceived += BusySymbolChanged;
+                        _client.symbolPermissionChanged += RefreshSymbols;
+                        _clientService.Disconnected += OnServerCrashed;
+
+                        var logmsg = new DataAdminMessageFactory.LogMessage
+                        {
+                            Symbol = username,
+                            LogType = DataAdminMessageFactory.LogMessage.Log.Login,
+                            Group = ""
+                        };
 
 
-                    _logClientService.ServiceProxy.SendSimpleLog(logmsg);
-                    Settings.Default.scHost = _startControl.ui_textBox_ip.Text;
-                    Settings.Default.scHostSlave = _startControl.ui_textBox_ip_slave.Text;
-                    Invoke((Action)(() =>{
-                        labelItem_server.Text = isMaster ? "Master" : "Slave";
-                        styleManager1.MetroColorParameters = new MetroColorGeneratorParameters(Color.White, isMaster ? Color.Green : Color.YellowGreen);
-                        
-                        metroStatusBar1.Refresh();
-                    }));
+                        _logClientService.ServiceProxy.SendSimpleLog(logmsg);
+                        Settings.Default.scHost = _startControl.ui_textBox_ip.Text;
+                        Settings.Default.scHostSlave = _startControl.ui_textBox_ip_slave.Text;
+                        Invoke((Action) (() =>
+                        {
+                            labelItem_server.Text = isMaster ? "Master" : "Slave";
+                            styleManager1.MetroColorParameters = new MetroColorGeneratorParameters(Color.White,
+                                isMaster ? Color.Green : Color.YellowGreen);
 
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    if (_startControl != null)
-                        _startControl.Invoke((Action)(() =>
-                                                          {
-                                                              if(isMaster)
-                                                              {
-                                                                  ToastNotification.Show(_startControl, "Can't connect. IP is incorrect");
-                                                                _startControl.ui_buttonX_logon.Enabled = true;
-                                                              }
-                                                              else
-                                                              {
-                                                                  Logout();
-                                                              }
-                                                          }
-                            ));
+                            metroStatusBar1.Refresh();
+                        }));
 
-                    return;
-                }
-                var loginMsg = new DataAdminMessageFactory.LoginMessage(username, password, 'd');
-                try
-                {
-                    _clientService.ServiceProxy.Login(loginMsg);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    MessageBox.Show(ex.Message);
-                }
-            }) { Name = "LogonThread", IsBackground = true };
-                        _logonThread.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        if (_startControl != null)
+                            _startControl.Invoke((Action) (() =>
+                            {
+                                if (isMaster)
+                                {
+                                    ToastNotification.Show(_startControl, "Can't connect. IP is incorrect");
+                                    _startControl.ui_buttonX_logon.Enabled = true;
+                                }
+                                else
+                                {
+                                    Logout();
+                                }
+                            }
+                                ));
+
+                        return;
+                    }
+                    var loginMsg = new DataAdminMessageFactory.LoginMessage(username, password, 'd');
+                    try
+                    {
+                        _clientService.ServiceProxy.Login(loginMsg);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        MessageBox.Show(ex.Message);
+                    }
+                }) {Name = "LogonThread", IsBackground = true};
+            _logonThread.Start();
         }
 
 
@@ -604,28 +622,29 @@ namespace DataNetClient.Forms
             {
                 _nowIsMaster = false;
 
-                LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword, Settings.Default.scHostSlave, _nowIsMaster);
+                LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword, Settings.Default.scHostSlave,
+                    _nowIsMaster);
             }
             else
             {
                 _nowIsMaster = true;
 
                 LoginToServer(Settings.Default.scUser1,
-                            Settings.Default.scPassword,
-                            Settings.Default.scHost, _nowIsMaster);
+                    Settings.Default.scPassword,
+                    Settings.Default.scHost, _nowIsMaster);
             }
         }
 
         private void BusySymbolChanged(string busySymbolList)
         {
-           
-         
+
+
             _busySymbolList.BusySymbols.Clear();
             var xml = new XmlDocument();
             xml.LoadXml(busySymbolList);
 
             var bsymbols = xml.GetElementsByTagName("BSymbol");
-            
+
             foreach (XmlElement item in bsymbols)
             {
 
@@ -634,19 +653,19 @@ namespace DataNetClient.Forms
 
                 var bsm = new BusySymbol();
                 bsm.ID = itemId;
-      
-                foreach(XmlElement tfitem in item.GetElementsByTagName("TimeFrame"))
+
+                foreach (XmlElement tfitem in item.GetElementsByTagName("TimeFrame"))
                 {
                     bsm.TimeFrames.Add(new TimeFrameModel()
                     {
                         TimeFrame = tfitem.InnerText
-                    }); 
+                    });
                 }
-                     _busySymbolList.BusySymbols.Add(bsm);
+                _busySymbolList.BusySymbols.Add(bsm);
 
             }
-            
-         
+
+
 
             Task.Factory.StartNew(RefreshSymbols).Wait();
         }
@@ -655,17 +674,17 @@ namespace DataNetClient.Forms
         {
             MessageBox.Show(msg.ToString());
 
-            Invoke((Action)Close);
+            Invoke((Action) Close);
         }
 
         private void LoginFailed(object sender, DataAdminMessageFactory.LoginMessage msg)
         {
-            _startControl.Invoke((Action)(() =>
-                                              {
-                                                  ToastNotification.Show(_startControl, msg.ServerMessage);
-                                                  _startControl.ui_buttonX_logon.Enabled = true;
-                                              }));
-            
+            _startControl.Invoke((Action) (() =>
+            {
+                ToastNotification.Show(_startControl, msg.ServerMessage);
+                _startControl.ui_buttonX_logon.Enabled = true;
+            }));
+
         }
 
         private void ScsClient_Connected(object sender, EventArgs e)
@@ -675,12 +694,12 @@ namespace DataNetClient.Forms
 
         private void LoggedIn(object sender, DataAdminMessageFactory.ChangePrivilage msg)
         {
-            
+
             labelItemUserName.Text = "<" + _client.UserName + ">  " + Settings.Default.scHost;
 
             _missingBarManager.AllowCollectingAndMissingBar();
             _logined = true;
-            _shouldStop = true;            
+            _shouldStop = true;
 
             var xml = new XmlDocument();
             xml.LoadXml(msg.ServerMessage);
@@ -690,7 +709,7 @@ namespace DataNetClient.Forms
             string dbNameBar = "";
 
             string dbNameHist = "";
-            
+
             string usName = "";
             string passw = "";
 
@@ -702,74 +721,79 @@ namespace DataNetClient.Forms
                 dbName = attr["dbName"].Value;
                 dbNameBar = attr["dbNameBar"].Value;
                 dbNameHist = attr["dbNameHist"].Value;
-                
+
                 usName = attr["userName"].Value;
                 passw = attr["password"].Value;
             }
-            _connectionToSharedDb = "SERVER=" + host + "; DATABASE=" + dbName + "; UID=" + usName + "; PASSWORD=" + passw;
-            _connectionToSharedDbBar = "SERVER=" + host + "; DATABASE=" + dbNameBar + "; UID=" + usName + "; PASSWORD=" + passw;
-            _connectionToSharedDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
-            
+            _connectionToSharedDb = "SERVER=" + host + "; DATABASE=" + dbName + "; UID=" + usName + "; PASSWORD=" +
+                                    passw;
+            _connectionToSharedDbBar = "SERVER=" + host + "; DATABASE=" + dbNameBar + "; UID=" + usName + "; PASSWORD=" +
+                                       passw;
+            _connectionToSharedDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName +
+                                              "; PASSWORD=" + passw;
+
 
             SetPrivilages(msg);
 
             CQGDataCollectorManager.Init(_client.UserName);
 
             //#Crashing
-            Invoke((Action)(() =>
+            Invoke((Action) (() =>
             {
-                if(Settings.Default.IsCrashed && Settings.Default.WasConnected)
+                if (Settings.Default.IsCrashed && Settings.Default.WasConnected)
                 {
                     if (Settings.Default.WasConnectedToShared)
                         ConnectToShared();
                     else
                         ConnectToLocal();
-                    
+
 
                     ContinueCollectingData();
-                    
-                }                
-                
-               
+
+                }
+
+
             }));
         }
 
-        private void ContinueCollectingData()//#Crash
+        private void ContinueCollectingData() //#Crash
         {
             //#Crashing
 
             new Thread(() =>
+            {
+                Thread.Sleep(3000);
+                var listIndex = GetInQueueGroups(Settings.Default.InQueueGroups);
+                var groups = "";
+                foreach (var index in listIndex)
                 {
-                    Thread.Sleep(3000);
-                    var listIndex = GetInQueueGroups(Settings.Default.InQueueGroups);
-                    var groups = "";
-                    foreach (var index in listIndex)
-                    {
-                        var state = GroupState.InQueue;
-                        if (index >= _groupItems.Count) return;
+                    var state = GroupState.InQueue;
+                    if (index >= _groupItems.Count) return;
 
-                        _groupItems[index].GroupState = state;
-                        Invoke(
-                                            (Action)delegate
+                    _groupItems[index].GroupState = state;
+                    Invoke(
+                        (Action) delegate
                         {
                             styledListControl1.ChangeState(index, state);
                         });
 
-                        groups += _groupItems[index].GroupModel.GroupName+", ";
+                    groups += _groupItems[index].GroupModel.GroupName + ", ";
 
-                        CQGDataCollectorManager.ChangeState(index, state);                        
-                    }
-                    var lll = GetInQueueGroups(Settings.Default.InProgressGroup);
-                    if(lll.Count!=0)
-                        _logger.LogAdd(" Application was crashes when collected group: " + _groupItems[lll[0]].GroupModel.GroupName, Category.Warning);
-                    if (!string.IsNullOrEmpty(groups))
-                        _logger.LogAdd(" Continue collecting groups: "+groups, Category.Information);
-                    CQGDataCollectorManager.Start();
+                    CQGDataCollectorManager.ChangeState(index, state);
+                }
+                var lll = GetInQueueGroups(Settings.Default.InProgressGroup);
+                if (lll.Count != 0)
+                    _logger.LogAdd(
+                        " Application was crashes when collected group: " + _groupItems[lll[0]].GroupModel.GroupName,
+                        Category.Warning);
+                if (!string.IsNullOrEmpty(groups))
+                    _logger.LogAdd(" Continue collecting groups: " + groups, Category.Information);
+                CQGDataCollectorManager.Start();
 
 
-                    Settings.Default.IsCrashed = false;
-                    Settings.Default.Save();
-                }).Start();
+                Settings.Default.IsCrashed = false;
+                Settings.Default.Save();
+            }).Start();
         }
 
         private List<int> GetInQueueGroups(string str)
@@ -778,11 +802,11 @@ namespace DataNetClient.Forms
             var list = str;
             while (!string.IsNullOrEmpty(list))
             {
-                var s = list.IndexOf("[")+1;
+                var s = list.IndexOf("[") + 1;
                 var e = list.IndexOf("]");
                 var l = e - s;
 
-                res.Add(Convert.ToInt32(list.Substring(s,l)));
+                res.Add(Convert.ToInt32(list.Substring(s, l)));
                 list = list.Substring(e + 1, list.Length - e - 1);
             }
             return res;
@@ -840,24 +864,24 @@ namespace DataNetClient.Forms
             Task.Factory.StartNew(delegate
             {
                 ui_buttonX_localConnect.Invoke(
-                    (Action)delegate { ui_buttonX_localConnect.Enabled = _client.Privileges.LocalDBAllowed; });
+                    (Action) delegate { ui_buttonX_localConnect.Enabled = _client.Privileges.LocalDBAllowed; });
 
-                ui_buttonX_shareConnect.Invoke((Action)delegate
+                ui_buttonX_shareConnect.Invoke((Action) delegate
                 {
                     ui_buttonX_shareConnect.Enabled = _client.Privileges.SharedDBAllowed;
                 });
-                ui_LabelX_localAvaliable.Invoke((MethodInvoker)delegate
+                ui_LabelX_localAvaliable.Invoke((MethodInvoker) delegate
                 {
                     ui_LabelX_localAvaliable.Text = localDbstring;
                     ui_LabelX_localAvaliable.ForeColor = localDbColor;
                 });
-                ui_LabelX_sharedAvaliable.Invoke((MethodInvoker)delegate
+                ui_LabelX_sharedAvaliable.Invoke((MethodInvoker) delegate
                 {
                     ui_LabelX_sharedAvaliable.Text = sharedDbstring;
                     ui_LabelX_sharedAvaliable.ForeColor = sharedDbColor;
                 });
 
-                _startControl.Invoke((Action)(() => _startControl.Hide()));
+                _startControl.Invoke((Action) (() => _startControl.Hide()));
             });
         }
 
@@ -883,16 +907,19 @@ namespace DataNetClient.Forms
             }
         }
 
-      
-        
-        public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName, string timeFrame, bool started, bool finished, bool failed =false, string comments = "")
+
+
+        public void SendLog(List<string> symbols, DataAdminMessageFactory.LogMessage.Log logtype, string groupName,
+            string timeFrame, bool started, bool finished, bool failed = false, string comments = "")
         {
-            var status = started ? DataAdminMessageFactory.LogMessage.Status.Started : DataAdminMessageFactory.LogMessage.Status.Finished;
-            
+            var status = started
+                ? DataAdminMessageFactory.LogMessage.Status.Started
+                : DataAdminMessageFactory.LogMessage.Status.Finished;
+
             if (symbols.Count > 0)
             {
                 var logMsg = new DataAdminMessageFactory.LogMessage(_client.UserID, DateTime.Now, "",
-                                                              logtype, groupName, status)
+                    logtype, groupName, status)
                 {
                     IsByDataNetBusy = true,
                     IsDataNetClient = true,
@@ -915,14 +942,14 @@ namespace DataNetClient.Forms
                     {
                         errorHappened = false;
 
-                    
+
                         try
                         {
                             Task.Factory.StartNew(() => _logClientService.ServiceProxy.SendStartedOperationLog(
-                            logMsg)).Wait();
-                       
+                                logMsg)).Wait();
+
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                             errorHappened = true;
@@ -935,21 +962,22 @@ namespace DataNetClient.Forms
                 else if (finished)
                 {
                     logMsg.IsByDataNetBusy = false;
-                    Task.Factory.StartNew(() => _logClientService.ServiceProxy.SendFinishedOperationLog(logMsg)).Wait(); 
+                    Task.Factory.StartNew(() => _logClientService.ServiceProxy.SendFinishedOperationLog(logMsg)).Wait();
                 }
-                
+
             }
             else
             {
-                var logMsg = new DataAdminMessageFactory.LogMessage(_client.UserID, DateTime.Now, "", logtype, groupName, status);
+                var logMsg = new DataAdminMessageFactory.LogMessage(_client.UserID, DateTime.Now, "", logtype, groupName,
+                    status);
                 if (started)
                 {
                     logMsg.IsByDataNetBusy = true;
                     logMsg.IsDataNetClient = true;
                     logMsg.TimeFrame = timeFrame;
-                    Task.Factory.StartNew(() =>_logClientService.ServiceProxy.SendStartedOperationLog(logMsg)).Wait(); 
+                    Task.Factory.StartNew(() => _logClientService.ServiceProxy.SendStartedOperationLog(logMsg)).Wait();
 
-                    
+
                 }
                 else if (finished)
                 {
@@ -961,7 +989,7 @@ namespace DataNetClient.Forms
             }
         }
 
-        #endregion 
+        #endregion
 
         #region CEL: CQGStatusChanged, Subscribe,  TicksReslved, BarsResolved
 
@@ -972,35 +1000,36 @@ namespace DataNetClient.Forms
                 _startControl.ui_labelX_CQGstatus.Text = @"CQG started";
                 labelItemStatusCQG.Text = @"CQG started";
                 _isStartedCqg = true;
-               
+
             }
             else
             {
                 _startControl.ui_labelX_CQGstatus.Text = @"CQG not started";
                 labelItemStatusCQG.Text = @"CQG not started";
                 _isStartedCqg = false;
-             
+
             }
             Refresh();
         }
 
 
-        void CEL_InstrumentSubscribed(string symbol, CQGInstrument cqg_instrument)
-        {            
+        private void CEL_InstrumentSubscribed(string symbol, CQGInstrument cqg_instrument)
+        {
             _missingBarManager.SessionAdd(cqg_instrument.Sessions, symbol);
         }
 
-        void CEL_HistoricalSessionsResolved(CQGSessionsCollection cqg_historical_sessions, CQGHistoricalSessionsRequest cqg_historical_sessions_request, CQGError cqg_error)
-        {            
+        private void CEL_HistoricalSessionsResolved(CQGSessionsCollection cqg_historical_sessions,
+            CQGHistoricalSessionsRequest cqg_historical_sessions_request, CQGError cqg_error)
+        {
             _missingBarManager.HolidaysAdd(cqg_historical_sessions, cqg_historical_sessions_request.Symbol);
         }
 
-        void CEL_DataConnectionStatusChanged(eConnectionStatus eConnectionStatus)
+        private void CEL_DataConnectionStatusChanged(eConnectionStatus eConnectionStatus)
         {
             CqgConnectionStatusChanged(eConnectionStatus == eConnectionStatus.csConnectionUp);
         }
 
-        void CEL_DataError(object cqg_error, string error_description)
+        private void CEL_DataError(object cqg_error, string error_description)
         {
             try
             {
@@ -1026,7 +1055,7 @@ namespace DataNetClient.Forms
             }
         }
 
-        void CEL_IncorrectSymbol(string symbol_)
+        private void CEL_IncorrectSymbol(string symbol_)
         {
             _logger.LogAdd("Incorrect symbol", Category.Warning);
         }
@@ -1052,7 +1081,7 @@ namespace DataNetClient.Forms
 
         private void OpenSymbolEditControl()
         {
-            _symbolsEditControl = new SymbolsEditControl(_client.UserID) { Commands = _commands };
+            _symbolsEditControl = new SymbolsEditControl(_client.UserID) {Commands = _commands};
             _symbolsEditControl.UpdateSymbolsEvent += SymbolsEditControl_UpdateSymbolsEvent;
             _symbolsEditControl.UpdateGroupsEvent += SymbolsEditControl_UpdateGroupsEvent;
             ShowModalPanel(_symbolsEditControl, DevComponents.DotNetBar.Controls.eSlideSide.Right);
@@ -1090,14 +1119,14 @@ namespace DataNetClient.Forms
 
             _nowIsMaster = true;
             LoginToServer(Settings.Default.scUser1, Settings.Default.scPassword,
-                                    Settings.Default.scHost, _nowIsMaster);
-                      
+                Settings.Default.scHost, _nowIsMaster);
+
         }
 
         private void StartControl_ExitClick(object sender, EventArgs e)
         {
             Application.Exit();
-        }     
+        }
 
         private void metroShell1_LogOutButtonClick(object sender, EventArgs e)
         {
@@ -1118,19 +1147,19 @@ namespace DataNetClient.Forms
 
             ClientDatabaseManager.CloseConnectionToDbSystem();
 
-            Invoke((Action)delegate
+            Invoke((Action) delegate
             {
                 metroTabItem2.Visible = false;
                 metroTabItem3.Visible = false;
                 metroShell1.SelectedTab = metroTabItem1;
 
-                
+
                 ClientDatabaseManager.CloseConnectionToDbSystem();
                 RefreshGroups();
                 RefreshSymbols();
                 _client = null;
                 _startControl.Dispose();
-                _startControl = new StartControl { Commands = _commands };
+                _startControl = new StartControl {Commands = _commands};
                 Controls.Add(_startControl);
                 _startControl.BringToFront();
                 _startControl.SlideSide = DevComponents.DotNetBar.Controls.eSlideSide.Right;
@@ -1139,7 +1168,7 @@ namespace DataNetClient.Forms
                 _pingTimer.Enabled = true;
             });
 
-        }   
+        }
 
         #endregion
 
@@ -1149,12 +1178,14 @@ namespace DataNetClient.Forms
         {
             ConnectToShared();
         }
+
         private void ConnectToShared()
-        {            
+        {
             if (ClientDatabaseManager.CurrentDbIsShared) return;
 
-            ClientDatabaseManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar, _connectionToSharedDbHistorical, "", _client.UserID);
-                        
+            ClientDatabaseManager.ConnectToShareDb(_connectionToSharedDb, _connectionToSharedDbBar,
+                _connectionToSharedDbHistorical, "", _client.UserID);
+
             _client.ConnectedToSharedDb = true;
             _client.ConnectedToLocalDb = false;
 
@@ -1175,7 +1206,7 @@ namespace DataNetClient.Forms
 
         private void ConnectToLocal()
         {
-            
+
             if (ClientDatabaseManager.IsConnected() && !ClientDatabaseManager.CurrentDbIsShared) return;
 
             var dbName = ui_home_textBoxX_db.Text;
@@ -1185,11 +1216,14 @@ namespace DataNetClient.Forms
             var usName = ui_home_textBoxX_uid.Text;
             var passw = ui_home_textBoxX_pwd.Text;
             _connectionToLocalDb = "SERVER=" + host + "; DATABASE=" + dbName + "; UID=" + usName + "; PASSWORD=" + passw;
-            _connectionToLocalDbBar = "SERVER=" + host + "; DATABASE=" + dbNameBar + "; UID=" + usName + "; PASSWORD=" + passw;
-            _connectionToLocalDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName + "; PASSWORD=" + passw;
+            _connectionToLocalDbBar = "SERVER=" + host + "; DATABASE=" + dbNameBar + "; UID=" + usName + "; PASSWORD=" +
+                                      passw;
+            _connectionToLocalDbHistorical = "SERVER=" + host + "; DATABASE=" + dbNameHist + "; UID=" + usName +
+                                             "; PASSWORD=" + passw;
 
 
-            ClientDatabaseManager.ConnectToLocalDb(_connectionToLocalDb, _connectionToLocalDbBar, _connectionToLocalDbHistorical, "", _client.UserID);
+            ClientDatabaseManager.ConnectToLocalDb(_connectionToLocalDb, _connectionToLocalDbBar,
+                _connectionToLocalDbHistorical, "", _client.UserID);
             _client.ConnectedToSharedDb = false;
             _client.ConnectedToLocalDb = true;
 
@@ -1207,25 +1241,25 @@ namespace DataNetClient.Forms
         {
             var strConn = connected ? @"Connnected to " + (isShared ? @"Shared DB" : @"Local DB") : "Not connected";
             Invoke((Action) delegate
-                                {
-                                    ui_status_labelItemStatusSB.Text = strConn;
-                                    if (connected)
-                                    {
-                                        metroTabItem2.Visible = 
-                                        metroTabItem3.Visible = 
-                                        metroTabItem5.Visible = true;
-                                        metroShell1.SelectedTab = metroTabItem2;
-                                        RefreshSymbols();
-                                        RefreshGroups();
-                                    }
-                                    else
-                                    {
-                                        ToastNotification.Show(metroTabPanel1,@"Can't connect to DB", eToastPosition.TopCenter);
-                                        metroTabItem2.Visible = 
-                                        metroTabItem3.Visible = 
-                                        metroTabItem5.Visible = false;
-                                    }
-                                });
+            {
+                ui_status_labelItemStatusSB.Text = strConn;
+                if (connected)
+                {
+                    metroTabItem2.Visible =
+                        metroTabItem3.Visible =
+                            metroTabItem5.Visible = true;
+                    metroShell1.SelectedTab = metroTabItem2;
+                    RefreshSymbols();
+                    RefreshGroups();
+                }
+                else
+                {
+                    ToastNotification.Show(metroTabPanel1, @"Can't connect to DB", eToastPosition.TopCenter);
+                    metroTabItem2.Visible =
+                        metroTabItem3.Visible =
+                            metroTabItem5.Visible = false;
+                }
+            });
         }
 
         #endregion
@@ -1238,9 +1272,9 @@ namespace DataNetClient.Forms
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
 
             if (!ClientDatabaseManager.IsConnected()) return;
-            
+
             _groupItems = new List<GroupItemModel>();
-            
+
 
             var groups = ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet);
 
@@ -1248,10 +1282,11 @@ namespace DataNetClient.Forms
             groups = OrderListOfGroups(ClientDatabaseManager.SortingModeIsAsc, groups);
 
             styledListControl1.SetItemsCount(groups.Count);
-            for (int i = 0; i < groups.Count; i++)             
+            for (int i = 0; i < groups.Count; i++)
             {
                 var groupModel = groups[i];
-                var symbols = ClientDatabaseManager.GetSymbolsInGroup(groupModel.GroupId).Select(oo => oo.SymbolName).ToList();
+                var symbols =
+                    ClientDatabaseManager.GetSymbolsInGroup(groupModel.GroupId).Select(oo => oo.SymbolName).ToList();
                 var sessions = ClientDatabaseManager.GetSessionsInGroup(groupModel.GroupId);
 
                 _groupItems.Add(
@@ -1262,10 +1297,11 @@ namespace DataNetClient.Forms
                         AllSymbols = symbols,
                         CollectedSymbols = new List<string>(),
                     });
-                Invoke((Action)(() =>
+                Invoke((Action) (() =>
                 {
                     styledListControl1.SetItem(i, groupModel.GroupName, GroupState.NotInQueue,
-                        groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.TimeFrame, groupModel.IsAutoModeEnabled);
+                        groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.TimeFrame,
+                        groupModel.IsAutoModeEnabled);
                 }));
             }
 
@@ -1278,16 +1314,16 @@ namespace DataNetClient.Forms
         {
             List<GroupModel> reslist = list;
 
-            if (_sortMode ==1)           
+            if (_sortMode == 1)
                 reslist = list.OrderBy(oo => oo.GroupName).ToList();
-            if (_sortMode==2)
+            if (_sortMode == 2)
                 reslist = list.OrderBy(oo => oo.TimeFrame).ToList();
             if (_sortMode == 3)
                 reslist = list.OrderBy(oo => oo.End).ToList();
 
 
 
-            if(asc) reslist.Reverse();
+            if (asc) reslist.Reverse();
 
             return reslist;
         }
@@ -1303,17 +1339,18 @@ namespace DataNetClient.Forms
                 ClientDatabaseManager.Commit();
                 _symbols = ClientDatabaseManager.GetSymbols(_client.UserID, false);
 
-                ui_listBox_symbols.Invoke((Action)(() => listBox_daily_symbols.Items.Clear()));
-                ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Clear()));
-                ui_listBox_symbolsForMissing.Invoke((Action)(() => ui_listBox_symbolsForMissing.Items.Clear()));
+                ui_listBox_symbols.Invoke((Action) (() => listBox_daily_symbols.Items.Clear()));
+                ui_listBox_symbols.Invoke((Action) (() => ui_listBox_symbols.Items.Clear()));
+                ui_listBox_symbolsForMissing.Invoke((Action) (() => ui_listBox_symbolsForMissing.Items.Clear()));
 
                 foreach (var item in _symbols)
                 {
                     var item1 = item;
 
-                    ui_listBox_symbols.Invoke((Action)(() => listBox_daily_symbols.Items.Add(item1.SymbolName)));
-                    ui_listBox_symbols.Invoke((Action)(() => ui_listBox_symbols.Items.Add(item1.SymbolName)));
-                    ui_listBox_symbolsForMissing.Invoke((Action)(() => ui_listBox_symbolsForMissing.Items.Add(item1.SymbolName)));
+                    ui_listBox_symbols.Invoke((Action) (() => listBox_daily_symbols.Items.Add(item1.SymbolName)));
+                    ui_listBox_symbols.Invoke((Action) (() => ui_listBox_symbols.Items.Add(item1.SymbolName)));
+                    ui_listBox_symbolsForMissing.Invoke(
+                        (Action) (() => ui_listBox_symbolsForMissing.Items.Add(item1.SymbolName)));
                 }
             }
         }
@@ -1362,7 +1399,7 @@ namespace DataNetClient.Forms
         {
             CloseAddSymbolControl();
 
-            _addListControl = new AddListControl { Commands = _commands, OpenSymbolControl = true };
+            _addListControl = new AddListControl {Commands = _commands, OpenSymbolControl = true};
             ShowModalPanel(_addListControl, DevComponents.DotNetBar.Controls.eSlideSide.Right);
         }
 
@@ -1376,12 +1413,13 @@ namespace DataNetClient.Forms
 
             var groupName = _symbolsEditControl.ui_listBox_groups.SelectedItem.ToString();
             var oldGroupInfo =
-                ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet).First(oo => oo.GroupName == groupName);
-            
+                ClientDatabaseManager.GetGroupsForUser(_client.UserID, ApplicationType.DataNet)
+                    .First(oo => oo.GroupName == groupName);
+
             _editListControl = new EditListControl(oldGroupInfo.GroupId, oldGroupInfo)
             {
                 Commands = _commands,
-                textBoxXListName = { Text = oldGroupInfo.GroupName },                
+                textBoxXListName = {Text = oldGroupInfo.GroupName},
                 OpenSymbolControl = true
             };
 
@@ -1413,8 +1451,8 @@ namespace DataNetClient.Forms
             CloseAddSymbolControl();
 
             ShowModalPanel(_editListControl, DevComponents.DotNetBar.Controls.eSlideSide.Right);
-        }        
-        
+        }
+
 
         private void AddListControl_CancelClick(object sender, EventArgs e)
         {
@@ -1432,7 +1470,8 @@ namespace DataNetClient.Forms
                 CntType = _addListControl.cmbContinuationType.SelectedItem.ToString()
             };
 
-            if (!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && !ClientDatabaseManager.GetAllGroups(ApplicationType.DataNet).Exists(a => a.GroupName == group.GroupName))
+            if (!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) &&
+                !ClientDatabaseManager.GetAllGroups(ApplicationType.DataNet).Exists(a => a.GroupName == group.GroupName))
             {
                 if (ClientDatabaseManager.AddGroupOfSymbols(group))
                 {
@@ -1481,21 +1520,23 @@ namespace DataNetClient.Forms
                 Start = new DateTime(),
                 End = new DateTime(),
                 CntType = _editListControl.cmbContinuationType.SelectedItem.ToString(),
-                IsAutoModeEnabled = _editListControl.checkBox_AutoCollec.Checked,                
-    
+                IsAutoModeEnabled = _editListControl.checkBox_AutoCollec.Checked,
+
             };
 
             var oldGroupName = _editListControl.OldGroupName;
 
-            if ((!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) && 
-                _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)) || (group.GroupName == oldGroupName && _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)))
+            if ((!_groupItems.Exists(a => a.GroupModel.GroupName == group.GroupName) &&
+                 _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)) ||
+                (group.GroupName == oldGroupName && _groupItems.Exists(a => a.GroupModel.GroupName == oldGroupName)))
             {
                 var groupId = _groupItems.Find(a => a.GroupModel.GroupName == oldGroupName).GroupModel.GroupId;
                 ClientDatabaseManager.EditGroupOfSymbols(groupId, group);
                 var symbolsInGroup = ClientDatabaseManager.GetSymbolsInGroup(groupId);
                 foreach (var item in _editListControl.lbSelList.Items)
                 {
-                    if (!symbolsInGroup.Exists(a => a.SymbolName == item.ToString()) && _symbols.Exists(a => a.SymbolName == item.ToString()))
+                    if (!symbolsInGroup.Exists(a => a.SymbolName == item.ToString()) &&
+                        _symbols.Exists(a => a.SymbolName == item.ToString()))
                     {
                         var symbol = _symbols.Find(a => a.SymbolName == item.ToString());
                         ClientDatabaseManager.AddSymbolIntoGroup(groupId, symbol);
@@ -1546,7 +1587,7 @@ namespace DataNetClient.Forms
         #region UI OTHERS (ResetColors, DownClick, MouseMove)
 
 
-        void styledListControl1_ItemEditGroupClick(int itemIndex)
+        private void styledListControl1_ItemEditGroupClick(int itemIndex)
         {
 
             var groupName = _groupItems[itemIndex].GroupModel.GroupName;
@@ -1555,7 +1596,7 @@ namespace DataNetClient.Forms
             _editListControl = new EditListControl(oldGroupInfo.GroupId, oldGroupInfo)
             {
                 Commands = _commands,
-                textBoxXListName = { Text = oldGroupInfo.GroupName },
+                textBoxXListName = {Text = oldGroupInfo.GroupName},
                 OpenSymbolControl = false
             };
 
@@ -1607,7 +1648,7 @@ namespace DataNetClient.Forms
         {
             try
             {
-                var listBox = (ListBox)sender;
+                var listBox = (ListBox) sender;
                 int index = listBox.IndexFromPoint(e.Location);
                 if (index > -1 && index < listBox.Items.Count)
                 {
@@ -1658,23 +1699,23 @@ namespace DataNetClient.Forms
 
         private void progressBarItemCollecting_ValueChanged(object sender, EventArgs e)
         {
-            Invoke((Action)( ()=>
+            Invoke((Action) (() =>
             {
                 metroStatusBar1.Refresh();
                 progressBarItemCollecting.Tooltip = progressBarItemCollecting.Value + "%";
             })
-        );
+                );
 
-        }        
+        }
 
         #endregion
 
         #region COLLECING & MISSING BAR
-        
+
         private void StartMissingBar(List<string> symbols, bool isAuto)
         {
             _semaphoreWaitEndCollecting = new Semaphore(0, 1);
-            Invoke((Action)delegate
+            Invoke((Action) delegate
             {
                 progressBarItemCollecting.Value = 0;
                 ui_buttonX_localConnect.Enabled = false;
@@ -1684,11 +1725,12 @@ namespace DataNetClient.Forms
                 listViewResult.Items.Clear();
             });
 
-            var maxCount = (int)nudEndBar.Value;
-            
+            var maxCount = (int) nudEndBar.Value;
 
-            _missingBarManager.StartMissingBar(symbols, _cel, isAuto, maxCount);            
+
+            _missingBarManager.StartMissingBar(symbols, _cel, isAuto, maxCount);
         }
+
         /*
         private void StartCollectingSymbols(List<string> symbols,bool calledFromGroup, bool onlySymbol=false )
         {
@@ -1849,7 +1891,7 @@ namespace DataNetClient.Forms
             
         }
         */
-     
+
         private void DataCollector_MissingBarStart(string symbolName)
         {
             _logger.LogAdd("   Start missing bar for symbol: " + symbolName, Category.Information);
@@ -1858,37 +1900,37 @@ namespace DataNetClient.Forms
         private void DataCollector_MissingBarEnd(string symbolName, List<ListViewGroup> groups, List<ListViewItem> items)
         {
             _logger.LogAdd("   Finished missing bar for symbol: " + symbolName, Category.Information);
-            
-            Invoke((Action)delegate
+
+            Invoke((Action) delegate
             {
                 ui_buttonX_localConnect.Enabled = true;
                 ui_buttonX_shareConnect.Enabled = true;
                 ui_metroTileItem_missingBar.Enabled = true;
 
                 listViewResult.Groups.AddRange(groups.ToArray());
-                listViewResult.Items.AddRange(items.ToArray());                
+                listViewResult.Items.AddRange(items.ToArray());
             });
-            
+
         }
 
         private void DataCollector_Finished()
         {
-            
+
             Invoke((Action) delegate
-                                {
-                                    ui_buttonX_localConnect.Enabled = true;
-                                    ui_buttonX_shareConnect.Enabled = true;
-                                   
-                                    ui_metroTileItem_missingBar.Enabled = true;
-                                    _semaphoreWaitEndCollecting.Release();
-                                });            
-            
+            {
+                ui_buttonX_localConnect.Enabled = true;
+                ui_buttonX_shareConnect.Enabled = true;
+
+                ui_metroTileItem_missingBar.Enabled = true;
+                _semaphoreWaitEndCollecting.Release();
+            });
+
 
         }
 
         #endregion
 
-      
+
         private void ui__status_labelItem_status_TextChanged(object sender, EventArgs e)
         {
             Refresh();
@@ -1897,19 +1939,22 @@ namespace DataNetClient.Forms
 
         #region CQG COLLECTING GROUPS
 
-        DateTime _timeLastCollecting;
+        private DateTime _timeLastCollecting;
 
-        private void CQGDataCollectorManager_CollectedSymbolCountChanged(int index,string symbol,  int count, int totalCount, bool isCorrect, int realyInsertedRowsCount, string comments)
+        private void CQGDataCollectorManager_CollectedSymbolCountChanged(int index, string symbol, int count,
+            int totalCount, bool isCorrect, int realyInsertedRowsCount, string comments)
         {
             Invoke((Action) (() =>
             {
                 if (index == -1)
-                {                                       
+                {
                     ui__status_labelItem_status.Text = "Collecting:  [" + count + "/" + totalCount + "]";
 
-                    _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] Inserted:" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
-                    
-                    
+                    _logger.LogAdd(
+                        @"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") +
+                        "] Inserted:" + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
+
+
                     if (count == totalCount)
                         ui__status_labelItem_status.Text = "Collecting finished.";
                     return;
@@ -1917,17 +1962,26 @@ namespace DataNetClient.Forms
                 if (count != 0)
                 {
 //                    Task.Factory.StartNew(() => SendLog(new List<string>{symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-                    Task.Factory.StartNew(() => SendLog(new List<string> { symbol }, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "", _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect, " Inserted:" + realyInsertedRowsCount + ". Time:" + GetStringTime(DateTime.Now - _timeLastCollecting) + ". " + comments)).Wait();
-                    _logger.LogAdd(@"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] "+ comments + "  Inserted: " + realyInsertedRowsCount, isCorrect ? Category.Information : Category.Warning);
+                    Task.Factory.StartNew(
+                        () =>
+                            SendLog(new List<string> {symbol}, DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "",
+                                _groupItems[index].GroupModel.TimeFrame, false, true, !isCorrect,
+                                " Inserted:" + realyInsertedRowsCount + ". Time:" +
+                                GetStringTime(DateTime.Now - _timeLastCollecting) + ". " + comments)).Wait();
+                    _logger.LogAdd(
+                        @"  |  Symbol '" + symbol + "' collected [" + (isCorrect ? "Success" : "Unsuccessful") + "] " +
+                        comments + "  Inserted: " + realyInsertedRowsCount,
+                        isCorrect ? Category.Information : Category.Warning);
                 }
                 _timeLastCollecting = DateTime.Now;
                 styledListControl1.ChangeCollectedCount(index, count, totalCount);
-                ui__status_labelItem_status.Text = "Collecting: "+_groupItems[index].GroupModel.GroupName+" ["+count+"/"+totalCount+"]";
+                ui__status_labelItem_status.Text = "Collecting: " + _groupItems[index].GroupModel.GroupName + " [" +
+                                                   count + "/" + totalCount + "]";
 
             }));
         }
 
-        private string GetStringTime(TimeSpan ts) 
+        private string GetStringTime(TimeSpan ts)
         {
             return ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
         }
@@ -1936,19 +1990,28 @@ namespace DataNetClient.Forms
         {
             Invoke((Action) (() =>
             {
-                StoreGroupStatus(index, state);   
+                StoreGroupStatus(index, state);
                 _groupItems[index].GroupState = state;
                 styledListControl1.ChangeState(index, state);
 
                 if (state == GroupState.InProgress)
                 {
 
-                    _logger.LogAdd(@"  Collecting start for group: " + _groupItems[index].GroupModel.GroupName + " [" + _groupItems[index] .AllSymbols.Count+ "]",
+                    _logger.LogAdd(
+                        @"  Collecting start for group: " + _groupItems[index].GroupModel.GroupName + " [" +
+                        _groupItems[index].AllSymbols.Count + "]",
                         Category.Information);
-                    Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
-                                                                    _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
-                    if (_groupItems[index].AllSymbols.Count!=0)
-                    Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
+                    Task.Factory.StartNew(
+                        () =>
+                            SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
+                                _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, true,
+                                false)).Wait();
+                    if (_groupItems[index].AllSymbols.Count != 0)
+                        Task.Factory.StartNew(
+                            () =>
+                                SendLog(_groupItems[index].AllSymbols,
+                                    DataAdminMessageFactory.LogMessage.Log.CollectSymbol, "",
+                                    _groupItems[index].GroupModel.TimeFrame, true, false)).Wait();
                 }
                 if (state == GroupState.Finished)
                 {
@@ -1956,12 +2019,17 @@ namespace DataNetClient.Forms
                         Category.Information);
                     _groupItems[index].GroupModel.End = DateTime.Now;
                     styledListControl1.ChangeDateTime(index, _groupItems[index].GroupModel.End);
-                    ClientDatabaseManager.SetGroupEndDatetime(_groupItems[index].GroupModel.GroupId, _groupItems[index].GroupModel.End);
-                    ui__status_labelItem_status.Text = "Collecting finished for group: " + _groupItems[index].GroupModel.GroupName;
+                    ClientDatabaseManager.SetGroupEndDatetime(_groupItems[index].GroupModel.GroupId,
+                        _groupItems[index].GroupModel.End);
+                    ui__status_labelItem_status.Text = "Collecting finished for group: " +
+                                                       _groupItems[index].GroupModel.GroupName;
 
-                   // Task.Factory.StartNew(() => SendLog(_groupItems[index].CollectedSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
-                    Task.Factory.StartNew(() => SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
-                                                _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
+                    // Task.Factory.StartNew(() => SendLog(_groupItems[index].CollectedSymbols, DataAdminMessageFactory.LogMessage.Log.CollectSymbol,"", _groupItems[index].GroupModel.TimeFrame, false, true)).Wait();
+                    Task.Factory.StartNew(
+                        () =>
+                            SendLog(_groupItems[index].AllSymbols, DataAdminMessageFactory.LogMessage.Log.CollectGroup,
+                                _groupItems[index].GroupModel.GroupName, _groupItems[index].GroupModel.TimeFrame, false,
+                                true)).Wait();
                 }
 
             }));
@@ -1971,14 +2039,14 @@ namespace DataNetClient.Forms
         private void StoreGroupStatus(int index, GroupState state)
         {
             var strIndex = "[" + index + "]";
-            
+
             if (state == GroupState.Finished || state == GroupState.NotInQueue || state == GroupState.InProgress)
             {
-                
+
                 if (Settings.Default.InQueueGroups.Contains(strIndex))
                 {
                     var ind = Settings.Default.InQueueGroups.IndexOf(strIndex);
-                    Settings.Default.InQueueGroups = Settings.Default.InQueueGroups.Remove(ind, strIndex.Length); 
+                    Settings.Default.InQueueGroups = Settings.Default.InQueueGroups.Remove(ind, strIndex.Length);
                 }
             }
             if (state == GroupState.InQueue)
@@ -1991,7 +2059,7 @@ namespace DataNetClient.Forms
                 Settings.Default.InProgressGroup = "";
             }
             if (state == GroupState.InProgress)
-            {                
+            {
                 Settings.Default.InProgressGroup = strIndex;
             }
 
@@ -2008,7 +2076,7 @@ namespace DataNetClient.Forms
             Invoke((Action) (() => ShowDataCollectorStatus(state)));
         }
 
-        void CQGDataCollectorManager_StartTimeChanged(int index, DateTime dateTime)
+        private void CQGDataCollectorManager_StartTimeChanged(int index, DateTime dateTime)
         {
             //todo Invoke((Action)(() => styledListControl1.ChangeStartDateTime(index, dateTime)));
         }
@@ -2019,25 +2087,25 @@ namespace DataNetClient.Forms
             metroStatusBar1.Refresh();
         }
 
-        void styledListControl1_ItemStateChanged(int index, GroupState state)
+        private void styledListControl1_ItemStateChanged(int index, GroupState state)
         {
             StoreGroupStatus(index, state);
 
             _groupItems[index].GroupState = state;
-            CQGDataCollectorManager.ChangeState(index,state);
+            CQGDataCollectorManager.ChangeState(index, state);
         }
 
         private void switchButton_changeMode_ValueChanged(object sender, EventArgs e)
         {
             CQGDataCollectorManager.ChangeMode(switchButton_changeMode.Value);
 
-            
+
             buttonX_StartCollectSymbols.Enabled =
                 buttonX_StartCollectGroups.Enabled =
-                styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
+                    styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
 
-                labelItem_collecting.Text =CQGDataCollectorManager.IsStarted? "Runned":"Stoped";
-            
+            labelItem_collecting.Text = CQGDataCollectorManager.IsStarted ? "Runned" : "Stoped";
+
         }
 
         #endregion
@@ -2058,24 +2126,26 @@ namespace DataNetClient.Forms
                 ui__status_labelItem_status.Text = "Please, select the instruments.";
                 return;
             }
-            
+
             if (!_isStartedCqg)
             {
                 ui__status_labelItem_status.Text = "Start CQG first, please.";
                 return;
             }
-            
-            
+
+
             var symbols = ui_listBox_symbols.SelectedItems.Cast<string>().ToList();
 
-            _logger.LogAdd(@" Start collecting symbols from list ["+symbols.Count+"]", Category.Information);
+            _logger.LogAdd(@" Start collecting symbols from list [" + symbols.Count + "]", Category.Information);
             var isTick = radioButtonTick.Checked;
-            CQGDataCollectorManager.StartFromList(isTick, symbols, dateTimeInputStart.Value.Date, dateTimeInputEnd.Value.Date.AddDays(1).AddMinutes(-1), (rdb1.Checked ? 1 : 31),
-                cmbHistoricalPeriod.SelectedItem.ToString(), cmbContinuationType.SelectedItem.ToString(), (int)nudStartBar.Value, (int)nudEndBar.Value, _client.UserName);
-                        
+            CQGDataCollectorManager.StartFromList(isTick, symbols, dateTimeInputStart.Value.Date,
+                dateTimeInputEnd.Value.Date.AddDays(1).AddMinutes(-1), (rdb1.Checked ? 1 : 31),
+                cmbHistoricalPeriod.SelectedItem.ToString(), cmbContinuationType.SelectedItem.ToString(),
+                (int) nudStartBar.Value, (int) nudEndBar.Value, _client.UserName);
+
         }
-        
-    
+
+
         private void buttonX_StartCollectGroups_Click(object sender, EventArgs e)
         {
             if (!_client.Privileges.CollectSQGAllowed)
@@ -2083,10 +2153,10 @@ namespace DataNetClient.Forms
                 ui__status_labelItem_status.Text = "You don't have permissions to do this.";
                 return;
             }
-            
+            Console.WriteLine(_groupItems[0].AllSymbols);
             CQGDataCollectorManager.Start();
-                //dateTimeInputStart.Value.Date, dateTimeInputEnd.Value, (rdb1.Checked ? 1 : 31), (int)nudStartBar.Value, (int)nudEndBar.Value, _client.UserName);
-        }        
+            //dateTimeInputStart.Value.Date, dateTimeInputEnd.Value, (rdb1.Checked ? 1 : 31), (int)nudStartBar.Value, (int)nudEndBar.Value, _client.UserName);
+        }
 
         private void buttonX_stopCollecting_Click(object sender, EventArgs e)
         {
@@ -2152,7 +2222,7 @@ namespace DataNetClient.Forms
         private void linkLabel_sort_name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var newMode = Convert.ToInt32((sender as LinkLabel).Tag);
-            if(_sortMode==newMode)
+            if (_sortMode == newMode)
                 ClientDatabaseManager.SortingModeIsAsc = !ClientDatabaseManager.SortingModeIsAsc;
 
             _sortMode = newMode;
@@ -2160,7 +2230,7 @@ namespace DataNetClient.Forms
             RefreshGroups();
         }
 
-        
+
         #endregion
 
         #region TAB:::::::::: DAILY VALUES 
@@ -2173,7 +2243,7 @@ namespace DataNetClient.Forms
             var symbols = listBox_daily_symbols.SelectedItems.Cast<string>().ToList();
             DailyLoadSelectedSYmbolData(symbols);
             NotChanchedLoadSelectedSYmbolData(symbols);
-           // DailyValuesManager.DisplayProperties(symbols);
+            // DailyValuesManager.DisplayProperties(symbols);
         }
 
 
@@ -2184,7 +2254,7 @@ namespace DataNetClient.Forms
         {
             listView1.View = View.Details;
             listView1.Groups.Clear();
-            
+
             List<DailyValueModel> dailyList = ClientDatabaseManager.GetAllDailyValues();
 
             var lastGroupName = "";
@@ -2197,7 +2267,7 @@ namespace DataNetClient.Forms
                     gr = listView1.Groups.Add(dailyValueModel.symbol, dailyValueModel.symbol);
                     lastGroupName = dailyValueModel.symbol;
                 }
-                    
+
 
                 var item = new ListViewItem(dailyValueModel.id.ToString(CultureInfo.InvariantCulture)) {Group = gr};
                 item.SubItems.Add(dailyValueModel.symbol);
@@ -2220,7 +2290,8 @@ namespace DataNetClient.Forms
             foreach (var variable in symbol)
             {
 
-                List<SymbolsNotChangedValuesModel> NotChangedList = ClientDatabaseManager.GetNotChangedValuesModels(variable);
+                List<SymbolsNotChangedValuesModel> NotChangedList =
+                    ClientDatabaseManager.GetNotChangedValuesModels(variable);
                 var lastGroupName = "";
                 var gr = new ListViewGroup();
                 foreach (var NotChangedValue in NotChangedList)
@@ -2231,7 +2302,7 @@ namespace DataNetClient.Forms
                         lastGroupName = NotChangedValue.Symbol;
                     }
 
-                    var item = new ListViewItem(NotChangedValue.ID.ToString(CultureInfo.InvariantCulture)) { Group = gr };
+                    var item = new ListViewItem(NotChangedValue.ID.ToString(CultureInfo.InvariantCulture)) {Group = gr};
                     item.SubItems.Add(NotChangedValue.Symbol);
                     item.SubItems.Add(NotChangedValue.TickSize.ToString());
                     item.SubItems.Add(NotChangedValue.Currency.ToString(CultureInfo.InvariantCulture));
@@ -2239,7 +2310,7 @@ namespace DataNetClient.Forms
                     item.SubItems.Add(NotChangedValue.TickValue.ToString());
 
 
-                    listView2.Items.Add(item);                    
+                    listView2.Items.Add(item);
                 }
             }
         }
@@ -2253,34 +2324,38 @@ namespace DataNetClient.Forms
             listView1.Items.Clear();
             foreach (var variable in symbol)
             {
-                
+
                 List<DailyValueModel> dailyList = ClientDatabaseManager.GetDailyValueModels(variable);
-             
+
                 var lastGroupName = "";
                 var gr = new ListViewGroup();
                 foreach (var dailyValueModel in dailyList)
                 {
-                   // if (variable != dailyValueModel.symbol) break;////test
-                   
+                    // if (variable != dailyValueModel.symbol) break;////test
+
                     if (lastGroupName != dailyValueModel.symbol)
                     {
                         gr = listView1.Groups.Add(dailyValueModel.symbol, dailyValueModel.symbol);
                         lastGroupName = dailyValueModel.symbol;
                     }
-                        
+
                     var item = new ListViewItem(dailyValueModel.id.ToString(CultureInfo.InvariantCulture)) {Group = gr};
                     item.SubItems.Add(dailyValueModel.symbol);
                     item.SubItems.Add(dailyValueModel.Date.ToShortDateString());
-                    if (dailyValueModel.IndicativeOpen == -1) item.SubItems.Add("N/A"); else
+                    if (dailyValueModel.IndicativeOpen == -1) item.SubItems.Add("N/A");
+                    else
                         item.SubItems.Add(dailyValueModel.IndicativeOpen.ToString(CultureInfo.InvariantCulture));
 
-                    if (dailyValueModel.Settlement == -1) item.SubItems.Add("N/A"); else
+                    if (dailyValueModel.Settlement == -1) item.SubItems.Add("N/A");
+                    else
                         item.SubItems.Add(dailyValueModel.Settlement.ToString(CultureInfo.InvariantCulture));
 
-                    if (dailyValueModel.Marker == -1) item.SubItems.Add("N/A"); else
+                    if (dailyValueModel.Marker == -1) item.SubItems.Add("N/A");
+                    else
                         item.SubItems.Add(dailyValueModel.Marker.ToString(CultureInfo.InvariantCulture));
 
-                    if (dailyValueModel.TodayMarker == -1) item.SubItems.Add("N/A"); else 
+                    if (dailyValueModel.TodayMarker == -1) item.SubItems.Add("N/A");
+                    else
                         item.SubItems.Add(dailyValueModel.TodayMarker.ToString());
                     item.SubItems.Add(dailyValueModel.Expiration.ToString());
                     listView1.Items.Add(item);
@@ -2297,23 +2372,25 @@ namespace DataNetClient.Forms
             ClientDatabaseManager.isExpirationColumnExist_ADD();
             ClientDatabaseManager.isExpirationColumnExist_Delete();
             var symbols = listBox_daily_symbols.SelectedItems.Cast<string>().ToList();
-                       
+
             Daily_NotChanchedValuesManager.UpdateDailyValues(symbols);
         }
 
-        
+
         #endregion
 
         #region ProgressChenced 
+
         private void CQGDataCollectorManager_ProgressBarChanched(int progress)
         {
-            Invoke((Action)(() => ProgressChenched(progress)));
+            Invoke((Action) (() => ProgressChenched(progress)));
         }
 
         private void ProgressChenched(int progress)
         {
             progressBarItemCollecting.Value = progress;
         }
+
         #endregion
 
         private void ui_LabelX_sharedAvaliable_Click(object sender, EventArgs e)
@@ -2332,7 +2409,7 @@ namespace DataNetClient.Forms
 
         private void buttonX_ac_update_Click(object sender, EventArgs e)
         {
-            var selectedSymbols  = new List<string>();
+            var selectedSymbols = new List<string>();
             foreach (string str in listBox_daily_symbols.SelectedItems)
             {
                 selectedSymbols.Add(str);
@@ -2343,17 +2420,20 @@ namespace DataNetClient.Forms
 
         private void button_ac_add_Click(object sender, EventArgs e)
         {
-            
+
             var symbol = textBox_ac_symbol.Text;
             var endDate = dateTimePicker_ac_enddate.Value;
             var monthChar = textBox_ac_monthchar.Text;
             var year = numericUpDown_ac_year.Value;
 
-            if (string.IsNullOrEmpty(monthChar)) {
+            if (string.IsNullOrEmpty(monthChar))
+            {
                 ToastNotification.Show(this, "Please type month char!");
-                return; }
+                return;
+            }
 
-            if(string.IsNullOrEmpty( textBox_ac_symbol.Text)){
+            if (string.IsNullOrEmpty(textBox_ac_symbol.Text))
+            {
                 ToastNotification.Show(panelEx14, "Please selcet symbol");
                 return;
             }
@@ -2361,10 +2441,10 @@ namespace DataNetClient.Forms
 
             ClientDatabaseManager.AddExpirationDatesForSymbol(symbol, endDate, monthChar, year);
 
-            ToastNotification.Show(panelEx14, "Data added for symbol "+symbol);
+            ToastNotification.Show(panelEx14, "Data added for symbol " + symbol);
 
             LoadExpirationDatesForSymbols();
-            
+
         }
 
         private void button_ac_delete_Click(object sender, EventArgs e)
@@ -2376,9 +2456,9 @@ namespace DataNetClient.Forms
             }
             foreach (var item in listView_ac_list.SelectedIndices)
             {
-                var symbol = listView_ac_list.Items[(int)item].SubItems[1].Text.ToString();
-                var monthChar = listView_ac_list.Items[(int)item].SubItems[3].Text.ToString();
-                var year = listView_ac_list.Items[(int)item].SubItems[4].Text.ToString();
+                var symbol = listView_ac_list.Items[(int) item].SubItems[1].Text.ToString();
+                var monthChar = listView_ac_list.Items[(int) item].SubItems[3].Text.ToString();
+                var year = listView_ac_list.Items[(int) item].SubItems[4].Text.ToString();
 
                 ClientDatabaseManager.RemoveExpirationDatesForSymbol(symbol, monthChar, year);
 
@@ -2393,7 +2473,7 @@ namespace DataNetClient.Forms
         {
             listView_ac_list.Items.Clear();
             if (listBox_daily_symbols.SelectedItems.Count == 0)
-            {                
+            {
                 return;
             }
             var symbol = listBox_daily_symbols.SelectedItems[0].ToString();
@@ -2403,7 +2483,7 @@ namespace DataNetClient.Forms
             listView_ac_list.Items.Clear();
             for (int i = 0; i < res.Count; i++)
             {
-                var rrr = listView_ac_list.Items.Add(""+i);
+                var rrr = listView_ac_list.Items.Add("" + i);
                 rrr.SubItems.Add(res[i].Symbol);
                 rrr.SubItems.Add(res[i].EndDate.ToShortDateString());
                 rrr.SubItems.Add(res[i].MonthChar);
@@ -2413,7 +2493,7 @@ namespace DataNetClient.Forms
             //todo display info 
         }
 
-        
+
         private void listBox_daily_symbols_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox_daily_symbols.SelectedIndex != -1)
@@ -2428,8 +2508,142 @@ namespace DataNetClient.Forms
         #endregion
 
 
+        private void button_clk_Click(object sender, EventArgs e)
+        {
+            
+            slidePanelSymbols.IsOpen = true;
+            var symbols = ClientDatabaseManager.GetSymbols(_client.UserID, false);
+            //  listViewSymbols.Items.Clear();
+            foreach (var sym in symbols)
+            {
+                panelSymbolItem.Controls.Add(new SymbolItem(sym.SymbolName));
+                // listViewSymbols.Items.Add(sym.SymbolName);
+            }
+            //  listViewSymbols.HideSelection = true;*/
 
- 
+        }
 
+        private void listViewSymbols_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // listViewSymbols.Sele
+        }
+
+        private void listViewSymbols_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            /* if (listViewSymbols.Items[e.Index].Selected == true)
+            {
+                listViewSymbols.Items[e.Index].BackColor = Color.White;
+            }
+            else if (listViewSymbols.Items[e.Index].Selected == false)
+            {
+                listViewSymbols.Items[e.Index].BackColor = Color.Blue;
+            }*/
+        }
+
+        private void listViewSymbols_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+
+        }
+
+        private void textBoxFilter_TextChanged(object sender, EventArgs e)
+        {
+
+
+            panelSymbolItem.Controls.Clear();
+            foreach (var sym in _symbols)
+            {
+                if ((sym.SymbolName.ToUpper().Contains(textBoxFilter.Text.ToUpper())))
+                    panelSymbolItem.Controls.Add(new SymbolItem(sym.SymbolName));
+
+            }
+        }
+
+        private void buttonADD_Click(object sender, EventArgs e)
+        {
+            if (textBoxFilter.Text.Contains(" ") | textBoxFilter.Text == "") return;
+            if (_symbols.Any(sym => sym.SymbolName == textBoxFilter.Text)) return;
+            var newSymbol = textBoxFilter.Text;
+            if (!ClientDatabaseManager.CurrentDbIsShared) ClientDatabaseManager.AddNewSymbol(newSymbol);
+            if (ClientDatabaseManager.CurrentDbIsShared)
+            {
+                if (!_symbols.Exists(a => a.SymbolName == newSymbol)) ClientDatabaseManager.AddNewSymbol(newSymbol);
+                ClientDatabaseManager.Commit();
+                var symbolId = ClientDatabaseManager.GetAllSymbols().Find(a => a.SymbolName == newSymbol).SymbolId;
+                ClientDatabaseManager.AddSymbolForUser(_client.UserID, symbolId, ApplicationType.DataNet);
+            }
+            RefreshSymbols();
+            ToastNotification.Show(this, "Symbol '" + newSymbol + "' added");
+            _symbols = ClientDatabaseManager.GetSymbols(_client.UserID, false);
+            foreach (var sym in _symbols)
+            {
+                panelSymbolItem.Controls.Add(new SymbolItem(sym.SymbolName));
+
+            }
+        }
+
+        private void buttonDELETE_Click(object sender, EventArgs e)
+        {
+            var listSymbols = new List<string>();
+            var list = "";
+            foreach (var item in panelSymbolItem.Controls)
+            {
+                var p = item as SymbolItem;
+                if (p.IsClicked())
+                {
+                    listSymbols.Add(p.Symbol);
+                    list += item + ", ";
+                }
+
+            }
+            if(list.Count()==0) return;
+            list = list.Substring(0, list.Length - 2);
+            if (listSymbols.Count == 0)
+            {
+                ToastNotification.Show(this, "Please, select symbol");
+                return;
+            }
+
+
+            if (MessageBox.Show("Do you wish to delete " + listSymbols.Count + " symbol(s) [" + list + "] ?",
+                "Deleting symbols", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+
+                foreach (var item in listSymbols)
+                {
+                    if (!ClientDatabaseManager.CurrentDbIsShared)
+                        ClientDatabaseManager.DeleteSymbol(_symbols.Find(a => a.SymbolName == item).SymbolId);
+                    if (ClientDatabaseManager.CurrentDbIsShared)
+                    {
+                        var symbolId = _symbols.Find(a => a.SymbolName == item).SymbolId;
+                        if (ClientDatabaseManager.IsSymbolOnlyForThisUser(symbolId))
+                        {
+                            ClientDatabaseManager.DeleteSymbol(symbolId);
+                        }
+                        ClientDatabaseManager.DeleteSymbolForUser(_client.UserID, symbolId, ApplicationType.DataNet);
+                    }
+                }
+                panelSymbolItem.Controls.Clear();
+                _symbols = ClientDatabaseManager.GetSymbols(_client.UserID, false);
+                foreach (var sym in _symbols)
+                {
+                    panelSymbolItem.Controls.Add(new SymbolItem(sym.SymbolName));
+                }
+                
+            }
+        }
+
+        private void Onclick(object sender, EventArgs e)
+        {
+            foreach (var _var in panelSymbolItem.Controls)
+            {
+                var p = _var as SymbolItem;
+                p.ItemColor = Color.Red;
+            }
+        }
+
+    
+
+       
     }
 }

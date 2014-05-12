@@ -39,14 +39,14 @@
             this.ui_buttonX_delGroup = new DevComponents.DotNetBar.ButtonX();
             this.ui_buttonX_newGroup = new DevComponents.DotNetBar.ButtonX();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
+            this.buttonX3 = new DevComponents.DotNetBar.ButtonX();
+            this.buttonX4 = new DevComponents.DotNetBar.ButtonX();
             this.ui_textBoxXSymbolName = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.ui_listBox_symbols = new System.Windows.Forms.ListBox();
             this.ui_listBox_groups = new System.Windows.Forms.ListBox();
             this.labelX_back = new DevComponents.DotNetBar.LabelX();
             this.labelXTitle = new DevComponents.DotNetBar.LabelX();
-            this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
-            this.buttonX3 = new DevComponents.DotNetBar.ButtonX();
-            this.buttonX4 = new DevComponents.DotNetBar.ButtonX();
             this.textBoxX1 = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.SuspendLayout();
             // 
@@ -179,6 +179,45 @@
             this.toolTip1.SetToolTip(this.linkLabel3, "Change sorting mode");
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
+            // buttonX1
+            // 
+            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX1.Location = new System.Drawing.Point(591, 332);
+            this.buttonX1.Name = "buttonX1";
+            this.buttonX1.Size = new System.Drawing.Size(149, 29);
+            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX1.TabIndex = 94;
+            this.buttonX1.Text = "Delete selected symbols";
+            this.toolTip1.SetToolTip(this.buttonX1, "Join");
+            // 
+            // buttonX3
+            // 
+            this.buttonX3.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonX3.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX3.Location = new System.Drawing.Point(364, 103);
+            this.buttonX3.Name = "buttonX3";
+            this.buttonX3.Size = new System.Drawing.Size(32, 22);
+            this.buttonX3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX3.TabIndex = 97;
+            this.buttonX3.Text = "-";
+            this.toolTip1.SetToolTip(this.buttonX3, "Delete selected symbol");
+            // 
+            // buttonX4
+            // 
+            this.buttonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX4.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.buttonX4.Location = new System.Drawing.Point(326, 103);
+            this.buttonX4.Name = "buttonX4";
+            this.buttonX4.Size = new System.Drawing.Size(32, 22);
+            this.buttonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.buttonX4.TabIndex = 96;
+            this.buttonX4.Text = "+";
+            this.toolTip1.SetToolTip(this.buttonX4, "Add symbol to list");
+            // 
             // ui_textBoxXSymbolName
             // 
             this.ui_textBoxXSymbolName.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -252,45 +291,6 @@
             this.labelXTitle.Size = new System.Drawing.Size(159, 32);
             this.labelXTitle.TabIndex = 91;
             this.labelXTitle.Text = "SYMBOLS EDIT";
-            // 
-            // buttonX1
-            // 
-            this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX1.Location = new System.Drawing.Point(591, 332);
-            this.buttonX1.Name = "buttonX1";
-            this.buttonX1.Size = new System.Drawing.Size(149, 29);
-            this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX1.TabIndex = 94;
-            this.buttonX1.Text = "Delete selected symbols";
-            this.toolTip1.SetToolTip(this.buttonX1, "Join");
-            // 
-            // buttonX3
-            // 
-            this.buttonX3.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonX3.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX3.Location = new System.Drawing.Point(364, 103);
-            this.buttonX3.Name = "buttonX3";
-            this.buttonX3.Size = new System.Drawing.Size(32, 22);
-            this.buttonX3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX3.TabIndex = 97;
-            this.buttonX3.Text = "-";
-            this.toolTip1.SetToolTip(this.buttonX3, "Delete selected symbol");
-            // 
-            // buttonX4
-            // 
-            this.buttonX4.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.buttonX4.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonX4.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX4.Location = new System.Drawing.Point(326, 103);
-            this.buttonX4.Name = "buttonX4";
-            this.buttonX4.Size = new System.Drawing.Size(32, 22);
-            this.buttonX4.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.buttonX4.TabIndex = 96;
-            this.buttonX4.Text = "+";
-            this.toolTip1.SetToolTip(this.buttonX4, "Add symbol to list");
             // 
             // textBoxX1
             // 

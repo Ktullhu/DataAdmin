@@ -1511,7 +1511,7 @@ namespace DADataManager
             return DoSql(sql);
         }
 
-        public static List<GroupModel> GetGroupsForUser(int userId, ApplicationType appType)
+        public static List<GroupModel> GetGroupsForUser(int userId, ApplicationType appType)//todo grroups
         {
             var groupList = new List<GroupModel>();
 

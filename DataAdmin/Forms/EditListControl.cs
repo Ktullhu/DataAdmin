@@ -352,6 +352,8 @@ namespace DataAdmin.Forms
                 if (!exist) lbAvbList.Items.Add(symbol.SymbolName);
             }
         }
+
+   
         
     }
 }
