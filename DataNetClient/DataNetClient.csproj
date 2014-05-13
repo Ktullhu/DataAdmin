@@ -80,6 +80,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Day.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Day.Designer.cs">
+      <DependentUpon>Day.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GroupItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GroupItem.Designer.cs">
+      <DependentUpon>GroupItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GroupList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GroupList.Designer.cs">
+      <DependentUpon>GroupList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StyledListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -161,6 +179,15 @@
     <Compile Include="Forms\StartControl.Designer.cs">
       <DependentUpon>StartControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\Day.resx">
+      <DependentUpon>Day.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GroupItem.resx">
+      <DependentUpon>GroupItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GroupList.resx">
+      <DependentUpon>GroupList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\StyledListControl.resx">
       <DependentUpon>StyledListControl.cs</DependentUpon>
     </EmbeddedResource>

@@ -108,7 +108,7 @@ namespace DataNetClient.Forms
             _commands.EditListCommands.Cancel.Executed += CancelEditListExecuted;
 
 
-            styledListControl1.ItemEditGroupClick += styledListControl1_ItemEditGroupClick;
+            //styledListControl1.ItemEditGroupClick += styledListControl1_ItemEditGroupClick;
 
             labelItemUserName.Text = @"ver " + Application.ProductVersion;
 
@@ -208,7 +208,7 @@ namespace DataNetClient.Forms
                 _offlineServerSymbol = _startControl.uiOfflineFakeSymbol.Symbol;
 
                 //todo
-                styledListControl1.ItemStateChanged += styledListControl1_ItemStateChanged;
+                groupList4.ItemStateChanged +=groupList4_ItemStateChanged;
                 CQGDataCollectorManager.ItemStateChanged += CQGDataCollectorManager_ItemStateChanged;
                 CQGDataCollectorManager.CollectedSymbolCountChanged +=
                     CQGDataCollectorManager_CollectedSymbolCountChanged;
@@ -774,7 +774,7 @@ namespace DataNetClient.Forms
                     Invoke(
                         (Action) delegate
                         {
-                            styledListControl1.ChangeState(index, state);
+                            groupList4.ChangeState(index, state);
                         });
 
                     groups += _groupItems[index].GroupModel.GroupName + ", ";
@@ -1268,6 +1268,7 @@ namespace DataNetClient.Forms
 
         private void RefreshGroups()
         {
+            //groupList3=new GroupList();
             if (_client == null) return;
             if (!_client.ConnectedToLocalDb && !_client.ConnectedToSharedDb) return;
 
@@ -1281,7 +1282,7 @@ namespace DataNetClient.Forms
             //display
             groups = OrderListOfGroups(ClientDatabaseManager.SortingModeIsAsc, groups);
 
-            styledListControl1.SetItemsCount(groups.Count);
+            groupList4.SetItemsCount(groups.Count);
             for (int i = 0; i < groups.Count; i++)
             {
                 var groupModel = groups[i];
@@ -1299,13 +1300,17 @@ namespace DataNetClient.Forms
                     });
                 Invoke((Action) (() =>
                 {
-                    styledListControl1.SetItem(i, groupModel.GroupName, GroupState.NotInQueue,
-                        groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.TimeFrame,
-                        groupModel.IsAutoModeEnabled);
+                    //styledListControl1.SetItem(i, groupModel.GroupName, GroupState.NotInQueue,
+                     //   groupModel.End, "[" + symbols.Count + "]", symbols, sessions, groupModel.TimeFrame,
+                     //   groupModel.IsAutoModeEnabled);
+                    
+                    //groupList4.ListForGroup = _groupItems[i];
+                    groupList4.AddItem(groupModel, _groupItems[i]);
+
                 }));
             }
 
-            styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
+            //styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
 
             CQGDataCollectorManager.LoadGroups(_groupItems);
         }
@@ -1339,16 +1344,16 @@ namespace DataNetClient.Forms
                 ClientDatabaseManager.Commit();
                 _symbols = ClientDatabaseManager.GetSymbols(_client.UserID, false);
 
-                ui_listBox_symbols.Invoke((Action) (() => listBox_daily_symbols.Items.Clear()));
-                ui_listBox_symbols.Invoke((Action) (() => ui_listBox_symbols.Items.Clear()));
+                //ui_listBox_symbols.Invoke((Action) (() => listBox_daily_symbols.Items.Clear()));
+                //ui_listBox_symbols.Invoke((Action) (() => ui_listBox_symbols.Items.Clear()));
                 ui_listBox_symbolsForMissing.Invoke((Action) (() => ui_listBox_symbolsForMissing.Items.Clear()));
 
                 foreach (var item in _symbols)
                 {
                     var item1 = item;
 
-                    ui_listBox_symbols.Invoke((Action) (() => listBox_daily_symbols.Items.Add(item1.SymbolName)));
-                    ui_listBox_symbols.Invoke((Action) (() => ui_listBox_symbols.Items.Add(item1.SymbolName)));
+                    //ui_listBox_symbols.Invoke((Action) (() => listBox_daily_symbols.Items.Add(item1.SymbolName)));
+                   // ui_listBox_symbols.Invoke((Action) (() => ui_listBox_symbols.Items.Add(item1.SymbolName)));
                     ui_listBox_symbolsForMissing.Invoke(
                         (Action) (() => ui_listBox_symbolsForMissing.Items.Add(item1.SymbolName)));
                 }
@@ -1361,18 +1366,18 @@ namespace DataNetClient.Forms
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < ui_listBox_symbols.Items.Count; i++)
+           /* for (int i = 0; i < ui_listBox_symbols.Items.Count; i++)
             {
                 ui_listBox_symbols.SetSelected(i, true);
-            }
+            }*/
         }
 
         private void unselectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < ui_listBox_symbols.Items.Count; i++)
+            /*for (int i = 0; i < ui_listBox_symbols.Items.Count; i++)
             {
                 ui_listBox_symbols.SetSelected(i, false);
-            }
+            }*/
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -1638,10 +1643,10 @@ namespace DataNetClient.Forms
         private void ResetColorMarks()
         {
             _lbxColors = new List<Brush>();
-            for (int i = 0; i < ui_listBox_symbols.Items.Count; i++)
+            /*for (int i = 0; i < ui_listBox_symbols.Items.Count; i++)
             {
                 _lbxColors.Add(Brushes.Black);
-            }
+            }*/
         }
 
         private void listBoxSymbols_MouseMove(object sender, MouseEventArgs e)
@@ -1974,7 +1979,7 @@ namespace DataNetClient.Forms
                         isCorrect ? Category.Information : Category.Warning);
                 }
                 _timeLastCollecting = DateTime.Now;
-                styledListControl1.ChangeCollectedCount(index, count, totalCount);
+                groupList4.ChangeCollectedCount(index, count, totalCount);
                 ui__status_labelItem_status.Text = "Collecting: " + _groupItems[index].GroupModel.GroupName + " [" +
                                                    count + "/" + totalCount + "]";
 
@@ -1992,7 +1997,8 @@ namespace DataNetClient.Forms
             {
                 StoreGroupStatus(index, state);
                 _groupItems[index].GroupState = state;
-                styledListControl1.ChangeState(index, state);
+                //todo 
+               groupList4.ChangeState(index, state);
 
                 if (state == GroupState.InProgress)
                 {
@@ -2018,7 +2024,7 @@ namespace DataNetClient.Forms
                     _logger.LogAdd(@"  Collecting finished for group: " + _groupItems[index].GroupModel.GroupName,
                         Category.Information);
                     _groupItems[index].GroupModel.End = DateTime.Now;
-                    styledListControl1.ChangeDateTime(index, _groupItems[index].GroupModel.End);
+                    //styledListControl1.ChangeDateTime(index, _groupItems[index].GroupModel.End);
                     ClientDatabaseManager.SetGroupEndDatetime(_groupItems[index].GroupModel.GroupId,
                         _groupItems[index].GroupModel.End);
                     ui__status_labelItem_status.Text = "Collecting finished for group: " +
@@ -2087,7 +2093,7 @@ namespace DataNetClient.Forms
             metroStatusBar1.Refresh();
         }
 
-        private void styledListControl1_ItemStateChanged(int index, GroupState state)
+        private void groupList4_ItemStateChanged(int index, GroupState state)
         {
             StoreGroupStatus(index, state);
 
@@ -2101,8 +2107,8 @@ namespace DataNetClient.Forms
 
 
             buttonX_StartCollectSymbols.Enabled =
-                buttonX_StartCollectGroups.Enabled =
-                    styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
+                buttonX_StartCollectGroups.Enabled = !switchButton_changeMode.Value;
+                    //styledListControl1.StateChangingEnabled = !switchButton_changeMode.Value;
 
             labelItem_collecting.Text = CQGDataCollectorManager.IsStarted ? "Runned" : "Stoped";
 
@@ -2121,7 +2127,7 @@ namespace DataNetClient.Forms
                 return;
             }
 
-            if (ui_listBox_symbols.SelectedItems.Count == 0)
+            /*if (ui_listBox_symbols.SelectedItems.Count == 0)
             {
                 ui__status_labelItem_status.Text = "Please, select the instruments.";
                 return;
@@ -2142,7 +2148,7 @@ namespace DataNetClient.Forms
                 dateTimeInputEnd.Value.Date.AddDays(1).AddMinutes(-1), (rdb1.Checked ? 1 : 31),
                 cmbHistoricalPeriod.SelectedItem.ToString(), cmbContinuationType.SelectedItem.ToString(),
                 (int) nudStartBar.Value, (int) nudEndBar.Value, _client.UserName);
-
+            */
         }
 
 
@@ -2203,13 +2209,13 @@ namespace DataNetClient.Forms
 
         private void linkLabel_selectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            styledListControl1.SelectedAll();
+            groupList4.SelectedAll();
         }
 
 
         private void linkLabel_selectNone_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            styledListControl1.SelectedNone();
+            groupList4.SelectedNone();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2519,6 +2525,8 @@ namespace DataNetClient.Forms
                 panelSymbolItem.Controls.Add(new SymbolItem(sym.SymbolName));
                 // listViewSymbols.Items.Add(sym.SymbolName);
             }
+            slidePanelSymbols.Focus();
+            slidePanelSymbols.BringToFront();
             //  listViewSymbols.HideSelection = true;*/
 
         }

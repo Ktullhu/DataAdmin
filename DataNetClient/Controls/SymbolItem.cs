@@ -56,33 +56,9 @@ namespace DataNetClient.Controls
             set { panelEx_main.Style.BackColor1.Color = value; }
         }
 
-        private void panelEx_main_Click(object sender, EventArgs )
+        private void panelEx_main_Click(object sender, EventArgs e )
         {
-            if (!_isClick)
-            {
 
-                foreach (var group in groups)
-                {
-                    if (group.AllSymbols.Exists(oo => oo == Symbol))
-                    {
-                        ItemColor = Color.Red;
-                        ItemState = "-";
-                        _isClick = true;
-                        break;
-                    }
-                    ItemColor = Color.Green;
-                    ItemState = "+";    
-
-                }
-                //ItemColor = Color.Blue;
-              //  _isClick = true;
-            }
-
-            else
-            {
-                ItemColor = Color.White;
-                _isClick = false;
-            }
         }
 
 
